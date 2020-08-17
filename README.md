@@ -12,7 +12,7 @@
 [![Requires.io](https://img.shields.io/requires/github/Paebbels/pyVersioning)](https://requires.io/github/Paebbels/pyVersioning/requirements/?branch=master)  
 [![Codacy - Quality](https://api.codacy.com/project/badge/Grade/)](https://www.codacy.com/manual/Paebbels/pyVersioning)
 [![Libraries.io SourceRank](https://img.shields.io/librariesio/sourcerank/pypi/pyVersioning)](https://libraries.io/github/Paebbels/pyVersioning/sourcerank)  
-[![Read the Docs](https://img.shields.io/readthedocs/pyVersioning)](https://pyVersioning.readthedocs.io/en/latest/)
+[![Read the Docs](https://img.shields.io/readthedocs/pyversioning)](https://pyVersioning.readthedocs.io/en/latest/)
 
 
 # pyVersioning

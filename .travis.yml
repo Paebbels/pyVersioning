@@ -1,0 +1,21 @@
+language: python
+python:
+  - 3.8
+
+install:
+  - pip3 install -U -r tests/requirements.txt
+
+# if: tag IS present
+
+script:
+  - echo "branch=" $TRAVIS_BRANCH "hash=" $TRAVIS_COMMIT
+
+
+deploy:
+  provider: pypi
+  user: "__token__"
+  password: $PYPI_TOKEN
+  distributions: "sdist bdist_wheel"
+  skip_existing: true
+  on:
+    tags: true

@@ -177,12 +177,3 @@ class Versioning(ArgParseMixin):
 
 		with filename.open('w') as file:
 			file.write(content)
-
-
-def main():
-	versioning = Versioning()
-	versioning.Run()
-
-
-if __name__ == "__main__":
-	main()

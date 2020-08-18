@@ -42,7 +42,3 @@ from pyVersioning import Versioning
 def main():
 	versioning = Versioning()
 	versioning.Run()
-
-
-if __name__ == "__main__":
-	main()

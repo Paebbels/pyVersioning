@@ -36,12 +36,12 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-
-from argparse import RawDescriptionHelpFormatter
-from dataclasses import dataclass
-from pathlib  import Path
-from textwrap import dedent
-from typing   import Dict
+from argparse     import RawDescriptionHelpFormatter
+from dataclasses  import dataclass
+from datetime     import datetime
+from pathlib      import Path
+from textwrap     import dedent
+from typing       import Dict
 
 from pyAttributes.ArgParseAttributes import ArgParseMixin, DefaultAttribute, CommandAttribute, ArgumentAttribute
 
@@ -106,41 +106,74 @@ class Versioning(ArgParseMixin):
 			except KeyError:
 				print("Command {0} is unknown.".format(args.Command))
 
-	@CommandAttribute("ansi-c", help="Create a version file for ANSI-C.")
+	@CommandAttribute("fillout", help="Read a template and replace tokens with version information.")
+	@ArgumentAttribute(metavar='<Filename>', dest="Template", type=str, help="Templatze input filename.")
 	@ArgumentAttribute(metavar='<Filename>', dest="Filename", type=str, help="Output filename.")
 	def HandleAnsiC(self, args):
 		self.PrintHeadline()
 
+		template = Path(args.Template)
 		filename = Path(args.Filename)
 		variables = self.collectData()
-		self.writeCConstant(filename, variables)
+		self.writeSourceFile(template, filename, variables)
 
 	def collectData(self) -> Dict[str, any]:
 		variables = {}
 
 		version = self.getVersion()
-		variables['flags'] = 0x00
-		variables['major'] = version.major
-		variables['minor'] = version.minor
-		variables['patch'] = version.patch
+		variables['version_flags'] = 0x00
+		variables['version_major'] = version.major
+		variables['version_minor'] = version.minor
+		variables['version_patch'] = version.patch
+
+		gitCommitDate = self.getCommitDate()
+		variables['git_commit_hash'] =    self.getGitHash()
+		variables['git_commit_year'] =    gitCommitDate.year
+		variables['git_commit_month'] =   gitCommitDate.month
+		variables['git_commit_day'] =     gitCommitDate.day
+		variables['git_commit_hour'] =    gitCommitDate.hour
+		variables['git_commit_minute'] =  gitCommitDate.minute
+		variables['git_commit_second'] =  gitCommitDate.second
+
+		variables['git_reference'] =      self.getGitReference()
+		variables['git_repository'] =     self.getGitRepository()
+
+		buildDate = datetime.now()
+		variables['build_date_year'] =    buildDate.year
+		variables['build_date_month'] =   buildDate.month
+		variables['build_date_day'] =     buildDate.day
+		variables['build_date_hour'] =    buildDate.hour
+		variables['build_date_minute'] =  buildDate.minute
+		variables['build_date_second'] =  buildDate.second
+
+		variables['build_compiler'] =     self.getCompiler()
 
 		return variables
 
 	def getVersion(self) -> Version:
 		return Version("0.0.0")
 
-	def writeCConstant(self, filename : Path, variables : Dict[str, any]):
-		content = dedent("""\
-			#include "version.h"
+	def getGitHash(self):
+		return "0123456789012345678901234567890123456789"
 
-			const Version version = {
-			.version = {
-				.flags = 0x{flags:02X},
-				.major = 0x{major:02X},
-				.minor = 0x{minor:02X},
-				.patch = 0x{patch:02X}
-			};
-			""").format(**variables)
+	def getCommitDate(self):
+		return datetime.now()
+
+	def getGitReference(self):
+		return "undefined"
+
+	def getGitRepository(self):
+		return "undefined"
+
+	def getCompiler(self):
+		return "undefined"
+
+	def writeSourceFile(self, template : Path, filename : Path, variables : Dict[str, any]):
+		with template.open('r') as file:
+			content = template.read_text()
+
+		# apply variables
+		content = content.format(**variables)
 
 		with filename.open('w') as file:
 			file.write(content)

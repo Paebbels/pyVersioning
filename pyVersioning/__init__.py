@@ -44,6 +44,7 @@ from textwrap     import dedent
 from typing       import Dict
 
 from pyAttributes.ArgParseAttributes import ArgParseMixin, DefaultAttribute, CommandAttribute, ArgumentAttribute
+from pyTerminalUI                    import LineTerminal
 
 
 @dataclass
@@ -68,28 +69,31 @@ class Version():
 		return "{0}.{1}.{2}".format(self.major, self.minor, self.patch)
 
 
-class Versioning(ArgParseMixin):
+class Versioning(LineTerminal, ArgParseMixin):
 	HeadLine = "Version file generator."
 
 	def __init__(self):
-		super().__init__(
+		super().__init__()
+
+		ArgParseMixin.__init__(
+			self,
 	    description=dedent("Version file generator"),
 	    formatter_class=RawDescriptionHelpFormatter,
 	    add_help=False
 	  )
 
 	def PrintHeadline(self):
-		print("{line}".format(line="=" * 80))
-		print("{headline: ^80s}".format(headline=self.HeadLine))
-		print("{line}".format(line="=" * 80))
+		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
+		self.WriteNormal("{HEADLINE}{headline: ^80s}".format(headline=self.HeadLine, **LineTerminal.Foreground))
+		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
 
 	def Run(self):
 		ArgParseMixin.Run(self)
 
-
 	@DefaultAttribute()
 	def HandleDefault(self, args):
 		self.PrintHeadline()
+		self.MainParser.print_help()
 
 	@CommandAttribute("help", help="Display help page(s) for the given command name.")
 	@ArgumentAttribute(metavar="Command", dest="Command", type=str, nargs="?", help="Print help page(s) for a command.")
@@ -99,12 +103,12 @@ class Versioning(ArgParseMixin):
 		if (args.Command is None):
 			self.MainParser.print_help()
 		elif (args.Command == "help"):
-			print("This is a recursion ...")
+			self.WriteError("This is a recursion ...")
 		else:
 			try:
 				self.SubParsers[args.Command].print_help()
 			except KeyError:
-				print("Command {0} is unknown.".format(args.Command))
+				self.WriteError("Command {0} is unknown.".format(args.Command))
 
 	@CommandAttribute("fillout", help="Read a template and replace tokens with version information.")
 	@ArgumentAttribute(metavar='<Filename>', dest="Template", type=str, help="Templatze input filename.")

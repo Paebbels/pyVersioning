@@ -40,5 +40,10 @@ from pyVersioning import Versioning
 
 
 def main():
+	Versioning.versionCheck((3,6,0))
 	versioning = Versioning()
 	versioning.Run()
+	versioning.exit()
+
+if __name__ == '__main__':
+	main()

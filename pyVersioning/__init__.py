@@ -111,18 +111,35 @@ class Versioning(LineTerminal, ArgParseMixin):
 				self.WriteError("Command {0} is unknown.".format(args.Command))
 
 	@CommandAttribute("fillout", help="Read a template and replace tokens with version information.")
-	@ArgumentAttribute(metavar='<Filename>', dest="Template", type=str, help="Templatze input filename.")
-	@ArgumentAttribute(metavar='<Filename>', dest="Filename", type=str, help="Output filename.")
-	def HandleAnsiC(self, args):
+	@ArgumentAttribute(metavar='<Template file>', dest="Template", type=str, help="Template input filename.")
+	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, help="Output filename.")
+	def HandleFillOut(self, args):
 		self.PrintHeadline()
 
-		template = Path(args.Template)
-		filename = Path(args.Filename)
+		templateFile = Path(args.Template)
+		if not templateFile.exists():
+			self.WriteError("Template file '{file!s}' does not exist.".format(file=templateFile))
+
+		outputFile = Path(args.Filename)
+		if not outputFile.parent.exists():
+			self.WriteWarning("Directoy for file '{file!s}' does not exist. Directory will be created".format(file=outputFile))
+			try:
+				outputFile.parent.mkdir()
+			except:
+				self.WriteError("Failed to create the directory '{dir}' for the output file.".format(dir=outputFile.parent))
+		elif outputFile.exists():
+			self.WriteWarning("Output file '{file!s}' already exists. This file will be overwritten.".format(file=outputFile))
+
+		self.ExitOnPreviousErrors()
+
 		variables = self.collectData()
-		self.writeSourceFile(template, filename, variables)
+		self.writeSourceFile(templateFile, outputFile, variables)
 
 	def collectData(self) -> Dict[str, any]:
 		variables = {}
+
+		variables['tool_name'] =    "pyVersioning"
+		variables['tool_version'] = "v0.2.3"
 
 		version = self.getVersion()
 		variables['version_flags'] = 0x00

@@ -36,6 +36,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
+from subprocess   import run as subprocess_run, PIPE
 from argparse     import RawDescriptionHelpFormatter
 from dataclasses  import dataclass
 from datetime     import datetime
@@ -44,7 +45,7 @@ from textwrap     import dedent
 from typing       import Dict
 
 from pyAttributes.ArgParseAttributes import ArgParseMixin, DefaultAttribute, CommandAttribute, ArgumentAttribute
-from pyTerminalUI                    import LineTerminal
+from pyTerminalUI import LineTerminal, Severity
 
 
 @dataclass
@@ -86,6 +87,9 @@ class Versioning(LineTerminal, ArgParseMixin):
 	    formatter_class=RawDescriptionHelpFormatter,
 	    add_help=False
 	  )
+
+		self._LOG_MESSAGE_FORMAT__[Severity.Fatal] = "{DARK_RED}[FATAL] {message}{NOCOLOR}"
+		self._LOG_MESSAGE_FORMAT__[Severity.Error] = "{RED}[ERROR] {message}{NOCOLOR}",
 
 	def PrintHeadline(self):
 		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
@@ -151,17 +155,15 @@ class Versioning(LineTerminal, ArgParseMixin):
 	@CommandAttribute("json", help="Write all available variables as JSON.")
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
 	def HandleJSON(self, args):
-		self.PrintHeadline()
-
 		variables = self.collectData()
 		content = dedent("""\
 		{{
-			version: {{
-				major: {version.major},
+		  version: {{
+		    major: {version.major},
 		    minor: {version.minor},
 		    patch: {version.patch},
-		    flags: {version.flags}
-			}}
+		   flags: {version.flags}
+		  }}
 		}}
 		""")
 		output = content.format(**variables)
@@ -170,15 +172,29 @@ class Versioning(LineTerminal, ArgParseMixin):
 	@CommandAttribute("yaml", help="Write all available variables as YAML.")
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
 	def HandleYAML(self, args):
-		self.PrintHeadline()
-
 		variables = self.collectData()
 		content = dedent("""\
-		  version:
+		  version: {version!s}
 		    major: {version.major}
 		    minor: {version.minor}
 		    patch: {version.patch}
 		    flags: {version.flags}
+		  git:
+		    commit:
+		      hash: {git_commit_hash}
+		      date: {git_commit_date}
+		    reference: {git_reference}
+		    branch: {git_branch}
+		    tag: {git_tag}
+		    repository: {git_repository}
+		  project:
+		    name: {project_name}
+		  build:
+		    date: {build_date}
+		    compiler:
+		      name: {build_compiler_name}
+		      version: {build_compiler_version}
+		      options: {build_compiler_options}
 		""")
 		output = content.format(**variables)
 		self.WriteNormal(output)
@@ -187,37 +203,19 @@ class Versioning(LineTerminal, ArgParseMixin):
 		variables = {}
 
 		variables['tool_name'] =    "pyVersioning"
-		variables['tool_version'] = "v0.2.4"
-
-		version = self.getVersion()
-		variables['version'] = version
-		variables['version_flags'] = 0x00
-		variables['version_major'] = version.major
-		variables['version_minor'] = version.minor
-		variables['version_patch'] = version.patch
-
-		gitCommitDate = self.getCommitDate()
+		variables['tool_version'] = "v0.2.5"
+		variables['version'] =            self.getVersion()
 		variables['git_commit_hash'] =    self.getGitHash()
-		variables['git_commit_date'] =    gitCommitDate
-		variables['git_commit_year'] =    gitCommitDate.year
-		variables['git_commit_month'] =   gitCommitDate.month
-		variables['git_commit_day'] =     gitCommitDate.day
-		variables['git_commit_hour'] =    gitCommitDate.hour
-		variables['git_commit_minute'] =  gitCommitDate.minute
-		variables['git_commit_second'] =  gitCommitDate.second
-
+		variables['git_commit_date'] =    self.getCommitDate()
 		variables['git_reference'] =      self.getGitReference()
+		variables['git_branch'] =         self.getGitBranch()
+		variables['git_tag'] =            self.getGitTag()
 		variables['git_repository'] =     self.getGitRepository()
-
-		buildDate = datetime.now()
-		variables['build_date_year'] =    buildDate.year
-		variables['build_date_month'] =   buildDate.month
-		variables['build_date_day'] =     buildDate.day
-		variables['build_date_hour'] =    buildDate.hour
-		variables['build_date_minute'] =  buildDate.minute
-		variables['build_date_second'] =  buildDate.second
-
-		variables['build_compiler'] =     self.getCompiler()
+		variables['project_name'] =       ""
+		variables['build_date'] =         datetime.now()
+		variables['build_compiler_name'] = ""
+		variables['build_compiler_version'] = ""
+		variables['build_compiler_options'] = ""
 
 		return variables
 
@@ -225,12 +223,43 @@ class Versioning(LineTerminal, ArgParseMixin):
 		return Version("0.0.0")
 
 	def getGitHash(self):
-		return "0123456789012345678901234567890123456789"
+		try:
+			completed = subprocess_run("git rev-parse HEAD", stdout=PIPE, stderr=PIPE)
+		except:
+			return "0" * 40
+		if completed.returncode == 0:
+			return completed.stdout.decode('utf-8')[0:40]
+		else:
+			message = completed.stderr.decode('utf-8')
+			self.WriteFatal("Message from 'git': {message}".format(message=message))
 
 	def getCommitDate(self):
-		return datetime.now()
+		try:
+			completed = subprocess_run("git show -s --format=%ct HEAD", stdout=PIPE, stderr=PIPE)
+		except:
+			return None
+		if completed.returncode == 0:
+			ts = int(completed.stdout.decode('utf-8'))
+			return datetime.fromtimestamp(ts)
+		else:
+			message = completed.stderr.decode('utf-8')
+			self.WriteFatal("Message from 'git': {message}".format(message=message))
 
 	def getGitReference(self):
+		return "undefined"
+
+	def getGitBranch(self):
+		try:
+			completed = subprocess_run("git branch --show-current", stdout=PIPE, stderr=PIPE)
+		except:
+			return ""
+		if completed.returncode == 0:
+			return completed.stdout.decode('utf-8')
+		else:
+			message = completed.stderr.decode('utf-8')
+			self.WriteFatal("Message from 'git': {message}".format(message=message))
+
+	def getGitTag(self):
 		return "undefined"
 
 	def getGitRepository(self):

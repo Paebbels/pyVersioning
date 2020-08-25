@@ -60,12 +60,17 @@ class Version():
 			self.major = int(split[0])
 			self.minor = int(split[1])
 			self.patch = int(split[2])
+			self.flags = 0
 		else:
 			self.major = major
 			self.minor = minor
 			self.patch = patch
+			self.flags = 0
 
 	def __str__(self):
+		return "v{0}.{1}.{2}".format(self.major, self.minor, self.patch)
+
+	def __repr__(self):
 		return "{0}.{1}.{2}".format(self.major, self.minor, self.patch)
 
 
@@ -135,13 +140,57 @@ class Versioning(LineTerminal, ArgParseMixin):
 		variables = self.collectData()
 		self.writeSourceFile(templateFile, outputFile, variables)
 
+	@CommandAttribute("variables", help="Print all available variables.")
+	def HandleVariables(self, args):
+		self.PrintHeadline()
+
+		variables = self.collectData()
+		for key,value in variables.items():
+			self.WriteNormal("{key:24}: {value}".format(key=key, value=value))
+
+	@CommandAttribute("json", help="Write all available variables as JSON.")
+	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
+	def HandleJSON(self, args):
+		self.PrintHeadline()
+
+		variables = self.collectData()
+		content = dedent("""\
+		{{
+			version: {{
+				major: {version.major},
+		    minor: {version.minor},
+		    patch: {version.patch},
+		    flags: {version.flags}
+			}}
+		}}
+		""")
+		output = content.format(**variables)
+		self.WriteNormal(output)
+
+	@CommandAttribute("yaml", help="Write all available variables as YAML.")
+	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
+	def HandleYAML(self, args):
+		self.PrintHeadline()
+
+		variables = self.collectData()
+		content = dedent("""\
+		  version:
+		    major: {version.major}
+		    minor: {version.minor}
+		    patch: {version.patch}
+		    flags: {version.flags}
+		""")
+		output = content.format(**variables)
+		self.WriteNormal(output)
+
 	def collectData(self) -> Dict[str, any]:
 		variables = {}
 
 		variables['tool_name'] =    "pyVersioning"
-		variables['tool_version'] = "v0.2.3"
+		variables['tool_version'] = "v0.2.4"
 
 		version = self.getVersion()
+		variables['version'] = version
 		variables['version_flags'] = 0x00
 		variables['version_major'] = version.major
 		variables['version_minor'] = version.minor
@@ -149,6 +198,7 @@ class Versioning(LineTerminal, ArgParseMixin):
 
 		gitCommitDate = self.getCommitDate()
 		variables['git_commit_hash'] =    self.getGitHash()
+		variables['git_commit_date'] =    gitCommitDate
 		variables['git_commit_year'] =    gitCommitDate.year
 		variables['git_commit_month'] =   gitCommitDate.month
 		variables['git_commit_day'] =     gitCommitDate.day

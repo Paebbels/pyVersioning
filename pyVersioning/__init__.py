@@ -119,22 +119,26 @@ class Git():
 
 @dataclass
 class Project():
-	name : str
+	name    : str
+	variant : str
 
-	def __init__(self, name : str):
-		self.name = name
+	def __init__(self, name : str, variant : str):
+		self.name     = name
+		self.variant  = variant
 
 
 @dataclass
 class Compiler():
-	name    : str
-	version : Version
-	options : str
+	name          : str
+	version       : Version
+	configuration : str
+	options       : str
 
-	def __init__(self, name : str, version : Version, options : str):
-		self.name    = name
-		self.version = version
-		self.options = options
+	def __init__(self, name : str, version : Version, configuration : str, options : str):
+		self.name          = name
+		self.version       = version
+		self.configuration = configuration
+		self.options       = options
 
 
 @dataclass
@@ -261,11 +265,13 @@ class Versioning(LineTerminal, ArgParseMixin):
 		    repository: {git.repository}
 		  project:
 		    name: {project.name}
+		    variant: {project.variant}
 		  build:
 		    date: {build.date}
 		    compiler:
 		      name: {build.compiler.name}
 		      version: {build.compiler.version}
+		      configuration: {build.compiler.configuration}
 		      options: {build.compiler.options}
 		""")
 		output = content.format(**variables)
@@ -274,7 +280,7 @@ class Versioning(LineTerminal, ArgParseMixin):
 	def collectData(self) -> Dict[str, any]:
 		variables = {}
 
-		variables['tool'] =     Tool("pyVersioning", Version(0,2,7)),
+		variables['tool'] =     Tool("pyVersioning", Version(0,2,8)),
 		variables['version'] =  self.getVersion()
 		variables['git'] =      self.getGitInformation()
 		variables['project'] =  self.getProject()
@@ -290,7 +296,7 @@ class Versioning(LineTerminal, ArgParseMixin):
 			commit=self.getLastCommit(),
 			tag=self.getGitTag(),
 			branch=self.getGitLocalBranch(),
-			repository=self.getGitRepository()
+			repository=self.getGitRemoteURL()
 		)
 
 	def getLastCommit(self):
@@ -301,18 +307,20 @@ class Versioning(LineTerminal, ArgParseMixin):
 
 	def getGitHash(self):
 		try:
-			completed = subprocess_run("git rev-parse HEAD", stdout=PIPE, stderr=PIPE)
+			command =   "git rev-parse HEAD"
+			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
 		except:
 			return "0" * 40
 		if completed.returncode == 0:
 			return completed.stdout.decode('utf-8').split("\n")[0]
 		else:
 			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from 'git': {message}".format(message=message))
+			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
 	def getCommitDate(self):
 		try:
-			completed = subprocess_run("git show -s --format=%ct HEAD", stdout=PIPE, stderr=PIPE)
+			command =   "git show -s --format=%ct HEAD"
+			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
 		except:
 			return None
 		if completed.returncode == 0:
@@ -320,36 +328,81 @@ class Versioning(LineTerminal, ArgParseMixin):
 			return datetime.fromtimestamp(ts)
 		else:
 			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from 'git': {message}".format(message=message))
+			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
 	def getGitLocalBranch(self):
 		try:
-			completed = subprocess_run("git branch --show-current", stdout=PIPE, stderr=PIPE)
+			command =   "git branch --show-current"
+			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
 		except:
 			return ""
 		if completed.returncode == 0:
 			return completed.stdout.decode('utf-8').split("\n")[0]
 		else:
 			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from 'git': {message}".format(message=message))
+			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+
+	def getGitRemoteBranch(self, localBranch : str = None):
+		if localBranch is None:
+			localBranch = self.getGitLocalBranch()
+
+		return "origin/master"
+		# try:
+		# 	command =   "git config branch.{localBranch}.merge".format(localBranch=localBranch)
+		# 	completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
+		# except:
+		# 	return ""
+		# if completed.returncode == 0:
+		# 	return completed.stdout.decode('utf-8').split("\n")[0]
+		# else:
+		# 	message = completed.stderr.decode('utf-8')
+		# 	self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+
+	def getGitRemote(self, localBranch : str = None):
+		if localBranch is None:
+			localBranch = self.getGitLocalBranch()
+		return "origin"
+		# try:
+		# 	command =   "git config branch.{localBranch}.remote".format(localBranch=localBranch)
+		# 	completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
+		# except:
+		# 	return ""
+		# if completed.returncode == 0:
+		# 	return completed.stdout.decode('utf-8').split("\n")[0]
+		# else:
+		# 	message = completed.stderr.decode('utf-8')
+		# 	self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
 	def getGitTag(self):
 		try:
-			completed = subprocess_run("git tag --points-at HEAD", stdout=PIPE, stderr=PIPE)
+			command =   "git tag --points-at HEAD"
+			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
 		except:
 			return ""
 		if completed.returncode == 0:
 			return completed.stdout.decode('utf-8').split("\n")[0]
 		else:
 			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from 'git': {message}".format(message=message))
+			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
-	def getGitRepository(self):
-		return "not implemented"
+	def getGitRemoteURL(self, remote : str = None):
+		if remote is None:
+			remote = self.getGitRemote()
+		try:
+			command =   "git config remote.{remote}.url".format(remote=remote)
+			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
+		except:
+			return ""
+		if completed.returncode == 0:
+			return completed.stdout.decode('utf-8').split("\n")[0]
+		else:
+			message = completed.stderr.decode('utf-8')
+			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
 	def getProject(self):
 		return Project(
-			"not implemented"
+			name="not implemented",
+			variant="not implemented"
 		)
 
 	def getBuild(self):
@@ -362,6 +415,7 @@ class Versioning(LineTerminal, ArgParseMixin):
 		return Compiler(
 			name="not implemeneted",
 			version=Version(0,0,0),
+			configuration="",
 			options=""
 		)
 

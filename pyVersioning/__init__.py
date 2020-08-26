@@ -75,6 +75,78 @@ class Version():
 		return "{0}.{1}.{2}".format(self.major, self.minor, self.patch)
 
 
+@dataclass
+class Tool():
+	name    : str
+	version : Version
+
+	def __init__(self, name : str, version : Version):
+		self.name    = name
+		self.version = version
+
+
+@dataclass
+class Commit():
+	hash : str
+	date : datetime
+
+	def __init__(self, hash : str, date : datetime):
+		self.hash = hash
+		self.date = date
+
+
+@dataclass
+class Git():
+	commit      : Commit
+	reference   : str
+	tag         : str
+	branch      : str
+	repository  : str
+
+	def __init__(self, commit : Commit, tag : str, branch : str, repository : str):
+		self.commit     = commit
+		self.tag        = tag
+		self.branch     = branch
+		self.repository = repository
+
+		if tag != "":
+			self.reference = tag
+		elif branch != "":
+			self.reference = branch
+		else:
+			self.reference = "[Detached HEAD]"
+
+
+@dataclass
+class Project():
+	name : str
+
+	def __init__(self, name : str):
+		self.name = name
+
+
+@dataclass
+class Compiler():
+	name    : str
+	version : Version
+	options : str
+
+	def __init__(self, name : str, version : Version, options : str):
+		self.name    = name
+		self.version = version
+		self.options = options
+
+
+@dataclass
+class Build():
+	date     : datetime
+	compiler : Compiler
+
+	def __init__(self, date : datetime, compiler : Compiler):
+		self.date     = date
+		self.compiler = compiler
+
+
 class Versioning(LineTerminal, ArgParseMixin):
 	HeadLine = "Version file generator."
 
@@ -131,7 +203,7 @@ class Versioning(LineTerminal, ArgParseMixin):
 
 		outputFile = Path(args.Filename)
 		if not outputFile.parent.exists():
-			self.WriteWarning("Directoy for file '{file!s}' does not exist. Directory will be created".format(file=outputFile))
+			self.WriteWarning("Directory for file '{file!s}' does not exist. Directory will be created".format(file=outputFile))
 			try:
 				outputFile.parent.mkdir()
 			except:
@@ -181,20 +253,20 @@ class Versioning(LineTerminal, ArgParseMixin):
 		    flags: {version.flags}
 		  git:
 		    commit:
-		      hash: {git_commit_hash}
-		      date: {git_commit_date}
-		    reference: {git_reference}
-		    branch: {git_branch}
-		    tag: {git_tag}
-		    repository: {git_repository}
+		      hash: {git.commit.hash}
+		      date: {git.commit.date}
+		    reference: {git.reference}
+		    branch: {git.branch}
+		    tag: {git.tag}
+		    repository: {git.repository}
 		  project:
-		    name: {project_name}
+		    name: {project.name}
 		  build:
-		    date: {build_date}
+		    date: {build.date}
 		    compiler:
-		      name: {build_compiler_name}
-		      version: {build_compiler_version}
-		      options: {build_compiler_options}
+		      name: {build.compiler.name}
+		      version: {build.compiler.version}
+		      options: {build.compiler.options}
 		""")
 		output = content.format(**variables)
 		self.WriteNormal(output)
@@ -202,25 +274,30 @@ class Versioning(LineTerminal, ArgParseMixin):
 	def collectData(self) -> Dict[str, any]:
 		variables = {}
 
-		variables['tool_name'] =    "pyVersioning"
-		variables['tool_version'] = "v0.2.5"
-		variables['version'] =            self.getVersion()
-		variables['git_commit_hash'] =    self.getGitHash()
-		variables['git_commit_date'] =    self.getCommitDate()
-		variables['git_reference'] =      self.getGitReference()
-		variables['git_branch'] =         self.getGitBranch()
-		variables['git_tag'] =            self.getGitTag()
-		variables['git_repository'] =     self.getGitRepository()
-		variables['project_name'] =       ""
-		variables['build_date'] =         datetime.now()
-		variables['build_compiler_name'] = ""
-		variables['build_compiler_version'] = ""
-		variables['build_compiler_options'] = ""
+		variables['tool'] =     Tool("pyVersioning", Version(0,2,6)),
+		variables['version'] =  self.getVersion()
+		variables['git'] =      self.getGitInformation()
+		variables['project'] =  self.getProject()
+		variables['build'] =    self.getBuild()
 
 		return variables
 
 	def getVersion(self) -> Version:
 		return Version("0.0.0")
+
+	def getGitInformation(self):
+		return Git(
+			commit=self.getLastCommit(),
+			tag=self.getGitTag(),
+			branch=self.getGitBranch(),
+			repository=self.getGitRepository()
+		)
+
+	def getLastCommit(self):
+		return Commit(
+			hash=self.getGitHash(),
+			date=self.getCommitDate()
+		)
 
 	def getGitHash(self):
 		try:
@@ -245,9 +322,6 @@ class Versioning(LineTerminal, ArgParseMixin):
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from 'git': {message}".format(message=message))
 
-	def getGitReference(self):
-		return "undefined"
-
 	def getGitBranch(self):
 		try:
 			completed = subprocess_run("git branch --show-current", stdout=PIPE, stderr=PIPE)
@@ -260,13 +334,28 @@ class Versioning(LineTerminal, ArgParseMixin):
 			self.WriteFatal("Message from 'git': {message}".format(message=message))
 
 	def getGitTag(self):
-		return "undefined"
+		return "not implemented"
 
 	def getGitRepository(self):
-		return "undefined"
+		return "not implemented"
+
+	def getProject(self):
+		return Project(
+			"not implemented"
+		)
+
+	def getBuild(self):
+		return Build(
+			date=datetime.now(),
+			compiler=self.getCompiler()
+		)
 
 	def getCompiler(self):
-		return "undefined"
+		return Compiler(
+			name="not implemeneted",
+			version=Version(0,0,0),
+			options=""
+		)
 
 	def writeSourceFile(self, template : Path, filename : Path, variables : Dict[str, any]):
 		with template.open('r') as file:

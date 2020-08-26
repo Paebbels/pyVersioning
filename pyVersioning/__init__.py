@@ -274,7 +274,7 @@ class Versioning(LineTerminal, ArgParseMixin):
 	def collectData(self) -> Dict[str, any]:
 		variables = {}
 
-		variables['tool'] =     Tool("pyVersioning", Version(0,2,6)),
+		variables['tool'] =     Tool("pyVersioning", Version(0,2,7)),
 		variables['version'] =  self.getVersion()
 		variables['git'] =      self.getGitInformation()
 		variables['project'] =  self.getProject()
@@ -289,7 +289,7 @@ class Versioning(LineTerminal, ArgParseMixin):
 		return Git(
 			commit=self.getLastCommit(),
 			tag=self.getGitTag(),
-			branch=self.getGitBranch(),
+			branch=self.getGitLocalBranch(),
 			repository=self.getGitRepository()
 		)
 
@@ -305,7 +305,7 @@ class Versioning(LineTerminal, ArgParseMixin):
 		except:
 			return "0" * 40
 		if completed.returncode == 0:
-			return completed.stdout.decode('utf-8')[0:40]
+			return completed.stdout.decode('utf-8').split("\n")[0]
 		else:
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from 'git': {message}".format(message=message))
@@ -316,25 +316,33 @@ class Versioning(LineTerminal, ArgParseMixin):
 		except:
 			return None
 		if completed.returncode == 0:
-			ts = int(completed.stdout.decode('utf-8'))
+			ts = int(completed.stdout.decode('utf-8').split("\n")[0])
 			return datetime.fromtimestamp(ts)
 		else:
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from 'git': {message}".format(message=message))
 
-	def getGitBranch(self):
+	def getGitLocalBranch(self):
 		try:
 			completed = subprocess_run("git branch --show-current", stdout=PIPE, stderr=PIPE)
 		except:
 			return ""
 		if completed.returncode == 0:
-			return completed.stdout.decode('utf-8')
+			return completed.stdout.decode('utf-8').split("\n")[0]
 		else:
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from 'git': {message}".format(message=message))
 
 	def getGitTag(self):
-		return "not implemented"
+		try:
+			completed = subprocess_run("git tag --points-at HEAD", stdout=PIPE, stderr=PIPE)
+		except:
+			return ""
+		if completed.returncode == 0:
+			return completed.stdout.decode('utf-8').split("\n")[0]
+		else:
+			message = completed.stderr.decode('utf-8')
+			self.WriteFatal("Message from 'git': {message}".format(message=message))
 
 	def getGitRepository(self):
 		return "not implemented"

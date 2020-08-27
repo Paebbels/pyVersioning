@@ -47,7 +47,7 @@ class CIService:
 	ENV_EXCLUDES =        []
 
 	def getEnvironment(self):
-		filteredEnv = {key:value for (key,value) in environ if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
+		filteredEnv = {key:value for (key,value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
 
 		# manually add some variables
 		for key in self.ENV_INCLUDES:

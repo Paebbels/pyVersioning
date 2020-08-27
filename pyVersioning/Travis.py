@@ -42,5 +42,5 @@ from pyVersioning.CIService import CIService
 class Travis(CIService):
 	ENV_INCLUDE_FILTER =  ("TRAVIS_")
 	ENV_EXCLUDE_FILTER =  ("_TOKEN")
-	ENV_INCLUDES =        ['CI', 'CONTINUOUS_INTEGRATION', 'TRAVIS']
+	ENV_INCLUDES =        ['CI', 'TRAVIS']
 	ENV_EXCLUDES =        []

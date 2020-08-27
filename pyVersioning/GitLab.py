@@ -42,5 +42,5 @@ from pyVersioning.CIService import CIService
 class GitLab(CIService):
 	ENV_INCLUDE_FILTER =  ("CI_", "GITLAB_")
 	ENV_EXCLUDE_FILTER =  ("_TOKEN")
-	ENV_INCLUDES =        ['CI']
+	ENV_INCLUDES =        ['CI', 'CONTINUOUS_INTEGRATION']
 	ENV_EXCLUDES =        ['CI_JOB_TOKEN']

@@ -142,30 +142,30 @@ class Application(Versioning, LineTerminal, ArgParseMixin):
 	@CommandAttribute("yaml", help="Write all available variables as YAML.")
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
 	def HandleYAML(self, args):
-		env = "\n"
+		yamlEnvironment = "\n"
 		for key, value in self.variables['env'].as_dict().items():
-			env += f"    {key}: {value}\n".format(key=key, value=value)
+			yamlEnvironment += f"    {key}: {value}\n".format(key=key, value=value)
 
-		appVeyor  = "\n#   not found"
-		github    = "\n#   not found"
-		gitlab    = "\n#   not found"
-		travis    = "\n#   not found"
+		yamlAppVeyor  = "\n#   not found"
+		yamlGitHub    = "\n#   not found"
+		yamlGitLab    = "\n#   not found"
+		yamlTravis    = "\n#   not found"
 		if self.platform is Platforms.AppVeyor:
-			appVeyor = "\n"
+			yamlAppVeyor = "\n"
 			for key, value in self.variables['appveyor'].as_dict().items():
-				appVeyor += f"    {key}: {value}\n".format(key=key, value=value)
+				yamlAppVeyor += f"    {key}: {value}\n".format(key=key, value=value)
 		elif self.platform is Platforms.GitHub:
-			github = "\n"
+			yamlGitHub = "\n"
 			for key, value in self.variables['github'].as_dict().items():
-				github += f"    {key}: {value}\n".format(key=key, value=value)
+				yamlGitHub += f"    {key}: {value}\n".format(key=key, value=value)
 		elif self.platform is Platforms.GitLab:
-			gitlab = "\n"
+			yamlGitLab = "\n"
 			for key, value in self.variables['gitlab'].as_dict().items():
-				gitlab += f"    {key}: {value}\n".format(key=key, value=value)
+				yamlGitLab += f"    {key}: {value}\n".format(key=key, value=value)
 		elif self.platform is Platforms.Travis:
-			travis = "\n"
+			yamlTravis = "\n"
 			for key, value in self.variables['travis'].as_dict().items():
-				travis += f"    {key}: {value}\n".format(key=key, value=value)
+				yamlTravis += f"    {key}: {value}\n".format(key=key, value=value)
 
 		content = dedent("""\
 		  version: {version!s}
@@ -197,13 +197,13 @@ class Application(Versioning, LineTerminal, ArgParseMixin):
 
 		  platform:
 		    ci-service: {platform.ci_service}
-		  appveyor: {appveyor}
-		  github: {github}
-		  gitlab: {gitlab}
-		  travis: {travis}
-		  env:{environment}
+		  appveyor: {yamlAppVeyor}
+		  github: {yamlGitHub}
+		  gitlab: {yamlGitLab}
+		  travis: {yamlTravis}
+		  env:{yamlEnvironment}
 		""")
-		output = content.format(**self.variables, environment=env, appveyor=appVeyor, github=github, gitlab=gitlab, travis=travis)
+		output = content.format(**self.variables, yamlEnvironment=yamlEnvironment, yamlAppVeyor=yamlAppVeyor, yamlGitHub=yamlGitHub, yamlGitLab=yamlGitLab, yamlTravis=yamlTravis)
 		self.WriteNormal(output)
 
 

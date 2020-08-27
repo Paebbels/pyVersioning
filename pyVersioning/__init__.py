@@ -162,7 +162,7 @@ class Versioning():
 		self.collectData()
 
 	def collectData(self):
-		self.variables['tool']     = Tool("pyVersioning", Version(0,4,3)),
+		self.variables['tool']     = Tool("pyVersioning", Version(0,4,4)),
 		self.variables['version']  = self.getVersion()
 		self.variables['git']      = self.getGitInformation()
 		self.variables['project']  = self.getProject()
@@ -176,7 +176,7 @@ class Versioning():
 			self.variables['github'] = self.github.getEnvironment()
 		elif self.platform is Platforms.GitLab:
 			self.variables['gitlab'] = self.gitlab.getEnvironment()
-		elif self.platform is Platforms.GitHub:
+		elif self.platform is Platforms.Travis:
 			self.variables['travis'] = self.travis.getEnvironment()
 
 	def getVersion(self) -> Version:

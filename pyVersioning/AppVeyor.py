@@ -41,30 +41,7 @@ from os           import environ
 
 
 class AppVeyor:
-	def getEnvironment(self):
-		env = environ
-		filteredEnv = {key:value for (key,value) in environ if key.startswith("APPVEYOR_") and not key.endswith("_TOKEN")}
-
-		# manually add some variables
-		for key in ['CI', 'APPVEYOR', 'PLATFORM', 'CONFIGURATION']:
-			try:
-				filteredEnv[key] = env[key]
-			except:
-				pass
-
-		# manually delete some variables
-		# for key in ['CI_JOB_TOKEN']:
-		# 	try:
-		# 		del filteredEnv[key]
-		# 	except:
-		# 		pass
-
-		Environment = make_dataclass(
-			"Environment",
-			[(name, str) for name in env.keys()],
-			namespace={
-				'as_dict': lambda self: env
-			}
-		)
-
-		return Environment(**env)
+	ENV_INCLUDE_FILTER =  ("APPVEYOR_")
+	ENV_EXCLUDE_FILTER =  ("_TOKEN")
+	ENV_INCLUDES =        ['CI', 'APPVEYOR', 'PLATFORM', 'CONFIGURATION']
+	ENV_EXCLUDES =        []

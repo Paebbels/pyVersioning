@@ -11,7 +11,7 @@
 # =============================================================================
 # Authors:            Patrick Lehmann
 #
-# Python package:     GitLab specific code to collect the build environment
+# Python package:     GitHub specific code to collect the build environment
 #
 # Description:
 # ------------------------------------
@@ -40,8 +40,35 @@ from dataclasses  import make_dataclass
 from os           import environ
 
 
-class GitLab:
-	ENV_INCLUDE_FILTER =  ("CI_", "GITLAB_")
-	ENV_EXCLUDE_FILTER =  ("_TOKEN")
-	ENV_INCLUDES =        ['CI']
-	ENV_EXCLUDES =        ['CI_JOB_TOKEN']
+class CIService:
+	ENV_INCLUDE_FILTER =  ()
+	ENV_EXCLUDE_FILTER =  ()
+	ENV_INCLUDES =        []
+	ENV_EXCLUDES =        []
+
+	def getEnvironment(self):
+		filteredEnv = {key:value for (key,value) in environ if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
+
+		# manually add some variables
+		for key in self.ENV_INCLUDES:
+			try:
+				filteredEnv[key] = environ[key]
+			except:
+				pass
+
+		# manually delete some variables
+		for key in self.ENV_EXCLUDES:
+			try:
+				del filteredEnv[key]
+			except:
+				pass
+
+		Environment = make_dataclass(
+			"Environment",
+			[(name, str) for name in filteredEnv.keys()],
+			namespace={
+				'as_dict': lambda self: filteredEnv
+			}
+		)
+
+		return Environment(**filteredEnv)

@@ -113,15 +113,15 @@ class Application(Versioning, LineTerminal, ArgParseMixin):
 
 		self.ExitOnPreviousErrors()
 
-		variables = self.collectData()
-		self.writeSourceFile(templateFile, outputFile, variables)
+		self.collectData()
+		self.writeSourceFile(templateFile, outputFile)
 
 	@CommandAttribute("variables", help="Print all available variables.")
 	def HandleVariables(self, args):
 		self.PrintHeadline()
 
-		variables = self.collectData()
-		for key,value in variables.items():
+		self.collectData()
+		for key,value in self.variables.items():
 			self.WriteNormal("{key:24}: {value}".format(key=key, value=value))
 
 	@CommandAttribute("json", help="Write all available variables as JSON.")

@@ -327,12 +327,12 @@ class Versioning():
 
 		return Environment(**env)
 
-	def writeSourceFile(self, template : Path, filename : Path, variables : Dict[str, any]):
+	def writeSourceFile(self, template : Path, filename : Path):
 		with template.open('r') as file:
 			content = template.read_text()
 
 		# apply variables
-		content = content.format(**variables)
+		content = content.format(**self.variables)
 
 		with filename.open('w') as file:
 			file.write(content)

@@ -159,7 +159,7 @@ class Versioning():
 
 	def collectData(self):
 		self.variables = {}
-		self.variables['tool']     = Tool("pyVersioning", Version(0,5,1)),
+		self.variables['tool']     = Tool("pyVersioning", Version(0,5,2)),
 		self.variables['version']  = self.getVersion()
 		self.variables['git']      = self.getGitInformation()
 		self.variables['project']  = self.getProject()
@@ -318,6 +318,9 @@ class Versioning():
 	def getEnvironment(self):
 		env = {}
 		for key, value in environ.items():
+			if not key.isidentifier():
+				self.WriteWarning("Skipping environment variable '{key}', because it's not a valid Python identifier.".format(key=key))
+				continue
 			key = key.replace("(", "_")
 			key = key.replace(")", "_")
 			key = key.replace(" ", "_")

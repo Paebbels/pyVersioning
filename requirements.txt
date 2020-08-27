@@ -1,4 +1,6 @@
 autocomplete
 
+py-flags
+
 pyAttributes
 pyTerminalUI

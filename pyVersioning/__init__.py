@@ -36,13 +36,15 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
+from collections import namedtuple
 from subprocess   import run as subprocess_run, PIPE
 from argparse     import RawDescriptionHelpFormatter
-from dataclasses  import dataclass
+from dataclasses import dataclass, make_dataclass, field
 from datetime     import datetime
 from pathlib      import Path
 from textwrap     import dedent
 from typing       import Dict
+from os           import environ
 
 from pyAttributes.ArgParseAttributes import ArgParseMixin, DefaultAttribute, CommandAttribute, ArgumentAttribute
 from pyTerminalUI import LineTerminal, Severity
@@ -80,39 +82,26 @@ class Tool():
 	name    : str
 	version : Version
 
-	def __init__(self, name : str, version : Version):
-		self.name    = name
-		self.version = version
-
 
 @dataclass
 class Commit():
 	hash : str
 	date : datetime
 
-	def __init__(self, hash : str, date : datetime):
-		self.hash = hash
-		self.date = date
-
 
 @dataclass
 class Git():
 	commit      : Commit
-	reference   : str
-	tag         : str
-	branch      : str
-	repository  : str
+	reference   : str = field(init=False)
+	tag         : str = ""
+	branch      : str = ""
+	repository  : str = ""
 
-	def __init__(self, commit : Commit, tag : str, branch : str, repository : str):
-		self.commit     = commit
-		self.tag        = tag
-		self.branch     = branch
-		self.repository = repository
-
-		if tag != "":
-			self.reference = tag
-		elif branch != "":
-			self.reference = branch
+	def __post_init__(self):
+		if self.tag != "":
+			self.reference = self.tag
+		elif self.branch != "":
+			self.reference = self.branch
 		else:
 			self.reference = "[Detached HEAD]"
 
@@ -122,10 +111,6 @@ class Project():
 	name    : str
 	variant : str
 
-	def __init__(self, name : str, variant : str):
-		self.name     = name
-		self.variant  = variant
-
 
 @dataclass
 class Compiler():
@@ -134,21 +119,11 @@ class Compiler():
 	configuration : str
 	options       : str
 
-	def __init__(self, name : str, version : Version, configuration : str, options : str):
-		self.name          = name
-		self.version       = version
-		self.configuration = configuration
-		self.options       = options
-
 
 @dataclass
 class Build():
 	date     : datetime
 	compiler : Compiler
-
-	def __init__(self, date : datetime, compiler : Compiler):
-		self.date     = date
-		self.compiler = compiler
 
 
 class Versioning(LineTerminal, ArgParseMixin):
@@ -249,6 +224,11 @@ class Versioning(LineTerminal, ArgParseMixin):
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
 	def HandleYAML(self, args):
 		variables = self.collectData()
+
+		env = "\n"
+		for key, value in variables['env'].as_dict().items():
+			env += f"    {key}: {value}\n".format(key=key, value=value)
+
 		content = dedent("""\
 		  version: {version!s}
 		    major: {version.major}
@@ -273,18 +253,20 @@ class Versioning(LineTerminal, ArgParseMixin):
 		      version: {build.compiler.version}
 		      configuration: {build.compiler.configuration}
 		      options: {build.compiler.options}
+		  env:{environment}
 		""")
-		output = content.format(**variables)
+		output = content.format(**variables, environment=env)
 		self.WriteNormal(output)
 
 	def collectData(self) -> Dict[str, any]:
 		variables = {}
 
-		variables['tool'] =     Tool("pyVersioning", Version(0,2,8)),
-		variables['version'] =  self.getVersion()
-		variables['git'] =      self.getGitInformation()
-		variables['project'] =  self.getProject()
-		variables['build'] =    self.getBuild()
+		variables['tool']     = Tool("pyVersioning", Version(0,3,0)),
+		variables['version']  = self.getVersion()
+		variables['git']      = self.getGitInformation()
+		variables['project']  = self.getProject()
+		variables['build']    = self.getBuild()
+		variables['env']      = self.getEnvironment()
 
 		return variables
 
@@ -346,32 +328,31 @@ class Versioning(LineTerminal, ArgParseMixin):
 		if localBranch is None:
 			localBranch = self.getGitLocalBranch()
 
-		return "origin/master"
-		# try:
-		# 	command =   "git config branch.{localBranch}.merge".format(localBranch=localBranch)
-		# 	completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
-		# except:
-		# 	return ""
-		# if completed.returncode == 0:
-		# 	return completed.stdout.decode('utf-8').split("\n")[0]
-		# else:
-		# 	message = completed.stderr.decode('utf-8')
-		# 	self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+		try:
+			command =   "git config branch.{localBranch}.merge".format(localBranch=localBranch)
+			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
+		except:
+			return ""
+		if completed.returncode == 0:
+			return completed.stdout.decode('utf-8').split("\n")[0]
+		else:
+			message = completed.stderr.decode('utf-8')
+			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
 	def getGitRemote(self, localBranch : str = None):
 		if localBranch is None:
 			localBranch = self.getGitLocalBranch()
-		return "origin"
-		# try:
-		# 	command =   "git config branch.{localBranch}.remote".format(localBranch=localBranch)
-		# 	completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
-		# except:
-		# 	return ""
-		# if completed.returncode == 0:
-		# 	return completed.stdout.decode('utf-8').split("\n")[0]
-		# else:
-		# 	message = completed.stderr.decode('utf-8')
-		# 	self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+
+		try:
+			command =   "git config branch.{localBranch}.remote".format(localBranch=localBranch)
+			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
+		except:
+			return ""
+		if completed.returncode == 0:
+			return completed.stdout.decode('utf-8').split("\n")[0]
+		else:
+			message = completed.stderr.decode('utf-8')
+			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
 	def getGitTag(self):
 		try:
@@ -418,6 +399,24 @@ class Versioning(LineTerminal, ArgParseMixin):
 			configuration="",
 			options=""
 		)
+
+	def getEnvironment(self):
+		env = {}
+		for key, value in environ.items():
+			key = key.replace("(", "_")
+			key = key.replace(")", "_")
+			key = key.replace(" ", "_")
+			env[key] = value
+
+		Environment = make_dataclass(
+			"Environment",
+			[(name, str) for name in env.keys()],
+			namespace={
+				'as_dict': lambda self: env
+			}
+		)
+
+		return Environment(**env)
 
 	def writeSourceFile(self, template : Path, filename : Path, variables : Dict[str, any]):
 		with template.open('r') as file:

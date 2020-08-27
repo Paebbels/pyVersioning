@@ -36,11 +36,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-from dataclasses  import make_dataclass
-from os           import environ
+from pyVersioning.CIService import CIService
 
 
-class AppVeyor:
+class AppVeyor(CIService):
 	ENV_INCLUDE_FILTER =  ("APPVEYOR_")
 	ENV_EXCLUDE_FILTER =  ("_TOKEN")
 	ENV_INCLUDES =        ['CI', 'APPVEYOR', 'PLATFORM', 'CONFIGURATION']

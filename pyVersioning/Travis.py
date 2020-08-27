@@ -36,11 +36,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-from dataclasses  import make_dataclass
-from os           import environ
+from pyVersioning.CIService import CIService
 
 
-class Travis:
+class Travis(CIService):
 	ENV_INCLUDE_FILTER =  ("TRAVIS_")
 	ENV_EXCLUDE_FILTER =  ("_TOKEN")
 	ENV_INCLUDES =        ['CI', 'CONTINUOUS_INTEGRATION', 'TRAVIS']

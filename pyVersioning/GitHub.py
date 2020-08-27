@@ -36,9 +36,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-from dataclasses  import make_dataclass
-from os           import environ
-
 from pyVersioning.CIService import CIService
 
 

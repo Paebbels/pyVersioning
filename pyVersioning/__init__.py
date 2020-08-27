@@ -40,14 +40,14 @@ from subprocess   import run as subprocess_run, PIPE
 from dataclasses  import dataclass, make_dataclass, field
 from datetime     import datetime
 from pathlib      import Path
-from typing       import Dict
 from os           import environ
 
 from flags        import Flags
 
-from pyVersioning.AppVeyor import AppVeyor
-from pyVersioning.GitLab import GitLab
-from pyVersioning.Travis import Travis
+from pyVersioning.AppVeyor  import AppVeyor
+from pyVersioning.GitLab    import GitLab
+from pyVersioning.GitHub    import GitHub
+from pyVersioning.Travis    import Travis
 
 
 @dataclass
@@ -152,6 +152,9 @@ class Versioning():
 		elif 'CONTINUOUS_INTEGRATION' in environ:
 			self.platform = Platforms.GitLab
 			self.gitlab = GitLab()
+		elif 'GITHUB_ACTIONS' in environ:
+			self.platform = Platforms.GitHub
+			self.github = GitHub()
 		else:
 			self.platform = Platforms.Workstation
 
@@ -159,13 +162,22 @@ class Versioning():
 		self.collectData()
 
 	def collectData(self):
-		self.variables['tool']     = Tool("pyVersioning", Version(0,4,2)),
+		self.variables['tool']     = Tool("pyVersioning", Version(0,4,3)),
 		self.variables['version']  = self.getVersion()
 		self.variables['git']      = self.getGitInformation()
 		self.variables['project']  = self.getProject()
 		self.variables['build']    = self.getBuild()
 		self.variables['platform'] = self.getPlatform()
 		self.variables['env']      = self.getEnvironment()
+
+		if self.platform is Platforms.AppVeyor:
+			self.variables['appveyor'] = self.appVeyor.getEnvironment()
+		elif self.platform is Platforms.GitHub:
+			self.variables['github'] = self.github.getEnvironment()
+		elif self.platform is Platforms.GitLab:
+			self.variables['gitlab'] = self.gitlab.getEnvironment()
+		elif self.platform is Platforms.GitHub:
+			self.variables['travis'] = self.travis.getEnvironment()
 
 	def getVersion(self) -> Version:
 		return Version("0.0.0")

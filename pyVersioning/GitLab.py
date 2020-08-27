@@ -36,11 +36,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-from dataclasses  import make_dataclass
-from os           import environ
+from pyVersioning.CIService import CIService
 
 
-class GitLab:
+class GitLab(CIService):
 	ENV_INCLUDE_FILTER =  ("CI_", "GITLAB_")
 	ENV_EXCLUDE_FILTER =  ("_TOKEN")
 	ENV_INCLUDES =        ['CI']

@@ -113,14 +113,12 @@ class Application(Versioning, LineTerminal, ArgParseMixin):
 
 		self.ExitOnPreviousErrors()
 
-		self.collectData()
 		self.writeSourceFile(templateFile, outputFile)
 
 	@CommandAttribute("variables", help="Print all available variables.")
 	def HandleVariables(self, args):
 		self.PrintHeadline()
 
-		self.collectData()
 		for key,value in self.variables.items():
 			self.WriteNormal("{key:24}: {value}".format(key=key, value=value))
 
@@ -155,19 +153,19 @@ class Application(Versioning, LineTerminal, ArgParseMixin):
 		if self.platform is Platforms.AppVeyor:
 			appVeyor = "\n"
 			for key, value in self.variables['appveyor'].as_dict().items():
-				env += f"    {key}: {value}\n".format(key=key, value=value)
+				appVeyor += f"    {key}: {value}\n".format(key=key, value=value)
 		elif self.platform is Platforms.GitHub:
 			github = "\n"
 			for key, value in self.variables['github'].as_dict().items():
-				env += f"    {key}: {value}\n".format(key=key, value=value)
+				github += f"    {key}: {value}\n".format(key=key, value=value)
 		elif self.platform is Platforms.GitLab:
 			gitlab = "\n"
 			for key, value in self.variables['gitlab'].as_dict().items():
-				env += f"    {key}: {value}\n".format(key=key, value=value)
+				gitlab += f"    {key}: {value}\n".format(key=key, value=value)
 		elif self.platform is Platforms.Travis:
 			travis = "\n"
 			for key, value in self.variables['travis'].as_dict().items():
-				env += f"    {key}: {value}\n".format(key=key, value=value)
+				travis += f"    {key}: {value}\n".format(key=key, value=value)
 
 		content = dedent("""\
 		  version: {version!s}

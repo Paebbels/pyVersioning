@@ -50,8 +50,8 @@ class Application(Versioning, LineTerminal, ArgParseMixin):
 	HeadLine = "Version file generator."
 
 	def __init__(self):
-		super().__init__()
 		LineTerminal.__init__(self)
+		super().__init__()
 		ArgParseMixin.__init__(
 			self,
 	    description=dedent("Version file generator"),

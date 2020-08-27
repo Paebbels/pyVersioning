@@ -54,10 +54,20 @@ class GitLab(CIService):
 		return environ['CI_COMMIT_SHA']
 
 	def getGitBranch(self):
-		return environ['CI_COMMIT_BRANCH']
+		try:
+			return environ['CI_COMMIT_BRANCH']
+		except:
+			pass
+
+		return None
 
 	def getGitTag(self):
-		return environ['CI_COMMIT_TAG']
+		try:
+			return environ['CI_COMMIT_TAG']
+		except:
+			pass
+
+		return None
 
 	def getGitRepository(self):
 		return environ['CI_REPOSITORY_URL']

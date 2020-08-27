@@ -54,10 +54,20 @@ class AppVeyor(CIService):
 		return environ['APPVEYOR_REPO_COMMIT']
 
 	def getGitBranch(self):
-		return environ['APPVEYOR_REPO_BRANCH']
+		try:
+			return environ['APPVEYOR_REPO_BRANCH']
+		except:
+			pass
+
+		return None
 
 	def getGitTag(self):
-		return environ['APPVEYOR_REPO_TAG_NAME']
+		try:
+			return environ['APPVEYOR_REPO_TAG_NAME']
+		except:
+			pass
+
+		return None
 
 	def getGitRepository(self):
 		return environ['APPVEYOR_PROJECT_SLUG']

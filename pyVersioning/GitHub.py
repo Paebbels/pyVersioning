@@ -54,12 +54,28 @@ class GitHub(CIService):
 		return environ['GITHUB_SHA']
 
 	def getGitBranch(self):
-		ref = environ['GITHUB_REF']
-		return ref
+		branchPrefix = "refs/heads/"
+
+		try:
+			ref = environ['GITHUB_REF']
+			if ref.startswith(branchPrefix):
+				return ref[len(branchPrefix):]
+		except:
+			pass
+
+		return None
 
 	def getGitTag(self):
-		ref = environ['GITHUB_REF']
-		return ref
+		tagPrefix    = "refs/tags/"
+
+		try:
+			ref = environ['GITHUB_REF']
+			if ref.startswith(tagPrefix):
+				return ref[len(tagPrefix):]
+		except:
+			pass
+
+		return None
 
 	def getGitRepository(self):
 		return environ['GITHUB_REPOSITORY']

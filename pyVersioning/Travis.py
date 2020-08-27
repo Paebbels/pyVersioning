@@ -54,10 +54,20 @@ class Travis(CIService):
 		return environ['TRAVIS_COMMIT']
 
 	def getGitBranch(self) -> str:
-		return environ['TRAVIS_BRANCH']
+		try:
+			return environ['TRAVIS_BRANCH']
+		except:
+			pass
+
+		return None
 
 	def getGitTag(self):
-		return environ['TRAVIS_TAG']
+		try:
+			return environ['TRAVIS_TAG']
+		except:
+			pass
+
+		return None
 
 	def getGitRepository(self):
 		return environ['TRAVIS_REPO_SLUG']

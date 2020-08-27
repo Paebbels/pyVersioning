@@ -159,7 +159,7 @@ class Versioning():
 
 	def collectData(self):
 		self.variables = {}
-		self.variables['tool']     = Tool("pyVersioning", Version(0,5,0)),
+		self.variables['tool']     = Tool("pyVersioning", Version(0,5,1)),
 		self.variables['version']  = self.getVersion()
 		self.variables['git']      = self.getGitInformation()
 		self.variables['project']  = self.getProject()

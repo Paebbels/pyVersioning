@@ -36,7 +36,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-from pyVersioning.CIService import CIService
+from os import environ
+
+from pyVersioning.CIService import CIService, Platform
 
 
 class GitHub(CIService):
@@ -44,3 +46,20 @@ class GitHub(CIService):
 	ENV_EXCLUDE_FILTER =  ("_TOKEN")
 	ENV_INCLUDES =        ['CI']
 	ENV_EXCLUDES =        []
+
+	def getPlatform(self):
+		return Platform("github")
+
+	def getGitHash(self):
+		return environ['GITHUB_SHA']
+
+	def getGitBranch(self):
+		ref = environ['GITHUB_REF']
+		return ref
+
+	def getGitTag(self):
+		ref = environ['GITHUB_REF']
+		return ref
+
+	def getGitRepository(self):
+		return environ['GITHUB_REPOSITORY']

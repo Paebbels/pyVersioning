@@ -36,7 +36,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-from pyVersioning.CIService import CIService
+from os import environ
+
+from pyVersioning.CIService import CIService, Platform
 
 
 class GitLab(CIService):
@@ -44,3 +46,19 @@ class GitLab(CIService):
 	ENV_EXCLUDE_FILTER =  ("_TOKEN")
 	ENV_INCLUDES =        ['CI']
 	ENV_EXCLUDES =        ['CI_JOB_TOKEN']
+
+	def getPlatform(self):
+		return Platform("gitlab")
+
+	def getGitHash(self):
+		return environ['CI_COMMIT_SHA']
+
+	def getGitBranch(self):
+		return environ['CI_COMMIT_BRANCH']
+
+	def getGitTag(self):
+		return environ['CI_COMMIT_TAG']
+
+	def getGitRepository(self):
+		return environ['CI_REPOSITORY_URL']
+

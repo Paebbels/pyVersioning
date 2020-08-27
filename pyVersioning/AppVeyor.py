@@ -36,7 +36,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-from pyVersioning.CIService import CIService
+from os import environ
+
+from pyVersioning.CIService import CIService, Platform
 
 
 class AppVeyor(CIService):
@@ -44,3 +46,18 @@ class AppVeyor(CIService):
 	ENV_EXCLUDE_FILTER =  ("_TOKEN")
 	ENV_INCLUDES =        ['CI', 'APPVEYOR', 'PLATFORM', 'CONFIGURATION']
 	ENV_EXCLUDES =        []
+
+	def getPlatform(self):
+		return Platform("appveyor")
+
+	def getGitHash(self):
+		return environ['APPVEYOR_REPO_COMMIT']
+
+	def getGitBranch(self):
+		return environ['APPVEYOR_REPO_BRANCH']
+
+	def getGitTag(self):
+		return environ['APPVEYOR_REPO_TAG_NAME']
+
+	def getGitRepository(self):
+		return environ['APPVEYOR_PROJECT_SLUG']

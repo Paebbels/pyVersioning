@@ -36,11 +36,28 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-from pyVersioning.CIService import CIService
+from os import environ
+
+from pyVersioning.CIService import CIService, Platform
 
 
 class Travis(CIService):
 	ENV_INCLUDE_FILTER =  ("TRAVIS_")
 	ENV_EXCLUDE_FILTER =  ("_TOKEN")
-	ENV_INCLUDES =        ['CI', 'TRAVIS']
+	ENV_INCLUDES =        ['CI', 'CONTINUOUS_INTEGRATION', 'TRAVIS']
 	ENV_EXCLUDES =        []
+
+	def getPlatform(self):
+		return Platform("travis")
+
+	def getGitHash(self):
+		return environ['TRAVIS_COMMIT']
+
+	def getGitBranch(self) -> str:
+		return environ['TRAVIS_BRANCH']
+
+	def getGitTag(self):
+		return environ['TRAVIS_TAG']
+
+	def getGitRepository(self):
+		return environ['TRAVIS_REPO_SLUG']

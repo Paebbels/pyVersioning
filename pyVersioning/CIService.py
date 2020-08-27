@@ -36,8 +36,12 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-from dataclasses  import make_dataclass
+from dataclasses  import make_dataclass, dataclass
 from os           import environ
+
+@dataclass
+class Platform():
+	ci_service : str
 
 
 class CIService:
@@ -45,6 +49,9 @@ class CIService:
 	ENV_EXCLUDE_FILTER =  ()
 	ENV_INCLUDES =        []
 	ENV_EXCLUDES =        []
+
+	def getPlatform(self):
+		pass
 
 	def getEnvironment(self):
 		filteredEnv = {key:value for (key,value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
@@ -72,3 +79,20 @@ class CIService:
 		)
 
 		return Environment(**filteredEnv)
+
+	def getGitHash(self) -> str:
+		return ""
+
+	def getGitBranch(self) -> str:
+		return ""
+
+	def getGitTag(self) -> str:
+		return ""
+
+	def getGitRepository(self) -> str:
+		return ""
+
+
+class WorkStation(CIService):
+	def getPlatform(self):
+		return Platform("NO-CI")

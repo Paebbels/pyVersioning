@@ -45,6 +45,7 @@ from os           import environ
 from flags        import Flags
 
 from pyVersioning.AppVeyor  import AppVeyor
+from pyVersioning.CIService import WorkStation
 from pyVersioning.GitLab    import GitLab
 from pyVersioning.GitHub    import GitHub
 from pyVersioning.Travis    import Travis
@@ -126,11 +127,6 @@ class Build():
 	compiler : Compiler
 
 
-@dataclass
-class Platform():
-	ci_service : str
-
-
 class Platforms(Flags):
 	Workstation = 1
 	AppVeyor = 2
@@ -145,39 +141,40 @@ class Versioning():
 	def __init__(self):
 		if 'APPVEYOR' in environ:
 			self.platform = Platforms.AppVeyor
-			self.appVeyor = AppVeyor()
+			self.service  = AppVeyor()
 		elif 'TRAVIS' in environ:
 			self.platform = Platforms.Travis
-			self.travis = Travis()
+			self.service  = Travis()
 		elif 'GITLAB_CI' in environ:
 			self.platform = Platforms.GitLab
-			self.gitlab = GitLab()
+			self.service  = GitLab()
 		elif 'GITHUB_ACTIONS' in environ:
 			self.platform = Platforms.GitHub
-			self.github = GitHub()
+			self.service  = GitHub()
 		else:
 			self.platform = Platforms.Workstation
+			self.service  = WorkStation()
 
-		self.variables = {}
 		self.collectData()
 
 	def collectData(self):
-		self.variables['tool']     = Tool("pyVersioning", Version(0,4,5)),
+		self.variables = {}
+		self.variables['tool']     = Tool("pyVersioning", Version(0,5,0)),
 		self.variables['version']  = self.getVersion()
 		self.variables['git']      = self.getGitInformation()
 		self.variables['project']  = self.getProject()
 		self.variables['build']    = self.getBuild()
-		self.variables['platform'] = self.getPlatform()
+		self.variables['platform'] = self.service.getPlatform()
 		self.variables['env']      = self.getEnvironment()
 
 		if self.platform is Platforms.AppVeyor:
-			self.variables['appveyor'] = self.appVeyor.getEnvironment()
+			self.variables['appveyor'] = self.service.getEnvironment()
 		elif self.platform is Platforms.GitHub:
-			self.variables['github'] = self.github.getEnvironment()
+			self.variables['github'] = self.service.getEnvironment()
 		elif self.platform is Platforms.GitLab:
-			self.variables['gitlab'] = self.gitlab.getEnvironment()
+			self.variables['gitlab'] = self.service.getEnvironment()
 		elif self.platform is Platforms.Travis:
-			self.variables['travis'] = self.travis.getEnvironment()
+			self.variables['travis'] = self.service.getEnvironment()
 
 	def getVersion(self) -> Version:
 		return Version("0.0.0")
@@ -197,6 +194,9 @@ class Versioning():
 		)
 
 	def getGitHash(self):
+		if self.platform is not Platforms.Workstation:
+			return self.service.getGitHash()
+
 		try:
 			command =   "git rev-parse HEAD"
 			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
@@ -222,6 +222,9 @@ class Versioning():
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
 	def getGitLocalBranch(self):
+		if self.platform is not Platforms.Workstation:
+			return self.service.getGitBranch()
+
 		try:
 			command =   "git branch --show-current"
 			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
@@ -264,6 +267,9 @@ class Versioning():
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
 	def getGitTag(self):
+		if self.platform is not Platforms.Workstation:
+			return self.service.getGitTag()
+
 		try:
 			command =   "git tag --points-at HEAD"
 			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
@@ -308,18 +314,6 @@ class Versioning():
 			configuration="",
 			options=""
 		)
-
-	def getPlatform(self):
-		if self.platform is Platforms.AppVeyor:
-			return Platform("appveyor")
-		elif self.platform is Platforms.GitHub:
-			return Platform("github")
-		elif self.platform is Platforms.GitLab:
-			return Platform("gitlab")
-		elif self.platform is Platforms.Travis:
-			return Platform("travis")
-		else:
-			return Platform("workstation")
 
 	def getEnvironment(self):
 		env = {}

@@ -54,7 +54,7 @@ rtd_url =     "https://" + projectName + ".readthedocs.io/en/latest/"
 
 setuptools.setup(
 	name=projectName,
-	version="0.4.4",
+	version="0.4.5",
 
 	author="Patrick Lehmann",
 	author_email="Paebbels@gmail.com",
@@ -83,8 +83,6 @@ setuptools.setup(
 		"License :: OSI Approved :: Apache Software License",
 		"Operating System :: OS Independent",
 		"Programming Language :: Python :: 3 :: Only",
-		"Programming Language :: Python :: 3.5",
-		"Programming Language :: Python :: 3.6",
 		"Programming Language :: Python :: 3.7",
 		"Programming Language :: Python :: 3.8",
 		"Development Status :: 5 - Production/Stable",
@@ -93,7 +91,7 @@ setuptools.setup(
 	],
 	keywords="Python3 Template Versioning Git",
 
-	python_requires='>=3.5',
+	python_requires='>=3.7',
 	install_requires=requirements,
 	# provides=
 	# obsoletes=

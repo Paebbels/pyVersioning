@@ -149,7 +149,7 @@ class Versioning():
 		elif 'TRAVIS' in environ:
 			self.platform = Platforms.Travis
 			self.travis = Travis()
-		elif 'CONTINUOUS_INTEGRATION' in environ:
+		elif 'GITLAB_CI' in environ:
 			self.platform = Platforms.GitLab
 			self.gitlab = GitLab()
 		elif 'GITHUB_ACTIONS' in environ:
@@ -162,7 +162,7 @@ class Versioning():
 		self.collectData()
 
 	def collectData(self):
-		self.variables['tool']     = Tool("pyVersioning", Version(0,4,4)),
+		self.variables['tool']     = Tool("pyVersioning", Version(0,4,5)),
 		self.variables['version']  = self.getVersion()
 		self.variables['git']      = self.getGitInformation()
 		self.variables['project']  = self.getProject()

@@ -11,7 +11,7 @@
 # =============================================================================
 # Authors:            Patrick Lehmann
 #
-# Python package:     Travis specific code to collect the build environment
+# Python package:     GitHub specific code to collect the build environment
 #
 # Description:
 # ------------------------------------
@@ -40,24 +40,24 @@ from dataclasses  import make_dataclass
 from os           import environ
 
 
-class Travis:
+class GitHub:
 	def getEnvironment(self):
 		env = environ
-		filteredEnv = {key:value for (key,value) in environ if key.startswith("TRAVIS_") and not key.endswith("_TOKEN")}
+		filteredEnv = {key:value for (key,value) in environ if key.startswith("GITHUB_") and not key.endswith("_TOKEN")}
 
 		# manually add some variables
-		for key in ['CI', 'CONTINUOUS_INTEGRATION', 'TRAVIS']:
+		for key in ['CI']:
 			try:
 				filteredEnv[key] = env[key]
 			except:
 				pass
 
 		# manually delete some variables
-		# for key in ['CI_JOB_TOKEN']:
-		# 	try:
-		# 		del filteredEnv[key]
-		# 	except:
-		# 		pass
+		for key in ['CI_JOB_TOKEN']:
+			try:
+				del filteredEnv[key]
+			except:
+				pass
 
 		Environment = make_dataclass(
 			"Environment",

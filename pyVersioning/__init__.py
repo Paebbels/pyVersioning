@@ -36,18 +36,18 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-from collections import namedtuple
 from subprocess   import run as subprocess_run, PIPE
-from argparse     import RawDescriptionHelpFormatter
-from dataclasses import dataclass, make_dataclass, field
+from dataclasses  import dataclass, make_dataclass, field
 from datetime     import datetime
 from pathlib      import Path
-from textwrap     import dedent
 from typing       import Dict
 from os           import environ
 
-from pyAttributes.ArgParseAttributes import ArgParseMixin, DefaultAttribute, CommandAttribute, ArgumentAttribute
-from pyTerminalUI import LineTerminal, Severity
+from flags        import Flags
+
+from pyVersioning.AppVeyor import AppVeyor
+from pyVersioning.GitLab import GitLab
+from pyVersioning.Travis import Travis
 
 
 @dataclass
@@ -126,149 +126,46 @@ class Build():
 	compiler : Compiler
 
 
-class Versioning(LineTerminal, ArgParseMixin):
-	HeadLine = "Version file generator."
+@dataclass
+class Platform():
+	ci_service : str
+
+
+class Platforms(Flags):
+	Workstation = 1
+	AppVeyor = 2
+	GitHub = 3
+	GitLab = 4
+	Travis = 5
+
+class Versioning():
+	platform  : int = Platforms.Workstation
+	variables : dict
 
 	def __init__(self):
-		super().__init__()
-
-		ArgParseMixin.__init__(
-			self,
-	    description=dedent("Version file generator"),
-	    formatter_class=RawDescriptionHelpFormatter,
-	    add_help=False
-	  )
-
-		self._LOG_MESSAGE_FORMAT__[Severity.Fatal] = "{DARK_RED}[FATAL] {message}{NOCOLOR}"
-		self._LOG_MESSAGE_FORMAT__[Severity.Error] = "{RED}[ERROR] {message}{NOCOLOR}",
-
-	def PrintHeadline(self):
-		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
-		self.WriteNormal("{HEADLINE}{headline: ^80s}".format(headline=self.HeadLine, **LineTerminal.Foreground))
-		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
-
-	def Run(self):
-		ArgParseMixin.Run(self)
-
-	@DefaultAttribute()
-	def HandleDefault(self, args):
-		self.PrintHeadline()
-		self.MainParser.print_help()
-
-	@CommandAttribute("help", help="Display help page(s) for the given command name.")
-	@ArgumentAttribute(metavar="Command", dest="Command", type=str, nargs="?", help="Print help page(s) for a command.")
-	def HandleHelp(self, args):
-		self.PrintHeadline()
-
-		if (args.Command is None):
-			self.MainParser.print_help()
-		elif (args.Command == "help"):
-			self.WriteError("This is a recursion ...")
+		if 'APPVEYOR' in environ:
+			self.platform = Platforms.AppVeyor
+			self.appVeyor = AppVeyor()
+		elif 'TRAVIS' in environ:
+			self.platform = Platforms.Travis
+			self.travis = Travis()
+		elif 'CONTINUOUS_INTEGRATION' in environ:
+			self.platform = Platforms.GitLab
+			self.gitlab = GitLab()
 		else:
-			try:
-				self.SubParsers[args.Command].print_help()
-			except KeyError:
-				self.WriteError("Command {0} is unknown.".format(args.Command))
+			self.platform = Platforms.Workstation
 
-	@CommandAttribute("fillout", help="Read a template and replace tokens with version information.")
-	@ArgumentAttribute(metavar='<Template file>', dest="Template", type=str, help="Template input filename.")
-	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, help="Output filename.")
-	def HandleFillOut(self, args):
-		self.PrintHeadline()
+		self.variables = {}
+		self.collectData()
 
-		templateFile = Path(args.Template)
-		if not templateFile.exists():
-			self.WriteError("Template file '{file!s}' does not exist.".format(file=templateFile))
-
-		outputFile = Path(args.Filename)
-		if not outputFile.parent.exists():
-			self.WriteWarning("Directory for file '{file!s}' does not exist. Directory will be created".format(file=outputFile))
-			try:
-				outputFile.parent.mkdir()
-			except:
-				self.WriteError("Failed to create the directory '{dir}' for the output file.".format(dir=outputFile.parent))
-		elif outputFile.exists():
-			self.WriteWarning("Output file '{file!s}' already exists. This file will be overwritten.".format(file=outputFile))
-
-		self.ExitOnPreviousErrors()
-
-		variables = self.collectData()
-		self.writeSourceFile(templateFile, outputFile, variables)
-
-	@CommandAttribute("variables", help="Print all available variables.")
-	def HandleVariables(self, args):
-		self.PrintHeadline()
-
-		variables = self.collectData()
-		for key,value in variables.items():
-			self.WriteNormal("{key:24}: {value}".format(key=key, value=value))
-
-	@CommandAttribute("json", help="Write all available variables as JSON.")
-	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
-	def HandleJSON(self, args):
-		variables = self.collectData()
-		content = dedent("""\
-		{{
-		  version: {{
-		    major: {version.major},
-		    minor: {version.minor},
-		    patch: {version.patch},
-		   flags: {version.flags}
-		  }}
-		}}
-		""")
-		output = content.format(**variables)
-		self.WriteNormal(output)
-
-	@CommandAttribute("yaml", help="Write all available variables as YAML.")
-	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
-	def HandleYAML(self, args):
-		variables = self.collectData()
-
-		env = "\n"
-		for key, value in variables['env'].as_dict().items():
-			env += f"    {key}: {value}\n".format(key=key, value=value)
-
-		content = dedent("""\
-		  version: {version!s}
-		    major: {version.major}
-		    minor: {version.minor}
-		    patch: {version.patch}
-		    flags: {version.flags}
-		  git:
-		    commit:
-		      hash: {git.commit.hash}
-		      date: {git.commit.date}
-		    reference: {git.reference}
-		    branch: {git.branch}
-		    tag: {git.tag}
-		    repository: {git.repository}
-		  project:
-		    name: {project.name}
-		    variant: {project.variant}
-		  build:
-		    date: {build.date}
-		    compiler:
-		      name: {build.compiler.name}
-		      version: {build.compiler.version}
-		      configuration: {build.compiler.configuration}
-		      options: {build.compiler.options}
-		  env:{environment}
-		""")
-		output = content.format(**variables, environment=env)
-		self.WriteNormal(output)
-
-	def collectData(self) -> Dict[str, any]:
-		variables = {}
-
-		variables['tool']     = Tool("pyVersioning", Version(0,3,0)),
-		variables['version']  = self.getVersion()
-		variables['git']      = self.getGitInformation()
-		variables['project']  = self.getProject()
-		variables['build']    = self.getBuild()
-		variables['env']      = self.getEnvironment()
-
-		return variables
+	def collectData(self):
+		self.variables['tool']     = Tool("pyVersioning", Version(0,4,0)),
+		self.variables['version']  = self.getVersion()
+		self.variables['git']      = self.getGitInformation()
+		self.variables['project']  = self.getProject()
+		self.variables['build']    = self.getBuild()
+		self.variables['platform'] = self.getPlatform()
+		self.variables['env']      = self.getEnvironment()
 
 	def getVersion(self) -> Version:
 		return Version("0.0.0")
@@ -399,6 +296,18 @@ class Versioning(LineTerminal, ArgParseMixin):
 			configuration="",
 			options=""
 		)
+
+	def getPlatform(self):
+		if self.platform is Platforms.AppVeyor:
+			return Platform("appveyor")
+		elif self.platform is Platforms.GitHub:
+			return Platform("github")
+		elif self.platform is Platforms.GitLab:
+			return Platform("gitlab")
+		elif self.platform is Platforms.Travis:
+			return Platform("travis")
+		else:
+			return Platform("workstation")
 
 	def getEnvironment(self):
 		env = {}

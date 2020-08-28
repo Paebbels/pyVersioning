@@ -44,12 +44,13 @@ from pyAttributes.ArgParseAttributes import ArgParseMixin, CommandAttribute, Arg
 from pyTerminalUI import LineTerminal, Severity
 
 from pyVersioning import Versioning, Platforms
+from pyVersioning.Configuration import Configuration
 
 
 class Application(Versioning, LineTerminal, ArgParseMixin):
 	HeadLine = "Version file generator."
 
-	def __init__(self):
+	def __init__(self, configFile : Path):
 		LineTerminal.__init__(self)
 		super().__init__()
 		ArgParseMixin.__init__(
@@ -61,6 +62,11 @@ class Application(Versioning, LineTerminal, ArgParseMixin):
 
 		self._LOG_MESSAGE_FORMAT__[Severity.Fatal] = "{DARK_RED}[FATAL] {message}{NOCOLOR}"
 		self._LOG_MESSAGE_FORMAT__[Severity.Error] = "{RED}[ERROR] {message}{NOCOLOR}",
+
+		if not configFile.exists():
+			self.WriteWarning("Configuration file '{file!s}' does not exist.".format(file=configFile))
+		else:
+			self._config = Configuration(configFile)
 
 
 	def PrintHeadline(self):
@@ -208,8 +214,10 @@ class Application(Versioning, LineTerminal, ArgParseMixin):
 
 
 def main():
+	configFile = Path(".pyVersioning.yml")
+
 	Application.versionCheck((3,7,0))
-	application = Application()
+	application = Application(configFile)
 	application.Run()
 	application.exit()
 

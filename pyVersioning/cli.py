@@ -41,17 +41,16 @@ from pathlib      import Path
 from textwrap     import dedent
 
 from pyAttributes.ArgParseAttributes import ArgParseMixin, CommandAttribute, ArgumentAttribute, DefaultAttribute
-from pyTerminalUI import LineTerminal, Severity
+from pyTerminalUI                    import LineTerminal, Severity
 
-from pyVersioning import Versioning, Platforms
-from pyVersioning.Configuration import Configuration
+from pyVersioning                    import Versioning, Platforms
+from pyVersioning.Configuration      import Configuration
 
 
-class Application(Versioning, LineTerminal, ArgParseMixin):
+class Application(LineTerminal, ArgParseMixin):
 	HeadLine = "Version file generator."
 
 	def __init__(self, configFile : Path):
-		LineTerminal.__init__(self)
 		super().__init__()
 		ArgParseMixin.__init__(
 			self,
@@ -61,12 +60,16 @@ class Application(Versioning, LineTerminal, ArgParseMixin):
 	  )
 
 		self._LOG_MESSAGE_FORMAT__[Severity.Fatal] = "{DARK_RED}[FATAL] {message}{NOCOLOR}"
-		self._LOG_MESSAGE_FORMAT__[Severity.Error] = "{RED}[ERROR] {message}{NOCOLOR}",
+		self._LOG_MESSAGE_FORMAT__[Severity.Error] = "{RED}[ERROR] {message}{NOCOLOR}"
+		self._LOG_MESSAGE_FORMAT__[Severity.Warning] = "{YELLOW}[WARNING] {message}{NOCOLOR}"
 
 		if not configFile.exists():
 			self.WriteWarning("Configuration file '{file!s}' does not exist.".format(file=configFile))
 		else:
 			self._config = Configuration(configFile)
+
+		self._versioning = Versioning(self)
+		self._versioning.collectData()
 
 
 	def PrintHeadline(self):
@@ -119,13 +122,13 @@ class Application(Versioning, LineTerminal, ArgParseMixin):
 
 		self.ExitOnPreviousErrors()
 
-		self.writeSourceFile(templateFile, outputFile)
+		self._versioning.writeSourceFile(templateFile, outputFile)
 
 	@CommandAttribute("variables", help="Print all available variables.")
 	def HandleVariables(self, args):
 		self.PrintHeadline()
 
-		for key,value in self.variables.items():
+		for key,value in self._versioning.variables.items():
 			self.WriteNormal("{key:24}: {value}".format(key=key, value=value))
 
 	@CommandAttribute("json", help="Write all available variables as JSON.")
@@ -141,7 +144,7 @@ class Application(Versioning, LineTerminal, ArgParseMixin):
 		  }}
 		}}
 		""")
-		output = content.format(**self.variables)
+		output = content.format(**self._versioning.variables)
 		self.WriteNormal(output)
 
 
@@ -149,28 +152,28 @@ class Application(Versioning, LineTerminal, ArgParseMixin):
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
 	def HandleYAML(self, args):
 		yamlEnvironment = "\n"
-		for key, value in self.variables['env'].as_dict().items():
+		for key, value in self._versioning.variables['env'].as_dict().items():
 			yamlEnvironment += f"    {key}: {value}\n".format(key=key, value=value)
 
 		yamlAppVeyor  = "\n#   not found"
 		yamlGitHub    = "\n#   not found"
 		yamlGitLab    = "\n#   not found"
 		yamlTravis    = "\n#   not found"
-		if self.platform is Platforms.AppVeyor:
+		if self._versioning.platform is Platforms.AppVeyor:
 			yamlAppVeyor = "\n"
-			for key, value in self.variables['appveyor'].as_dict().items():
+			for key, value in self._versioning.variables['appveyor'].as_dict().items():
 				yamlAppVeyor += f"    {key}: {value}\n".format(key=key, value=value)
-		elif self.platform is Platforms.GitHub:
+		elif self._versioning.platform is Platforms.GitHub:
 			yamlGitHub = "\n"
-			for key, value in self.variables['github'].as_dict().items():
+			for key, value in self._versioning.variables['github'].as_dict().items():
 				yamlGitHub += f"    {key}: {value}\n".format(key=key, value=value)
-		elif self.platform is Platforms.GitLab:
+		elif self._versioning.platform is Platforms.GitLab:
 			yamlGitLab = "\n"
-			for key, value in self.variables['gitlab'].as_dict().items():
+			for key, value in self._versioning.variables['gitlab'].as_dict().items():
 				yamlGitLab += f"    {key}: {value}\n".format(key=key, value=value)
-		elif self.platform is Platforms.Travis:
+		elif self._versioning.platform is Platforms.Travis:
 			yamlTravis = "\n"
-			for key, value in self.variables['travis'].as_dict().items():
+			for key, value in self._versioning.variables['travis'].as_dict().items():
 				yamlTravis += f"    {key}: {value}\n".format(key=key, value=value)
 
 		content = dedent("""\
@@ -209,7 +212,7 @@ class Application(Versioning, LineTerminal, ArgParseMixin):
 		  travis: {yamlTravis}
 		  env:{yamlEnvironment}
 		""")
-		output = content.format(**self.variables, yamlEnvironment=yamlEnvironment, yamlAppVeyor=yamlAppVeyor, yamlGitHub=yamlGitHub, yamlGitLab=yamlGitLab, yamlTravis=yamlTravis)
+		output = content.format(**self._versioning.variables, yamlEnvironment=yamlEnvironment, yamlAppVeyor=yamlAppVeyor, yamlGitHub=yamlGitHub, yamlGitLab=yamlGitLab, yamlTravis=yamlTravis)
 		self.WriteNormal(output)
 
 

@@ -51,7 +51,7 @@ class CIService:
 	ENV_EXCLUDES =        []
 
 	def getPlatform(self):
-		pass
+		raise NotImplemented()
 
 	def getEnvironment(self):
 		filteredEnv = {key:value for (key,value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
@@ -81,16 +81,16 @@ class CIService:
 		return Environment(**filteredEnv)
 
 	def getGitHash(self) -> str:
-		return ""
+		raise NotImplemented()
 
 	def getGitBranch(self) -> str:
-		return ""
+		raise NotImplemented()
 
 	def getGitTag(self) -> str:
-		return ""
+		raise NotImplemented()
 
 	def getGitRepository(self) -> str:
-		return ""
+		raise NotImplemented()
 
 
 class WorkStation(CIService):

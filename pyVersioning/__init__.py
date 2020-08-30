@@ -41,15 +41,17 @@ from dataclasses  import dataclass, make_dataclass, field
 from datetime     import datetime
 from pathlib      import Path
 from os           import environ
+from typing       import Union
 
 from flags        import Flags
 from pyTerminalUI import ILineTerminal
 
-from pyVersioning.AppVeyor  import AppVeyor
-from pyVersioning.CIService import WorkStation
-from pyVersioning.GitLab    import GitLab
-from pyVersioning.GitHub    import GitHub
-from pyVersioning.Travis    import Travis
+from pyVersioning.AppVeyor      import AppVeyor
+from pyVersioning.CIService     import WorkStation
+from pyVersioning.Configuration import Configuration
+from pyVersioning.GitLab        import GitLab
+from pyVersioning.GitHub        import GitHub
+from pyVersioning.Travis        import Travis
 
 
 @dataclass
@@ -61,10 +63,20 @@ class Version():
 
 	def __init__(self, major, minor=-1, patch=-1):
 		if isinstance(major, str):
+			if major.startswith(("V", "v", "I", "i", "R", "r")):
+				major = major[1:]
+			elif major.startswith(("rev", "REV")):
+				major = major[3:]
+
 			split = major.split(".")
 			self.major = int(split[0])
 			self.minor = int(split[1])
 			self.patch = int(split[2])
+			self.flags = 0
+		elif major is None:
+			self.major = 0
+			self.minor = 0
+			self.patch = 0
 			self.flags = 0
 		else:
 			self.major = major
@@ -113,6 +125,10 @@ class Project():
 	name    : str
 	variant : str
 
+	def __init__(self, name : str, variant : str = ""):
+		self.name    = name    if name    is not None else ""
+		self.variant = variant if variant is not None else ""
+
 
 @dataclass
 class Compiler():
@@ -120,6 +136,18 @@ class Compiler():
 	version       : Version
 	configuration : str
 	options       : str
+
+	def __init__(self, name : str, version : Union[str, Version] = "", configuration : str = "", options : str = ""):
+		self.name          = name          if name          is not None else ""
+		self.configuration = configuration if configuration is not None else ""
+		self.options       = options       if options       is not None else ""
+
+		if isinstance(version, Version):
+			self.version     = version
+		elif isinstance(version, str):
+			self.version     = Version(version)
+		elif version is None:
+			self.version     = Version(0, 0, 0)
 
 
 @dataclass
@@ -140,8 +168,10 @@ class Versioning(ILineTerminal):
 	platform  : int = Platforms.Workstation
 	variables : dict
 
-	def __init__(self, terminal):
+	def __init__(self, terminal : ILineTerminal):
 		super().__init__(terminal)
+
+		self.variables = {}
 
 		if 'APPVEYOR' in environ:
 			self.platform = Platforms.AppVeyor
@@ -154,9 +184,11 @@ class Versioning(ILineTerminal):
 		else:
 			self.platform = Platforms.Workstation
 
-	def collectData(self):
-		self.variables = {}
+	def loadDataFromConfiguration(self, config : Configuration):
+		self.variables['project'] = self.getProject(config.project)
+		self.variables['build']   = self.getBuild(config.build)
 
+	def collectData(self):
 		if self.platform is Platforms.AppVeyor:
 			self.service                = AppVeyor()
 			self.variables['appveyor']  = self.service.getEnvironment()
@@ -172,11 +204,9 @@ class Versioning(ILineTerminal):
 		else:
 			self.service                = WorkStation()
 
-		self.variables['tool']     = Tool("pyVersioning", Version(0,6,3)),
+		self.variables['tool']     = Tool("pyVersioning", Version(0,7,0)),
 		self.variables['version']  = self.getVersion()
 		self.variables['git']      = self.getGitInformation()
-		self.variables['project']  = self.getProject()
-		self.variables['build']    = self.getBuild()
 		self.variables['env']      = self.getEnvironment()
 		self.variables['platform'] = self.service.getPlatform()
 
@@ -299,24 +329,24 @@ class Versioning(ILineTerminal):
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
-	def getProject(self):
+	def getProject(self, config : Configuration.Project):
 		return Project(
-			name="not implemented",
-			variant="not implemented"
+			name=config.name,
+			variant=config.variant
 		)
 
-	def getBuild(self):
+	def getBuild(self, config : Configuration.Build):
 		return Build(
 			date=datetime.now(),
-			compiler=self.getCompiler()
+			compiler=self.getCompiler(config.compiler)
 		)
 
-	def getCompiler(self):
+	def getCompiler(self, config : Configuration.Build.Compiler):
 		return Compiler(
-			name="not implemeneted",
-			version=Version(0,0,0),
-			configuration="",
-			options=""
+			name=config.name,
+			version=Version(config.version),
+			configuration=config.configuration,
+			options=config.options
 		)
 
 	def getEnvironment(self):

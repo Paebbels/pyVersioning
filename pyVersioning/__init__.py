@@ -156,7 +156,7 @@ class Versioning(ILineTerminal):
 
 	def collectData(self):
 		self.variables = {}
-		self.variables['tool']     = Tool("pyVersioning", Version(0,6,0)),
+		self.variables['tool']     = Tool("pyVersioning", Version(0,6,2)),
 		self.variables['version']  = self.getVersion()
 		self.variables['git']      = self.getGitInformation()
 		self.variables['project']  = self.getProject()

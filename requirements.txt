@@ -1,6 +1,6 @@
 autocomplete
+py-flags>=1.1.4
+ruamel.yaml>=0.16.10
 
-py-flags
-
-pyAttributes
-pyTerminalUI
+pyAttributes>=2.0.0
+pyTerminalUI>=1.3.3

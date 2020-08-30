@@ -156,12 +156,6 @@ class Versioning(ILineTerminal):
 
 	def collectData(self):
 		self.variables = {}
-		self.variables['tool']     = Tool("pyVersioning", Version(0,6,2)),
-		self.variables['version']  = self.getVersion()
-		self.variables['git']      = self.getGitInformation()
-		self.variables['project']  = self.getProject()
-		self.variables['build']    = self.getBuild()
-		self.variables['env']      = self.getEnvironment()
 
 		if self.platform is Platforms.AppVeyor:
 			self.service                = AppVeyor()
@@ -178,6 +172,12 @@ class Versioning(ILineTerminal):
 		else:
 			self.service                = WorkStation()
 
+		self.variables['tool']     = Tool("pyVersioning", Version(0,6,3)),
+		self.variables['version']  = self.getVersion()
+		self.variables['git']      = self.getGitInformation()
+		self.variables['project']  = self.getProject()
+		self.variables['build']    = self.getBuild()
+		self.variables['env']      = self.getEnvironment()
 		self.variables['platform'] = self.service.getPlatform()
 
 	def getVersion(self) -> Version:

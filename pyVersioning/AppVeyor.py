@@ -56,7 +56,7 @@ class AppVeyor(CIService):
 	def getGitBranch(self):
 		try:
 			return environ['APPVEYOR_REPO_BRANCH']
-		except:
+		except KeyError:
 			pass
 
 		return None
@@ -64,7 +64,7 @@ class AppVeyor(CIService):
 	def getGitTag(self):
 		try:
 			return environ['APPVEYOR_REPO_TAG_NAME']
-		except:
+		except KeyError:
 			pass
 
 		return None

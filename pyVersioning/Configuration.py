@@ -38,6 +38,8 @@
 #
 from ruamel.yaml    import YAML
 
+from pyCommonClasses.Version import Version
+
 
 class Base():
 	root = None
@@ -49,14 +51,18 @@ class Base():
 
 class Configuration():
 	class Project(Base):
-		name    : str = None
-		variant : str = None
+		name    : str     = None
+		variant : str     = None
+		version : Version = None
 
 		def __init__(self, root, parent, settings):
 			super().__init__(root, parent)
 
 			self.name     = settings['name']
-			self.variant  = settings['variant']
+			if 'variant' in settings:
+				self.variant  = settings['variant']
+			if 'version' in settings:
+				self.version  = Version(settings['version'])
 
 	class Build(Base):
 		class Compiler(Base):
@@ -73,7 +79,7 @@ class Configuration():
 				self.configuration = settings['configuration']
 				self.options       = settings['options']
 
-		compiler     : Compiler = None
+		compiler : Compiler = None
 
 		def __init__(self, root, parent, settings):
 			super().__init__(root, parent)
@@ -82,19 +88,25 @@ class Configuration():
 				self.compiler = self.Compiler(root, self, settings['compiler'])
 
 
-	version:          int =               None
-	project:          Project =           None
-	build:            Build =             None
+	version : int =     None
+	project : Project = None
+	build   : Build =   None
 
 	def __init__(self, configFile):
 		yaml =   YAML()
 		config = yaml.load(configFile)
 
-		self.version =        int(config['version'])
+		if 'version' in config:
+			self.version = int(config['version'])
+		else:
+			self.version = 1
 
 		if self.version == 1:
 			self.loadVersion1(config)
 
 	def loadVersion1(self, config):
-		self.project =        self.Project(self, self, config['project'])
-		self.build =          self.Build(self, self, config['build'])
+		if 'project' in config:
+			self.project = self.Project(self, self, config['project'])
+
+		if 'build' in config:
+			self.build = self.Build(self, self, config['build'])

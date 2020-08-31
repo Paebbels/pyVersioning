@@ -56,7 +56,7 @@ class GitLab(CIService):
 	def getGitBranch(self):
 		try:
 			return environ['CI_COMMIT_BRANCH']
-		except:
+		except KeyError:
 			pass
 
 		return None
@@ -64,7 +64,7 @@ class GitLab(CIService):
 	def getGitTag(self):
 		try:
 			return environ['CI_COMMIT_TAG']
-		except:
+		except KeyError:
 			pass
 
 		return None

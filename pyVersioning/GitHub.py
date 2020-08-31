@@ -60,7 +60,7 @@ class GitHub(CIService):
 			ref = environ['GITHUB_REF']
 			if ref.startswith(branchPrefix):
 				return ref[len(branchPrefix):]
-		except:
+		except KeyError:
 			pass
 
 		return None
@@ -72,7 +72,7 @@ class GitHub(CIService):
 			ref = environ['GITHUB_REF']
 			if ref.startswith(tagPrefix):
 				return ref[len(tagPrefix):]
-		except:
+		except KeyError:
 			pass
 
 		return None

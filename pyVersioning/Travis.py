@@ -56,7 +56,7 @@ class Travis(CIService):
 	def getGitBranch(self) -> str:
 		try:
 			return environ['TRAVIS_BRANCH']
-		except:
+		except KeyError:
 			pass
 
 		return None
@@ -64,7 +64,7 @@ class Travis(CIService):
 	def getGitTag(self):
 		try:
 			return environ['TRAVIS_TAG']
-		except:
+		except KeyError:
 			pass
 
 		return None

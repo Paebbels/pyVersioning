@@ -3,4 +3,5 @@ py-flags>=1.1.4
 ruamel.yaml>=0.16.10
 
 pyAttributes>=2.0.0
+pyCommonClasses>=0.1.2
 pyTerminalUI>=1.3.3

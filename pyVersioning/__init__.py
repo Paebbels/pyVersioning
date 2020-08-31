@@ -43,8 +43,9 @@ from pathlib      import Path
 from os           import environ
 from typing       import Union
 
-from flags        import Flags
-from pyTerminalUI import ILineTerminal
+from flags                      import Flags
+from pyCommonClasses.Version    import Version
+from pyTerminalUI               import ILineTerminal
 
 from pyVersioning.AppVeyor      import AppVeyor
 from pyVersioning.CIService     import WorkStation
@@ -52,43 +53,6 @@ from pyVersioning.Configuration import Configuration
 from pyVersioning.GitLab        import GitLab
 from pyVersioning.GitHub        import GitHub
 from pyVersioning.Travis        import Travis
-
-
-@dataclass
-class Version():
-	flags : int
-	major : int
-	minor : int
-	patch : int
-
-	def __init__(self, major, minor=-1, patch=-1):
-		if isinstance(major, str):
-			if major.startswith(("V", "v", "I", "i", "R", "r")):
-				major = major[1:]
-			elif major.startswith(("rev", "REV")):
-				major = major[3:]
-
-			split = major.split(".")
-			self.major = int(split[0])
-			self.minor = int(split[1])
-			self.patch = int(split[2])
-			self.flags = 0
-		elif major is None:
-			self.major = 0
-			self.minor = 0
-			self.patch = 0
-			self.flags = 0
-		else:
-			self.major = major
-			self.minor = minor
-			self.patch = patch
-			self.flags = 0
-
-	def __str__(self):
-		return "v{0}.{1}.{2}".format(self.major, self.minor, self.patch)
-
-	def __repr__(self):
-		return "{0}.{1}.{2}".format(self.major, self.minor, self.patch)
 
 
 @dataclass
@@ -125,9 +89,10 @@ class Project():
 	name    : str
 	variant : str
 
-	def __init__(self, name : str, variant : str = ""):
+	def __init__(self, name : str, variant : str = "", version : str = ""):
 		self.name    = name    if name    is not None else ""
 		self.variant = variant if variant is not None else ""
+		self.version = Version(version)
 
 
 @dataclass
@@ -187,6 +152,7 @@ class Versioning(ILineTerminal):
 	def loadDataFromConfiguration(self, config : Configuration):
 		self.variables['project'] = self.getProject(config.project)
 		self.variables['build']   = self.getBuild(config.build)
+		self.variables['version'] = self.getVersion(config.project)
 
 	def collectData(self):
 		if self.platform is Platforms.AppVeyor:
@@ -204,14 +170,22 @@ class Versioning(ILineTerminal):
 		else:
 			self.service                = WorkStation()
 
-		self.variables['tool']     = Tool("pyVersioning", Version(0,7,0)),
-		self.variables['version']  = self.getVersion()
+		self.variables['tool']     = Tool("pyVersioning", Version(0,7,1)),
 		self.variables['git']      = self.getGitInformation()
 		self.variables['env']      = self.getEnvironment()
 		self.variables['platform'] = self.service.getPlatform()
 
-	def getVersion(self) -> Version:
-		return Version("0.0.0")
+		self.calculateData()
+
+	def calculateData(self):
+		if self.variables['git'].tag != "":
+			pass
+
+	def getVersion(self, config : Configuration.Project) -> Version:
+		if config.version is not None:
+			return config.version
+		else:
+			return Version("0.0.0")
 
 	def getGitInformation(self):
 		return Git(

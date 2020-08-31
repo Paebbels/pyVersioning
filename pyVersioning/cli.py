@@ -52,6 +52,7 @@ class ProjectAttributeGroup(Attribute):
 	def __call__(self, func):
 		self._AppendAttribute(func, ArgumentAttribute("--project-name",    metavar='<Name>',    dest="ProjectName",    type=str, help="Name of the project."))
 		self._AppendAttribute(func, ArgumentAttribute("--project-variant", metavar='<Variant>', dest="ProjectVariant", type=str, help="Variant of the project."))
+		self._AppendAttribute(func, ArgumentAttribute("--project-version", metavar='<Version>', dest="ProjectVersion", type=str, help="Version of the project."))
 		return func
 
 class CompilerAttributeGroup(Attribute):
@@ -78,6 +79,7 @@ class Application(LineTerminal, ArgParseMixin):
 		self._LOG_MESSAGE_FORMAT__[Severity.Fatal] = "{DARK_RED}[FATAL] {message}{NOCOLOR}"
 		self._LOG_MESSAGE_FORMAT__[Severity.Error] = "{RED}[ERROR] {message}{NOCOLOR}"
 		self._LOG_MESSAGE_FORMAT__[Severity.Warning] = "{YELLOW}[WARNING] {message}{NOCOLOR}"
+		self._LOG_MESSAGE_FORMAT__[Severity.Normal] = "{GRAY}{message}{NOCOLOR}"
 
 		if not configFile.exists():
 			self.WriteWarning("Configuration file '{file!s}' does not exist.".format(file=configFile))
@@ -189,8 +191,8 @@ class Application(LineTerminal, ArgParseMixin):
 		self.updateCompiler(args)
 
 		yamlEnvironment = "\n"
-		for key, value in self._versioning.variables['env'].as_dict().items():
-			yamlEnvironment += f"    {key}: {value}\n".format(key=key, value=value)
+		# for key, value in self._versioning.variables['env'].as_dict().items():
+		# 	yamlEnvironment += f"    {key}: {value}\n".format(key=key, value=value)
 
 		yamlAppVeyor  = "\n#   not found"
 		yamlGitHub    = "\n#   not found"
@@ -254,12 +256,15 @@ class Application(LineTerminal, ArgParseMixin):
 
 	def updateProject(self, args):
 		if 'project' not in self._versioning.variables:
-			self._versioning.variables['project'] = Project(args.ProjectName, args.ProjectVariant)
+			self._versioning.variables['project'] = Project(args.ProjectName, args.ProjectVariant, args.ProjectVersion)
 		elif args.ProjectName is not None:
 			self._versioning.variables['project'].name = args.ProjectName
 
 		if args.ProjectVariant is not None:
 			self._versioning.variables['project'].variant = args.ProjectVariant
+
+		if args.ProjectVersion is not None:
+			self._versioning.variables['project'].version = args.ProjectVersion
 
 	def updateCompiler(self, args):
 		if args.CompilerName is not None:

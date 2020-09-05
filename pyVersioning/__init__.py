@@ -76,6 +76,8 @@ class Git():
 	repository  : str = ""
 
 	def __post_init__(self):
+		"""Calculate `reference` from `tag` or `branch`."""
+
 		if self.tag != "":
 			self.reference = self.tag
 		elif self.branch != "":
@@ -88,11 +90,20 @@ class Git():
 class Project():
 	name    : str
 	variant : str
+	version : Version
 
-	def __init__(self, name : str, variant : str = "", version : str = ""):
+	def __init__(self, name : str, variant : str = "", version : Union[str, Version] = ""):
+		"""Assign fields and convert version string to a `Version` object."""
+
 		self.name    = name    if name    is not None else ""
 		self.variant = variant if variant is not None else ""
-		self.version = Version(version)
+
+		if isinstance(version, Version):
+			self.version = version
+		elif isinstance(version, str):
+			self.version = Version(version)
+		elif version is None:
+			self.version = Version(0, 0, 0)
 
 
 @dataclass
@@ -103,6 +114,8 @@ class Compiler():
 	options       : str
 
 	def __init__(self, name : str, version : Union[str, Version] = "", configuration : str = "", options : str = ""):
+		"""Assign fields and convert version string to a `Version` object."""
+
 		self.name          = name          if name          is not None else ""
 		self.configuration = configuration if configuration is not None else ""
 		self.options       = options       if options       is not None else ""
@@ -150,11 +163,15 @@ class Versioning(ILineTerminal):
 			self.platform = Platforms.Workstation
 
 	def loadDataFromConfiguration(self, config : Configuration):
+		"""Preload versioning information from configuration file."""
+
 		self.variables['project'] = self.getProject(config.project)
 		self.variables['build']   = self.getBuild(config.build)
 		self.variables['version'] = self.getVersion(config.project)
 
 	def collectData(self):
+		"""Collect versioning information from environment including CI services (if available)."""
+
 		if self.platform is Platforms.AppVeyor:
 			self.service                = AppVeyor()
 			self.variables['appveyor']  = self.service.getEnvironment()

@@ -36,6 +36,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
+from pathlib        import WindowsPath, PosixPath
+
+from pyMetaClasses  import Overloading
 from ruamel.yaml    import YAML
 
 from pyCommonClasses.Version import Version
@@ -49,7 +52,7 @@ class Base():
 		self.root = root
 		self.parent = parent
 
-class Configuration():
+class Configuration(metaclass=Overloading):
 	class Project(Base):
 		name    : str     = None
 		variant : str     = None
@@ -92,7 +95,21 @@ class Configuration():
 	project : Project = None
 	build   : Build =   None
 
-	def __init__(self, configFile):
+	def __init__(self):
+		self.version = 1
+		self.project = self.Project(self, self, {
+			"name": "",
+			"variant": "",
+			"version": None
+		})
+
+	def __init__(self, configFile : PosixPath):
+		self.load(configFile)
+
+	def __init__(self, configFile : WindowsPath):
+		self.load(configFile)
+
+	def load(self, configFile):
 		yaml =   YAML()
 		config = yaml.load(configFile)
 

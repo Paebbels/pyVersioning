@@ -29,8 +29,8 @@ jobs:
 
       - name: Execute
         run: |
-          python -m pyVersioning help
-          python -m pyVersioning yaml
+          python -m pyVersioning.cli help
+          python -m pyVersioning.cli yaml
 
 #      - name: Run unit tests
 #        run: |

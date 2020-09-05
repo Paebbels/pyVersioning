@@ -83,6 +83,7 @@ class Application(LineTerminal, ArgParseMixin):
 
 		if not configFile.exists():
 			self.WriteWarning("Configuration file '{file!s}' does not exist.".format(file=configFile))
+			self._config = Configuration()
 		else:
 			self._config = Configuration(configFile)
 

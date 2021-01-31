@@ -118,6 +118,7 @@ jobs:
           name: wheel-package
           path: |
             dist/*.whl
+          if-no-files-found: error
           retention-days: 1
 
   Execute:
@@ -137,6 +138,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: wheel-package
+          path: dist
 
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
@@ -145,7 +147,7 @@ jobs:
 
       - name: Install package
         run: |
-          pip install *.whl
+          pip install dist/*.whl
 
       - name: Execute 'help' command
         run: |
@@ -163,11 +165,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: source-package
+          path: dist
 
       - name: Download artifact (Wheel)
         uses: actions/download-artifact@v2
         with:
           name: wheel-package
+          path: dist
 
       - name: Setup Python ${{ env.PYTHON }}
         uses: actions/setup-python@v2

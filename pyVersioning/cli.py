@@ -65,10 +65,14 @@ class CompilerAttributeGroup(Attribute):
 
 
 class Application(LineTerminal, ArgParseMixin):
-	HeadLine = "Version file generator."
+	HeadLine:     str  = "Version file generator."
+	__configFile: Path
 
 	def __init__(self, configFile : Path):
 		super().__init__()
+
+		self.__configFile = configFile
+
 		ArgParseMixin.__init__(
 			self,
 	    description=dedent("Version file generator"),
@@ -76,16 +80,17 @@ class Application(LineTerminal, ArgParseMixin):
 	    add_help=False
 	  )
 
-		self._LOG_MESSAGE_FORMAT__[Severity.Fatal] = "{DARK_RED}[FATAL] {message}{NOCOLOR}"
-		self._LOG_MESSAGE_FORMAT__[Severity.Error] = "{RED}[ERROR] {message}{NOCOLOR}"
+		self._LOG_MESSAGE_FORMAT__[Severity.Fatal]   = "{DARK_RED}[FATAL] {message}{NOCOLOR}"
+		self._LOG_MESSAGE_FORMAT__[Severity.Error]   = "{RED}[ERROR] {message}{NOCOLOR}"
 		self._LOG_MESSAGE_FORMAT__[Severity.Warning] = "{YELLOW}[WARNING] {message}{NOCOLOR}"
-		self._LOG_MESSAGE_FORMAT__[Severity.Normal] = "{GRAY}{message}{NOCOLOR}"
+		self._LOG_MESSAGE_FORMAT__[Severity.Normal]  = "{GRAY}{message}{NOCOLOR}"
 
-		if not configFile.exists():
+	def Initilaize(self):
+		if not self.__configFile.exists():
 			self.WriteWarning("Configuration file '{file!s}' does not exist.".format(file=configFile))
 			self._config = Configuration()
 		else:
-			self._config = Configuration(configFile)
+			self._config = Configuration(self.__configFile)
 
 		self._versioning = Versioning(self)
 		self._versioning.loadDataFromConfiguration(self._config)
@@ -127,6 +132,7 @@ class Application(LineTerminal, ArgParseMixin):
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, help="Output filename.")
 	def HandleFillOut(self, args):
 		self.PrintHeadline()
+		self.Initilaize()
 
 		templateFile = Path(args.Template)
 		if not templateFile.exists():
@@ -144,8 +150,8 @@ class Application(LineTerminal, ArgParseMixin):
 
 		self.ExitOnPreviousErrors()
 
-		self.updateProject(args)
-		self.updateCompiler(args)
+		self.UpdateProject(args)
+		self.UpdateCompiler(args)
 
 		self._versioning.writeSourceFile(templateFile, outputFile)
 
@@ -154,9 +160,10 @@ class Application(LineTerminal, ArgParseMixin):
 	@CompilerAttributeGroup()
 	def HandleVariables(self, args):
 		self.PrintHeadline()
+		self.Initilaize()
 
-		self.updateProject(args)
-		self.updateCompiler(args)
+		self.UpdateProject(args)
+		self.UpdateCompiler(args)
 
 		for key,value in self._versioning.variables.items():
 			self.WriteNormal("{key:24}: {value}".format(key=key, value=value))
@@ -166,8 +173,10 @@ class Application(LineTerminal, ArgParseMixin):
 	@CompilerAttributeGroup()
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
 	def HandleJSON(self, args):
-		self.updateProject(args)
-		self.updateCompiler(args)
+		self.Initilaize()
+
+		self.UpdateProject(args)
+		self.UpdateCompiler(args)
 
 		content = dedent("""\
 		{{
@@ -188,8 +197,10 @@ class Application(LineTerminal, ArgParseMixin):
 	@CompilerAttributeGroup()
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
 	def HandleYAML(self, args):
-		self.updateProject(args)
-		self.updateCompiler(args)
+		self.Initilaize()
+
+		self.UpdateProject(args)
+		self.UpdateCompiler(args)
 
 		yamlEnvironment = "\n"
 		# for key, value in self._versioning.variables['env'].as_dict().items():
@@ -255,7 +266,7 @@ class Application(LineTerminal, ArgParseMixin):
 		output = content.format(**self._versioning.variables, yamlEnvironment=yamlEnvironment, yamlAppVeyor=yamlAppVeyor, yamlGitHub=yamlGitHub, yamlGitLab=yamlGitLab, yamlTravis=yamlTravis)
 		self.WriteNormal(output)
 
-	def updateProject(self, args):
+	def UpdateProject(self, args):
 		if 'project' not in self._versioning.variables:
 			self._versioning.variables['project'] = Project(args.ProjectName, args.ProjectVariant, args.ProjectVersion)
 		elif args.ProjectName is not None:
@@ -267,7 +278,7 @@ class Application(LineTerminal, ArgParseMixin):
 		if args.ProjectVersion is not None:
 			self._versioning.variables['project'].version = args.ProjectVersion
 
-	def updateCompiler(self, args):
+	def UpdateCompiler(self, args):
 		if args.CompilerName is not None:
 			self._versioning.variables['build'].compiler.name = args.CompilerName
 		if args.CompilerVersion is not None:

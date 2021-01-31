@@ -1,7 +1,6 @@
 # EMACS settings: -*-  tab-width: 2; indent-tabs-mode: t -*-
 # vim: tabstop=2:shiftwidth=2:noexpandtab
 # kate: tab-width 2; replace-tabs off; indent-width 2;
-#
 # =============================================================================
 #            __     __            _             _
 #  _ __  _   \ \   / /__ _ __ ___(_) ___  _ __ (_)_ __   __ _
@@ -85,7 +84,9 @@ setuptools.setup(
 		"Programming Language :: Python :: 3 :: Only",
 		"Programming Language :: Python :: 3.7",
 		"Programming Language :: Python :: 3.8",
-		"Development Status :: 5 - Production/Stable",
+		"Development Status :: 3 - Alpha",
+		#		"Development Status :: 4 - Beta",
+		#		"Development Status :: 5 - Production/Stable",
 		"Intended Audience :: Developers",
 		"Topic :: Utilities"
 	],

@@ -323,7 +323,8 @@ class Versioning(ILineTerminal):
 	def getProject(self, config : Configuration.Project):
 		return Project(
 			name=config.name,
-			variant=config.variant
+			variant=config.variant,
+			version=config.version
 		)
 
 	def getBuild(self, config : Configuration.Build):

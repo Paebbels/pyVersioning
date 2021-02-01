@@ -287,6 +287,8 @@ class Versioning(ILineTerminal):
 			return ""
 		if completed.returncode == 0:
 			return completed.stdout.decode('utf-8').split("\n")[0]
+		elif completed.returncode == 1:
+			return "(local) {localBranch}".format(localBranch=localBranch)
 		else:
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))

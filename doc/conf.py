@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'pyVersioning'
-copyright = '2020-2020, Patrick Lehmann'
+copyright = '2020-2021, Patrick Lehmann'
 author = 'Patrick Lehmann'
 
 # ==============================================================================
@@ -41,7 +41,7 @@ def _LatestTagName():
 
 # The full version, including alpha/beta/rc tags
 version = "0.7"     # The short X.Y version.
-release = "0.7.1"   # The full version, including alpha/beta/rc tags.
+release = "0.7.2"   # The full version, including alpha/beta/rc tags.
 try:
 	if _IsUnderGitControl:
 		latestTagName = _LatestTagName()[1:]		# remove prefix "v"

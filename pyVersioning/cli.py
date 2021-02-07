@@ -36,6 +36,7 @@
 from argparse     import RawDescriptionHelpFormatter
 from pathlib      import Path
 from textwrap     import dedent
+from typing import NoReturn
 
 from pyAttributes                    import Attribute
 from pyAttributes.ArgParseAttributes import ArgParseMixin, CommandAttribute, ArgumentAttribute, DefaultAttribute
@@ -65,7 +66,7 @@ class Application(LineTerminal, ArgParseMixin):
 	HeadLine:     str  = "Version file generator."
 	__configFile: Path
 
-	def __init__(self, configFile : Path):
+	def __init__(self, configFile: Path) -> None:
 		super().__init__()
 
 		self.__configFile = configFile
@@ -82,7 +83,7 @@ class Application(LineTerminal, ArgParseMixin):
 		self._LOG_MESSAGE_FORMAT__[Severity.Warning] = "{YELLOW}[WARNING] {message}{NOCOLOR}"
 		self._LOG_MESSAGE_FORMAT__[Severity.Normal]  = "{GRAY}{message}{NOCOLOR}"
 
-	def Initialize(self):
+	def Initialize(self) -> None:
 		if not self.__configFile.exists():
 			self.WriteWarning("Configuration file '{file!s}' does not exist.".format(file=self.__configFile))
 			self._config = Configuration()
@@ -93,22 +94,23 @@ class Application(LineTerminal, ArgParseMixin):
 		self._versioning.loadDataFromConfiguration(self._config)
 		self._versioning.collectData()
 
-	def PrintHeadline(self):
+	def PrintHeadline(self) -> None:
 		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
 		self.WriteNormal("{HEADLINE}{headline: ^80s}".format(headline=self.HeadLine, **LineTerminal.Foreground))
 		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
 
-	def Run(self):
+	def Run(self) -> NoReturn:
 		ArgParseMixin.Run(self)
+		self.exit()
 
 	@DefaultAttribute()
-	def HandleDefault(self, args):
+	def HandleDefault(self, args) -> None:
 		self.PrintHeadline()
 		self.MainParser.print_help()
 
 	@CommandAttribute("help", help="Display help page(s) for the given command name.")
 	@ArgumentAttribute(metavar="Command", dest="Command", type=str, nargs="?", help="Print help page(s) for a command.")
-	def HandleHelp(self, args):
+	def HandleHelp(self, args) -> None:
 		self.PrintHeadline()
 
 		if (args.Command is None):
@@ -126,7 +128,7 @@ class Application(LineTerminal, ArgParseMixin):
 	@CompilerAttributeGroup()
 	@ArgumentAttribute(metavar='<Template file>', dest="Template", type=str, help="Template input filename.")
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, help="Output filename.")
-	def HandleFillOut(self, args):
+	def HandleFillOut(self, args) -> None:
 		self.PrintHeadline()
 		self.Initialize()
 
@@ -154,7 +156,7 @@ class Application(LineTerminal, ArgParseMixin):
 	@CommandAttribute("variables", help="Print all available variables.")
 	@ProjectAttributeGroup()
 	@CompilerAttributeGroup()
-	def HandleVariables(self, args):
+	def HandleVariables(self, args) -> None:
 		self.PrintHeadline()
 		self.Initialize()
 
@@ -168,7 +170,7 @@ class Application(LineTerminal, ArgParseMixin):
 	@ProjectAttributeGroup()
 	@CompilerAttributeGroup()
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
-	def HandleJSON(self, args):
+	def HandleJSON(self, args) -> None:
 		self.Initialize()
 
 		self.UpdateProject(args)
@@ -192,7 +194,7 @@ class Application(LineTerminal, ArgParseMixin):
 	@ProjectAttributeGroup()
 	@CompilerAttributeGroup()
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
-	def HandleYAML(self, args):
+	def HandleYAML(self, args) -> None:
 		self.Initialize()
 
 		self.UpdateProject(args)
@@ -262,7 +264,7 @@ class Application(LineTerminal, ArgParseMixin):
 		output = content.format(**self._versioning.variables, yamlEnvironment=yamlEnvironment, yamlAppVeyor=yamlAppVeyor, yamlGitHub=yamlGitHub, yamlGitLab=yamlGitLab, yamlTravis=yamlTravis)
 		self.WriteNormal(output)
 
-	def UpdateProject(self, args):
+	def UpdateProject(self, args) -> None:
 		if 'project' not in self._versioning.variables:
 			self._versioning.variables['project'] = Project(args.ProjectName, args.ProjectVersion, args.ProjectVariant)
 		elif args.ProjectName is not None:
@@ -274,7 +276,7 @@ class Application(LineTerminal, ArgParseMixin):
 		if args.ProjectVersion is not None:
 			self._versioning.variables['project'].version = args.ProjectVersion
 
-	def UpdateCompiler(self, args):
+	def UpdateCompiler(self, args) -> None:
 		if args.CompilerName is not None:
 			self._versioning.variables['build'].compiler.name = args.CompilerName
 		if args.CompilerVersion is not None:
@@ -285,13 +287,12 @@ class Application(LineTerminal, ArgParseMixin):
 			self._versioning.variables['build'].compiler.options = args.CompilerOptions
 
 
-def main():
+def main() -> NoReturn:
 	configFile = Path(".pyVersioning.yml")
 
 	Application.versionCheck((3,7,0))
 	application = Application(configFile)
 	application.Run()
-	application.exit()
 
 
 if __name__ == '__main__':

@@ -35,10 +35,10 @@
 #
 from subprocess   import run as subprocess_run, PIPE
 from dataclasses  import dataclass, make_dataclass, field
-from datetime     import datetime
+from datetime     import date, time, datetime
 from pathlib      import Path
 from os           import environ
-from typing       import Union
+from typing import Union, Any
 
 from flags                      import Flags
 from pyCommonClasses.Version    import Version
@@ -60,8 +60,9 @@ class Tool():
 
 @dataclass
 class Commit():
-	hash : str
-	date : datetime
+	hash: str
+	date: date
+	time: time
 
 
 @dataclass
@@ -72,7 +73,7 @@ class Git():
 	branch      : str = ""
 	repository  : str = ""
 
-	def __post_init__(self):
+	def __post_init__(self) -> None:
 		"""Calculate `reference` from `tag` or `branch`."""
 
 		if self.tag != "":
@@ -89,7 +90,7 @@ class Project():
 	variant : str
 	version : Version
 
-	def __init__(self, name: str, version: Union[str, Version] = None, variant: str = None):
+	def __init__(self, name: str, version: Union[str, Version] = None, variant: str = None) -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self.name    = name    if name    is not None else ""
@@ -105,12 +106,12 @@ class Project():
 
 @dataclass
 class Compiler():
-	name          : str
-	version       : Version
-	configuration : str
-	options       : str
+	name:           str
+	version:        Version
+	configuration:  str
+	options:        str
 
-	def __init__(self, name : str, version : Union[str, Version] = "", configuration : str = "", options : str = ""):
+	def __init__(self, name: str, version: Union[str, Version] = "", configuration: str = "", options: str = "") -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self.name          = name          if name          is not None else ""
@@ -127,8 +128,9 @@ class Compiler():
 
 @dataclass
 class Build():
-	date     : datetime
-	compiler : Compiler
+	date:     date
+	time:     time
+	compiler: Compiler
 
 
 class Platforms(Flags):
@@ -143,7 +145,7 @@ class Versioning(ILineTerminal):
 	platform  : int = Platforms.Workstation
 	variables : dict
 
-	def __init__(self, terminal : ILineTerminal):
+	def __init__(self, terminal: ILineTerminal):
 		super().__init__(terminal)
 
 		self.variables = {}
@@ -159,14 +161,14 @@ class Versioning(ILineTerminal):
 		else:
 			self.platform = Platforms.Workstation
 
-	def loadDataFromConfiguration(self, config : Configuration):
+	def loadDataFromConfiguration(self, config: Configuration) -> None:
 		"""Preload versioning information from configuration file."""
 
 		self.variables['project'] = self.getProject(config.project)
 		self.variables['build']   = self.getBuild(config.build)
 		self.variables['version'] = self.getVersion(config.project)
 
-	def collectData(self):
+	def collectData(self) -> None:
 		"""Collect versioning information from environment including CI services (if available)."""
 
 		if self.platform is Platforms.AppVeyor:
@@ -191,17 +193,17 @@ class Versioning(ILineTerminal):
 
 		self.calculateData()
 
-	def calculateData(self):
+	def calculateData(self) -> None:
 		if self.variables['git'].tag != "":
 			pass
 
-	def getVersion(self, config : Configuration.Project) -> Version:
+	def getVersion(self, config: Configuration.Project) -> Version:
 		if config.version is not None:
 			return config.version
 		else:
 			return Version("0.0.0")
 
-	def getGitInformation(self):
+	def getGitInformation(self) -> Git:
 		return Git(
 			commit=self.getLastCommit(),
 			tag=self.getGitTag(),
@@ -209,13 +211,15 @@ class Versioning(ILineTerminal):
 			repository=self.getGitRemoteURL()
 		)
 
-	def getLastCommit(self):
+	def getLastCommit(self) -> Commit:
+		dt = self.getCommitDate()
 		return Commit(
 			hash=self.getGitHash(),
-			date=self.getCommitDate()
+			date=dt.date(),
+			time=dt.time()
 		)
 
-	def getGitHash(self):
+	def getGitHash(self) -> str:
 		if self.platform is not Platforms.Workstation:
 			return self.service.getGitHash()
 
@@ -230,20 +234,22 @@ class Versioning(ILineTerminal):
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
-	def getCommitDate(self):
+	def getCommitDate(self) -> datetime:
 		try:
 			command =   "git show -s --format=%ct HEAD"
 			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
 		except:
-			return None
+			raise Exception
+
 		if completed.returncode == 0:
 			ts = int(completed.stdout.decode('utf-8').split("\n")[0])
 			return datetime.fromtimestamp(ts)
 		else:
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+			raise Exception
 
-	def getGitLocalBranch(self):
+	def getGitLocalBranch(self) -> str:
 		if self.platform is not Platforms.Workstation:
 			return self.service.getGitBranch()
 
@@ -258,7 +264,7 @@ class Versioning(ILineTerminal):
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
-	def getGitRemoteBranch(self, localBranch : str = None):
+	def getGitRemoteBranch(self, localBranch: str = None) -> str:
 		if localBranch is None:
 			localBranch = self.getGitLocalBranch()
 
@@ -266,14 +272,16 @@ class Versioning(ILineTerminal):
 			command =   "git config branch.{localBranch}.merge".format(localBranch=localBranch)
 			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
 		except:
-			return ""
+			raise Exception
+
 		if completed.returncode == 0:
 			return completed.stdout.decode('utf-8').split("\n")[0]
 		else:
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+			raise Exception
 
-	def getGitRemote(self, localBranch : str = None):
+	def getGitRemote(self, localBranch: str = None) -> str:
 		if localBranch is None:
 			localBranch = self.getGitLocalBranch()
 
@@ -281,7 +289,8 @@ class Versioning(ILineTerminal):
 			command =   "git config branch.{localBranch}.remote".format(localBranch=localBranch)
 			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
 		except:
-			return ""
+			raise Exception
+
 		if completed.returncode == 0:
 			return completed.stdout.decode('utf-8').split("\n")[0]
 		elif completed.returncode == 1:
@@ -290,8 +299,9 @@ class Versioning(ILineTerminal):
 		else:
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+			raise Exception
 
-	def getGitTag(self):
+	def getGitTag(self) -> str:
 		if self.platform is not Platforms.Workstation:
 			return self.service.getGitTag()
 
@@ -299,41 +309,47 @@ class Versioning(ILineTerminal):
 			command =   "git tag --points-at HEAD"
 			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
 		except:
-			return ""
+			raise Exception
+
 		if completed.returncode == 0:
 			return completed.stdout.decode('utf-8').split("\n")[0]
 		else:
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+			raise Exception
 
-	def getGitRemoteURL(self, remote : str = None):
+	def getGitRemoteURL(self, remote: str = None) -> str:
 		if remote is None:
 			remote = self.getGitRemote()
 		try:
 			command =   "git config remote.{remote}.url".format(remote=remote)
 			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
 		except:
-			return ""
+			raise Exception
+
 		if completed.returncode == 0:
 			return completed.stdout.decode('utf-8').split("\n")[0]
 		else:
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+			raise Exception
 
-	def getProject(self, config : Configuration.Project):
+	def getProject(self, config: Configuration.Project) -> Project:
 		return Project(
 			name=config.name,
 			version=config.version,
 			variant=config.variant
 		)
 
-	def getBuild(self, config : Configuration.Build):
+	def getBuild(self, config: Configuration.Build) -> Build:
+		dt = datetime.now()
 		return Build(
-			date=datetime.now(),
+			date=dt.date(),
+			time=dt.time(),
 			compiler=self.getCompiler(config.compiler)
 		)
 
-	def getCompiler(self, config : Configuration.Build.Compiler):
+	def getCompiler(self, config: Configuration.Build.Compiler) -> Compiler:
 		return Compiler(
 			name=config.name,
 			version=Version(config.version),
@@ -341,7 +357,7 @@ class Versioning(ILineTerminal):
 			options=config.options
 		)
 
-	def getEnvironment(self):
+	def getEnvironment(self) -> Any:
 		env = {}
 		for key, value in environ.items():
 			if not key.isidentifier():
@@ -362,9 +378,8 @@ class Versioning(ILineTerminal):
 
 		return Environment(**env)
 
-	def writeSourceFile(self, template : Path, filename : Path):
-		with template.open('r') as file:
-			content = template.read_text()
+	def writeSourceFile(self, template: Path, filename: Path) -> None:
+		content = template.read_text()
 
 		# apply variables
 		content = content.format(**self.variables)

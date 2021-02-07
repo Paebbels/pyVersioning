@@ -45,9 +45,9 @@ const VersioningInformation versioningInformation = {{
 					.year =  {git.commit.date.year}
 				}},
 				.time = {{
-					.hour =   {git.commit.date.hour},
-					.minute = {git.commit.date.minute},
-					.second = {git.commit.date.second}
+					.hour =   {git.commit.time.hour},
+					.minute = {git.commit.time.minute},
+					.second = {git.commit.time.second}
 				}}
 			}}
 		}},
@@ -66,9 +66,9 @@ const VersioningInformation versioningInformation = {{
 				.year =     {build.date.year}
 			}},
 			.time = {{
-				.hour =     {build.date.hour},
-				.minute =   {build.date.minute},
-				.second =   {build.date.second}
+				.hour =     {build.time.hour},
+				.minute =   {build.time.minute},
+				.second =   {build.time.second}
 			}}
 		}},
 		.compiler = {{

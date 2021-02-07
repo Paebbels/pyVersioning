@@ -8,7 +8,7 @@
 # =============================================================================
 # Authors:            Patrick Lehmann
 #
-# Python package:     GitHub specific code to collect the build environment
+# Python unittest:    Testing the pyTerminalUI module
 #
 # Description:
 # ------------------------------------
@@ -33,46 +33,58 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-from os import environ
+from unittest     import TestCase
 
-from pyVersioning.CIService import CIService, Platform
+from pyCommonClasses.Version import Version
+
+from pyVersioning import Project
 
 
-class GitHub(CIService):
-	ENV_INCLUDE_FILTER =  ("GITHUB_")
-	ENV_EXCLUDE_FILTER =  ("_TOKEN")
-	ENV_INCLUDES =        ['CI']
-	ENV_EXCLUDES =        []
+if __name__ == "__main__":
+	print("ERROR: you called a testcase declaration file as an executable module.")
+	print("Use: 'python -m unitest <testcase module>'")
+	exit(1)
 
-	def getPlatform(self):
-		return Platform("github")
 
-	def getGitHash(self):
-		return environ['GITHUB_SHA']
+class ProjectTests(TestCase):
+	def test_ProjectName(self):
+		name = "Project 1"
+		variant = ""
 
-	def getGitBranch(self):
-		branchPrefix = "refs/heads/"
+		project = Project(name)
 
-		try:
-			ref = environ['GITHUB_REF']
-			if ref.startswith(branchPrefix):
-				return ref[len(branchPrefix):]
-		except KeyError:
-			pass
+		self.assertEqual(project.name, name)
+		self.assertEqual(project.variant, variant)
+		self.assertEqual(project.version, Version("0.0.0"))
 
-		return None
+	def test_ProjectName_VariantName(self):
+		name = "Project 1"
+		variant = "Variant 1"
 
-	def getGitTag(self):
-		tagPrefix    = "refs/tags/"
+		project = Project(name, variant=variant)
 
-		try:
-			ref = environ['GITHUB_REF']
-			if ref.startswith(tagPrefix):
-				return ref[len(tagPrefix):]
-		except KeyError:
-			pass
+		self.assertEqual(project.name, name)
+		self.assertEqual(project.variant, variant)
+		self.assertEqual(project.version, Version("0.0.0"))
 
-		return None
+	def test_ProjectName_VersionAsString(self):
+		name = "Project 1"
+		variant = ""
+		version = "0.1.2"
 
-	def getGitRepository(self):
-		return environ['GITHUB_REPOSITORY']
+		project = Project(name, version)
+
+		self.assertEqual(project.name, name)
+		self.assertEqual(project.variant, variant)
+		self.assertEqual(project.version, Version(version))
+
+	def test_ProjectName_VersionAsVersion(self):
+		name = "Project 1"
+		variant = ""
+		version = Version("1.3.2")
+
+		project = Project(name, version)
+
+		self.assertEqual(project.name, name)
+		self.assertEqual(project.variant, variant)
+		self.assertIs(project.version, version)

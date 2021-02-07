@@ -1,6 +1,3 @@
-# EMACS settings: -*-  tab-width: 2; indent-tabs-mode: t -*-
-# vim: tabstop=2:shiftwidth=2:noexpandtab
-# kate: tab-width 2; replace-tabs off; indent-width 2;
 # =============================================================================
 #            __     __            _             _
 #  _ __  _   \ \   / /__ _ __ ___(_) ___  _ __ (_)_ __   __ _
@@ -19,7 +16,7 @@
 #
 # License:
 # ============================================================================
-# Copyright 2020-2020 Patrick Lehmann - Bötzingen, Germany
+# Copyright 2020-2021 Patrick Lehmann - Bötzingen, Germany
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -92,7 +89,7 @@ class Project():
 	variant : str
 	version : Version
 
-	def __init__(self, name : str, variant : str = "", version : Union[str, Version] = ""):
+	def __init__(self, name: str, version: Union[str, Version] = None, variant: str = None):
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self.name    = name    if name    is not None else ""
@@ -288,6 +285,7 @@ class Versioning(ILineTerminal):
 		if completed.returncode == 0:
 			return completed.stdout.decode('utf-8').split("\n")[0]
 		elif completed.returncode == 1:
+			self.WriteWarning("Branch '{localBranch}' is not pushed to a remote.".format(localBranch=localBranch))
 			return "(local) {localBranch}".format(localBranch=localBranch)
 		else:
 			message = completed.stderr.decode('utf-8')
@@ -325,8 +323,8 @@ class Versioning(ILineTerminal):
 	def getProject(self, config : Configuration.Project):
 		return Project(
 			name=config.name,
-			variant=config.variant,
-			version=config.version
+			version=config.version,
+			variant=config.variant
 		)
 
 	def getBuild(self, config : Configuration.Build):

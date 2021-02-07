@@ -1,6 +1,3 @@
-# EMACS settings: -*-  tab-width: 2; indent-tabs-mode: t -*-
-# vim: tabstop=2:shiftwidth=2:noexpandtab
-# kate: tab-width 2; replace-tabs off; indent-width 2;
 # =============================================================================
 #            __     __            _             _
 #  _ __  _   \ \   / /__ _ __ ___(_) ___  _ __ (_)_ __   __ _
@@ -19,7 +16,7 @@
 #
 # License:
 # ============================================================================
-# Copyright 2020-2020 Patrick Lehmann - Bötzingen, Germany
+# Copyright 2020-2021 Patrick Lehmann - Bötzingen, Germany
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -85,9 +82,9 @@ class Application(LineTerminal, ArgParseMixin):
 		self._LOG_MESSAGE_FORMAT__[Severity.Warning] = "{YELLOW}[WARNING] {message}{NOCOLOR}"
 		self._LOG_MESSAGE_FORMAT__[Severity.Normal]  = "{GRAY}{message}{NOCOLOR}"
 
-	def Initilaize(self):
+	def Initialize(self):
 		if not self.__configFile.exists():
-			self.WriteWarning("Configuration file '{file!s}' does not exist.".format(file=configFile))
+			self.WriteWarning("Configuration file '{file!s}' does not exist.".format(file=self.__configFile))
 			self._config = Configuration()
 		else:
 			self._config = Configuration(self.__configFile)
@@ -95,7 +92,6 @@ class Application(LineTerminal, ArgParseMixin):
 		self._versioning = Versioning(self)
 		self._versioning.loadDataFromConfiguration(self._config)
 		self._versioning.collectData()
-
 
 	def PrintHeadline(self):
 		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
@@ -132,7 +128,7 @@ class Application(LineTerminal, ArgParseMixin):
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, help="Output filename.")
 	def HandleFillOut(self, args):
 		self.PrintHeadline()
-		self.Initilaize()
+		self.Initialize()
 
 		templateFile = Path(args.Template)
 		if not templateFile.exists():
@@ -160,7 +156,7 @@ class Application(LineTerminal, ArgParseMixin):
 	@CompilerAttributeGroup()
 	def HandleVariables(self, args):
 		self.PrintHeadline()
-		self.Initilaize()
+		self.Initialize()
 
 		self.UpdateProject(args)
 		self.UpdateCompiler(args)
@@ -173,7 +169,7 @@ class Application(LineTerminal, ArgParseMixin):
 	@CompilerAttributeGroup()
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
 	def HandleJSON(self, args):
-		self.Initilaize()
+		self.Initialize()
 
 		self.UpdateProject(args)
 		self.UpdateCompiler(args)
@@ -197,7 +193,7 @@ class Application(LineTerminal, ArgParseMixin):
 	@CompilerAttributeGroup()
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
 	def HandleYAML(self, args):
-		self.Initilaize()
+		self.Initialize()
 
 		self.UpdateProject(args)
 		self.UpdateCompiler(args)
@@ -268,7 +264,7 @@ class Application(LineTerminal, ArgParseMixin):
 
 	def UpdateProject(self, args):
 		if 'project' not in self._versioning.variables:
-			self._versioning.variables['project'] = Project(args.ProjectName, args.ProjectVariant, args.ProjectVersion)
+			self._versioning.variables['project'] = Project(args.ProjectName, args.ProjectVersion, args.ProjectVariant)
 		elif args.ProjectName is not None:
 			self._versioning.variables['project'].name = args.ProjectName
 

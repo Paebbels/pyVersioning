@@ -1,0 +1,14 @@
+[run]
+branch = true
+omit =
+  */setup.py
+
+[report]
+skip_covered = True
+skip_empty = True
+
+[html]
+directory = ../build/coverage
+
+[xml]
+output = ../build/coverage.xml

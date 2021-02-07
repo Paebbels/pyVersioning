@@ -8,7 +8,7 @@
 # =============================================================================
 # Authors:            Patrick Lehmann
 #
-# Python package:     GitHub specific code to collect the build environment
+# Python unittest:    Helper functions for unittests
 #
 # Description:
 # ------------------------------------
@@ -33,46 +33,3 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-from os import environ
-
-from pyVersioning.CIService import CIService, Platform
-
-
-class GitHub(CIService):
-	ENV_INCLUDE_FILTER =  ("GITHUB_")
-	ENV_EXCLUDE_FILTER =  ("_TOKEN")
-	ENV_INCLUDES =        ['CI']
-	ENV_EXCLUDES =        []
-
-	def getPlatform(self):
-		return Platform("github")
-
-	def getGitHash(self):
-		return environ['GITHUB_SHA']
-
-	def getGitBranch(self):
-		branchPrefix = "refs/heads/"
-
-		try:
-			ref = environ['GITHUB_REF']
-			if ref.startswith(branchPrefix):
-				return ref[len(branchPrefix):]
-		except KeyError:
-			pass
-
-		return None
-
-	def getGitTag(self):
-		tagPrefix    = "refs/tags/"
-
-		try:
-			ref = environ['GITHUB_REF']
-			if ref.startswith(tagPrefix):
-				return ref[len(tagPrefix):]
-		except KeyError:
-			pass
-
-		return None
-
-	def getGitRepository(self):
-		return environ['GITHUB_REPOSITORY']

@@ -35,7 +35,7 @@
 #
 from os import environ
 
-from pyVersioning.CIService import CIService, Platform
+from pyVersioning.CIService import CIService, Platform, ServiceException
 
 
 class AppVeyor(CIService):
@@ -44,13 +44,16 @@ class AppVeyor(CIService):
 	ENV_INCLUDES =        ['CI', 'APPVEYOR', 'PLATFORM', 'CONFIGURATION']
 	ENV_EXCLUDES =        []
 
-	def getPlatform(self):
+	def getPlatform(self) -> Platform:
 		return Platform("appveyor")
 
-	def getGitHash(self):
-		return environ['APPVEYOR_REPO_COMMIT']
+	def getGitHash(self) -> str:
+		try:
+			return environ['APPVEYOR_REPO_COMMIT']
+		except KeyError as ex:
+			raise ServiceException from ex
 
-	def getGitBranch(self):
+	def getGitBranch(self) -> str:
 		try:
 			return environ['APPVEYOR_REPO_BRANCH']
 		except KeyError:
@@ -58,7 +61,7 @@ class AppVeyor(CIService):
 
 		return None
 
-	def getGitTag(self):
+	def getGitTag(self) -> str:
 		try:
 			return environ['APPVEYOR_REPO_TAG_NAME']
 		except KeyError:
@@ -66,5 +69,8 @@ class AppVeyor(CIService):
 
 		return None
 
-	def getGitRepository(self):
-		return environ['APPVEYOR_PROJECT_SLUG']
+	def getGitRepository(self) -> str:
+		try:
+			return environ['APPVEYOR_PROJECT_SLUG']
+		except KeyError as ex:
+			raise ServiceException from ex

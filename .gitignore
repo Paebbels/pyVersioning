@@ -17,3 +17,6 @@ doc/_build
 
 # PyCharm project
 /.idea/workspace.xml
+
+# Outputs from (unit)tests
+/tests/CIServices/template.out

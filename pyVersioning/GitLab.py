@@ -35,7 +35,7 @@
 #
 from os import environ
 
-from pyVersioning.CIService import CIService, Platform
+from pyVersioning.CIService import CIService, Platform, ServiceException
 
 
 class GitLab(CIService):
@@ -44,13 +44,16 @@ class GitLab(CIService):
 	ENV_INCLUDES =        ['CI']
 	ENV_EXCLUDES =        ['CI_JOB_TOKEN']
 
-	def getPlatform(self):
+	def getPlatform(self) -> Platform:
 		return Platform("gitlab")
 
-	def getGitHash(self):
-		return environ['CI_COMMIT_SHA']
+	def getGitHash(self) -> str:
+		try:
+			return environ['CI_COMMIT_SHA']
+		except KeyError as ex:
+			raise ServiceException from ex
 
-	def getGitBranch(self):
+	def getGitBranch(self) -> str:
 		try:
 			return environ['CI_COMMIT_BRANCH']
 		except KeyError:
@@ -58,7 +61,7 @@ class GitLab(CIService):
 
 		return None
 
-	def getGitTag(self):
+	def getGitTag(self) -> str:
 		try:
 			return environ['CI_COMMIT_TAG']
 		except KeyError:
@@ -66,6 +69,8 @@ class GitLab(CIService):
 
 		return None
 
-	def getGitRepository(self):
-		return environ['CI_REPOSITORY_URL']
-
+	def getGitRepository(self) -> str:
+		try:
+			return environ['CI_REPOSITORY_URL']
+		except KeyError as ex:
+			raise ServiceException from ex

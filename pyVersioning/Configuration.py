@@ -34,6 +34,7 @@
 # ============================================================================
 #
 from pathlib        import WindowsPath, PosixPath
+from typing         import Dict
 
 from pyMetaClasses  import Overloading
 from ruamel.yaml    import YAML
@@ -42,20 +43,20 @@ from pyCommonClasses.Version import Version
 
 
 class Base():
-	root = None
-	parent = None
+	root:   'Base' =  None
+	parent: 'Base' =  None
 
-	def __init__(self, root, parent):
-		self.root = root
+	def __init__(self, root: 'Base', parent: 'Base'):
+		self.root =   root
 		self.parent = parent
 
-class Configuration(metaclass=Overloading):
+class Configuration(Base, metaclass=Overloading):
 	class Project(Base):
 		name    : str     = None
 		variant : str     = None
 		version : Version = None
 
-		def __init__(self, root, parent, settings):
+		def __init__(self, root: 'Base', parent: 'Base', settings: Dict):
 			super().__init__(root, parent)
 
 			self.name     = settings['name']
@@ -71,7 +72,7 @@ class Configuration(metaclass=Overloading):
 			configuration : str = None
 			options       : str = None
 
-			def __init__(self, root, parent, settings):
+			def __init__(self, root: 'Base', parent: 'Base', settings: Dict):
 				super().__init__(root, parent)
 
 				self.name          = settings['name']
@@ -81,7 +82,7 @@ class Configuration(metaclass=Overloading):
 
 		compiler : Compiler = None
 
-		def __init__(self, root, parent, settings):
+		def __init__(self, root: 'Base', parent: 'Base', settings: Dict):
 			super().__init__(root, parent)
 
 			if ('compiler' in settings):

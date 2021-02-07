@@ -35,7 +35,7 @@
 #
 from os import environ
 
-from pyVersioning.CIService import CIService, Platform
+from pyVersioning.CIService import CIService, Platform, ServiceException
 
 
 class Travis(CIService):
@@ -44,11 +44,14 @@ class Travis(CIService):
 	ENV_INCLUDES =        ['CI', 'CONTINUOUS_INTEGRATION', 'TRAVIS']
 	ENV_EXCLUDES =        []
 
-	def getPlatform(self):
+	def getPlatform(self) -> Platform:
 		return Platform("travis")
 
-	def getGitHash(self):
-		return environ['TRAVIS_COMMIT']
+	def getGitHash(self) -> str:
+		try:
+			return environ['TRAVIS_COMMIT']
+		except KeyError as ex:
+			raise ServiceException from ex
 
 	def getGitBranch(self) -> str:
 		try:
@@ -58,7 +61,7 @@ class Travis(CIService):
 
 		return None
 
-	def getGitTag(self):
+	def getGitTag(self) -> str:
 		try:
 			return environ['TRAVIS_TAG']
 		except KeyError:
@@ -66,5 +69,8 @@ class Travis(CIService):
 
 		return None
 
-	def getGitRepository(self):
-		return environ['TRAVIS_REPO_SLUG']
+	def getGitRepository(self) -> str:
+		try:
+			return environ['TRAVIS_REPO_SLUG']
+		except KeyError as ex:
+			raise ServiceException from ex

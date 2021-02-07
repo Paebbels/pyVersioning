@@ -164,7 +164,7 @@ class Versioning(ILineTerminal):
 
 		self.variables['project'] = self.getProject(config.project)
 		self.variables['build']   = self.getBuild(config.build)
-		self.variables['version'] = self.getVersion(config.project)
+		self.variables['version'] = self.getVersion(config.project.version)
 
 	def collectData(self):
 		"""Collect versioning information from environment including CI services (if available)."""

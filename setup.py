@@ -1,6 +1,3 @@
-# EMACS settings: -*-  tab-width: 2; indent-tabs-mode: t -*-
-# vim: tabstop=2:shiftwidth=2:noexpandtab
-# kate: tab-width 2; replace-tabs off; indent-width 2;
 # =============================================================================
 #            __     __            _             _
 #  _ __  _   \ \   / /__ _ __ ___(_) ___  _ __ (_)_ __   __ _
@@ -11,7 +8,7 @@
 # =============================================================================
 # Authors:            Patrick Lehmann
 #
-# Package installer:  pyversioning Package Configuration.
+# Package installer:  pyVersioning Package Configuration.
 #
 # Description:
 # ------------------------------------
@@ -19,7 +16,7 @@
 #
 # License:
 # ============================================================================
-# Copyright 2020-2020 Patrick Lehmann - Bötzingen, Germany
+# Copyright 2020-2021 Patrick Lehmann - Bötzingen, Germany
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -53,7 +50,7 @@ rtd_url =     "https://" + projectName + ".readthedocs.io/en/latest/"
 
 setuptools.setup(
 	name=projectName,
-	version="0.7.2",
+	version="0.7.3",
 
 	author="Patrick Lehmann",
 	author_email="Paebbels@gmail.com",
@@ -95,6 +92,4 @@ setuptools.setup(
 
 	python_requires='>=3.7',
 	install_requires=requirements,
-	# provides=
-	# obsoletes=
 )

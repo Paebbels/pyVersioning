@@ -1,7 +1,7 @@
-from os         import environ as os_environ, getcwd as os_getcwd
-from subprocess import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError, TimeoutExpired
+from os         import environ as os_environ
+from subprocess import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
 
-from unittest import TestCase, skip
+from unittest   import TestCase
 
 
 if __name__ == "__main__":
@@ -38,7 +38,6 @@ class GitLabEnvironment(TestCase):
 
 		return env
 
-	#@skip("under development")
 	def test_Variables(self):
 		try:
 			prog = subprocess_run(
@@ -55,9 +54,6 @@ class GitLabEnvironment(TestCase):
 			print(ex.returncode)
 			print(ex.output)
 			exit(1)
-		except TimeoutExpired as ex:
-			print("TIMEOUT EXPIRED")
-			exit(2)
 		except Exception as ex:
 			print("EXCEPTION")
 			print(ex)
@@ -68,7 +64,6 @@ class GitLabEnvironment(TestCase):
 		for line in output.split("\n"):
 			print(line)
 
-	#@skip("under development")
 	def test_Fillout(self):
 		try:
 			prog = subprocess_run(
@@ -85,9 +80,6 @@ class GitLabEnvironment(TestCase):
 			print(ex.returncode)
 			print(ex.output)
 			exit(1)
-		except TimeoutExpired as ex:
-			print("TIMEOUT EXPIRED")
-			exit(2)
 		except Exception as ex:
 			print("EXCEPTION")
 			print(ex)

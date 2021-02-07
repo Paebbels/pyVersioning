@@ -89,7 +89,7 @@ class Project():
 	variant : str
 	version : Version
 
-	def __init__(self, name : str, variant : str = "", version : Union[str, Version] = ""):
+	def __init__(self, name: str, version: Union[str, Version] = None, variant: str = None):
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self.name    = name    if name    is not None else ""
@@ -285,6 +285,7 @@ class Versioning(ILineTerminal):
 		if completed.returncode == 0:
 			return completed.stdout.decode('utf-8').split("\n")[0]
 		elif completed.returncode == 1:
+			self.WriteWarning("Branch '{localBranch}' is not pushed to a remote.".format(localBranch=localBranch))
 			return "(local) {localBranch}".format(localBranch=localBranch)
 		else:
 			message = completed.stderr.decode('utf-8')
@@ -322,8 +323,8 @@ class Versioning(ILineTerminal):
 	def getProject(self, config : Configuration.Project):
 		return Project(
 			name=config.name,
-			variant=config.variant,
-			version=config.version
+			version=config.version,
+			variant=config.variant
 		)
 
 	def getBuild(self, config : Configuration.Build):

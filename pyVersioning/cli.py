@@ -265,7 +265,7 @@ class Application(LineTerminal, ArgParseMixin):
 
 	def UpdateProject(self, args):
 		if 'project' not in self._versioning.variables:
-			self._versioning.variables['project'] = Project(args.ProjectName, args.ProjectVariant, args.ProjectVersion)
+			self._versioning.variables['project'] = Project(args.ProjectName, args.ProjectVersion, args.ProjectVariant)
 		elif args.ProjectName is not None:
 			self._versioning.variables['project'].name = args.ProjectName
 

@@ -98,13 +98,13 @@ class Configuration(Base, metaclass=Overloading):
 		self.project = self.Project(self, self, {
 			"name": "",
 			"variant": "",
-			"version": None
+			"version": "v0.0.0"
 		})
 
-	def __init__(self, configFile : PosixPath):
+	def __init__(self, configFile: PosixPath):
 		self.load(configFile)
 
-	def __init__(self, configFile : WindowsPath):
+	def __init__(self, configFile: WindowsPath):
 		self.load(configFile)
 
 	def load(self, configFile):

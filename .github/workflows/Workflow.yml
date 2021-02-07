@@ -28,9 +28,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r tests/requirements.txt
 
-#      - name: Run unit tests
-#        run: |
-#          python -m pytest -rA --cov=.. --cov-config=tests/.coveragerc tests/unit
+      - name: Run unit tests
+        run: |
+          python -m pytest -rA tests
 
   Coverage:
     name: Collect Coverage Data
@@ -51,30 +51,30 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r tests/requirements.txt
 
-#      - name: Collect coverage
-#        if: ${{ always() }}
-#        run: |
-#          python -m pytest -rA --cov=.. --cov-config=tests/.coveragerc tests/unit
-#
-#      - name: Convert to cobertura format
-#        if: ${{ always() }}
-#        run: |
-#          coverage xml
-#
-#      - name: Publish coverage at CodeCov
-#        if: ${{ always() }}
-#        uses: codecov/codecov-action@v1
-#        with:
-#          file: ./coverage.xml
-#          flags: unittests
-#          env_vars: PYTHON
-#
-#      - name: Publish coverage at Codacy
-#        if: ${{ always() }}
-#        uses: codacy/codacy-coverage-reporter-action@master
-#        with:
-#          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-#          coverage-reports: ./coverage.xml
+      - name: Collect coverage
+        if: ${{ always() }}
+        run: |
+          python -m pytest -rA --cov=. --cov-config=tests/.coveragerc tests
+
+      - name: Convert to cobertura format
+        if: ${{ always() }}
+        run: |
+          coverage xml
+
+      - name: Publish coverage at CodeCov
+        if: ${{ always() }}
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          env_vars: PYTHON
+
+      - name: Publish coverage at Codacy
+        if: ${{ always() }}
+        uses: codacy/codacy-coverage-reporter-action@master
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: ./coverage.xml
 
   Build:
     name: Package

@@ -1,7 +1,7 @@
 from os         import environ as os_environ, getcwd as os_getcwd
 from subprocess import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError, TimeoutExpired
 
-from unittest   import TestCase
+from unittest import TestCase, skip
 
 
 if __name__ == "__main__":
@@ -11,6 +11,7 @@ if __name__ == "__main__":
 
 
 class GitLab(TestCase):
+	@skip("under development")
 	def test_Variables(self):
 		args = [
 			"python",

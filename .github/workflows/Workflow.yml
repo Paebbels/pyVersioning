@@ -32,6 +32,10 @@ jobs:
         run: |
           python -m pytest -rA tests/unit
 
+      - name: Run fake environment tests
+        run: |
+          python -m pytest -rA tests/CIServices
+
   Coverage:
     name: Collect Coverage Data
     runs-on: ubuntu-latest

@@ -10,7 +10,7 @@ if __name__ == "__main__":
 	exit(1)
 
 
-class GitLab(TestCase):
+class GitLabEnvironment(TestCase):
 	@staticmethod
 	def __getExecutable(command: str, *args):
 		callArgs = [

@@ -35,7 +35,7 @@
 #
 from os import environ
 
-from pyVersioning.CIService import CIService, Platform
+from pyVersioning.CIService import CIService, Platform, ServiceException
 
 
 class GitHub(CIService):
@@ -44,13 +44,16 @@ class GitHub(CIService):
 	ENV_INCLUDES =        ['CI']
 	ENV_EXCLUDES =        []
 
-	def getPlatform(self):
+	def getPlatform(self) -> Platform:
 		return Platform("github")
 
-	def getGitHash(self):
-		return environ['GITHUB_SHA']
+	def getGitHash(self) -> str:
+		try:
+			return environ['GITHUB_SHA']
+		except KeyError as ex:
+			raise ServiceException from ex
 
-	def getGitBranch(self):
+	def getGitBranch(self) -> str:
 		branchPrefix = "refs/heads/"
 
 		try:
@@ -62,7 +65,7 @@ class GitHub(CIService):
 
 		return None
 
-	def getGitTag(self):
+	def getGitTag(self) -> str:
 		tagPrefix    = "refs/tags/"
 
 		try:
@@ -74,5 +77,8 @@ class GitHub(CIService):
 
 		return None
 
-	def getGitRepository(self):
-		return environ['GITHUB_REPOSITORY']
+	def getGitRepository(self) -> str:
+		try:
+			return environ['GITHUB_REPOSITORY']
+		except KeyError as ex:
+			raise ServiceException from ex

@@ -35,6 +35,11 @@
 #
 from dataclasses  import make_dataclass, dataclass
 from os           import environ
+from typing import Dict
+
+
+class ServiceException(Exception):
+	pass
 
 @dataclass
 class Platform():
@@ -47,10 +52,10 @@ class CIService:
 	ENV_INCLUDES =        []
 	ENV_EXCLUDES =        []
 
-	def getPlatform(self):
+	def getPlatform(self) -> Platform:
 		raise NotImplementedError()
 
-	def getEnvironment(self):
+	def getEnvironment(self) -> Dict[str, str]:
 		filteredEnv = {key:value for (key,value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
 
 		# manually add some variables
@@ -91,5 +96,5 @@ class CIService:
 
 
 class WorkStation(CIService):
-	def getPlatform(self):
+	def getPlatform(self) -> Platform:
 		return Platform("NO-CI")

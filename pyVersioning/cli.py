@@ -82,9 +82,9 @@ class Application(LineTerminal, ArgParseMixin):
 		self._LOG_MESSAGE_FORMAT__[Severity.Warning] = "{YELLOW}[WARNING] {message}{NOCOLOR}"
 		self._LOG_MESSAGE_FORMAT__[Severity.Normal]  = "{GRAY}{message}{NOCOLOR}"
 
-	def Initilaize(self):
+	def Initialize(self):
 		if not self.__configFile.exists():
-			self.WriteWarning("Configuration file '{file!s}' does not exist.".format(file=configFile))
+			self.WriteWarning("Configuration file '{file!s}' does not exist.".format(file=self.__configFile))
 			self._config = Configuration()
 		else:
 			self._config = Configuration(self.__configFile)
@@ -92,7 +92,6 @@ class Application(LineTerminal, ArgParseMixin):
 		self._versioning = Versioning(self)
 		self._versioning.loadDataFromConfiguration(self._config)
 		self._versioning.collectData()
-
 
 	def PrintHeadline(self):
 		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
@@ -129,7 +128,7 @@ class Application(LineTerminal, ArgParseMixin):
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, help="Output filename.")
 	def HandleFillOut(self, args):
 		self.PrintHeadline()
-		self.Initilaize()
+		self.Initialize()
 
 		templateFile = Path(args.Template)
 		if not templateFile.exists():
@@ -157,7 +156,7 @@ class Application(LineTerminal, ArgParseMixin):
 	@CompilerAttributeGroup()
 	def HandleVariables(self, args):
 		self.PrintHeadline()
-		self.Initilaize()
+		self.Initialize()
 
 		self.UpdateProject(args)
 		self.UpdateCompiler(args)
@@ -170,7 +169,7 @@ class Application(LineTerminal, ArgParseMixin):
 	@CompilerAttributeGroup()
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
 	def HandleJSON(self, args):
-		self.Initilaize()
+		self.Initialize()
 
 		self.UpdateProject(args)
 		self.UpdateCompiler(args)
@@ -194,7 +193,7 @@ class Application(LineTerminal, ArgParseMixin):
 	@CompilerAttributeGroup()
 	@ArgumentAttribute(metavar='<Output file>',   dest="Filename", type=str, nargs="?", help="Output filename.")
 	def HandleYAML(self, args):
-		self.Initilaize()
+		self.Initialize()
 
 		self.UpdateProject(args)
 		self.UpdateCompiler(args)

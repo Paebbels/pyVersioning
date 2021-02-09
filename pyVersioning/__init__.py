@@ -61,19 +61,11 @@ class Tool(SelfDescriptive):
 	_public = ['name', 'version']
 
 
-class Date(date, SelfDescriptive):
-	_public = ['day', 'month', 'year']
-
-
-class Time(time, SelfDescriptive):
-	_public = ['hour', 'minute', 'second']
-
-
 @dataclass
 class Commit(SelfDescriptive):
 	hash: str
-	date: Date
-	time: Time
+	date: date
+	time: time
 
 	_public = ['hash', 'date', 'time']
 
@@ -147,8 +139,8 @@ class Compiler(SelfDescriptive):
 
 @dataclass
 class Build(SelfDescriptive):
-	date:     Date
-	time:     Time
+	date:     date
+	time:     time
 	compiler: Compiler
 
 	_public = ['date', 'time', 'compiler']
@@ -257,6 +249,9 @@ class Versioning(ILineTerminal):
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
 	def getCommitDate(self) -> datetime:
+		if self.platform is not Platforms.Workstation:
+			return self.service.getCommitDate()
+
 		try:
 			command =   "git"
 			arguments = ("show", "-s", "--format=%ct", "HEAD")
@@ -289,6 +284,9 @@ class Versioning(ILineTerminal):
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
 	def getGitRemoteBranch(self, localBranch: str = None) -> str:
+		if self.platform is not Platforms.Workstation:
+			return self.service.getGitBranch()
+
 		if localBranch is None:
 			localBranch = self.getGitLocalBranch()
 
@@ -346,6 +344,9 @@ class Versioning(ILineTerminal):
 			raise Exception
 
 	def getGitRemoteURL(self, remote: str = None) -> str:
+		if self.platform is not Platforms.Workstation:
+			return self.service.getGitRepository()
+
 		if remote is None:
 			remote = self.getGitRemote()
 		try:

@@ -33,7 +33,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
-from os import environ
+from datetime import datetime
+from os       import environ
 
 from pyVersioning.CIService import CIService, Platform, ServiceException
 
@@ -50,6 +51,13 @@ class GitLab(CIService):
 	def getGitHash(self) -> str:
 		try:
 			return environ['CI_COMMIT_SHA']
+		except KeyError as ex:
+			raise ServiceException from ex
+
+	def getCommitDate(self) -> datetime:
+		try:
+			iso8601 = environ['CI_COMMIT_TIMESTAMP']
+			return datetime.strptime(iso8601, "%Y-%m-%dT%H:%M:%S%z")
 		except KeyError as ex:
 			raise ServiceException from ex
 

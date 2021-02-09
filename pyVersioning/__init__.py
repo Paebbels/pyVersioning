@@ -245,8 +245,9 @@ class Versioning(ILineTerminal):
 			return self.service.getGitHash()
 
 		try:
-			command =   "git rev-parse HEAD"
-			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
+			command =   "git"
+			arguments=  ("rev-parse", "HEAD")
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			return "0" * 40
 		if completed.returncode == 0:
@@ -257,8 +258,9 @@ class Versioning(ILineTerminal):
 
 	def getCommitDate(self) -> datetime:
 		try:
-			command =   "git show -s --format=%ct HEAD"
-			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
+			command =   "git"
+			arguments = ("show", "-s", "--format=%ct", "HEAD")
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception
 
@@ -275,8 +277,9 @@ class Versioning(ILineTerminal):
 			return self.service.getGitBranch()
 
 		try:
-			command =   "git branch --show-current"
-			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
+			command =   "git"
+			arguments = ("branch", "--show-current")
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			return ""
 		if completed.returncode == 0:
@@ -290,8 +293,9 @@ class Versioning(ILineTerminal):
 			localBranch = self.getGitLocalBranch()
 
 		try:
-			command =   "git config branch.{localBranch}.merge".format(localBranch=localBranch)
-			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
+			command =   "git"
+			arguments = ("config", "branch.{localBranch}.merge".format(localBranch=localBranch))
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception
 
@@ -307,8 +311,9 @@ class Versioning(ILineTerminal):
 			localBranch = self.getGitLocalBranch()
 
 		try:
-			command =   "git config branch.{localBranch}.remote".format(localBranch=localBranch)
-			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
+			command =   "git"
+			arguments=  ("config", "branch.{localBranch}.remote".format(localBranch=localBranch))
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception
 
@@ -327,8 +332,9 @@ class Versioning(ILineTerminal):
 			return self.service.getGitTag()
 
 		try:
-			command =   "git tag --points-at HEAD"
-			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
+			command =   "git"
+			arguments = ("tag", "--points-at","HEAD")
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception
 
@@ -343,8 +349,9 @@ class Versioning(ILineTerminal):
 		if remote is None:
 			remote = self.getGitRemote()
 		try:
-			command =   "git config remote.{remote}.url".format(remote=remote)
-			completed = subprocess_run(command, stdout=PIPE, stderr=PIPE)
+			command =   "git"
+			arguments = ("config", "remote.{remote}.url".format(remote=remote))
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception
 

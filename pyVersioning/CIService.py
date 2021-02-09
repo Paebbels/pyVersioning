@@ -37,13 +37,18 @@ from dataclasses  import make_dataclass, dataclass
 from os           import environ
 from typing import Dict
 
+from pyVersioning import SelfDescriptive
+
 
 class ServiceException(Exception):
 	pass
 
+
 @dataclass
-class Platform():
+class Platform(SelfDescriptive):
 	ci_service : str
+
+	_public = ['ci_service']
 
 
 class CIService:
@@ -72,12 +77,20 @@ class CIService:
 			except KeyError:
 				pass
 
+		def func(s):
+			for e in filteredEnv.keys():
+				yield (e, s.__getattribute__(e))
+
 		Environment = make_dataclass(
 			"Environment",
 			[(name, str) for name in filteredEnv.keys()],
+			bases=(SelfDescriptive,),
 			namespace={
-				'as_dict': lambda self: filteredEnv
-			}
+				'as_dict':        lambda self: filteredEnv,
+				'Keys':           lambda self: filteredEnv.keys(),
+				'KeyValuePairs':  lambda self: func(self)
+			},
+			repr=True
 		)
 
 		return Environment(**filteredEnv)

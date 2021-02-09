@@ -36,13 +36,13 @@
 from argparse     import RawDescriptionHelpFormatter
 from pathlib      import Path
 from textwrap     import dedent
-from typing import NoReturn
+from typing       import NoReturn
 
 from pyAttributes                    import Attribute
 from pyAttributes.ArgParseAttributes import ArgParseMixin, CommandAttribute, ArgumentAttribute, DefaultAttribute
 from pyTerminalUI                    import LineTerminal, Severity
 
-from pyVersioning                    import Versioning, Platforms, Project, Compiler
+from pyVersioning                    import Versioning, Platforms, Project, SelfDescriptive
 from pyVersioning.Configuration      import Configuration
 
 
@@ -163,8 +163,15 @@ class Application(LineTerminal, ArgParseMixin):
 		self.UpdateProject(args)
 		self.UpdateCompiler(args)
 
+		def print(key, value, indent):
+			key = ("  " * indent) + str(key)
+			self.WriteNormal("{key:24}: {value!s}".format(key=key, value=value))
+			if isinstance(value, SelfDescriptive):
+				for k,v in value.KeyValuePairs():
+					print(k, v, indent + 1)
+
 		for key,value in self._versioning.variables.items():
-			self.WriteNormal("{key:24}: {value}".format(key=key, value=value))
+			print(key, value, 0)
 
 	@CommandAttribute("json", help="Write all available variables as JSON.")
 	@ProjectAttributeGroup()

@@ -38,12 +38,13 @@ from dataclasses  import dataclass, make_dataclass, field
 from datetime     import date, time, datetime
 from pathlib      import Path
 from os           import environ
-from typing import Union, Any
+from typing       import Union, Any
 
 from flags                      import Flags
 from pyCommonClasses.Version    import Version
 from pyTerminalUI               import ILineTerminal
 
+from pyVersioning.Utils         import SelfDescriptive
 from pyVersioning.AppVeyor      import AppVeyor
 from pyVersioning.CIService     import WorkStation
 from pyVersioning.Configuration import Configuration
@@ -53,25 +54,39 @@ from pyVersioning.Travis        import Travis
 
 
 @dataclass
-class Tool():
+class Tool(SelfDescriptive):
 	name    : str
 	version : Version
 
+	_public = ['name', 'version']
+
+
+class Date(date, SelfDescriptive):
+	_public = ['day', 'month', 'year']
+
+
+class Time(time, SelfDescriptive):
+	_public = ['hour', 'minute', 'second']
+
 
 @dataclass
-class Commit():
+class Commit(SelfDescriptive):
 	hash: str
-	date: date
-	time: time
+	date: Date
+	time: Time
+
+	_public = ['hash', 'date', 'time']
 
 
 @dataclass
-class Git():
+class Git(SelfDescriptive):
 	commit      : Commit
 	reference   : str = field(init=False)
 	tag         : str = ""
 	branch      : str = ""
 	repository  : str = ""
+
+	_public = ['commit', 'reference', 'tag', 'branch', 'repository']
 
 	def __post_init__(self) -> None:
 		"""Calculate `reference` from `tag` or `branch`."""
@@ -85,10 +100,12 @@ class Git():
 
 
 @dataclass
-class Project():
-	name    : str
-	variant : str
-	version : Version
+class Project(SelfDescriptive):
+	name:     str
+	variant:  str
+	version:  Version
+
+	_public = ['name', 'variant', 'version']
 
 	def __init__(self, name: str, version: Union[str, Version] = None, variant: str = None) -> None:
 		"""Assign fields and convert version string to a `Version` object."""
@@ -105,11 +122,13 @@ class Project():
 
 
 @dataclass
-class Compiler():
+class Compiler(SelfDescriptive):
 	name:           str
 	version:        Version
 	configuration:  str
 	options:        str
+
+	_public = ['name', 'version', 'configuration', 'options']
 
 	def __init__(self, name: str, version: Union[str, Version] = "", configuration: str = "", options: str = "") -> None:
 		"""Assign fields and convert version string to a `Version` object."""
@@ -127,10 +146,12 @@ class Compiler():
 
 
 @dataclass
-class Build():
-	date:     date
-	time:     time
+class Build(SelfDescriptive):
+	date:     Date
+	time:     Time
 	compiler: Compiler
+
+	_public = ['date', 'time', 'compiler']
 
 
 class Platforms(Flags):
@@ -186,7 +207,7 @@ class Versioning(ILineTerminal):
 		else:
 			self.service                = WorkStation()
 
-		self.variables['tool']     = Tool("pyVersioning", Version(0,7,1)),
+		self.variables['tool']     = Tool("pyVersioning", Version(0,7,1))
 		self.variables['git']      = self.getGitInformation()
 		self.variables['env']      = self.getEnvironment()
 		self.variables['platform'] = self.service.getPlatform()
@@ -368,12 +389,20 @@ class Versioning(ILineTerminal):
 			key = key.replace(" ", "_")
 			env[key] = value
 
+		def func(s):
+			for e in env.keys():
+				yield (e, s.__getattribute__(e))
+
 		Environment = make_dataclass(
 			"Environment",
 			[(name, str) for name in env.keys()],
+#			bases=(SelfDescriptive,),
 			namespace={
-				'as_dict': lambda self: env
-			}
+				'as_dict':        lambda self: env,
+				'Keys':           lambda self: env.keys(),
+				'KeyValuePairs':  lambda self: func(self)
+			},
+			repr=True
 		)
 
 		return Environment(**env)

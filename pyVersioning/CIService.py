@@ -34,8 +34,9 @@
 # ============================================================================
 #
 from dataclasses  import make_dataclass, dataclass
+from datetime     import datetime
 from os           import environ
-from typing import Dict
+from typing       import Dict
 
 from pyVersioning import SelfDescriptive
 
@@ -96,6 +97,9 @@ class CIService:
 		return Environment(**filteredEnv)
 
 	def getGitHash(self) -> str:
+		raise NotImplementedError()
+
+	def getCommitDate(self) -> datetime:
 		raise NotImplementedError()
 
 	def getGitBranch(self) -> str:

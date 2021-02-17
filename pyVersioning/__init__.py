@@ -62,12 +62,29 @@ class Tool(SelfDescriptive):
 
 
 @dataclass
+class Author(SelfDescriptive):
+	name: str
+	email: str
+
+	_public = ['name', 'email']
+
+
+@dataclass
 class Commit(SelfDescriptive):
 	hash: str
 	date: date
 	time: time
+	author: Author
+	comment: str
+	oneline: str = field(init=False)
 
-	_public = ['hash', 'date', 'time']
+	_public = ['hash', 'date', 'time', 'author', 'comment', 'oneline']
+
+	def __post_init__(self) -> None:
+		"""Calculate `oneline` from `comment`."""
+
+		if self.comment != "":
+			self.oneline = self.comment.split("\n")[0]
 
 
 @dataclass
@@ -226,10 +243,13 @@ class Versioning(ILineTerminal):
 
 	def getLastCommit(self) -> Commit:
 		dt = self.getCommitDate()
+
 		return Commit(
 			hash=self.getGitHash(),
 			date=dt.date(),
-			time=dt.time()
+			time=dt.time(),
+			author=self.getCommitAuthor(),
+			comment=self.getCommitComment()
 		)
 
 	def getGitHash(self) -> str:
@@ -254,7 +274,7 @@ class Versioning(ILineTerminal):
 
 		try:
 			command =   "git"
-			arguments = ("show", "-s", "--format=%ct", "HEAD")
+			arguments = ("show", "-s", "--format=%ct") #, "HEAD")
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception
@@ -266,6 +286,54 @@ class Versioning(ILineTerminal):
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 			raise Exception
+
+	def getCommitAuthor(self) -> Author:
+		return Author(
+			name=self.getCommitAuthorName(),
+			email=self.getCommitAuthorEmail()
+		)
+
+	def getCommitAuthorName(self) -> str:
+		try:
+			command =   "git"
+			arguments = ("show", "-s", "--format='%an'") #, "HEAD")
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
+		except:
+			return ""
+		if completed.returncode == 0:
+			firstLine = completed.stdout.decode('utf-8').split("\n")[0]
+			return firstLine[1:-1]
+		else:
+			message = completed.stderr.decode('utf-8')
+			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+
+	def getCommitAuthorEmail(self) -> str:
+		try:
+			command =   "git"
+			arguments = ("show", "-s", "--format='%ae'") #, "HEAD")
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
+		except:
+			return ""
+		if completed.returncode == 0:
+			firstLine = completed.stdout.decode('utf-8').split("\n")[0]
+			return firstLine[1:-1]
+		else:
+			message = completed.stderr.decode('utf-8')
+			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+
+	def getCommitComment(self) -> str:
+		try:
+			command =   "git"
+			arguments = ("show", "-s", "--format='%B'") #, "HEAD")
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
+		except:
+			return ""
+		if completed.returncode == 0:
+			comment = completed.stdout.decode('utf-8')
+			return comment[1:-2]
+		else:
+			message = completed.stderr.decode('utf-8')
+			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
 	def getGitLocalBranch(self) -> str:
 		if self.platform is not Platforms.Workstation:

@@ -1,4 +1,3 @@
-autocomplete
 py-flags>=1.1.4
 ruamel.yaml>=0.16.12
 

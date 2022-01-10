@@ -41,8 +41,8 @@ from os           import environ
 from typing       import Union, Any
 
 from flags                      import Flags
-from pyCommonClasses.Version    import Version
-from pyTerminalUI               import ILineTerminal
+from pyTooling.Versioning       import SemVersion
+from pyTooling.TerminalUI       import ILineTerminal
 
 from pyVersioning.Utils         import SelfDescriptive
 from pyVersioning.AppVeyor      import AppVeyor
@@ -56,7 +56,7 @@ from pyVersioning.Travis        import Travis
 @dataclass
 class Tool(SelfDescriptive):
 	name    : str
-	version : Version
+	version : SemVersion
 
 	_public = ['name', 'version']
 
@@ -112,46 +112,46 @@ class Git(SelfDescriptive):
 class Project(SelfDescriptive):
 	name:     str
 	variant:  str
-	version:  Version
+	version:  SemVersion
 
 	_public = ['name', 'variant', 'version']
 
-	def __init__(self, name: str, version: Union[str, Version] = None, variant: str = None) -> None:
+	def __init__(self, name: str, version: Union[str, SemVersion] = None, variant: str = None) -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self.name    = name    if name    is not None else ""
 		self.variant = variant if variant is not None else ""
 
-		if isinstance(version, Version):
+		if isinstance(version, SemVersion):
 			self.version = version
 		elif isinstance(version, str):
-			self.version = Version(version)
+			self.version = SemVersion(version)
 		elif version is None:
-			self.version = Version(0, 0, 0)
+			self.version = SemVersion(0, 0, 0)
 
 
 @dataclass
 class Compiler(SelfDescriptive):
 	name:           str
-	version:        Version
+	version:        SemVersion
 	configuration:  str
 	options:        str
 
 	_public = ['name', 'version', 'configuration', 'options']
 
-	def __init__(self, name: str, version: Union[str, Version] = "", configuration: str = "", options: str = "") -> None:
+	def __init__(self, name: str, version: Union[str, SemVersion] = "", configuration: str = "", options: str = "") -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self.name          = name          if name          is not None else ""
 		self.configuration = configuration if configuration is not None else ""
 		self.options       = options       if options       is not None else ""
 
-		if isinstance(version, Version):
+		if isinstance(version, SemVersion):
 			self.version     = version
 		elif isinstance(version, str):
-			self.version     = Version(version)
+			self.version     = SemVersion(version)
 		elif version is None:
-			self.version     = Version(0, 0, 0)
+			self.version     = SemVersion(0, 0, 0)
 
 
 @dataclass
@@ -216,7 +216,7 @@ class Versioning(ILineTerminal):
 		else:
 			self.service                = WorkStation()
 
-		self.variables['tool']     = Tool("pyVersioning", Version(0,7,1))
+		self.variables['tool']     = Tool("pyVersioning", SemVersion(0,7,1))
 		self.variables['git']      = self.getGitInformation()
 		self.variables['env']      = self.getEnvironment()
 		self.variables['platform'] = self.service.getPlatform()
@@ -227,11 +227,11 @@ class Versioning(ILineTerminal):
 		if self.variables['git'].tag != "":
 			pass
 
-	def getVersion(self, config: Configuration.Project) -> Version:
+	def getVersion(self, config: Configuration.Project) -> SemVersion:
 		if config.version is not None:
 			return config.version
 		else:
-			return Version("0.0.0")
+			return SemVersion("0.0.0")
 
 	def getGitInformation(self) -> Git:
 		return Git(
@@ -449,7 +449,7 @@ class Versioning(ILineTerminal):
 	def getCompiler(self, config: Configuration.Build.Compiler) -> Compiler:
 		return Compiler(
 			name=config.name,
-			version=Version(config.version),
+			version=SemVersion(config.version),
 			configuration=config.configuration,
 			options=config.options
 		)

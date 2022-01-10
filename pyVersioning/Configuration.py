@@ -36,10 +36,10 @@
 from pathlib        import WindowsPath, PosixPath
 from typing         import Dict
 
-from pyMetaClasses  import Overloading
-from ruamel.yaml    import YAML
+from pyTooling.MetaClasses  import Overloading
+from ruamel.yaml            import YAML
 
-from pyCommonClasses.Version import Version
+from pyTooling.Versioning   import SemVersion
 
 
 class Base():
@@ -54,7 +54,7 @@ class Configuration(Base, metaclass=Overloading):
 	class Project(Base):
 		name    : str     = None
 		variant : str     = None
-		version : Version = None
+		version : SemVersion = None
 
 		def __init__(self, root: 'Base', parent: 'Base', settings: Dict):
 			super().__init__(root, parent)
@@ -63,7 +63,7 @@ class Configuration(Base, metaclass=Overloading):
 			if 'variant' in settings:
 				self.variant  = settings['variant']
 			if 'version' in settings:
-				self.version  = Version(settings['version'])
+				self.version  = SemVersion(settings['version'])
 
 	class Build(Base):
 		class Compiler(Base):

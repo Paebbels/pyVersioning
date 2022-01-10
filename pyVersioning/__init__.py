@@ -33,6 +33,13 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
+__author__ =    "Patrick Lehmann"
+__email__ =     "Paebbels@gmail.com"
+__copyright__ = "2020-2021, Patrick Lehmann"
+__license__ =   "Apache License, Version 2.0"
+__version__ =   "0.8.0"
+__keywords__ =  ["Python3", "Template", "Versioning", "Git"]
+
 from subprocess   import run as subprocess_run, PIPE
 from dataclasses  import dataclass, make_dataclass, field
 from datetime     import date, time, datetime

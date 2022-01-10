@@ -39,7 +39,7 @@ jobs:
       python_version: ${{ fromJson(needs.Params.outputs.params).python_version }}
       requirements: '-r tests/requirements.txt'
       commands: |
-        mypy --html-report ../htmlmypy -p pyVersioning
+        mypy --html-report htmlmypy -p pyVersioning
       report: 'htmlmypy'
       artifact: ${{ fromJson(needs.Params.outputs.params).artifacts.typing }}
 

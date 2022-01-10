@@ -40,7 +40,7 @@ from typing       import NoReturn
 
 from pyAttributes                    import Attribute
 from pyAttributes.ArgParseAttributes import ArgParseMixin, CommandAttribute, ArgumentAttribute, DefaultAttribute
-from pyTerminalUI                    import LineTerminal, Severity
+from pyTooling.TerminalUI            import LineTerminal, Severity
 
 from pyVersioning                    import Versioning, Platforms, Project, SelfDescriptive
 from pyVersioning.Configuration      import Configuration

@@ -33,6 +33,13 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============================================================================
 #
+__author__ =    "Patrick Lehmann"
+__email__ =     "Paebbels@gmail.com"
+__copyright__ = "2020-2021, Patrick Lehmann"
+__license__ =   "Apache License, Version 2.0"
+__version__ =   "0.8.0"
+__keywords__ =  ["Python3", "Template", "Versioning", "Git"]
+
 from subprocess   import run as subprocess_run, PIPE
 from dataclasses  import dataclass, make_dataclass, field
 from datetime     import date, time, datetime
@@ -41,8 +48,8 @@ from os           import environ
 from typing       import Union, Any
 
 from flags                      import Flags
-from pyCommonClasses.Version    import Version
-from pyTerminalUI               import ILineTerminal
+from pyTooling.Versioning       import SemVersion
+from pyTooling.TerminalUI       import ILineTerminal
 
 from pyVersioning.Utils         import SelfDescriptive
 from pyVersioning.AppVeyor      import AppVeyor
@@ -56,9 +63,17 @@ from pyVersioning.Travis        import Travis
 @dataclass
 class Tool(SelfDescriptive):
 	name    : str
-	version : Version
+	version : SemVersion
 
 	_public = ['name', 'version']
+
+
+@dataclass
+class Author(SelfDescriptive):
+	name: str
+	email: str
+
+	_public = ['name', 'email']
 
 
 @dataclass
@@ -66,8 +81,17 @@ class Commit(SelfDescriptive):
 	hash: str
 	date: date
 	time: time
+	author: Author
+	comment: str
+	oneline: str = field(init=False)
 
-	_public = ['hash', 'date', 'time']
+	_public = ['hash', 'date', 'time', 'author', 'comment', 'oneline']
+
+	def __post_init__(self) -> None:
+		"""Calculate `oneline` from `comment`."""
+
+		if self.comment != "":
+			self.oneline = self.comment.split("\n")[0]
 
 
 @dataclass
@@ -95,46 +119,46 @@ class Git(SelfDescriptive):
 class Project(SelfDescriptive):
 	name:     str
 	variant:  str
-	version:  Version
+	version:  SemVersion
 
 	_public = ['name', 'variant', 'version']
 
-	def __init__(self, name: str, version: Union[str, Version] = None, variant: str = None) -> None:
+	def __init__(self, name: str, version: Union[str, SemVersion] = None, variant: str = None) -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self.name    = name    if name    is not None else ""
 		self.variant = variant if variant is not None else ""
 
-		if isinstance(version, Version):
+		if isinstance(version, SemVersion):
 			self.version = version
 		elif isinstance(version, str):
-			self.version = Version(version)
+			self.version = SemVersion(version)
 		elif version is None:
-			self.version = Version(0, 0, 0)
+			self.version = SemVersion(0, 0, 0)
 
 
 @dataclass
 class Compiler(SelfDescriptive):
 	name:           str
-	version:        Version
+	version:        SemVersion
 	configuration:  str
 	options:        str
 
 	_public = ['name', 'version', 'configuration', 'options']
 
-	def __init__(self, name: str, version: Union[str, Version] = "", configuration: str = "", options: str = "") -> None:
+	def __init__(self, name: str, version: Union[str, SemVersion] = "", configuration: str = "", options: str = "") -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self.name          = name          if name          is not None else ""
 		self.configuration = configuration if configuration is not None else ""
 		self.options       = options       if options       is not None else ""
 
-		if isinstance(version, Version):
+		if isinstance(version, SemVersion):
 			self.version     = version
 		elif isinstance(version, str):
-			self.version     = Version(version)
+			self.version     = SemVersion(version)
 		elif version is None:
-			self.version     = Version(0, 0, 0)
+			self.version     = SemVersion(0, 0, 0)
 
 
 @dataclass
@@ -199,7 +223,7 @@ class Versioning(ILineTerminal):
 		else:
 			self.service                = WorkStation()
 
-		self.variables['tool']     = Tool("pyVersioning", Version(0,7,1))
+		self.variables['tool']     = Tool("pyVersioning", SemVersion(0,7,1))
 		self.variables['git']      = self.getGitInformation()
 		self.variables['env']      = self.getEnvironment()
 		self.variables['platform'] = self.service.getPlatform()
@@ -210,11 +234,11 @@ class Versioning(ILineTerminal):
 		if self.variables['git'].tag != "":
 			pass
 
-	def getVersion(self, config: Configuration.Project) -> Version:
+	def getVersion(self, config: Configuration.Project) -> SemVersion:
 		if config.version is not None:
 			return config.version
 		else:
-			return Version("0.0.0")
+			return SemVersion("0.0.0")
 
 	def getGitInformation(self) -> Git:
 		return Git(
@@ -226,10 +250,13 @@ class Versioning(ILineTerminal):
 
 	def getLastCommit(self) -> Commit:
 		dt = self.getCommitDate()
+
 		return Commit(
 			hash=self.getGitHash(),
 			date=dt.date(),
-			time=dt.time()
+			time=dt.time(),
+			author=self.getCommitAuthor(),
+			comment=self.getCommitComment()
 		)
 
 	def getGitHash(self) -> str:
@@ -254,7 +281,7 @@ class Versioning(ILineTerminal):
 
 		try:
 			command =   "git"
-			arguments = ("show", "-s", "--format=%ct", "HEAD")
+			arguments = ("show", "-s", "--format=%ct") #, "HEAD")
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception
@@ -266,6 +293,54 @@ class Versioning(ILineTerminal):
 			message = completed.stderr.decode('utf-8')
 			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 			raise Exception
+
+	def getCommitAuthor(self) -> Author:
+		return Author(
+			name=self.getCommitAuthorName(),
+			email=self.getCommitAuthorEmail()
+		)
+
+	def getCommitAuthorName(self) -> str:
+		try:
+			command =   "git"
+			arguments = ("show", "-s", "--format='%an'") #, "HEAD")
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
+		except:
+			return ""
+		if completed.returncode == 0:
+			firstLine = completed.stdout.decode('utf-8').split("\n")[0]
+			return firstLine[1:-1]
+		else:
+			message = completed.stderr.decode('utf-8')
+			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+
+	def getCommitAuthorEmail(self) -> str:
+		try:
+			command =   "git"
+			arguments = ("show", "-s", "--format='%ae'") #, "HEAD")
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
+		except:
+			return ""
+		if completed.returncode == 0:
+			firstLine = completed.stdout.decode('utf-8').split("\n")[0]
+			return firstLine[1:-1]
+		else:
+			message = completed.stderr.decode('utf-8')
+			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+
+	def getCommitComment(self) -> str:
+		try:
+			command =   "git"
+			arguments = ("show", "-s", "--format='%B'") #, "HEAD")
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
+		except:
+			return ""
+		if completed.returncode == 0:
+			comment = completed.stdout.decode('utf-8')
+			return comment[1:-2]
+		else:
+			message = completed.stderr.decode('utf-8')
+			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
 
 	def getGitLocalBranch(self) -> str:
 		if self.platform is not Platforms.Workstation:
@@ -381,7 +456,7 @@ class Versioning(ILineTerminal):
 	def getCompiler(self, config: Configuration.Build.Compiler) -> Compiler:
 		return Compiler(
 			name=config.name,
-			version=Version(config.version),
+			version=SemVersion(config.version),
 			configuration=config.configuration,
 			options=config.options
 		)

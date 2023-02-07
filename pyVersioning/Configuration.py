@@ -98,6 +98,14 @@ class Configuration(Base, metaclass=ExtendedType):
 				"variant": "",
 				"version": "v0.0.0"
 			})
+			self.build = self.Build(self, self, {
+				"compiler": {
+					"name": "",
+					"version": "v0.0.0",
+					"configuration": "",
+					"options": ""
+				}
+			})
 		else:
 			self.load(configFile)
 

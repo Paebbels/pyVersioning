@@ -36,14 +36,14 @@ __license__ =   "Apache License, Version 2.0"
 __version__ =   "0.9.0"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
-from subprocess   import run as subprocess_run, PIPE
 from dataclasses  import dataclass, make_dataclass, field
 from datetime     import date, time, datetime
-from pathlib      import Path
+from enum         import Enum, auto
 from os           import environ
-from typing       import Union, Any
+from pathlib      import Path
+from subprocess   import run as subprocess_run, PIPE
+from typing       import Union, Any, Dict
 
-from flags                      import Flags
 from pyTooling.Versioning       import SemVersion
 from pyTooling.TerminalUI       import ILineTerminal
 
@@ -61,27 +61,35 @@ class Tool(SelfDescriptive):
 	name    : str
 	version : SemVersion
 
-	_public = ['name', 'version']
+	_public = ["name", "version"]
+
+
+class Date(date, SelfDescriptive):
+	_public = ["day", "month", "year"]
+
+
+class Time(time, SelfDescriptive):
+	_public = ["hour", "minute", "second"]
 
 
 @dataclass
 class Author(SelfDescriptive):
-	name: str
+	name:  str
 	email: str
 
-	_public = ['name', 'email']
+	_public = ["name", "email"]
 
 
 @dataclass
 class Commit(SelfDescriptive):
-	hash: str
-	date: date
-	time: time
-	author: Author
+	hash:    str
+	date:    date
+	time:    time
+	author:  Author
 	comment: str
 	oneline: str = field(init=False)
 
-	_public = ['hash', 'date', 'time', 'author', 'comment', 'oneline']
+	_public = ["hash", "date", "time", "author", "comment", "oneline"]
 
 	def __post_init__(self) -> None:
 		"""Calculate `oneline` from `comment`."""
@@ -92,13 +100,13 @@ class Commit(SelfDescriptive):
 
 @dataclass
 class Git(SelfDescriptive):
-	commit      : Commit
-	reference   : str = field(init=False)
-	tag         : str = ""
-	branch      : str = ""
-	repository  : str = ""
+	commit:     Commit
+	reference:  str = field(init=False)
+	tag:        str = ""
+	branch:     str = ""
+	repository: str = ""
 
-	_public = ['commit', 'reference', 'tag', 'branch', 'repository']
+	_public = ["commit", "reference", "tag", "branch", "repository"]
 
 	def __post_init__(self) -> None:
 		"""Calculate `reference` from `tag` or `branch`."""
@@ -117,7 +125,7 @@ class Project(SelfDescriptive):
 	variant:  str
 	version:  SemVersion
 
-	_public = ['name', 'variant', 'version']
+	_public = ["name", "variant", "version"]
 
 	def __init__(self, name: str, version: Union[str, SemVersion] = None, variant: str = None) -> None:
 		"""Assign fields and convert version string to a `Version` object."""
@@ -140,7 +148,7 @@ class Compiler(SelfDescriptive):
 	configuration:  str
 	options:        str
 
-	_public = ['name', 'version', 'configuration', 'options']
+	_public = ["name", "version", "configuration", "options"]
 
 	def __init__(self, name: str, version: Union[str, SemVersion] = "", configuration: str = "", options: str = "") -> None:
 		"""Assign fields and convert version string to a `Version` object."""
@@ -163,33 +171,43 @@ class Build(SelfDescriptive):
 	time:     time
 	compiler: Compiler
 
-	_public = ['date', 'time', 'compiler']
+	_public = ["date", "time", "compiler"]
 
 
-class Platforms(Flags):
-	Workstation = 1
-	AppVeyor = 2
-	GitHub = 3
-	GitLab = 4
-	Travis = 5
+class Platforms(Enum):
+	Workstation = auto()
+	AppVeyor =    auto()
+	GitHub =      auto()
+	GitLab =      auto()
+	Travis =      auto()
+
+
+class GitShowCommand(Enum):
+	CommitDateTime =       auto()
+	CommitAuthorName =     auto()
+	CommitAuthorEmail =    auto()
+	CommitCommitterName =  auto()
+	CommitCommitterEmail = auto()
+	CommitHash =           auto()
+	CommitComment =        auto()
 
 
 class Versioning(ILineTerminal):
-	platform  : int = Platforms.Workstation
-	variables : dict
+	platform:  Platforms = Platforms.Workstation
+	variables: Dict
 
 	def __init__(self, terminal: ILineTerminal):
 		super().__init__(terminal)
 
 		self.variables = {}
 
-		if 'APPVEYOR' in environ:
+		if "APPVEYOR" in environ:
 			self.platform = Platforms.AppVeyor
-		elif 'GITHUB_ACTIONS' in environ:
+		elif "GITHUB_ACTIONS" in environ:
 			self.platform = Platforms.GitHub
-		elif 'GITLAB_CI' in environ:
+		elif "GITLAB_CI" in environ:
 			self.platform = Platforms.GitLab
-		elif 'TRAVIS' in environ:
+		elif "TRAVIS" in environ:
 			self.platform = Platforms.Travis
 		else:
 			self.platform = Platforms.Workstation
@@ -197,37 +215,37 @@ class Versioning(ILineTerminal):
 	def loadDataFromConfiguration(self, config: Configuration) -> None:
 		"""Preload versioning information from configuration file."""
 
-		self.variables['project'] = self.getProject(config.project)
-		self.variables['build']   = self.getBuild(config.build)
-		self.variables['version'] = self.getVersion(config.project)
+		self.variables["project"] = self.getProject(config.project)
+		self.variables["build"]   = self.getBuild(config.build)
+		self.variables["version"] = self.getVersion(config.project)
 
 	def collectData(self) -> None:
 		"""Collect versioning information from environment including CI services (if available)."""
 
 		if self.platform is Platforms.AppVeyor:
 			self.service                = AppVeyor()
-			self.variables['appveyor']  = self.service.getEnvironment()
+			self.variables["appveyor"]  = self.service.getEnvironment()
 		elif self.platform is Platforms.GitHub:
 			self.service                = GitHub()
-			self.variables['github']    = self.service.getEnvironment()
+			self.variables["github"]    = self.service.getEnvironment()
 		elif self.platform is Platforms.GitLab:
 			self.service                = GitLab()
-			self.variables['gitlab']    = self.service.getEnvironment()
+			self.variables["gitlab"]    = self.service.getEnvironment()
 		elif self.platform is Platforms.Travis:
 			self.service                = Travis()
-			self.variables['travis']    = self.service.getEnvironment()
+			self.variables["travis"]    = self.service.getEnvironment()
 		else:
 			self.service                = WorkStation()
 
-		self.variables['tool']     = Tool("pyVersioning", SemVersion(0,7,1))
-		self.variables['git']      = self.getGitInformation()
-		self.variables['env']      = self.getEnvironment()
-		self.variables['platform'] = self.service.getPlatform()
+		self.variables["tool"]     = Tool("pyVersioning", SemVersion(0,7,1))
+		self.variables["git"]      = self.getGitInformation()
+		self.variables["env"]      = self.getEnvironment()
+		self.variables["platform"] = self.service.getPlatform()
 
 		self.calculateData()
 
 	def calculateData(self) -> None:
-		if self.variables['git'].tag != "":
+		if self.variables["git"].tag != "":
 			pass
 
 	def getVersion(self, config: Configuration.Project) -> SemVersion:
@@ -259,36 +277,14 @@ class Versioning(ILineTerminal):
 		if self.platform is not Platforms.Workstation:
 			return self.service.getGitHash()
 
-		try:
-			command =   "git"
-			arguments=  ("rev-parse", "HEAD")
-			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
-			return "0" * 40
-		if completed.returncode == 0:
-			return completed.stdout.decode('utf-8').split("\n")[0]
-		else:
-			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+		return self.execGitShow(GitShowCommand.CommitHash)
 
 	def getCommitDate(self) -> datetime:
 		if self.platform is not Platforms.Workstation:
 			return self.service.getCommitDate()
 
-		try:
-			command =   "git"
-			arguments = ("show", "-s", "--format=%ct") #, "HEAD")
-			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
-			raise Exception
-
-		if completed.returncode == 0:
-			ts = int(completed.stdout.decode('utf-8').split("\n")[0])
-			return datetime.fromtimestamp(ts)
-		else:
-			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
-			raise Exception
+		dt = self.execGitShow(GitShowCommand.CommitDateTime)
+		return dt
 
 	def getCommitAuthor(self) -> Author:
 		return Author(
@@ -297,46 +293,19 @@ class Versioning(ILineTerminal):
 		)
 
 	def getCommitAuthorName(self) -> str:
-		try:
-			command =   "git"
-			arguments = ("show", "-s", "--format='%an'") #, "HEAD")
-			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
-			return ""
-		if completed.returncode == 0:
-			firstLine = completed.stdout.decode('utf-8').split("\n")[0]
-			return firstLine[1:-1]
-		else:
-			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+		return self.execGitShow(GitShowCommand.CommitAuthorName)
 
 	def getCommitAuthorEmail(self) -> str:
-		try:
-			command =   "git"
-			arguments = ("show", "-s", "--format='%ae'") #, "HEAD")
-			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
-			return ""
-		if completed.returncode == 0:
-			firstLine = completed.stdout.decode('utf-8').split("\n")[0]
-			return firstLine[1:-1]
-		else:
-			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+		return self.execGitShow(GitShowCommand.CommitAuthorEmail)
+
+	def getCommitCommitterName(self) -> str:
+		return self.execGitShow(GitShowCommand.CommitCommitterName)
+
+	def getCommitCommitterEmail(self) -> str:
+		return self.execGitShow(GitShowCommand.CommitCommitterEmail)
 
 	def getCommitComment(self) -> str:
-		try:
-			command =   "git"
-			arguments = ("show", "-s", "--format='%B'") #, "HEAD")
-			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
-			return ""
-		if completed.returncode == 0:
-			comment = completed.stdout.decode('utf-8')
-			return comment[1:-2]
-		else:
-			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+		return self.execGitShow(GitShowCommand.CommitComment)
 
 	def getGitLocalBranch(self) -> str:
 		if self.platform is not Platforms.Workstation:
@@ -349,10 +318,10 @@ class Versioning(ILineTerminal):
 		except:
 			return ""
 		if completed.returncode == 0:
-			return completed.stdout.decode('utf-8').split("\n")[0]
+			return completed.stdout.decode("utf-8").split("\n")[0]
 		else:
-			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+			message = completed.stderr.decode("utf-8")
+			self.WriteFatal(f"Message from '{command}': {message}")
 
 	def getGitRemoteBranch(self, localBranch: str = None) -> str:
 		if self.platform is not Platforms.Workstation:
@@ -363,16 +332,16 @@ class Versioning(ILineTerminal):
 
 		try:
 			command =   "git"
-			arguments = ("config", "branch.{localBranch}.merge".format(localBranch=localBranch))
+			arguments = ("config", f"branch.{localBranch}.merge")
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
-			raise Exception
+			raise Exception()
 
 		if completed.returncode == 0:
-			return completed.stdout.decode('utf-8').split("\n")[0]
+			return completed.stdout.decode("utf-8").split("\n")[0]
 		else:
-			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+			message = completed.stderr.decode("utf-8")
+			self.WriteFatal(f"Message from '{command}': {message}")
 			raise Exception
 
 	def getGitRemote(self, localBranch: str = None) -> str:
@@ -381,19 +350,19 @@ class Versioning(ILineTerminal):
 
 		try:
 			command =   "git"
-			arguments=  ("config", "branch.{localBranch}.remote".format(localBranch=localBranch))
+			arguments=  ("config", f"branch.{localBranch}.remote")
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception
 
 		if completed.returncode == 0:
-			return completed.stdout.decode('utf-8').split("\n")[0]
+			return completed.stdout.decode("utf-8").split("\n")[0]
 		elif completed.returncode == 1:
-			self.WriteWarning("Branch '{localBranch}' is not pushed to a remote.".format(localBranch=localBranch))
-			return "(local) {localBranch}".format(localBranch=localBranch)
+			self.WriteWarning(f"Branch '{localBranch}' is not pushed to a remote.")
+			return f"(local) {localBranch}"
 		else:
-			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+			message = completed.stderr.decode("utf-8")
+			self.WriteFatal(f"Message from '{command}': {message}")
 			raise Exception
 
 	def getGitTag(self) -> str:
@@ -402,16 +371,16 @@ class Versioning(ILineTerminal):
 
 		try:
 			command =   "git"
-			arguments = ("tag", "--points-at","HEAD")
+			arguments = ("tag", "--points-at", "HEAD")
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception
 
 		if completed.returncode == 0:
-			return completed.stdout.decode('utf-8').split("\n")[0]
+			return completed.stdout.decode("utf-8").split("\n")[0]
 		else:
-			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+			message = completed.stderr.decode("utf-8")
+			self.WriteFatal(f"Message from '{command}': {message}")
 			raise Exception
 
 	def getGitRemoteURL(self, remote: str = None) -> str:
@@ -422,17 +391,43 @@ class Versioning(ILineTerminal):
 			remote = self.getGitRemote()
 		try:
 			command =   "git"
-			arguments = ("config", "remote.{remote}.url".format(remote=remote))
+			arguments = ("config", f"remote.{remote}.url")
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception
 
 		if completed.returncode == 0:
-			return completed.stdout.decode('utf-8').split("\n")[0]
+			return completed.stdout.decode("utf-8").split("\n")[0]
 		else:
-			message = completed.stderr.decode('utf-8')
-			self.WriteFatal("Message from '{command}': {message}".format(command=command, message=message))
+			message = completed.stderr.decode("utf-8")
+			self.WriteFatal(f"Message from '{command}': {message}")
 			raise Exception
+
+	__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP = {
+		GitShowCommand.CommitHash: "%H",
+		GitShowCommand.CommitDateTime: "%ct",
+		GitShowCommand.CommitAuthorName: "%an",
+		GitShowCommand.CommitAuthorEmail: "%ae",
+		GitShowCommand.CommitCommitterName: "%cn",
+		GitShowCommand.CommitCommitterEmail: "%ce",
+		GitShowCommand.CommitComment: "%B",
+	}
+
+	def execGitShow(self, command: GitShowCommand) -> str:
+		format = f"--format='{self.__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP[command]}'"
+
+		try:
+			command =   "git"
+			arguments = ("show", "-s", format) #, "HEAD")
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
+		except:
+			return ""
+		if completed.returncode == 0:
+			comment = completed.stdout.decode("utf-8")
+			return comment[1:-2]
+		else:
+			message = completed.stderr.decode("utf-8")
+			self.WriteFatal(f"Message from '{command}': {message}")
 
 	def getProject(self, config: Configuration.Project) -> Project:
 		return Project(
@@ -461,7 +456,7 @@ class Versioning(ILineTerminal):
 		env = {}
 		for key, value in environ.items():
 			if not key.isidentifier():
-				self.WriteWarning("Skipping environment variable '{key}', because it's not a valid Python identifier.".format(key=key))
+				self.WriteWarning(f"Skipping environment variable '{key}', because it's not a valid Python identifier.")
 				continue
 			key = key.replace("(", "_")
 			key = key.replace(")", "_")
@@ -477,9 +472,9 @@ class Versioning(ILineTerminal):
 			[(name, str) for name in env.keys()],
 #			bases=(SelfDescriptive,),
 			namespace={
-				'as_dict':        lambda self: env,
-				'Keys':           lambda self: env.keys(),
-				'KeyValuePairs':  lambda self: func(self)
+				"as_dict":       lambda self: env,
+				"Keys":          lambda self: env.keys(),
+				"KeyValuePairs": lambda self: func(self)
 			},
 			repr=True
 		)
@@ -492,5 +487,5 @@ class Versioning(ILineTerminal):
 		# apply variables
 		content = content.format(**self.variables)
 
-		with filename.open('w') as file:
+		with filename.open("w") as file:
 			file.write(content)

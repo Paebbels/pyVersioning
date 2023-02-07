@@ -29,95 +29,87 @@
 # ==================================================================================================================== #
 #
 """pyVersioning configuration file in YAML format."""
-from pathlib        import WindowsPath, PosixPath
-from typing         import Dict
+from pathlib               import Path
+from typing                import Dict, Optional as Nullable
 
-from pyTooling.MetaClasses  import Overloading
-from ruamel.yaml            import YAML
+from ruamel.yaml           import YAML
+from pyTooling.Decorators  import export
+from pyTooling.MetaClasses import ExtendedType
+from pyTooling.Versioning  import SemVersion
 
-from pyTooling.Versioning   import SemVersion
 
+@export
+class Base:
+	root:   'Base'
+	parent: Nullable['Base']
 
-class Base():
-	root:   'Base' =  None
-	parent: 'Base' =  None
-
-	def __init__(self, root: 'Base', parent: 'Base'):
-		self.root =   root
+	def __init__(self, root: 'Base', parent: Nullable['Base']):
+		self.root = root
 		self.parent = parent
 
-class Configuration(Base, metaclass=Overloading):
+
+@export
+class Configuration(Base, metaclass=ExtendedType):
 	class Project(Base):
-		name    : str     = None
-		variant : str     = None
-		version : SemVersion = None
+		name:    str
+		variant: str
+		version: SemVersion
 
 		def __init__(self, root: 'Base', parent: 'Base', settings: Dict):
 			super().__init__(root, parent)
 
-			self.name     = settings['name']
-			if 'variant' in settings:
-				self.variant  = settings['variant']
-			if 'version' in settings:
-				self.version  = SemVersion(settings['version'])
+			self.name =    settings["name"]
+			self.variant = settings["variant"] if "variant" in settings else None
+			self.version = SemVersion(settings["version"]) if "version" in settings else None
 
 	class Build(Base):
 		class Compiler(Base):
-			name          : str = None
-			version       : str = None
-			configuration : str = None
-			options       : str = None
+			name:          str
+			version:       str
+			configuration: str
+			options:       str
 
 			def __init__(self, root: 'Base', parent: 'Base', settings: Dict):
 				super().__init__(root, parent)
 
-				self.name          = settings['name']
-				self.version       = settings['version']
-				self.configuration = settings['configuration']
-				self.options       = settings['options']
+				self.name =          settings["name"]
+				self.version =       settings["version"]
+				self.configuration = settings["configuration"]
+				self.options =       settings["options"]
 
-		compiler : Compiler = None
+		compiler: Compiler
 
 		def __init__(self, root: 'Base', parent: 'Base', settings: Dict):
 			super().__init__(root, parent)
 
-			if ('compiler' in settings):
-				self.compiler = self.Compiler(root, self, settings['compiler'])
+			self.compiler = self.Compiler(root, self, settings["compiler"]) if "compiler" in settings else None
 
+	version: int
+	project: Project
+	build:   Build
 
-	version : int =     None
-	project : Project = None
-	build   : Build =   None
+	def __init__(self, configFile: Path = None):
+		super().__init__(self, None)
 
-	def __init__(self):
-		self.version = 1
-		self.project = self.Project(self, self, {
-			"name": "",
-			"variant": "",
-			"version": "v0.0.0"
-		})
+		if configFile is None:
+			self.version = 1
+			self.project = self.Project(self, self, {
+				"name":    "",
+				"variant": "",
+				"version": "v0.0.0"
+			})
+		else:
+			self.load(configFile)
 
-	def __init__(self, configFile: PosixPath):
-		self.load(configFile)
-
-	def __init__(self, configFile: WindowsPath):
-		self.load(configFile)
-
-	def load(self, configFile):
+	def load(self, configFile: Path):
 		yaml =   YAML()
 		config = yaml.load(configFile)
 
-		if 'version' in config:
-			self.version = int(config['version'])
-		else:
-			self.version = 1
+		self.version = int(config["version"]) if "version" in config else 1
 
 		if self.version == 1:
 			self.loadVersion1(config)
 
 	def loadVersion1(self, config):
-		if 'project' in config:
-			self.project = self.Project(self, self, config['project'])
-
-		if 'build' in config:
-			self.build = self.Build(self, self, config['build'])
+		self.project = self.Project(self, self, config["project"]) if "project" in config else None
+		self.build =   self.Build(self, self, config["build"])     if "build" in config   else None

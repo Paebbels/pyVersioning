@@ -65,10 +65,8 @@ class Application(LineTerminal, ArgParseMixin):
 	_config:      Configuration
 	_versioning:  Versioning
 
-	def __init__(self, configFile: Path) -> None:
+	def __init__(self) -> None:
 		super().__init__()
-
-		self.__configFile = configFile
 
 		ArgParseMixin.__init__(
 			self,
@@ -98,7 +96,9 @@ class Application(LineTerminal, ArgParseMixin):
 		self.WriteNormal("{HEADLINE}{headline: ^80s}".format(headline=self.HeadLine, **LineTerminal.Foreground))
 		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
 
-	def Run(self) -> NoReturn:
+	def Run(self, configFile: Path) -> NoReturn:
+		self.__configFile = configFile
+
 		super().Run(self)
 		self.exit()
 
@@ -296,8 +296,8 @@ def main() -> NoReturn:
 	configFile = Path(".pyVersioning.yml")
 
 	Application.versionCheck((3, 7, 0))
-	application = Application(configFile)
-	application.Run()
+	application = Application()
+	application.Run(configFile)
 
 
 if __name__ == "__main__":

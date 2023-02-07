@@ -29,15 +29,16 @@
 # ==================================================================================================================== #
 #
 """GitHub specific code to collect the build environment."""
-from os import environ
+from os     import environ
+from typing import Optional as Nullable
 
 from pyVersioning.CIService import CIService, Platform, ServiceException
 
 
 class GitHub(CIService):
-	ENV_INCLUDE_FILTER =  ("GITHUB_")
-	ENV_EXCLUDE_FILTER =  ("_TOKEN")
-	ENV_INCLUDES =        ['CI']
+	ENV_INCLUDE_FILTER =  ("GITHUB_", )
+	ENV_EXCLUDE_FILTER =  ("_TOKEN", )
+	ENV_INCLUDES =        ('CI', )
 	ENV_EXCLUDES =        []
 
 	def getPlatform(self) -> Platform:
@@ -49,7 +50,7 @@ class GitHub(CIService):
 		except KeyError as ex:
 			raise ServiceException from ex
 
-	def getGitBranch(self) -> str:
+	def getGitBranch(self) -> Nullable[str]:
 		branchPrefix = "refs/heads/"
 
 		try:
@@ -61,7 +62,7 @@ class GitHub(CIService):
 
 		return None
 
-	def getGitTag(self) -> str:
+	def getGitTag(self) -> Nullable[str]:
 		tagPrefix    = "refs/tags/"
 
 		try:

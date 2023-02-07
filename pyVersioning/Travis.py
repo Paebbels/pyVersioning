@@ -29,16 +29,20 @@
 # ==================================================================================================================== #
 #
 """Travis  specific code to collect the build environment."""
-from os import environ
+from os     import environ
+from typing import Optional as Nullable
+
+from pyTooling.Decorators import export
 
 from pyVersioning.CIService import CIService, Platform, ServiceException
 
 
+@export
 class Travis(CIService):
-	ENV_INCLUDE_FILTER =  ("TRAVIS_")
-	ENV_EXCLUDE_FILTER =  ("_TOKEN")
-	ENV_INCLUDES =        ['CI', 'CONTINUOUS_INTEGRATION', 'TRAVIS']
-	ENV_EXCLUDES =        []
+	ENV_INCLUDE_FILTER = ("TRAVIS_", )
+	ENV_EXCLUDE_FILTER = ("_TOKEN", )
+	ENV_INCLUDES =       ('CI', 'CONTINUOUS_INTEGRATION', 'TRAVIS')
+	ENV_EXCLUDES =       []
 
 	def getPlatform(self) -> Platform:
 		return Platform("travis")
@@ -49,7 +53,7 @@ class Travis(CIService):
 		except KeyError as ex:
 			raise ServiceException from ex
 
-	def getGitBranch(self) -> str:
+	def getGitBranch(self) -> Nullable[str]:
 		try:
 			return environ['TRAVIS_BRANCH']
 		except KeyError:
@@ -57,7 +61,7 @@ class Travis(CIService):
 
 		return None
 
-	def getGitTag(self) -> str:
+	def getGitTag(self) -> Nullable[str]:
 		try:
 			return environ['TRAVIS_TAG']
 		except KeyError:

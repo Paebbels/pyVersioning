@@ -30,7 +30,10 @@
 #
 from typing import List
 
+from pyTooling.Decorators import export
 
+
+@export
 class SelfDescriptive:
 	_public: List
 

@@ -10,13 +10,9 @@
 #
 # Python package:     pyVersioning Implementation
 #
-# Description:
-# ------------------------------------
-#		TODO
-#
 # License:
 # ============================================================================
-# Copyright 2020-2021 Patrick Lehmann - Bötzingen, Germany
+# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

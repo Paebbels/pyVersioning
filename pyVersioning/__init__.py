@@ -10,13 +10,9 @@
 #
 # Python package:     pyVersioning Implementation
 #
-# Description:
-# ------------------------------------
-#		TODO
-#
 # License:
 # ============================================================================
-# Copyright 2020-2021 Patrick Lehmann - Bötzingen, Germany
+# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,7 +33,7 @@ __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
 __copyright__ = "2020-2021, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
-__version__ =   "0.8.1"
+__version__ =   "0.9.0"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
 from subprocess   import run as subprocess_run, PIPE

@@ -13,7 +13,7 @@ jobs:
       name: pyVersioning
 
   UnitTesting:
-    uses: pyTooling/Actions/.github/workflows/UnitTesting.yml@r0
+    uses: pyTooling/Actions/.github/workflows/UnitTesting.yml@dev
     needs:
       - Params
     with:

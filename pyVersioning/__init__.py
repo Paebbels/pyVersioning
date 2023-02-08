@@ -282,8 +282,8 @@ class Versioning(ILineTerminal):
 		if self.platform is not Platforms.Workstation:
 			return self.service.getCommitDate()
 
-		dt = self.execGitShow(GitShowCommand.CommitDateTime)
-		return dt
+		datetimeString = self.execGitShow(GitShowCommand.CommitDateTime)
+		return datetime.fromtimestamp(int(datetimeString))
 
 	def getCommitAuthor(self) -> Author:
 		return Author(

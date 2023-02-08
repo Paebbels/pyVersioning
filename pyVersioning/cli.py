@@ -33,14 +33,16 @@ from pathlib      import Path
 from textwrap     import dedent
 from typing       import NoReturn
 
+from pyTooling.Decorators import export
+from pyTooling.TerminalUI            import LineTerminal, Severity
 from pyAttributes                    import Attribute
 from pyAttributes.ArgParseAttributes import ArgParseMixin, CommandAttribute, ArgumentAttribute, DefaultAttribute
-from pyTooling.TerminalUI            import LineTerminal, Severity
 
 from pyVersioning                    import Versioning, Platforms, Project, SelfDescriptive
 from pyVersioning.Configuration      import Configuration
 
 
+@export
 class ProjectAttributeGroup(Attribute):
 	def __call__(self, func):
 		self._AppendAttribute(func, ArgumentAttribute("--project-name",    metavar="<Name>",    dest="ProjectName",    type=str, help="Name of the project."))
@@ -49,6 +51,7 @@ class ProjectAttributeGroup(Attribute):
 		return func
 
 
+@export
 class CompilerAttributeGroup(Attribute):
 	def __call__(self, func):
 		self._AppendAttribute(func, ArgumentAttribute("--compiler-name",    metavar="<Name>",    dest="CompilerName",    type=str, help="Used compiler."))
@@ -58,6 +61,7 @@ class CompilerAttributeGroup(Attribute):
 		return func
 
 
+@export
 class Application(LineTerminal, ArgParseMixin):
 	HeadLine:     str = "Version file generator."
 

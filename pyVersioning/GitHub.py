@@ -32,9 +32,12 @@
 from os     import environ
 from typing import Optional as Nullable
 
+from pyTooling.Decorators import export
+
 from pyVersioning.CIService import CIService, Platform, ServiceException
 
 
+@export
 class GitHub(CIService):
 	ENV_INCLUDE_FILTER =  ("GITHUB_", )
 	ENV_EXCLUDE_FILTER =  ("_TOKEN", )

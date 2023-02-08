@@ -31,9 +31,12 @@
 """AppVeyor specific code to collect the build environment."""
 from os import environ
 
+from pyTooling.Decorators import export
+
 from pyVersioning.CIService import CIService, Platform, ServiceException
 
 
+@export
 class AppVeyor(CIService):
 	ENV_INCLUDE_FILTER =  ("APPVEYOR_")
 	ENV_EXCLUDE_FILTER =  ("_TOKEN")

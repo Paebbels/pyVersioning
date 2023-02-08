@@ -43,6 +43,7 @@ from pathlib      import Path
 from subprocess   import run as subprocess_run, PIPE
 from typing       import Union, Any, Dict
 
+from pyTooling.Decorators import export
 from pyTooling.Versioning       import SemVersion
 from pyTooling.TerminalUI       import ILineTerminal
 
@@ -55,6 +56,7 @@ from pyVersioning.GitHub        import GitHub
 from pyVersioning.Travis        import Travis
 
 
+@export
 @dataclass
 class Tool(SelfDescriptive):
 	name    : str
@@ -63,14 +65,17 @@ class Tool(SelfDescriptive):
 	_public = ["name", "version"]
 
 
+@export
 class Date(date, SelfDescriptive):
 	_public = ["day", "month", "year"]
 
 
+@export
 class Time(time, SelfDescriptive):
 	_public = ["hour", "minute", "second"]
 
 
+@export
 @dataclass
 class Author(SelfDescriptive):
 	name:  str
@@ -79,6 +84,7 @@ class Author(SelfDescriptive):
 	_public = ["name", "email"]
 
 
+@export
 @dataclass
 class Commit(SelfDescriptive):
 	hash:    str
@@ -97,6 +103,7 @@ class Commit(SelfDescriptive):
 			self.oneline = self.comment.split("\n")[0]
 
 
+@export
 @dataclass
 class Git(SelfDescriptive):
 	commit:     Commit
@@ -118,6 +125,7 @@ class Git(SelfDescriptive):
 			self.reference = "[Detached HEAD]"
 
 
+@export
 @dataclass
 class Project(SelfDescriptive):
 	name:     str
@@ -140,6 +148,7 @@ class Project(SelfDescriptive):
 			self.version = SemVersion(0, 0, 0)
 
 
+@export
 @dataclass
 class Compiler(SelfDescriptive):
 	name:           str
@@ -164,6 +173,7 @@ class Compiler(SelfDescriptive):
 			self.version     = SemVersion(0, 0, 0)
 
 
+@export
 @dataclass
 class Build(SelfDescriptive):
 	date:     date
@@ -173,6 +183,7 @@ class Build(SelfDescriptive):
 	_public = ["date", "time", "compiler"]
 
 
+@export
 class Platforms(Enum):
 	Workstation = auto()
 	AppVeyor =    auto()
@@ -181,6 +192,7 @@ class Platforms(Enum):
 	Travis =      auto()
 
 
+@export
 class GitShowCommand(Enum):
 	CommitDateTime =       auto()
 	CommitAuthorName =     auto()
@@ -191,6 +203,7 @@ class GitShowCommand(Enum):
 	CommitComment =        auto()
 
 
+@export
 class Versioning(ILineTerminal):
 	platform:  Platforms = Platforms.Workstation
 	variables: Dict

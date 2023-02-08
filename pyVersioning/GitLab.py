@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2021 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -31,15 +31,19 @@
 """GitLab specific code to collect the build environment."""
 from datetime import datetime
 from os       import environ
+from typing   import Optional as Nullable
+
+from pyTooling.Decorators   import export
 
 from pyVersioning.CIService import CIService, Platform, ServiceException
 
 
+@export
 class GitLab(CIService):
-	ENV_INCLUDE_FILTER =  ("CI_", "GITLAB_")
-	ENV_EXCLUDE_FILTER =  ("_TOKEN")
-	ENV_INCLUDES =        ['CI']
-	ENV_EXCLUDES =        ['CI_JOB_TOKEN']
+	ENV_INCLUDE_FILTER = ("CI_", "GITLAB_")
+	ENV_EXCLUDE_FILTER = ("_TOKEN", )
+	ENV_INCLUDES =       ('CI', )
+	ENV_EXCLUDES =       ('CI_JOB_TOKEN', )
 
 	def getPlatform(self) -> Platform:
 		return Platform("gitlab")
@@ -57,7 +61,7 @@ class GitLab(CIService):
 		except KeyError as ex:
 			raise ServiceException from ex
 
-	def getGitBranch(self) -> str:
+	def getGitBranch(self) -> Nullable[str]:
 		try:
 			return environ['CI_COMMIT_BRANCH']
 		except KeyError:
@@ -65,7 +69,7 @@ class GitLab(CIService):
 
 		return None
 
-	def getGitTag(self) -> str:
+	def getGitTag(self) -> Nullable[str]:
 		try:
 			return environ['CI_COMMIT_TAG']
 		except KeyError:

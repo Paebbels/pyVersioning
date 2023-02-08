@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2021 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -32,32 +32,46 @@
 from dataclasses  import make_dataclass, dataclass
 from datetime     import datetime
 from os           import environ
+
+from pyTooling.MetaClasses import ExtendedType, abstractmethod
 from typing       import Dict
+
+from pyTooling.Decorators import export
 
 from pyVersioning import SelfDescriptive
 
 
+@export
 class ServiceException(Exception):
-	pass
+	""".. todo:: ServiceException needs documentation"""
 
 
+@export
 @dataclass
 class Platform(SelfDescriptive):
-	ci_service : str
+	""".. todo:: Platform needs documentation"""
+
+	ci_service: str
 
 	_public = ['ci_service']
 
 
-class CIService:
+@export
+class CIService(metaclass=ExtendedType):
+	""".. todo:: CIService needs documentation"""
+
 	ENV_INCLUDE_FILTER =  ()
 	ENV_EXCLUDE_FILTER =  ()
 	ENV_INCLUDES =        []
 	ENV_EXCLUDES =        []
 
+	@abstractmethod
 	def getPlatform(self) -> Platform:
-		raise NotImplementedError()
+		""".. todo:: getPlatform needs documentation"""
 
 	def getEnvironment(self) -> Dict[str, str]:
+		""".. todo:: getEnvironment needs documentation"""
+
 		filteredEnv = {key:value for (key,value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
 
 		# manually add some variables
@@ -92,22 +106,28 @@ class CIService:
 
 		return Environment(**filteredEnv)
 
+	@abstractmethod
 	def getGitHash(self) -> str:
-		raise NotImplementedError()
+		""".. todo:: getGithash needs documentation"""
 
+	@abstractmethod
 	def getCommitDate(self) -> datetime:
-		raise NotImplementedError()
+		""".. todo:: getCommitDate needs documentation"""
 
+	@abstractmethod
 	def getGitBranch(self) -> str:
-		raise NotImplementedError()
+		""".. todo:: getGitBranch needs documentation"""
 
+	@abstractmethod
 	def getGitTag(self) -> str:
-		raise NotImplementedError()
+		""".. todo:: getGitTag needs documentation"""
 
+	@abstractmethod
 	def getGitRepository(self) -> str:
-		raise NotImplementedError()
+		""".. todo:: getGitRepository needs documentation"""
 
 
+@export
 class WorkStation(CIService):
 	def getPlatform(self) -> Platform:
 		return Platform("NO-CI")

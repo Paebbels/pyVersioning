@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2021 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -31,9 +31,12 @@
 """AppVeyor specific code to collect the build environment."""
 from os import environ
 
+from pyTooling.Decorators import export
+
 from pyVersioning.CIService import CIService, Platform, ServiceException
 
 
+@export
 class AppVeyor(CIService):
 	ENV_INCLUDE_FILTER =  ("APPVEYOR_")
 	ENV_EXCLUDE_FILTER =  ("_TOKEN")

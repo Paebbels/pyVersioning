@@ -28,3 +28,59 @@
 # SPDX-License-Identifier: Apache-2.0                                                                                  #
 # ==================================================================================================================== #
 #
+"""Unit tests for project information."""
+from unittest     import TestCase
+
+from pyTooling.Versioning import SemVersion
+
+from pyVersioning import Project as pyV_Project
+
+
+if __name__ == "__main__":
+	print("ERROR: you called a testcase declaration file as an executable module.")
+	print("Use: 'python -m unitest <testcase module>'")
+	exit(1)
+
+
+class Project(TestCase):
+	def test_ProjectName(self):
+		name = "Project 1"
+		variant = ""
+
+		project = pyV_Project(name)
+
+		self.assertEqual(project.name, name)
+		self.assertEqual(project.variant, variant)
+		self.assertEqual(project.version, SemVersion("0.0.0"))
+
+	def test_ProjectName_VariantName(self):
+		name = "Project 1"
+		variant = "Variant 1"
+
+		project = pyV_Project(name, variant=variant)
+
+		self.assertEqual(project.name, name)
+		self.assertEqual(project.variant, variant)
+		self.assertEqual(project.version, SemVersion("0.0.0"))
+
+	def test_ProjectName_VersionAsString(self):
+		name = "Project 1"
+		variant = ""
+		version = "0.1.2"
+
+		project = pyV_Project(name, version)
+
+		self.assertEqual(project.name, name)
+		self.assertEqual(project.variant, variant)
+		self.assertEqual(project.version, SemVersion(version))
+
+	def test_ProjectName_VersionAsVersion(self):
+		name = "Project 1"
+		variant = ""
+		version = SemVersion("1.3.2")
+
+		project = pyV_Project(name, version)
+
+		self.assertEqual(project.name, name)
+		self.assertEqual(project.variant, variant)
+		self.assertIs(project.version, version)

@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2021 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -29,15 +29,19 @@
 # ==================================================================================================================== #
 #
 """GitHub specific code to collect the build environment."""
-from os import environ
+from os     import environ
+from typing import Optional as Nullable
+
+from pyTooling.Decorators import export
 
 from pyVersioning.CIService import CIService, Platform, ServiceException
 
 
+@export
 class GitHub(CIService):
-	ENV_INCLUDE_FILTER =  ("GITHUB_")
-	ENV_EXCLUDE_FILTER =  ("_TOKEN")
-	ENV_INCLUDES =        ['CI']
+	ENV_INCLUDE_FILTER =  ("GITHUB_", )
+	ENV_EXCLUDE_FILTER =  ("_TOKEN", )
+	ENV_INCLUDES =        ('CI', )
 	ENV_EXCLUDES =        []
 
 	def getPlatform(self) -> Platform:
@@ -49,7 +53,7 @@ class GitHub(CIService):
 		except KeyError as ex:
 			raise ServiceException from ex
 
-	def getGitBranch(self) -> str:
+	def getGitBranch(self) -> Nullable[str]:
 		branchPrefix = "refs/heads/"
 
 		try:
@@ -61,7 +65,7 @@ class GitHub(CIService):
 
 		return None
 
-	def getGitTag(self) -> str:
+	def getGitTag(self) -> Nullable[str]:
 		tagPrefix    = "refs/tags/"
 
 		try:

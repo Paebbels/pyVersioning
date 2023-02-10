@@ -249,7 +249,7 @@ class Versioning(ILineTerminal):
 		else:
 			self.service                = WorkStation()
 
-		self.variables["tool"]     = Tool("pyVersioning", SemVersion(0,7,1))
+		self.variables["tool"]     = Tool("pyVersioning", SemVersion(__version__))
 		self.variables["git"]      = self.getGitInformation()
 		self.variables["env"]      = self.getEnvironment()
 		self.variables["platform"] = self.service.getPlatform()

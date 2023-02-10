@@ -279,11 +279,3 @@ autoapi_modules = {
 		"override": True
 	}
 }
-
-for directory in [mod for mod in Path("../pyVersioning").iterdir() if mod.is_dir() and mod.name != "__pycache__"]:
-	print(f"Adding module rule for '{project}.{directory.name}'")
-	autoapi_modules[f"{project}.{directory.name}"] = {
-		"template": "module",
-		"output": "pyVersioning",
-		"override": True
-	}

@@ -57,17 +57,22 @@ class Platform(SelfDescriptive):
 
 
 @export
-class CIService(metaclass=ExtendedType):
-	""".. todo:: CIService needs documentation"""
+class BaseService(metaclass=ExtendedType):
+	"""Base-class to collect platform and environment information from e.g. environment variables."""
+
+	@abstractmethod
+	def getPlatform(self) -> Platform:
+		""".. todo:: getPlatform needs documentation"""
+
+
+@export
+class CIService(BaseService):
+	"""Base-class to collect Git and other platform and environment information from CI service environment variables."""
 
 	ENV_INCLUDE_FILTER =  ()
 	ENV_EXCLUDE_FILTER =  ()
 	ENV_INCLUDES =        []
 	ENV_EXCLUDES =        []
-
-	@abstractmethod
-	def getPlatform(self) -> Platform:
-		""".. todo:: getPlatform needs documentation"""
 
 	def getEnvironment(self) -> Dict[str, str]:
 		""".. todo:: getEnvironment needs documentation"""
@@ -128,6 +133,6 @@ class CIService(metaclass=ExtendedType):
 
 
 @export
-class WorkStation(CIService):
+class WorkStation(BaseService):
 	def getPlatform(self) -> Platform:
 		return Platform("NO-CI")

@@ -29,8 +29,9 @@
 # ==================================================================================================================== #
 #
 """Travis  specific code to collect the build environment."""
+from datetime import datetime
 from os     import environ
-from typing import Optional as Nullable
+from typing import Optional as Nullable, Dict
 
 from pyTooling.Decorators import export
 
@@ -39,6 +40,8 @@ from pyVersioning.CIService import CIService, Platform, ServiceException
 
 @export
 class Travis(CIService):
+	"""Collect Git and other platform and environment information from environment variables provided by Travis-CI."""
+
 	ENV_INCLUDE_FILTER = ("TRAVIS_", )
 	ENV_EXCLUDE_FILTER = ("_TOKEN", )
 	ENV_INCLUDES =       ('CI', 'CONTINUOUS_INTEGRATION', 'TRAVIS')
@@ -47,11 +50,17 @@ class Travis(CIService):
 	def getPlatform(self) -> Platform:
 		return Platform("travis")
 
+	def getEnvironment(self) -> Dict[str, str]:
+		return {}
+
 	def getGitHash(self) -> str:
 		try:
 			return environ['TRAVIS_COMMIT']
 		except KeyError as ex:
 			raise ServiceException from ex
+
+	def getCommitDate(self) -> datetime:
+		return None
 
 	def getGitBranch(self) -> Nullable[str]:
 		try:

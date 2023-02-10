@@ -39,6 +39,8 @@ from pyVersioning.CIService import CIService, Platform, ServiceException
 
 @export
 class GitHub(CIService):
+	"""Collect Git and other platform and environment information from environment variables provided by GitHub Actions."""
+
 	ENV_INCLUDE_FILTER =  ("GITHUB_", )
 	ENV_EXCLUDE_FILTER =  ("_TOKEN", )
 	ENV_INCLUDES =        ('CI', )

@@ -274,7 +274,7 @@ coverage_show_missing_items = True
 # ==============================================================================
 autoapi_modules = {
 	"pyVersioning":  {
-		"template": "package",
+		"template": "module",
 		"output": "pyVersioning",
 		"override": True
 	}

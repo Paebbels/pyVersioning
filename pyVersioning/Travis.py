@@ -59,9 +59,6 @@ class Travis(CIService):
 		except KeyError as ex:
 			raise ServiceException from ex
 
-	def getCommitDate(self) -> datetime:
-		return None
-
 	def getGitBranch(self) -> Nullable[str]:
 		try:
 			return environ['TRAVIS_BRANCH']

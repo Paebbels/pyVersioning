@@ -38,7 +38,7 @@ from typing       import Dict
 
 from pyTooling.Decorators import export
 
-from pyVersioning import SelfDescriptive
+from pyVersioning import SelfDescriptive, GitHelper, GitShowCommand
 
 
 @export
@@ -47,13 +47,19 @@ class ServiceException(Exception):
 
 
 @export
-@dataclass
 class Platform(SelfDescriptive):
 	""".. todo:: Platform needs documentation"""
 
-	ci_service: str
+	_ciService: str
 
 	_public = ['ci_service']
+
+	def __init__(self, ciService: str):
+		self._ciService = ciService
+
+	@property
+	def ci_service(self) -> str:
+		return self._ciService
 
 
 @export
@@ -66,7 +72,7 @@ class BaseService(metaclass=ExtendedType):
 
 
 @export
-class CIService(BaseService):
+class CIService(BaseService, GitHelper):
 	"""Base-class to collect Git and other platform and environment information from CI service environment variables."""
 
 	ENV_INCLUDE_FILTER =  ()
@@ -115,9 +121,12 @@ class CIService(BaseService):
 	def getGitHash(self) -> str:
 		""".. todo:: getGithash needs documentation"""
 
-	@abstractmethod
+	# @abstractmethod
 	def getCommitDate(self) -> datetime:
 		""".. todo:: getCommitDate needs documentation"""
+
+		datetimeString = self.execGitShow(GitShowCommand.CommitDateTime, self.getGitHash())
+		return datetime.fromtimestamp(int(datetimeString))
 
 	@abstractmethod
 	def getGitBranch(self) -> str:

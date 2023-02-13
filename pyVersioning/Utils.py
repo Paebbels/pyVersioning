@@ -28,14 +28,19 @@
 # SPDX-License-Identifier: Apache-2.0                                                                                  #
 # ==================================================================================================================== #
 #
-from typing import List
+from enum       import Enum, auto
+from subprocess import run as subprocess_run, PIPE
+from typing     import List
 
-from pyTooling.Decorators import export
+from pyTooling.Decorators  import export
+from pyTooling.MetaClasses import ExtendedType
 
 
 @export
-class SelfDescriptive:
-	_public: List
+class SelfDescriptive(metaclass=ExtendedType):
+
+	# TODO: could this be filled with a decorator?
+	_public: List[str]
 
 	def Keys(self):
 		for element in self._public:
@@ -45,3 +50,54 @@ class SelfDescriptive:
 		for element in self._public:
 			value = self.__getattribute__(element)
 			yield (element, value)
+
+
+@export
+class GitShowCommand(Enum):
+	CommitDateTime =       auto()
+	CommitAuthorName =     auto()
+	CommitAuthorEmail =    auto()
+	CommitCommitterName =  auto()
+	CommitCommitterEmail = auto()
+	CommitHash =           auto()
+	CommitComment =        auto()
+
+
+@export
+class ToolException(Exception):
+	command:      str
+	errorMessage: str
+
+	def __init__(self, command: str, errorMessage: str):
+		self.command = command
+		self.errorMessage = errorMessage
+
+
+@export
+class GitHelper:
+	__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP = {
+		GitShowCommand.CommitHash: "%H",
+		GitShowCommand.CommitDateTime: "%ct",
+		GitShowCommand.CommitAuthorName: "%an",
+		GitShowCommand.CommitAuthorEmail: "%ae",
+		GitShowCommand.CommitCommitterName: "%cn",
+		GitShowCommand.CommitCommitterEmail: "%ce",
+		GitShowCommand.CommitComment: "%B",
+	}
+
+	def execGitShow(self, command: GitShowCommand, ref: str = "HEAD") -> str:
+		format = f"--format='{self.__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP[command]}'"
+
+		command = "git"
+		arguments = ("show", "-s", format, ref)
+		try:
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
+		except Exception as ex:
+			raise ToolException(f"{command} {' '.join(arguments)}", str(ex))
+
+		if completed.returncode == 0:
+			comment = completed.stdout.decode("utf-8")
+			return comment[1:-2]
+		else:
+			message = completed.stderr.decode("utf-8")
+			raise ToolException(f"{command} {' '.join(arguments)}", message)

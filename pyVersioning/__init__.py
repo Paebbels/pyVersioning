@@ -32,7 +32,7 @@ __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
 __copyright__ = "2020-2023, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
-__version__ =   "0.9.0"
+__version__ =   "0.10.0"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
 from dataclasses  import dataclass, make_dataclass, field

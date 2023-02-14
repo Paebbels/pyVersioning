@@ -32,7 +32,7 @@ __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
 __copyright__ = "2020-2023, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
-__version__ =   "0.9.0"
+__version__ =   "0.10.0"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
 from dataclasses  import dataclass, make_dataclass, field
@@ -47,7 +47,7 @@ from pyTooling.Decorators import export
 from pyTooling.Versioning       import SemVersion
 from pyTooling.TerminalUI       import ILineTerminal
 
-from pyVersioning.Utils         import SelfDescriptive
+from pyVersioning.Utils import SelfDescriptive, GitHelper, GitShowCommand
 from pyVersioning.AppVeyor      import AppVeyor
 from pyVersioning.CIService     import WorkStation
 from pyVersioning.Configuration import Configuration
@@ -57,12 +57,28 @@ from pyVersioning.Travis        import Travis
 
 
 @export
-@dataclass
 class Tool(SelfDescriptive):
-	name    : str
-	version : SemVersion
+	"""This data structure class describes the tool name and version of pyVersioning."""
+
+	_name:    str
+	_version: SemVersion
 
 	_public = ["name", "version"]
+
+	def __init__(self, name: str, version: SemVersion):
+		self._name = name
+		self._version = version
+
+	@property
+	def name(self) -> str:
+		return self._name
+
+	@property
+	def version(self) -> SemVersion:
+		return self._version
+
+	def __str__(self) -> str:
+		return f"{self._name} {self._version}"
 
 
 @export
@@ -76,25 +92,42 @@ class Time(time, SelfDescriptive):
 
 
 @export
-@dataclass
-class Author(SelfDescriptive):
-	name:  str
-	email: str
+class Person(SelfDescriptive):
+	"""This data structure class describes an author with name and email address."""
+
+	_name:  str
+	_email: str
 
 	_public = ["name", "email"]
+
+	def __init__(self, name: str, email: str):
+		self._name = name
+		self._email = email
+
+	@property
+	def name(self) -> str:
+		return self._name
+
+	@property
+	def email(self) -> str:
+		return self._email
+
+	def __str__(self) -> str:
+		return f"{self._name} <{self._email}>"
 
 
 @export
 @dataclass
 class Commit(SelfDescriptive):
-	hash:    str
-	date:    date
-	time:    time
-	author:  Author
-	comment: str
-	oneline: str = field(init=False)
+	hash:      str
+	date:      Date
+	time:      Time
+	author:    Person
+	committer: Person
+	comment:   str
+	oneline:   str = field(init=False)
 
-	_public = ["hash", "date", "time", "author", "comment", "oneline"]
+	_public = ["hash", "date", "time", "author", "committer", "comment", "oneline"]
 
 	def __post_init__(self) -> None:
 		"""Calculate `oneline` from `comment`."""
@@ -126,61 +159,106 @@ class Git(SelfDescriptive):
 
 
 @export
-@dataclass
 class Project(SelfDescriptive):
-	name:     str
-	variant:  str
-	version:  SemVersion
+	_name:     str
+	_variant:  str
+	_version:  SemVersion
 
 	_public = ["name", "variant", "version"]
 
 	def __init__(self, name: str, version: Union[str, SemVersion] = None, variant: str = None) -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
-		self.name    = name    if name    is not None else ""
-		self.variant = variant if variant is not None else ""
+		self._name    = name    if name    is not None else ""
+		self._variant = variant if variant is not None else ""
 
 		if isinstance(version, SemVersion):
-			self.version = version
+			self._version = version
 		elif isinstance(version, str):
-			self.version = SemVersion(version)
+			self._version = SemVersion(version)
 		elif version is None:
-			self.version = SemVersion(0, 0, 0)
+			self._version = SemVersion(0, 0, 0)
+
+	@property
+	def name(self) -> str:
+		return self._name
+
+	@property
+	def variant(self) -> str:
+		return self._variant
+
+	@property
+	def version(self) -> SemVersion:
+		return self._version
+
+	def __str__(self) -> str:
+		return f"{self._name} - {self._variant} {self._version}"
 
 
 @export
-@dataclass
 class Compiler(SelfDescriptive):
-	name:           str
-	version:        SemVersion
-	configuration:  str
-	options:        str
+	_name:          str
+	_version:       SemVersion
+	_configuration: str
+	_options:       str
 
 	_public = ["name", "version", "configuration", "options"]
 
 	def __init__(self, name: str, version: Union[str, SemVersion] = "", configuration: str = "", options: str = "") -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
-		self.name          = name          if name          is not None else ""
-		self.configuration = configuration if configuration is not None else ""
-		self.options       = options       if options       is not None else ""
+		self._name          = name          if name is not None else ""
+		self._configuration = configuration if configuration is not None else ""
+		self._options       = options       if options       is not None else ""
 
 		if isinstance(version, SemVersion):
-			self.version     = version
+			self._version = version
 		elif isinstance(version, str):
-			self.version     = SemVersion(version)
+			self._version = SemVersion(version)
 		elif version is None:
-			self.version     = SemVersion(0, 0, 0)
+			self._version = SemVersion(0, 0, 0)
+
+	@property
+	def name(self) -> str:
+		return self._name
+
+	@property
+	def version(self) -> SemVersion:
+		return self._version
+
+	@property
+	def configuration(self) -> str:
+		return self._configuration
+
+	@property
+	def options(self) -> str:
+		return self._options
 
 
 @export
-@dataclass
 class Build(SelfDescriptive):
-	date:     date
-	time:     time
-	compiler: Compiler
+	_date:     Date
+	_time:     Time
+	_compiler: Compiler
 
 	_public = ["date", "time", "compiler"]
+
+	def __init__(self, date: Date, time: Time, compiler: Compiler):
+		self._date = date
+		self._time = time
+		self._compiler = compiler
+
+	@property
+	def date(self) -> Date:
+		return self._date
+
+	@property
+	def time(self) -> Time:
+		return self._time
+
+	@property
+	def compiler(self) -> Compiler:
+		return self._compiler
 
 
 @export
@@ -193,18 +271,7 @@ class Platforms(Enum):
 
 
 @export
-class GitShowCommand(Enum):
-	CommitDateTime =       auto()
-	CommitAuthorName =     auto()
-	CommitAuthorEmail =    auto()
-	CommitCommitterName =  auto()
-	CommitCommitterEmail = auto()
-	CommitHash =           auto()
-	CommitComment =        auto()
-
-
-@export
-class Versioning(ILineTerminal):
+class Versioning(ILineTerminal, GitHelper):
 	platform:  Platforms = Platforms.Workstation
 	variables: Dict
 
@@ -249,7 +316,7 @@ class Versioning(ILineTerminal):
 		else:
 			self.service                = WorkStation()
 
-		self.variables["tool"]     = Tool("pyVersioning", SemVersion(0,7,1))
+		self.variables["tool"]     = Tool("pyVersioning", SemVersion(__version__))
 		self.variables["git"]      = self.getGitInformation()
 		self.variables["env"]      = self.getEnvironment()
 		self.variables["platform"] = self.service.getPlatform()
@@ -282,6 +349,7 @@ class Versioning(ILineTerminal):
 			date=dt.date(),
 			time=dt.time(),
 			author=self.getCommitAuthor(),
+			committer=self.getCommitCommitter(),
 			comment=self.getCommitComment()
 		)
 
@@ -298,8 +366,8 @@ class Versioning(ILineTerminal):
 		datetimeString = self.execGitShow(GitShowCommand.CommitDateTime)
 		return datetime.fromtimestamp(int(datetimeString))
 
-	def getCommitAuthor(self) -> Author:
-		return Author(
+	def getCommitAuthor(self) -> Person:
+		return Person(
 			name=self.getCommitAuthorName(),
 			email=self.getCommitAuthorEmail()
 		)
@@ -309,6 +377,12 @@ class Versioning(ILineTerminal):
 
 	def getCommitAuthorEmail(self) -> str:
 		return self.execGitShow(GitShowCommand.CommitAuthorEmail)
+
+	def getCommitCommitter(self) -> Person:
+		return Person(
+			name=self.getCommitCommitterName(),
+			email=self.getCommitCommitterEmail()
+		)
 
 	def getCommitCommitterName(self) -> str:
 		return self.execGitShow(GitShowCommand.CommitCommitterName)
@@ -323,12 +397,13 @@ class Versioning(ILineTerminal):
 		if self.platform is not Platforms.Workstation:
 			return self.service.getGitBranch()
 
+		command = "git"
+		arguments = ("branch", "--show-current")
 		try:
-			command =   "git"
-			arguments = ("branch", "--show-current")
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			return ""
+
 		if completed.returncode == 0:
 			return completed.stdout.decode("utf-8").split("\n")[0]
 		else:
@@ -342,9 +417,9 @@ class Versioning(ILineTerminal):
 		if localBranch is None:
 			localBranch = self.getGitLocalBranch()
 
+		command = "git"
+		arguments = ("config", f"branch.{localBranch}.merge")
 		try:
-			command =   "git"
-			arguments = ("config", f"branch.{localBranch}.merge")
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception()
@@ -360,9 +435,9 @@ class Versioning(ILineTerminal):
 		if localBranch is None:
 			localBranch = self.getGitLocalBranch()
 
+		command = "git"
+		arguments = ("config", f"branch.{localBranch}.remote")
 		try:
-			command =   "git"
-			arguments=  ("config", f"branch.{localBranch}.remote")
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception
@@ -381,9 +456,9 @@ class Versioning(ILineTerminal):
 		if self.platform is not Platforms.Workstation:
 			return self.service.getGitTag()
 
+		command = "git"
+		arguments = ("tag", "--points-at", "HEAD")
 		try:
-			command =   "git"
-			arguments = ("tag", "--points-at", "HEAD")
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception
@@ -401,9 +476,10 @@ class Versioning(ILineTerminal):
 
 		if remote is None:
 			remote = self.getGitRemote()
+
+		command = "git"
+		arguments = ("config", f"remote.{remote}.url")
 		try:
-			command =   "git"
-			arguments = ("config", f"remote.{remote}.url")
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
 			raise Exception
@@ -415,31 +491,7 @@ class Versioning(ILineTerminal):
 			self.WriteFatal(f"Message from '{command}': {message}")
 			raise Exception
 
-	__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP = {
-		GitShowCommand.CommitHash: "%H",
-		GitShowCommand.CommitDateTime: "%ct",
-		GitShowCommand.CommitAuthorName: "%an",
-		GitShowCommand.CommitAuthorEmail: "%ae",
-		GitShowCommand.CommitCommitterName: "%cn",
-		GitShowCommand.CommitCommitterEmail: "%ce",
-		GitShowCommand.CommitComment: "%B",
-	}
-
-	def execGitShow(self, command: GitShowCommand) -> str:
-		format = f"--format='{self.__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP[command]}'"
-
-		try:
-			command =   "git"
-			arguments = ("show", "-s", format) #, "HEAD")
-			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
-			return ""
-		if completed.returncode == 0:
-			comment = completed.stdout.decode("utf-8")
-			return comment[1:-2]
-		else:
-			message = completed.stderr.decode("utf-8")
-			self.WriteFatal(f"Message from '{command}': {message}")
+	# 		self.WriteFatal(f"Message from '{command}': {message}")
 
 	def getProject(self, config: Configuration.Project) -> Project:
 		return Project(

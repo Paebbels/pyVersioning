@@ -40,6 +40,8 @@ from pyVersioning.CIService import CIService, Platform, ServiceException
 
 @export
 class GitLab(CIService):
+	"""Collect Git and other platform and environment information from environment variables provided by GitLab-CI."""
+
 	ENV_INCLUDE_FILTER = ("CI_", "GITLAB_")
 	ENV_EXCLUDE_FILTER = ("_TOKEN", )
 	ENV_INCLUDES =       ('CI', )
@@ -65,17 +67,13 @@ class GitLab(CIService):
 		try:
 			return environ['CI_COMMIT_BRANCH']
 		except KeyError:
-			pass
-
-		return None
+			return None
 
 	def getGitTag(self) -> Nullable[str]:
 		try:
 			return environ['CI_COMMIT_TAG']
 		except KeyError:
-			pass
-
-		return None
+			return None
 
 	def getGitRepository(self) -> str:
 		try:

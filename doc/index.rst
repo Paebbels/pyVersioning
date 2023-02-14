@@ -70,13 +70,14 @@
 |img-pyVersioning-codacy-quality| |img-pyVersioning-codacy-coverage| |img-pyVersioning-codecov-coverage| |img-pyVersioning-lib-rank| |br|
 |img-pyVersioning-rtd| |img-pyVersioning-license|
 
-.. code-block::
-                __     __            _             _
-      _ __  _   \ \   / /__ _ __ ___(_) ___  _ __ (_)_ __   __ _
-     | '_ \| | | \ \ / / _ \ '__/ __| |/ _ \| '_ \| | '_ \ / _` |
-     | |_) | |_| |\ V /  __/ |  \__ \ | (_) | | | | | | | | (_| |
-     | .__/ \__, | \_/ \___|_|  |___/_|\___/|_| |_|_|_| |_|\__, |
-     |_|    |___/                                          |___/
+.. code-block:: text
+
+              __     __            _             _
+    _ __  _   \ \   / /__ _ __ ___(_) ___  _ __ (_)_ __   __ _
+   | '_ \| | | \ \ / / _ \ '__/ __| |/ _ \| '_ \| | '_ \ / _` |
+   | |_) | |_| |\ V /  __/ |  \__ \ | (_) | | | | | | | | (_| |
+   | .__/ \__, | \_/ \___|_|  |___/_|\___/|_| |_|_|_| |_|\__, |
+   |_|    |___/                                          |___/
 
 
 pyVersioning Documentation
@@ -116,8 +117,8 @@ Examples
 Contributors
 ************
 
-* `Patrick Lehmann <https://github.com/Paebbels>`__ (Maintainer)
-* `and more... <https://github.com/Paebbels/pyCommonClasses/graphs/contributors>`__
+* `Patrick Lehmann <https://GitHub.com/Paebbels>`__ (Maintainer)
+* `and more... <https://GitHub.com/Paebbels/pyVersioning/graphs/contributors>`__
 
 
 License
@@ -133,6 +134,7 @@ License
    This Python package (source code) is licensed under **Apache License 2.0**. |br|
    The accompanying documentation is licensed under **Creative Commons - Attribution 4.0 (CC-BY 4.0)**.
 
+
 ------------------------------------
 
 .. |docdate| date:: %b %d, %Y - %H:%M
@@ -146,7 +148,11 @@ License
    :hidden:
 
    Installation
-   Dependencies
+   Dependency
+
+.. raw:: latex
+
+   \part{Main Documentation}
 
 .. toctree::
    :caption: Examples
@@ -164,24 +170,28 @@ License
 
 .. raw:: latex
 
-   \part{References}
+   \part{References and Reports}
 
 .. toctree::
-   :caption: References
+   :caption: References and Reports
    :hidden:
 
-   pyVersioning/index
+   pyVersioning/pyVersioning
+   Unittest Report ➚ <unittests/index>
+   Coverage Report ➚ <coverage/index>
+   Static Type Check Report ➚ <typing/index>
+
+.. raw:: latex
+
+   \part{Appendix}
 
 .. toctree::
    :caption: Appendix
    :hidden:
 
-   Coverage Report ➚ <https://edaa-org.GitHub.io/pyEDAA.ProjectModel/coverage/>
-   Static Type Check Report ➚ <https://edaa-org.GitHub.io/pyEDAA.ProjectModel/typing/>
    License
    Doc-License
    Glossary
    genindex
-
-.. #
-   py-modindex
+   Python Module Index <modindex>
+   TODO

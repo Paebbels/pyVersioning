@@ -29,16 +29,15 @@
 # ==================================================================================================================== #
 #
 """Module for CI service base classes."""
-from dataclasses  import make_dataclass, dataclass
+from dataclasses  import make_dataclass
 from datetime     import datetime
 from os           import environ
-
-from pyTooling.MetaClasses import ExtendedType, abstractmethod
-from typing       import Dict
+from typing       import Dict, Optional as Nullable
 
 from pyTooling.Decorators import export
+from pyTooling.MetaClasses import ExtendedType, abstractmethod
 
-from pyVersioning import SelfDescriptive
+from pyVersioning import SelfDescriptive, GitHelper, GitShowCommand
 
 
 @export
@@ -47,27 +46,38 @@ class ServiceException(Exception):
 
 
 @export
-@dataclass
 class Platform(SelfDescriptive):
 	""".. todo:: Platform needs documentation"""
 
-	ci_service: str
+	_ciService: str
 
 	_public = ['ci_service']
 
+	def __init__(self, ciService: str):
+		self._ciService = ciService
+
+	@property
+	def ci_service(self) -> str:
+		return self._ciService
+
 
 @export
-class CIService(metaclass=ExtendedType):
-	""".. todo:: CIService needs documentation"""
-
-	ENV_INCLUDE_FILTER =  ()
-	ENV_EXCLUDE_FILTER =  ()
-	ENV_INCLUDES =        []
-	ENV_EXCLUDES =        []
+class BaseService(metaclass=ExtendedType):
+	"""Base-class to collect platform and environment information from e.g. environment variables."""
 
 	@abstractmethod
 	def getPlatform(self) -> Platform:
 		""".. todo:: getPlatform needs documentation"""
+
+
+@export
+class CIService(BaseService, GitHelper):
+	"""Base-class to collect Git and other platform and environment information from CI service environment variables."""
+
+	ENV_INCLUDE_FILTER = ()
+	ENV_EXCLUDE_FILTER = ()
+	ENV_INCLUDES =       []
+	ENV_EXCLUDES =       []
 
 	def getEnvironment(self) -> Dict[str, str]:
 		""".. todo:: getEnvironment needs documentation"""
@@ -97,9 +107,9 @@ class CIService(metaclass=ExtendedType):
 			[(name, str) for name in filteredEnv.keys()],
 			bases=(SelfDescriptive,),
 			namespace={
-				'as_dict':        lambda self: filteredEnv,
-				'Keys':           lambda self: filteredEnv.keys(),
-				'KeyValuePairs':  lambda self: func(self)
+				'as_dict':       lambda self: filteredEnv,
+				'Keys':          lambda self: filteredEnv.keys(),
+				'KeyValuePairs': lambda self: func(self)
 			},
 			repr=True
 		)
@@ -110,16 +120,19 @@ class CIService(metaclass=ExtendedType):
 	def getGitHash(self) -> str:
 		""".. todo:: getGithash needs documentation"""
 
-	@abstractmethod
+	# @abstractmethod
 	def getCommitDate(self) -> datetime:
 		""".. todo:: getCommitDate needs documentation"""
 
+		datetimeString = self.execGitShow(GitShowCommand.CommitDateTime, self.getGitHash())
+		return datetime.fromtimestamp(int(datetimeString))
+
 	@abstractmethod
-	def getGitBranch(self) -> str:
+	def getGitBranch(self) -> Nullable[str]:
 		""".. todo:: getGitBranch needs documentation"""
 
 	@abstractmethod
-	def getGitTag(self) -> str:
+	def getGitTag(self) -> Nullable[str]:
 		""".. todo:: getGitTag needs documentation"""
 
 	@abstractmethod
@@ -128,6 +141,6 @@ class CIService(metaclass=ExtendedType):
 
 
 @export
-class WorkStation(CIService):
+class WorkStation(BaseService):
 	def getPlatform(self) -> Platform:
 		return Platform("NO-CI")

@@ -29,6 +29,7 @@
 # ==================================================================================================================== #
 #
 """GitHub specific code to collect the build environment."""
+from datetime import datetime
 from os     import environ
 from typing import Optional as Nullable
 
@@ -39,6 +40,8 @@ from pyVersioning.CIService import CIService, Platform, ServiceException
 
 @export
 class GitHub(CIService):
+	"""Collect Git and other platform and environment information from environment variables provided by GitHub Actions."""
+
 	ENV_INCLUDE_FILTER =  ("GITHUB_", )
 	ENV_EXCLUDE_FILTER =  ("_TOKEN", )
 	ENV_INCLUDES =        ('CI', )
@@ -61,9 +64,7 @@ class GitHub(CIService):
 			if ref.startswith(branchPrefix):
 				return ref[len(branchPrefix):]
 		except KeyError:
-			pass
-
-		return None
+			return None
 
 	def getGitTag(self) -> Nullable[str]:
 		tagPrefix    = "refs/tags/"
@@ -73,9 +74,7 @@ class GitHub(CIService):
 			if ref.startswith(tagPrefix):
 				return ref[len(tagPrefix):]
 		except KeyError:
-			pass
-
-		return None
+			return None
 
 	def getGitRepository(self) -> str:
 		try:

@@ -277,23 +277,23 @@ class Application(LineTerminal, ArgParseMixin):
 		if "project" not in self._versioning.variables:
 			self._versioning.variables["project"] = Project(args.ProjectName, args.ProjectVersion, args.ProjectVariant)
 		elif args.ProjectName is not None:
-			self._versioning.variables["project"].name = args.ProjectName
+			self._versioning.variables["project"]._name = args.ProjectName
 
 		if args.ProjectVariant is not None:
-			self._versioning.variables["project"].variant = args.ProjectVariant
+			self._versioning.variables["project"]._variant = args.ProjectVariant
 
 		if args.ProjectVersion is not None:
-			self._versioning.variables["project"].version = args.ProjectVersion
+			self._versioning.variables["project"]._version = args.ProjectVersion
 
 	def UpdateCompiler(self, args) -> None:
 		if args.CompilerName is not None:
-			self._versioning.variables["build"].compiler.name = args.CompilerName
+			self._versioning.variables["build"]._compiler._name = args.CompilerName
 		if args.CompilerVersion is not None:
-			self._versioning.variables["build"].compiler.version = args.CompilerVersion
+			self._versioning.variables["build"]._compiler._version = args.CompilerVersion
 		if args.CompilerConfig is not None:
-			self._versioning.variables["build"].compiler.configuration = args.CompilerConfig
+			self._versioning.variables["build"]._compiler._configuration = args.CompilerConfig
 		if args.CompilerOptions is not None:
-			self._versioning.variables["build"].compiler.options = args.CompilerOptions
+			self._versioning.variables["build"]._compiler._options = args.CompilerOptions
 
 
 def main() -> NoReturn:

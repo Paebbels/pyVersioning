@@ -64,9 +64,7 @@ class GitHub(CIService):
 			if ref.startswith(branchPrefix):
 				return ref[len(branchPrefix):]
 		except KeyError:
-			pass
-
-		return None
+			return None
 
 	def getGitTag(self) -> Nullable[str]:
 		tagPrefix    = "refs/tags/"
@@ -76,9 +74,7 @@ class GitHub(CIService):
 			if ref.startswith(tagPrefix):
 				return ref[len(tagPrefix):]
 		except KeyError:
-			pass
-
-		return None
+			return None
 
 	def getGitRepository(self) -> str:
 		try:

@@ -29,7 +29,6 @@
 # ==================================================================================================================== #
 #
 """Travis  specific code to collect the build environment."""
-from datetime import datetime
 from os     import environ
 from typing import Optional as Nullable, Dict
 
@@ -63,17 +62,13 @@ class Travis(CIService):
 		try:
 			return environ['TRAVIS_BRANCH']
 		except KeyError:
-			pass
-
-		return None
+			return None
 
 	def getGitTag(self) -> Nullable[str]:
 		try:
 			return environ['TRAVIS_TAG']
 		except KeyError:
-			pass
-
-		return None
+			return None
 
 	def getGitRepository(self) -> str:
 		try:

@@ -29,7 +29,8 @@
 # ==================================================================================================================== #
 #
 """AppVeyor specific code to collect the build environment."""
-from os import environ
+from os     import environ
+from typing import Optional as Nullable
 
 from pyTooling.Decorators import export
 
@@ -54,21 +55,17 @@ class AppVeyor(CIService):
 		except KeyError as ex:
 			raise ServiceException from ex
 
-	def getGitBranch(self) -> str:
+	def getGitBranch(self) -> Nullable[str]:
 		try:
 			return environ['APPVEYOR_REPO_BRANCH']
 		except KeyError:
-			pass
+			return None
 
-		return None
-
-	def getGitTag(self) -> str:
+	def getGitTag(self) -> Nullable[str]:
 		try:
 			return environ['APPVEYOR_REPO_TAG_NAME']
 		except KeyError:
-			pass
-
-		return None
+			return None
 
 	def getGitRepository(self) -> str:
 		try:

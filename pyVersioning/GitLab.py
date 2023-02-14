@@ -67,17 +67,13 @@ class GitLab(CIService):
 		try:
 			return environ['CI_COMMIT_BRANCH']
 		except KeyError:
-			pass
-
-		return None
+			return None
 
 	def getGitTag(self) -> Nullable[str]:
 		try:
 			return environ['CI_COMMIT_TAG']
 		except KeyError:
-			pass
-
-		return None
+			return None
 
 	def getGitRepository(self) -> str:
 		try:

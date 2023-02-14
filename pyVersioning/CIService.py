@@ -29,14 +29,13 @@
 # ==================================================================================================================== #
 #
 """Module for CI service base classes."""
-from dataclasses  import make_dataclass, dataclass
+from dataclasses  import make_dataclass
 from datetime     import datetime
 from os           import environ
-
-from pyTooling.MetaClasses import ExtendedType, abstractmethod
-from typing       import Dict
+from typing       import Dict, Optional as Nullable
 
 from pyTooling.Decorators import export
+from pyTooling.MetaClasses import ExtendedType, abstractmethod
 
 from pyVersioning import SelfDescriptive, GitHelper, GitShowCommand
 
@@ -75,10 +74,10 @@ class BaseService(metaclass=ExtendedType):
 class CIService(BaseService, GitHelper):
 	"""Base-class to collect Git and other platform and environment information from CI service environment variables."""
 
-	ENV_INCLUDE_FILTER =  ()
-	ENV_EXCLUDE_FILTER =  ()
-	ENV_INCLUDES =        []
-	ENV_EXCLUDES =        []
+	ENV_INCLUDE_FILTER = ()
+	ENV_EXCLUDE_FILTER = ()
+	ENV_INCLUDES =       []
+	ENV_EXCLUDES =       []
 
 	def getEnvironment(self) -> Dict[str, str]:
 		""".. todo:: getEnvironment needs documentation"""
@@ -108,9 +107,9 @@ class CIService(BaseService, GitHelper):
 			[(name, str) for name in filteredEnv.keys()],
 			bases=(SelfDescriptive,),
 			namespace={
-				'as_dict':        lambda self: filteredEnv,
-				'Keys':           lambda self: filteredEnv.keys(),
-				'KeyValuePairs':  lambda self: func(self)
+				'as_dict':       lambda self: filteredEnv,
+				'Keys':          lambda self: filteredEnv.keys(),
+				'KeyValuePairs': lambda self: func(self)
 			},
 			repr=True
 		)
@@ -129,11 +128,11 @@ class CIService(BaseService, GitHelper):
 		return datetime.fromtimestamp(int(datetimeString))
 
 	@abstractmethod
-	def getGitBranch(self) -> str:
+	def getGitBranch(self) -> Nullable[str]:
 		""".. todo:: getGitBranch needs documentation"""
 
 	@abstractmethod
-	def getGitTag(self) -> str:
+	def getGitTag(self) -> Nullable[str]:
 		""".. todo:: getGitTag needs documentation"""
 
 	@abstractmethod

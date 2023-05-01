@@ -3,7 +3,7 @@
 pyTooling>=2.12.0
 
 # Enforce latest version on ReadTheDocs
-sphinx<6.0.0
+sphinx<8.0.0
 
 # Sphinx Extenstions
 sphinxcontrib-mermaid>=0.7.1

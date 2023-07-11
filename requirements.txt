@@ -1,5 +1,4 @@
-ruamel.yaml>=0.17.18
+ruamel.yaml >= 0.17.18
 
-pyTooling>=2.12.1
-pyTooling.TerminalUI>=1.5.9
-pyAttributes>=2.5.1
+pyTooling >= 5.0.0, <6.0
+pyAttributes >= 2.5.1

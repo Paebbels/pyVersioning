@@ -44,7 +44,7 @@ from subprocess   import run as subprocess_run, PIPE
 from typing       import Union, Any, Dict
 
 from pyTooling.Decorators import export
-from pyTooling.Versioning       import SemVersion
+from pyTooling.Versioning       import SemanticVersion
 from pyTooling.TerminalUI       import ILineTerminal
 
 from pyVersioning.Utils import SelfDescriptive, GitHelper, GitShowCommand
@@ -61,11 +61,11 @@ class Tool(SelfDescriptive):
 	"""This data structure class describes the tool name and version of pyVersioning."""
 
 	_name:    str
-	_version: SemVersion
+	_version: SemanticVersion
 
 	_public = ["name", "version"]
 
-	def __init__(self, name: str, version: SemVersion):
+	def __init__(self, name: str, version: SemanticVersion):
 		self._name = name
 		self._version = version
 
@@ -74,7 +74,7 @@ class Tool(SelfDescriptive):
 		return self._name
 
 	@property
-	def version(self) -> SemVersion:
+	def version(self) -> SemanticVersion:
 		return self._version
 
 	def __str__(self) -> str:
@@ -162,22 +162,22 @@ class Git(SelfDescriptive):
 class Project(SelfDescriptive):
 	_name:     str
 	_variant:  str
-	_version:  SemVersion
+	_version:  SemanticVersion
 
 	_public = ["name", "variant", "version"]
 
-	def __init__(self, name: str, version: Union[str, SemVersion] = None, variant: str = None) -> None:
+	def __init__(self, name: str, version: Union[str, SemanticVersion] = None, variant: str = None) -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self._name    = name    if name    is not None else ""
 		self._variant = variant if variant is not None else ""
 
-		if isinstance(version, SemVersion):
+		if isinstance(version, SemanticVersion):
 			self._version = version
 		elif isinstance(version, str):
-			self._version = SemVersion(version)
+			self._version = SemanticVersion(version)
 		elif version is None:
-			self._version = SemVersion(0, 0, 0)
+			self._version = SemanticVersion(0, 0, 0)
 
 	@property
 	def name(self) -> str:
@@ -188,7 +188,7 @@ class Project(SelfDescriptive):
 		return self._variant
 
 	@property
-	def version(self) -> SemVersion:
+	def version(self) -> SemanticVersion:
 		return self._version
 
 	def __str__(self) -> str:
@@ -198,32 +198,32 @@ class Project(SelfDescriptive):
 @export
 class Compiler(SelfDescriptive):
 	_name:          str
-	_version:       SemVersion
+	_version:       SemanticVersion
 	_configuration: str
 	_options:       str
 
 	_public = ["name", "version", "configuration", "options"]
 
-	def __init__(self, name: str, version: Union[str, SemVersion] = "", configuration: str = "", options: str = "") -> None:
+	def __init__(self, name: str, version: Union[str, SemanticVersion] = "", configuration: str = "", options: str = "") -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self._name          = name          if name is not None else ""
 		self._configuration = configuration if configuration is not None else ""
 		self._options       = options       if options       is not None else ""
 
-		if isinstance(version, SemVersion):
+		if isinstance(version, SemanticVersion):
 			self._version = version
 		elif isinstance(version, str):
-			self._version = SemVersion(version)
+			self._version = SemanticVersion(version)
 		elif version is None:
-			self._version = SemVersion(0, 0, 0)
+			self._version = SemanticVersion(0, 0, 0)
 
 	@property
 	def name(self) -> str:
 		return self._name
 
 	@property
-	def version(self) -> SemVersion:
+	def version(self) -> SemanticVersion:
 		return self._version
 
 	@property
@@ -316,7 +316,7 @@ class Versioning(ILineTerminal, GitHelper):
 		else:
 			self.service                = WorkStation()
 
-		self.variables["tool"]     = Tool("pyVersioning", SemVersion(__version__))
+		self.variables["tool"]     = Tool("pyVersioning", SemanticVersion(__version__))
 		self.variables["git"]      = self.getGitInformation()
 		self.variables["env"]      = self.getEnvironment()
 		self.variables["platform"] = self.service.getPlatform()
@@ -327,11 +327,11 @@ class Versioning(ILineTerminal, GitHelper):
 		if self.variables["git"].tag != "":
 			pass
 
-	def getVersion(self, config: Configuration.Project) -> SemVersion:
+	def getVersion(self, config: Configuration.Project) -> SemanticVersion:
 		if config.version is not None:
 			return config.version
 		else:
-			return SemVersion("0.0.0")
+			return SemanticVersion("0.0.0")
 
 	def getGitInformation(self) -> Git:
 		return Git(
@@ -511,7 +511,7 @@ class Versioning(ILineTerminal, GitHelper):
 	def getCompiler(self, config: Configuration.Build.Compiler) -> Compiler:
 		return Compiler(
 			name=config.name,
-			version=SemVersion(config.version),
+			version=SemanticVersion(config.version),
 			configuration=config.configuration,
 			options=config.options
 		)

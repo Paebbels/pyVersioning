@@ -35,7 +35,7 @@ from typing                import Dict, Optional as Nullable
 from ruamel.yaml           import YAML
 from pyTooling.Decorators  import export
 from pyTooling.MetaClasses import ExtendedType
-from pyTooling.Versioning  import SemVersion
+from pyTooling.Versioning  import SemanticVersion
 
 
 @export
@@ -53,14 +53,14 @@ class Configuration(Base, metaclass=ExtendedType):
 	class Project(Base):
 		name:    str
 		variant: str
-		version: SemVersion
+		version: SemanticVersion
 
 		def __init__(self, root: 'Base', parent: 'Base', settings: Dict):
 			super().__init__(root, parent)
 
 			self.name =    settings["name"]
 			self.variant = settings["variant"] if "variant" in settings else None
-			self.version = SemVersion(settings["version"]) if "version" in settings else None
+			self.version = SemanticVersion(settings["version"]) if "version" in settings else None
 
 	class Build(Base):
 		class Compiler(Base):

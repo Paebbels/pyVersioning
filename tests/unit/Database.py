@@ -31,7 +31,7 @@
 """Unit tests for project information."""
 from unittest     import TestCase
 
-from pyTooling.Versioning import SemVersion
+from pyTooling.Versioning import SemanticVersion
 
 from pyVersioning import Project as pyV_Project
 
@@ -51,7 +51,7 @@ class Project(TestCase):
 
 		self.assertEqual(project.name, name)
 		self.assertEqual(project.variant, variant)
-		self.assertEqual(project.version, SemVersion("0.0.0"))
+		self.assertEqual(project.version, SemanticVersion("0.0.0"))
 
 	def test_ProjectName_VariantName(self):
 		name = "Project 1"
@@ -61,7 +61,7 @@ class Project(TestCase):
 
 		self.assertEqual(project.name, name)
 		self.assertEqual(project.variant, variant)
-		self.assertEqual(project.version, SemVersion("0.0.0"))
+		self.assertEqual(project.version, SemanticVersion("0.0.0"))
 
 	def test_ProjectName_VersionAsString(self):
 		name = "Project 1"
@@ -72,12 +72,12 @@ class Project(TestCase):
 
 		self.assertEqual(project.name, name)
 		self.assertEqual(project.variant, variant)
-		self.assertEqual(project.version, SemVersion(version))
+		self.assertEqual(project.version, SemanticVersion(version))
 
 	def test_ProjectName_VersionAsVersion(self):
 		name = "Project 1"
 		variant = ""
-		version = SemVersion("1.3.2")
+		version = SemanticVersion("1.3.2")
 
 		project = pyV_Project(name, version)
 

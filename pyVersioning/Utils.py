@@ -74,7 +74,7 @@ class ToolException(Exception):
 
 
 @export
-class GitHelper:
+class GitHelper(metaclass=ExtendedType, mixin=True):
 	__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP = {
 		GitShowCommand.CommitHash: "%H",
 		GitShowCommand.CommitDateTime: "%ct",

@@ -1,4 +1,4 @@
 ruamel.yaml >= 0.17.18
 
-pyTooling >= 5.0.0, <6.0
+pyTooling >= 5.0.0, < 6.0
 pyAttributes >= 2.5.1

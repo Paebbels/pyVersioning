@@ -29,10 +29,12 @@
 # ==================================================================================================================== #
 #
 """Unit tests for GitLab CI."""
-from os         import environ as os_environ
-from subprocess import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
+from os               import environ as os_environ
+from subprocess       import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
 
-from unittest   import TestCase
+from pyTooling.Common import CurrentPlatform
+
+from unittest         import TestCase
 
 
 if __name__ == "__main__":
@@ -45,8 +47,8 @@ class GitLabEnvironment(TestCase):
 	@staticmethod
 	def __getExecutable(command: str, *args):
 		callArgs = [
-			"python",
-			"../../pyVersioning/cli.py",
+			"py" if CurrentPlatform.IsNativeWindows else "python",
+			"../pyVersioning/cli.py",
 			command
 		]
 		if len(args) > 0:
@@ -70,6 +72,8 @@ class GitLabEnvironment(TestCase):
 		return env
 
 	def test_Variables(self):
+		print()
+
 		try:
 			prog = subprocess_run(
 				args=self.__getExecutable("variables"),
@@ -91,11 +95,12 @@ class GitLabEnvironment(TestCase):
 			exit(3)
 
 		output = prog.stdout
-		print()
 		for line in output.split("\n"):
 			print(line)
 
 	def test_Fillout(self):
+		print()
+
 		try:
 			prog = subprocess_run(
 				args=self.__getExecutable("fillout", "template.in", "template.out"),
@@ -117,6 +122,5 @@ class GitLabEnvironment(TestCase):
 			exit(3)
 
 		output = prog.stdout
-		print()
 		for line in output.split("\n"):
 			print(line)

@@ -33,10 +33,11 @@ from pathlib      import Path
 from textwrap     import dedent
 from typing       import NoReturn
 
-from pyTooling.Decorators import export
+from pyTooling.Decorators            import export
 from pyTooling.TerminalUI            import LineTerminal, Severity
 from pyAttributes                    import Attribute
 from pyAttributes.ArgParseAttributes import ArgParseMixin, CommandAttribute, ArgumentAttribute, DefaultAttribute
+
 
 from pyVersioning                    import Versioning, Platforms, Project, SelfDescriptive
 from pyVersioning.Configuration      import Configuration

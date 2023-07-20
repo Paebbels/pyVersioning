@@ -29,11 +29,11 @@
 # ==================================================================================================================== #
 #
 """Unit tests for project information."""
-from unittest     import TestCase
+from unittest             import TestCase
 
 from pyTooling.Versioning import SemanticVersion
 
-from pyVersioning import Project as pyV_Project
+from pyVersioning         import Project as pyV_Project
 
 
 if __name__ == "__main__":

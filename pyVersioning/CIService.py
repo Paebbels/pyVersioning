@@ -54,7 +54,7 @@ class CIService(BaseService, GitHelper):
 	ENV_INCLUDES =       []
 	ENV_EXCLUDES =       []
 
-	def getEnvironment(self) -> Dict[str, str]:
+	def GetEnvironment(self) -> Dict[str, str]:
 		""".. todo:: getEnvironment needs documentation"""
 
 		filteredEnv = {key:value for (key,value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
@@ -92,30 +92,30 @@ class CIService(BaseService, GitHelper):
 		return Environment(**filteredEnv)
 
 	@abstractmethod
-	def getGitHash(self) -> str:
+	def GetGitHash(self) -> str:
 		""".. todo:: getGithash needs documentation"""
 
 	# @abstractmethod
-	def getCommitDate(self) -> datetime:
+	def GetCommitDate(self) -> datetime:
 		""".. todo:: getCommitDate needs documentation"""
 
-		datetimeString = self.ExecuteGitShow(GitShowCommand.CommitDateTime, self.getGitHash())
+		datetimeString = self.ExecuteGitShow(GitShowCommand.CommitDateTime, self.GetGitHash())
 		return datetime.fromtimestamp(int(datetimeString))
 
 	@abstractmethod
-	def getGitBranch(self) -> Nullable[str]:
+	def GetGitBranch(self) -> Nullable[str]:
 		""".. todo:: getGitBranch needs documentation"""
 
 	@abstractmethod
-	def getGitTag(self) -> Nullable[str]:
+	def GetGitTag(self) -> Nullable[str]:
 		""".. todo:: getGitTag needs documentation"""
 
 	@abstractmethod
-	def getGitRepository(self) -> str:
+	def GetGitRepository(self) -> str:
 		""".. todo:: getGitRepository needs documentation"""
 
 
 @export
 class WorkStation(BaseService):
-	def getPlatform(self) -> Platform:
+	def GetPlatform(self) -> Platform:
 		return Platform("NO-CI")

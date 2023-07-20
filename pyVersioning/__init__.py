@@ -145,11 +145,16 @@ class Commit(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("hash", "date", "time", "author", "committer", "comment", "oneline")
 
-	def __post_init__(self) -> None:
-		"""Calculate `oneline` from `comment`."""
+	def __init__(self, hash: str, date: Date, time: Time, author: Person, committer: Person, comment: str):
+		self._hash = hash
+		self._date = date
+		self._time = time
+		self._author = author
+		self._committer = committer
+		self._comment = comment
 
-		if self.comment != "":
-			self._oneLine = self._comment.split("\n")[0]
+		if comment != "":
+			self._oneline = comment.split("\n")[0]
 
 	@property
 	def hash(self) -> str:
@@ -190,13 +195,16 @@ class Git(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("commit", "reference", "tag", "branch", "repository")
 
-	def __post_init__(self) -> None:
-		"""Calculate `reference` from `tag` or `branch`."""
+	def __init__(self, commit: Commit, repository: str, tag: str = "", branch: str = ""):
+		self._commit = commit
+		self._tag = tag
+		self._branch = branch
+		self._repository = repository
 
-		if self.tag != "":
-			self._reference = self._tag
-		elif self._branch != "":
-			self._reference = self._branch
+		if tag != "":
+			self._reference = tag
+		elif branch != "":
+			self._reference = branch
 		else:
 			self._reference = "[Detached HEAD]"
 
@@ -366,7 +374,7 @@ class Versioning(ILineTerminal, GitHelper):
 	def __init__(self, terminal: ILineTerminal):
 		super().__init__(terminal)
 
-		self.variables = {}
+		self._variables = {}
 
 		if "APPVEYOR" in environ:
 			self._platform = Platforms.AppVeyor
@@ -390,8 +398,8 @@ class Versioning(ILineTerminal, GitHelper):
 	def LoadDataFromConfiguration(self, config: Configuration) -> None:
 		"""Preload versioning information from configuration file."""
 
-		self._variables["project"] = self.getProject(config.project)
-		self._variables["build"]   = self.getBuild(config.build)
+		self._variables["project"] = self.GetProject(config.project)
+		self._variables["build"]   = self.GetBuild(config.build)
 		self._variables["version"] = self.GetVersion(config.project)
 
 	def CollectData(self) -> None:
@@ -405,23 +413,23 @@ class Versioning(ILineTerminal, GitHelper):
 
 		if self._platform is Platforms.AppVeyor:
 			self._service                = AppVeyor()
-			self._variables["appveyor"]  = self._service.getEnvironment()
+			self._variables["appveyor"]  = self._service.GetEnvironment()
 		elif self._platform is Platforms.GitHub:
 			self._service                = GitHub()
-			self._variables["github"]    = self._service.getEnvironment()
+			self._variables["github"]    = self._service.GetEnvironment()
 		elif self._platform is Platforms.GitLab:
 			self._service                = GitLab()
-			self._variables["gitlab"]    = self._service.getEnvironment()
+			self._variables["gitlab"]    = self._service.GetEnvironment()
 		elif self._platform is Platforms.Travis:
 			self._service                = Travis()
-			self._variables["travis"]    = self._service.getEnvironment()
+			self._variables["travis"]    = self._service.GetEnvironment()
 		else:
 			self._service                = WorkStation()
 
 		self._variables["tool"]     = Tool("pyVersioning", SemanticVersion(__version__))
 		self._variables["git"]      = self.GetGitInformation()
 		self._variables["env"]      = self.GetEnvironment()
-		self._variables["platform"] = self.service.getPlatform()
+		self._variables["platform"] = self._service.GetPlatform()
 
 		self.CalculateData()
 
@@ -444,7 +452,7 @@ class Versioning(ILineTerminal, GitHelper):
 		)
 
 	def GetLastCommit(self) -> Commit:
-		dt = self.getCommitDate()
+		dt = self.GetCommitDate()
 
 		return Commit(
 			hash=self.GetGitHash(),
@@ -461,9 +469,9 @@ class Versioning(ILineTerminal, GitHelper):
 
 		return self.ExecuteGitShow(GitShowCommand.CommitHash)
 
-	def getCommitDate(self) -> datetime:
+	def GetCommitDate(self) -> datetime:
 		if self._platform is not Platforms.Workstation:
-			return self._service.getCommitDate()
+			return self._service.GetCommitDate()
 
 		datetimeString = self.ExecuteGitShow(GitShowCommand.CommitDateTime)
 		return datetime.fromtimestamp(int(datetimeString))
@@ -497,7 +505,7 @@ class Versioning(ILineTerminal, GitHelper):
 
 	def GetGitLocalBranch(self) -> str:
 		if self._platform is not Platforms.Workstation:
-			return self._service.getGitBranch()
+			return self._service.GetGitBranch()
 
 		command = "git"
 		arguments = ("branch", "--show-current")
@@ -514,7 +522,7 @@ class Versioning(ILineTerminal, GitHelper):
 
 	def GetGitRemoteBranch(self, localBranch: str = None) -> str:
 		if self._platform is not Platforms.Workstation:
-			return self._service.getGitBranch()
+			return self._service.GetGitBranch()
 
 		if localBranch is None:
 			localBranch = self.GetGitLocalBranch()
@@ -574,7 +582,7 @@ class Versioning(ILineTerminal, GitHelper):
 
 	def GetGitRemoteURL(self, remote: str = None) -> str:
 		if self._platform is not Platforms.Workstation:
-			return self._service.getGitRepository()
+			return self._service.GetGitRepository()
 
 		if remote is None:
 			remote = self.GetGitRemote()
@@ -595,14 +603,14 @@ class Versioning(ILineTerminal, GitHelper):
 
 	# 		self.WriteFatal(f"Message from '{command}': {message}")
 
-	def getProject(self, config: Configuration.Project) -> Project:
+	def GetProject(self, config: Configuration.Project) -> Project:
 		return Project(
 			name=config.name,
 			version=config.version,
 			variant=config.variant
 		)
 
-	def getBuild(self, config: Configuration.Build) -> Build:
+	def GetBuild(self, config: Configuration.Build) -> Build:
 		dt = datetime.now()
 		return Build(
 			date=dt.date(),

@@ -20,6 +20,15 @@ jobs:
       jobs: ${{ needs.Params.outputs.python_jobs }}
       artifact: ${{ fromJson(needs.Params.outputs.artifact_names).unittesting_xml }}
 
+  CITesting:
+    uses: pyTooling/Actions/.github/workflows/UnitTesting.yml@dev
+    needs:
+      - Params
+    with:
+      jobs: ${{ needs.Params.outputs.python_jobs }}
+      unittest_directory: CIServices
+      artifact: ${{ fromJson(needs.Params.outputs.artifact_names).unittesting_xml }}-ci
+
   Coverage:
     uses: pyTooling/Actions/.github/workflows/CoverageCollection.yml@dev
     needs:
@@ -45,6 +54,7 @@ jobs:
     uses: pyTooling/Actions/.github/workflows/PublishTestResults.yml@dev
     needs:
       - UnitTesting
+      - CITesting
 
   Package:
     uses: pyTooling/Actions/.github/workflows/Package.yml@dev
@@ -60,6 +70,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags')
     needs:
       - UnitTesting
+      - CITesting
       - Coverage
       - StaticTypeCheck
       - Package
@@ -110,6 +121,7 @@ jobs:
     needs:
       - Params
       - UnitTesting
+      - CITesting
       - Coverage
       - StaticTypeCheck
       - BuildTheDocs

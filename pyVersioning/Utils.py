@@ -30,26 +30,9 @@
 #
 from enum       import Enum, auto
 from subprocess import run as subprocess_run, PIPE
-from typing     import List
 
 from pyTooling.Decorators  import export
 from pyTooling.MetaClasses import ExtendedType
-
-
-@export
-class SelfDescriptive(metaclass=ExtendedType):
-
-	# TODO: could this be filled with a decorator?
-	_public: List[str]
-
-	def Keys(self):
-		for element in self._public:
-			yield element
-
-	def KeyValuePairs(self):
-		for element in self._public:
-			value = self.__getattribute__(element)
-			yield (element, value)
 
 
 @export
@@ -76,16 +59,16 @@ class ToolException(Exception):
 @export
 class GitHelper(metaclass=ExtendedType, mixin=True):
 	__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP = {
-		GitShowCommand.CommitHash: "%H",
-		GitShowCommand.CommitDateTime: "%ct",
-		GitShowCommand.CommitAuthorName: "%an",
-		GitShowCommand.CommitAuthorEmail: "%ae",
-		GitShowCommand.CommitCommitterName: "%cn",
+		GitShowCommand.CommitHash:           "%H",
+		GitShowCommand.CommitDateTime:       "%ct",
+		GitShowCommand.CommitAuthorName:     "%an",
+		GitShowCommand.CommitAuthorEmail:    "%ae",
+		GitShowCommand.CommitCommitterName:  "%cn",
 		GitShowCommand.CommitCommitterEmail: "%ce",
-		GitShowCommand.CommitComment: "%B",
+		GitShowCommand.CommitComment:        "%B",
 	}
 
-	def execGitShow(self, command: GitShowCommand, ref: str = "HEAD") -> str:
+	def ExecuteGitShow(self, command: GitShowCommand, ref: str = "HEAD") -> str:
 		format = f"--format='{self.__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP[command]}'"
 
 		command = "git"

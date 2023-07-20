@@ -92,8 +92,8 @@ class Application(LineTerminal, ArgParseMixin):
 			self._config = Configuration(self.__configFile)
 
 		self._versioning = Versioning(self)
-		self._versioning.loadDataFromConfiguration(self._config)
-		self._versioning.collectData()
+		self._versioning.LoadDataFromConfiguration(self._config)
+		self._versioning.CollectData()
 
 	def PrintHeadline(self) -> None:
 		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
@@ -154,7 +154,7 @@ class Application(LineTerminal, ArgParseMixin):
 		self.UpdateProject(args)
 		self.UpdateCompiler(args)
 
-		self._versioning.writeSourceFile(templateFile, outputFile)
+		self._versioning.WriteSourceFile(templateFile, outputFile)
 
 	@CommandAttribute("variables", help="Print all available variables.")
 	@ProjectAttributeGroup()

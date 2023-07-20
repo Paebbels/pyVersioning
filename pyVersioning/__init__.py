@@ -141,7 +141,7 @@ class Commit(SelfDescriptive):
 	_author:    Person
 	_committer: Person
 	_comment:   str
-	_oneline:   str | bool = False
+	_oneline:   Union[str,  bool] = False
 
 	_public: ClassVar[Tuple[str, ...]] = ("hash", "date", "time", "author", "committer", "comment", "oneline")
 
@@ -176,7 +176,7 @@ class Commit(SelfDescriptive):
 		return self._comment
 
 	@property
-	def oneline(self) -> str | bool:
+	def oneline(self) -> Union[str,  bool]:
 		return self._oneline
 
 

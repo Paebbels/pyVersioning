@@ -71,7 +71,7 @@ class GitLabEnvironment(TestCase):
 			env["CI_COMMIT_BRANCH"] =   "dev"
 			env["CI_REPOSITORY_URL"] =  "gitlab.com/path/to/repo.git"
 		else:
-			for k,v in kwargs.items():
+			for k, v in kwargs.items():
 				env[k] = v
 
 		return env

@@ -46,15 +46,10 @@ if __name__ == "__main__":
 class GitHubEnvironment(TestCase):
 	@staticmethod
 	def __getExecutable(command: str, *args):
-		if CurrentPlatform.IsNativeWindows:
-			callArgs = ["py", f"-{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
-		else:
-			callArgs = [f"python{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
-
-		callArgs.extend([
+		callArgs = [
 			"pyVersioning",
 			command
-		])
+		]
 
 		if len(args) > 0:
 			callArgs.extend(args)

@@ -56,12 +56,15 @@ class GitHubEnvironment(TestCase):
 
 		return callArgs
 
-	def test_Help(self):
+	def test_NoCommand(self):
 		print()
+
+		callArgs = ["pyVersioning"]
+		print(callArgs)
 
 		try:
 			prog = subprocess_run(
-				args=self.__getExecutable("help"),
+				args=callArgs,
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
 				shell=True,
@@ -82,12 +85,102 @@ class GitHubEnvironment(TestCase):
 		for line in output.split("\n"):
 			print(line)
 
-	def test_Variables(self):
+	def test_HelpCommand(self):
 		print()
+
+		callArgs = self.__getExecutable("help")
+		print(callArgs)
 
 		try:
 			prog = subprocess_run(
-				args=self.__getExecutable("variables"),
+				args=callArgs,
+				stdout=subprocess_PIPE,
+				stderr=subprocess_STDOUT,
+				shell=True,
+				check=True,
+				encoding="utf-8"
+			)
+		except CalledProcessError as ex:
+			print("CALLED PROCESS ERROR")
+			print(ex.returncode)
+			print(ex.output)
+			exit(1)
+		except Exception as ex:
+			print("EXCEPTION")
+			print(ex)
+			exit(3)
+
+		output = prog.stdout
+		for line in output.split("\n"):
+			print(line)
+
+	def test_VariablesCommand(self):
+		print()
+
+		callArgs = self.__getExecutable("variables")
+		print(callArgs)
+
+		try:
+			prog = subprocess_run(
+				args=callArgs,
+				stdout=subprocess_PIPE,
+				stderr=subprocess_STDOUT,
+				shell=True,
+				check=True,
+				encoding="utf-8"
+			)
+		except CalledProcessError as ex:
+			print("CALLED PROCESS ERROR")
+			print(ex.returncode)
+			print(ex.output)
+			exit(1)
+		except Exception as ex:
+			print("EXCEPTION")
+			print(ex)
+			exit(3)
+
+		output = prog.stdout
+		for line in output.split("\n"):
+			print(line)
+
+	def test_YAMLCommand(self):
+		print()
+
+		callArgs = self.__getExecutable("yaml")
+		print(callArgs)
+
+		try:
+			prog = subprocess_run(
+				args=callArgs,
+				stdout=subprocess_PIPE,
+				stderr=subprocess_STDOUT,
+				shell=True,
+				check=True,
+				encoding="utf-8"
+			)
+		except CalledProcessError as ex:
+			print("CALLED PROCESS ERROR")
+			print(ex.returncode)
+			print(ex.output)
+			exit(1)
+		except Exception as ex:
+			print("EXCEPTION")
+			print(ex)
+			exit(3)
+
+		output = prog.stdout
+		for line in output.split("\n"):
+			print(line)
+
+	def test_JSONCommand(self):
+		print()
+
+		callArgs = self.__getExecutable("json")
+		print(callArgs)
+
+		try:
+			prog = subprocess_run(
+				args=callArgs,
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
 				shell=True,
@@ -111,9 +204,12 @@ class GitHubEnvironment(TestCase):
 	def test_Fillout(self):
 		print()
 
+		callArgs = self.__getExecutable("fillout", "template.in", "template.out")
+		print(callArgs)
+
 		try:
 			prog = subprocess_run(
-				args=self.__getExecutable("fillout", "template.in", "template.out"),
+				args=callArgs,
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
 				shell=True,

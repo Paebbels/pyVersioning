@@ -1,0 +1,13 @@
+version: 1
+
+project:
+  name:     UnitTest Project
+  variant:  V1
+  version:  v1.1.6
+
+build:
+  compiler:
+    name:           gcc
+    version:        10.2.0
+    configuration:  Release
+    options:        -g -O3

@@ -67,7 +67,6 @@ class GitHubEnvironment(TestCase):
 				args=callArgs,
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
-				shell=True,
 				check=True,
 				encoding="utf-8"
 			)
@@ -96,7 +95,6 @@ class GitHubEnvironment(TestCase):
 				args=callArgs,
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
-				shell=True,
 				check=True,
 				encoding="utf-8"
 			)
@@ -125,7 +123,6 @@ class GitHubEnvironment(TestCase):
 				args=callArgs,
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
-				shell=True,
 				check=True,
 				encoding="utf-8"
 			)
@@ -154,7 +151,6 @@ class GitHubEnvironment(TestCase):
 				args=callArgs,
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
-				shell=True,
 				check=True,
 				encoding="utf-8"
 			)
@@ -183,7 +179,6 @@ class GitHubEnvironment(TestCase):
 				args=callArgs,
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
-				shell=True,
 				check=True,
 				encoding="utf-8"
 			)
@@ -212,7 +207,6 @@ class GitHubEnvironment(TestCase):
 				args=callArgs,
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
-				shell=True,
 				check=True,
 				encoding="utf-8"
 			)

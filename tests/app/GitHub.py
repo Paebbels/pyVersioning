@@ -114,7 +114,6 @@ class GitHubEnvironment(TestCase):
 		print()
 
 		callArgs = self.__getExecutable("variables")
-		print(callArgs)
 
 		try:
 			prog = subprocess_run(
@@ -142,7 +141,6 @@ class GitHubEnvironment(TestCase):
 		print()
 
 		callArgs = self.__getExecutable("yaml")
-		print(callArgs)
 
 		try:
 			prog = subprocess_run(
@@ -170,7 +168,6 @@ class GitHubEnvironment(TestCase):
 		print()
 
 		callArgs = self.__getExecutable("json")
-		print(callArgs)
 
 		try:
 			prog = subprocess_run(
@@ -198,7 +195,6 @@ class GitHubEnvironment(TestCase):
 		print()
 
 		callArgs = self.__getExecutable("fillout", "template.in", "template.out")
-		print(callArgs)
 
 		try:
 			prog = subprocess_run(

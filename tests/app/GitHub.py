@@ -60,7 +60,6 @@ class GitHubEnvironment(TestCase):
 		print()
 
 		callArgs = ["pyVersioning"]
-		print(callArgs)
 
 		try:
 			prog = subprocess_run(
@@ -88,7 +87,6 @@ class GitHubEnvironment(TestCase):
 		print()
 
 		callArgs = self.__getExecutable("help")
-		print(callArgs)
 
 		try:
 			prog = subprocess_run(

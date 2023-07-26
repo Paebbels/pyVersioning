@@ -190,10 +190,10 @@ class Application(LineTerminal, ArgParseMixin):
 		content = dedent("""\
 		{{
 		  version: {{
-		    major: {version.major},
-		    minor: {version.minor},
-		    patch: {version.patch},
-		   flags: {version.flags}
+		    major: {version.Major},
+		    minor: {version.Minor},
+		    patch: {version.Patch},
+		   flags: {version.Flags}
 		  }}
 		}}
 		""")
@@ -237,10 +237,10 @@ class Application(LineTerminal, ArgParseMixin):
 
 		content = dedent("""\
 		  version: {version!s}
-		    major: {version.major}
-		    minor: {version.minor}
-		    patch: {version.patch}
-		    flags: {version.flags}
+		    major: {version.Major}
+		    minor: {version.Minor}
+		    patch: {version.Patch}
+		    flags: {version.Flags}
 
 		  git:
 		    commit:

@@ -46,31 +46,31 @@ class Travis(CIService):
 	ENV_INCLUDES =       ('CI', 'CONTINUOUS_INTEGRATION', 'TRAVIS')
 	ENV_EXCLUDES =       []
 
-	def getPlatform(self) -> Platform:
+	def GetPlatform(self) -> Platform:
 		return Platform("travis")
 
-	def getEnvironment(self) -> Dict[str, str]:
+	def GetEnvironment(self) -> Dict[str, str]:
 		return {}
 
-	def getGitHash(self) -> str:
+	def GetGitHash(self) -> str:
 		try:
 			return environ['TRAVIS_COMMIT']
 		except KeyError as ex:
 			raise ServiceException from ex
 
-	def getGitBranch(self) -> Nullable[str]:
+	def GetGitBranch(self) -> Nullable[str]:
 		try:
 			return environ['TRAVIS_BRANCH']
 		except KeyError:
 			return None
 
-	def getGitTag(self) -> Nullable[str]:
+	def GetGitTag(self) -> Nullable[str]:
 		try:
 			return environ['TRAVIS_TAG']
 		except KeyError:
 			return None
 
-	def getGitRepository(self) -> str:
+	def GetGitRepository(self) -> str:
 		try:
 			return environ['TRAVIS_REPO_SLUG']
 		except KeyError as ex:

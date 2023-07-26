@@ -361,7 +361,7 @@ class BaseService(metaclass=ExtendedType):
 	"""Base-class to collect platform and environment information from e.g. environment variables."""
 
 	# @abstractmethod
-	def getPlatform(self) -> Platform:
+	def GetPlatform(self) -> Platform:
 		""".. todo:: getPlatform needs documentation"""
 
 

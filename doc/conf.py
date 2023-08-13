@@ -223,8 +223,8 @@ extlinks = {
 	"gh":      ("https://GitHub.com/%s", "gh:"),
 	"ghissue": ("https://GitHub.com/Paebbels/pyVersioning/issues/%s", "issue #"),
 	"ghpull":  ("https://GitHub.com/Paebbels/pyVersioning/pull/%s", "pull request #"),
-	"ghsrc":   ("https://GitHub.com/Paebbels/pyVersioning/blob/main/%s", ""),
-	"wiki":    ("https://en.wikipedia.org/wiki/%s", ""),
+	"ghsrc":   ("https://GitHub.com/Paebbels/pyVersioning/blob/main/%s", None),
+	"wiki":    ("https://en.wikipedia.org/wiki/%s", None),
 }
 
 

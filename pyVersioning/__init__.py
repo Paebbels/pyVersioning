@@ -32,28 +32,45 @@ __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
 __copyright__ = "2020-2023, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
-__version__ =   "0.11.0"
+__version__ =   "0.12.0"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
-from dataclasses  import dataclass, make_dataclass, field
+from dataclasses  import make_dataclass
 from datetime     import date, time, datetime
 from enum         import Enum, auto
 from os           import environ
 from pathlib      import Path
 from subprocess   import run as subprocess_run, PIPE
-from typing       import Union, Any, Dict
+from typing       import Union, Any, Dict, Tuple, ClassVar, Generator
 
-from pyTooling.Decorators import export
+from pyTooling.Decorators       import export
+from pyTooling.MetaClasses      import ExtendedType
 from pyTooling.Versioning       import SemanticVersion
 from pyTooling.TerminalUI       import ILineTerminal
 
-from pyVersioning.Utils import SelfDescriptive, GitHelper, GitShowCommand
-from pyVersioning.AppVeyor      import AppVeyor
-from pyVersioning.CIService     import WorkStation
+from pyVersioning.Utils         import GitHelper, GitShowCommand
+# from pyVersioning.AppVeyor      import AppVeyor
+# from pyVersioning.CIService import WorkStation, BaseService
 from pyVersioning.Configuration import Configuration
-from pyVersioning.GitLab        import GitLab
-from pyVersioning.GitHub        import GitHub
-from pyVersioning.Travis        import Travis
+# from pyVersioning.GitLab        import GitLab
+# from pyVersioning.GitHub        import GitHub
+# from pyVersioning.Travis        import Travis
+
+
+@export
+class SelfDescriptive(metaclass=ExtendedType, slots=True, mixin=True):
+
+	# TODO: could this be filled with a decorator?
+	_public: ClassVar[Tuple[str, ...]]
+
+	def Keys(self) -> Generator[str, None, None]:
+		for element in self._public:
+			yield element
+
+	def KeyValuePairs(self) -> Generator[Tuple[str, Any], None, None]:
+		for element in self._public:
+			value = self.__getattribute__(element)
+			yield (element, value)
 
 
 @export
@@ -63,7 +80,7 @@ class Tool(SelfDescriptive):
 	_name:    str
 	_version: SemanticVersion
 
-	_public = ["name", "version"]
+	_public:  ClassVar[Tuple[str, ...]] = ("name", "version")
 
 	def __init__(self, name: str, version: SemanticVersion):
 		self._name = name
@@ -83,12 +100,12 @@ class Tool(SelfDescriptive):
 
 @export
 class Date(date, SelfDescriptive):
-	_public = ["day", "month", "year"]
+	_public: ClassVar[Tuple[str, ...]] = ("day", "month", "year")
 
 
 @export
 class Time(time, SelfDescriptive):
-	_public = ["hour", "minute", "second"]
+	_public: ClassVar[Tuple[str, ...]] = ("hour", "minute", "second")
 
 
 @export
@@ -98,7 +115,7 @@ class Person(SelfDescriptive):
 	_name:  str
 	_email: str
 
-	_public = ["name", "email"]
+	_public: ClassVar[Tuple[str, ...]] = ("name", "email")
 
 	def __init__(self, name: str, email: str):
 		self._name = name
@@ -117,45 +134,99 @@ class Person(SelfDescriptive):
 
 
 @export
-@dataclass
 class Commit(SelfDescriptive):
-	hash:      str
-	date:      Date
-	time:      Time
-	author:    Person
-	committer: Person
-	comment:   str
-	oneline:   str = field(init=False)
+	_hash:      str
+	_date:      Date
+	_time:      Time
+	_author:    Person
+	_committer: Person
+	_comment:   str
+	_oneline:   Union[str,  bool] = False
 
-	_public = ["hash", "date", "time", "author", "committer", "comment", "oneline"]
+	_public: ClassVar[Tuple[str, ...]] = ("hash", "date", "time", "author", "committer", "comment", "oneline")
 
-	def __post_init__(self) -> None:
-		"""Calculate `oneline` from `comment`."""
+	def __init__(self, hash: str, date: Date, time: Time, author: Person, committer: Person, comment: str):
+		self._hash = hash
+		self._date = date
+		self._time = time
+		self._author = author
+		self._committer = committer
+		self._comment = comment
 
-		if self.comment != "":
-			self.oneline = self.comment.split("\n")[0]
+		if comment != "":
+			self._oneline = comment.split("\n")[0]
+
+	@property
+	def hash(self) -> str:
+		return self._hash
+
+	@property
+	def date(self) -> Date:
+		return self._date
+
+	@property
+	def time(self) -> Time:
+		return self._time
+
+	@property
+	def author(self) -> Person:
+		return self._author
+
+	@property
+	def committer(self) -> Person:
+		return self._committer
+
+	@property
+	def comment(self) -> str:
+		return self._comment
+
+	@property
+	def oneline(self) -> Union[str,  bool]:
+		return self._oneline
 
 
 @export
-@dataclass
 class Git(SelfDescriptive):
-	commit:     Commit
-	reference:  str = field(init=False)
-	tag:        str = ""
-	branch:     str = ""
-	repository: str = ""
+	_commit:     Commit
+	_reference:  str = False
+	_tag:        str = ""
+	_branch:     str = ""
+	_repository: str = ""
 
-	_public = ["commit", "reference", "tag", "branch", "repository"]
+	_public: ClassVar[Tuple[str, ...]] = ("commit", "reference", "tag", "branch", "repository")
 
-	def __post_init__(self) -> None:
-		"""Calculate `reference` from `tag` or `branch`."""
+	def __init__(self, commit: Commit, repository: str, tag: str = "", branch: str = ""):
+		self._commit = commit
+		self._tag = tag
+		self._branch = branch
+		self._repository = repository
 
-		if self.tag != "":
-			self.reference = self.tag
-		elif self.branch != "":
-			self.reference = self.branch
+		if tag != "":
+			self._reference = tag
+		elif branch != "":
+			self._reference = branch
 		else:
-			self.reference = "[Detached HEAD]"
+			self._reference = "[Detached HEAD]"
+
+	@property
+	def commit(self) -> Commit:
+		return self._commit
+
+	@property
+	def reference(self) -> str:
+		return self._reference
+
+	@property
+	def tag(self) -> str:
+		return self._tag
+
+	@property
+	def branch(self) -> str:
+		return self._branch
+
+	@property
+	def repository(self) -> str:
+		return self._repository
 
 
 @export
@@ -164,7 +235,7 @@ class Project(SelfDescriptive):
 	_variant:  str
 	_version:  SemanticVersion
 
-	_public = ["name", "variant", "version"]
+	_public: ClassVar[Tuple[str, ...]] = ("name", "variant", "version")
 
 	def __init__(self, name: str, version: Union[str, SemanticVersion] = None, variant: str = None) -> None:
 		"""Assign fields and convert version string to a `Version` object."""
@@ -202,12 +273,12 @@ class Compiler(SelfDescriptive):
 	_configuration: str
 	_options:       str
 
-	_public = ["name", "version", "configuration", "options"]
+	_public: ClassVar[Tuple[str, ...]] = ("name", "version", "configuration", "options")
 
 	def __init__(self, name: str, version: Union[str, SemanticVersion] = "", configuration: str = "", options: str = "") -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
-		self._name          = name          if name is not None else ""
+		self._name          = name          if name          is not None else ""
 		self._configuration = configuration if configuration is not None else ""
 		self._options       = options       if options       is not None else ""
 
@@ -241,7 +312,7 @@ class Build(SelfDescriptive):
 	_time:     Time
 	_compiler: Compiler
 
-	_public = ["date", "time", "compiler"]
+	_public: ClassVar[Tuple[str, ...]] = ("date", "time", "compiler")
 
 	def __init__(self, date: Date, time: Time, compiler: Compiler):
 		self._date = date
@@ -271,131 +342,170 @@ class Platforms(Enum):
 
 
 @export
+class Platform(SelfDescriptive):
+	""".. todo:: Platform needs documentation"""
+
+	_ciService: str
+	_public:  ClassVar[Tuple[str, ...]] = ('ci_service', )
+
+	def __init__(self, ciService: str):
+		self._ciService = ciService
+
+	@property
+	def ci_service(self) -> str:
+		return self._ciService
+
+
+@export
+class BaseService(metaclass=ExtendedType):
+	"""Base-class to collect platform and environment information from e.g. environment variables."""
+
+	# @abstractmethod
+	def GetPlatform(self) -> Platform:
+		""".. todo:: getPlatform needs documentation"""
+
+
+@export
 class Versioning(ILineTerminal, GitHelper):
-	platform:  Platforms = Platforms.Workstation
-	variables: Dict
+	_variables: Dict[str, Any]
+	_platform:  Platforms = Platforms.Workstation
+	_service:   BaseService
 
 	def __init__(self, terminal: ILineTerminal):
 		super().__init__(terminal)
 
-		self.variables = {}
+		self._variables = {}
 
 		if "APPVEYOR" in environ:
-			self.platform = Platforms.AppVeyor
+			self._platform = Platforms.AppVeyor
 		elif "GITHUB_ACTIONS" in environ:
-			self.platform = Platforms.GitHub
+			self._platform = Platforms.GitHub
 		elif "GITLAB_CI" in environ:
-			self.platform = Platforms.GitLab
+			self._platform = Platforms.GitLab
 		elif "TRAVIS" in environ:
-			self.platform = Platforms.Travis
+			self._platform = Platforms.Travis
 		else:
-			self.platform = Platforms.Workstation
+			self._platform = Platforms.Workstation
 
-	def loadDataFromConfiguration(self, config: Configuration) -> None:
+	@property
+	def variables(self) -> Dict[str, Any]:
+		return self._variables
+
+	@property
+	def platform(self) -> Platforms:
+		return self._platform
+
+	def LoadDataFromConfiguration(self, config: Configuration) -> None:
 		"""Preload versioning information from configuration file."""
 
-		self.variables["project"] = self.getProject(config.project)
-		self.variables["build"]   = self.getBuild(config.build)
-		self.variables["version"] = self.getVersion(config.project)
+		self._variables["project"] = self.GetProject(config.project)
+		self._variables["build"]   = self.GetBuild(config.build)
+		self._variables["version"] = self.GetVersion(config.project)
 
-	def collectData(self) -> None:
+	def CollectData(self) -> None:
 		"""Collect versioning information from environment including CI services (if available)."""
 
-		if self.platform is Platforms.AppVeyor:
-			self.service                = AppVeyor()
-			self.variables["appveyor"]  = self.service.getEnvironment()
-		elif self.platform is Platforms.GitHub:
-			self.service                = GitHub()
-			self.variables["github"]    = self.service.getEnvironment()
-		elif self.platform is Platforms.GitLab:
-			self.service                = GitLab()
-			self.variables["gitlab"]    = self.service.getEnvironment()
-		elif self.platform is Platforms.Travis:
-			self.service                = Travis()
-			self.variables["travis"]    = self.service.getEnvironment()
+		from pyVersioning.AppVeyor      import AppVeyor
+		from pyVersioning.CIService     import WorkStation
+		from pyVersioning.GitLab        import GitLab
+		from pyVersioning.GitHub        import GitHub
+		from pyVersioning.Travis        import Travis
+
+		if self._platform is Platforms.AppVeyor:
+			self._service                = AppVeyor()
+			self._variables["appveyor"]  = self._service.GetEnvironment()
+		elif self._platform is Platforms.GitHub:
+			self._service                = GitHub()
+			self._variables["github"]    = self._service.GetEnvironment()
+		elif self._platform is Platforms.GitLab:
+			self._service                = GitLab()
+			self._variables["gitlab"]    = self._service.GetEnvironment()
+		elif self._platform is Platforms.Travis:
+			self._service                = Travis()
+			self._variables["travis"]    = self._service.GetEnvironment()
 		else:
-			self.service                = WorkStation()
+			self._service                = WorkStation()
 
-		self.variables["tool"]     = Tool("pyVersioning", SemanticVersion(__version__))
-		self.variables["git"]      = self.getGitInformation()
-		self.variables["env"]      = self.getEnvironment()
-		self.variables["platform"] = self.service.getPlatform()
+		self._variables["tool"]     = Tool("pyVersioning", SemanticVersion(__version__))
+		self._variables["git"]      = self.GetGitInformation()
+		self._variables["env"]      = self.GetEnvironment()
+		self._variables["platform"] = self._service.GetPlatform()
 
-		self.calculateData()
+		self.CalculateData()
 
-	def calculateData(self) -> None:
-		if self.variables["git"].tag != "":
+	def CalculateData(self) -> None:
+		if self._variables["git"].tag != "":
 			pass
 
-	def getVersion(self, config: Configuration.Project) -> SemanticVersion:
+	def GetVersion(self, config: Configuration.Project) -> SemanticVersion:
 		if config.version is not None:
 			return config.version
 		else:
 			return SemanticVersion("0.0.0")
 
-	def getGitInformation(self) -> Git:
+	def GetGitInformation(self) -> Git:
 		return Git(
-			commit=self.getLastCommit(),
-			tag=self.getGitTag(),
-			branch=self.getGitLocalBranch(),
-			repository=self.getGitRemoteURL()
+			commit=self.GetLastCommit(),
+			tag=self.GetGitTag(),
+			branch=self.GetGitLocalBranch(),
+			repository=self.GetGitRemoteURL()
 		)
 
-	def getLastCommit(self) -> Commit:
-		dt = self.getCommitDate()
+	def GetLastCommit(self) -> Commit:
+		dt = self.GetCommitDate()
 
 		return Commit(
-			hash=self.getGitHash(),
+			hash=self.GetGitHash(),
 			date=dt.date(),
 			time=dt.time(),
-			author=self.getCommitAuthor(),
-			committer=self.getCommitCommitter(),
-			comment=self.getCommitComment()
+			author=self.GetCommitAuthor(),
+			committer=self.GetCommitCommitter(),
+			comment=self.GetCommitComment()
 		)
 
-	def getGitHash(self) -> str:
-		if self.platform is not Platforms.Workstation:
-			return self.service.getGitHash()
+	def GetGitHash(self) -> str:
+		if self._platform is not Platforms.Workstation:
+			return self._service.GetGitHash()
 
-		return self.execGitShow(GitShowCommand.CommitHash)
+		return self.ExecuteGitShow(GitShowCommand.CommitHash)
 
-	def getCommitDate(self) -> datetime:
-		if self.platform is not Platforms.Workstation:
-			return self.service.getCommitDate()
+	def GetCommitDate(self) -> datetime:
+		if self._platform is not Platforms.Workstation:
+			return self._service.GetCommitDate()
 
-		datetimeString = self.execGitShow(GitShowCommand.CommitDateTime)
+		datetimeString = self.ExecuteGitShow(GitShowCommand.CommitDateTime)
 		return datetime.fromtimestamp(int(datetimeString))
 
-	def getCommitAuthor(self) -> Person:
+	def GetCommitAuthor(self) -> Person:
 		return Person(
-			name=self.getCommitAuthorName(),
-			email=self.getCommitAuthorEmail()
+			name=self.GetCommitAuthorName(),
+			email=self.GetCommitAuthorEmail()
 		)
 
-	def getCommitAuthorName(self) -> str:
-		return self.execGitShow(GitShowCommand.CommitAuthorName)
+	def GetCommitAuthorName(self) -> str:
+		return self.ExecuteGitShow(GitShowCommand.CommitAuthorName)
 
-	def getCommitAuthorEmail(self) -> str:
-		return self.execGitShow(GitShowCommand.CommitAuthorEmail)
+	def GetCommitAuthorEmail(self) -> str:
+		return self.ExecuteGitShow(GitShowCommand.CommitAuthorEmail)
 
-	def getCommitCommitter(self) -> Person:
+	def GetCommitCommitter(self) -> Person:
 		return Person(
-			name=self.getCommitCommitterName(),
-			email=self.getCommitCommitterEmail()
+			name=self.GetCommitCommitterName(),
+			email=self.GetCommitCommitterEmail()
 		)
 
-	def getCommitCommitterName(self) -> str:
-		return self.execGitShow(GitShowCommand.CommitCommitterName)
+	def GetCommitCommitterName(self) -> str:
+		return self.ExecuteGitShow(GitShowCommand.CommitCommitterName)
 
-	def getCommitCommitterEmail(self) -> str:
-		return self.execGitShow(GitShowCommand.CommitCommitterEmail)
+	def GetCommitCommitterEmail(self) -> str:
+		return self.ExecuteGitShow(GitShowCommand.CommitCommitterEmail)
 
-	def getCommitComment(self) -> str:
-		return self.execGitShow(GitShowCommand.CommitComment)
+	def GetCommitComment(self) -> str:
+		return self.ExecuteGitShow(GitShowCommand.CommitComment)
 
-	def getGitLocalBranch(self) -> str:
-		if self.platform is not Platforms.Workstation:
-			return self.service.getGitBranch()
+	def GetGitLocalBranch(self) -> str:
+		if self._platform is not Platforms.Workstation:
+			return self._service.GetGitBranch()
 
 		command = "git"
 		arguments = ("branch", "--show-current")
@@ -410,37 +520,37 @@ class Versioning(ILineTerminal, GitHelper):
 			message = completed.stderr.decode("utf-8")
 			self.WriteFatal(f"Message from '{command}': {message}")
 
-	def getGitRemoteBranch(self, localBranch: str = None) -> str:
-		if self.platform is not Platforms.Workstation:
-			return self.service.getGitBranch()
+	def GetGitRemoteBranch(self, localBranch: str = None) -> str:
+		if self._platform is not Platforms.Workstation:
+			return self._service.GetGitBranch()
 
 		if localBranch is None:
-			localBranch = self.getGitLocalBranch()
+			localBranch = self.GetGitLocalBranch()
 
 		command = "git"
 		arguments = ("config", f"branch.{localBranch}.merge")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
-			raise Exception()
+			raise Exception()  # XXX: needs error message
 
 		if completed.returncode == 0:
 			return completed.stdout.decode("utf-8").split("\n")[0]
 		else:
 			message = completed.stderr.decode("utf-8")
 			self.WriteFatal(f"Message from '{command}': {message}")
-			raise Exception
+			raise Exception()  # XXX: needs error message
 
-	def getGitRemote(self, localBranch: str = None) -> str:
+	def GetGitRemote(self, localBranch: str = None) -> str:
 		if localBranch is None:
-			localBranch = self.getGitLocalBranch()
+			localBranch = self.GetGitLocalBranch()
 
 		command = "git"
 		arguments = ("config", f"branch.{localBranch}.remote")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
-			raise Exception
+			raise Exception()  # XXX: needs error message
 
 		if completed.returncode == 0:
 			return completed.stdout.decode("utf-8").split("\n")[0]
@@ -450,65 +560,65 @@ class Versioning(ILineTerminal, GitHelper):
 		else:
 			message = completed.stderr.decode("utf-8")
 			self.WriteFatal(f"Message from '{command}': {message}")
-			raise Exception
+			raise Exception()  # XXX: needs error message
 
-	def getGitTag(self) -> str:
-		if self.platform is not Platforms.Workstation:
-			return self.service.getGitTag()
+	def GetGitTag(self) -> str:
+		if self._platform is not Platforms.Workstation:
+			return self._service.GetGitTag()
 
 		command = "git"
 		arguments = ("tag", "--points-at", "HEAD")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
-			raise Exception
+			raise Exception()  # XXX: needs error message
 
 		if completed.returncode == 0:
 			return completed.stdout.decode("utf-8").split("\n")[0]
 		else:
 			message = completed.stderr.decode("utf-8")
 			self.WriteFatal(f"Message from '{command}': {message}")
-			raise Exception
+			raise Exception()  # XXX: needs error message
 
-	def getGitRemoteURL(self, remote: str = None) -> str:
-		if self.platform is not Platforms.Workstation:
-			return self.service.getGitRepository()
+	def GetGitRemoteURL(self, remote: str = None) -> str:
+		if self._platform is not Platforms.Workstation:
+			return self._service.GetGitRepository()
 
 		if remote is None:
-			remote = self.getGitRemote()
+			remote = self.GetGitRemote()
 
 		command = "git"
 		arguments = ("config", f"remote.{remote}.url")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except:
-			raise Exception
+			raise Exception()  # XXX: needs error message
 
 		if completed.returncode == 0:
 			return completed.stdout.decode("utf-8").split("\n")[0]
 		else:
 			message = completed.stderr.decode("utf-8")
 			self.WriteFatal(f"Message from '{command}': {message}")
-			raise Exception
+			raise Exception()  # XXX: needs error message
 
 	# 		self.WriteFatal(f"Message from '{command}': {message}")
 
-	def getProject(self, config: Configuration.Project) -> Project:
+	def GetProject(self, config: Configuration.Project) -> Project:
 		return Project(
 			name=config.name,
 			version=config.version,
 			variant=config.variant
 		)
 
-	def getBuild(self, config: Configuration.Build) -> Build:
+	def GetBuild(self, config: Configuration.Build) -> Build:
 		dt = datetime.now()
 		return Build(
 			date=dt.date(),
 			time=dt.time(),
-			compiler=self.getCompiler(config.compiler)
+			compiler=self.GetCompiler(config.compiler)
 		)
 
-	def getCompiler(self, config: Configuration.Build.Compiler) -> Compiler:
+	def GetCompiler(self, config: Configuration.Build.Compiler) -> Compiler:
 		return Compiler(
 			name=config.name,
 			version=SemanticVersion(config.version),
@@ -516,7 +626,7 @@ class Versioning(ILineTerminal, GitHelper):
 			options=config.options
 		)
 
-	def getEnvironment(self) -> Any:
+	def GetEnvironment(self) -> Any:
 		env = {}
 		for key, value in environ.items():
 			if not key.isidentifier():
@@ -527,7 +637,7 @@ class Versioning(ILineTerminal, GitHelper):
 			key = key.replace(" ", "_")
 			env[key] = value
 
-		def func(s):
+		def func(s) -> Generator[Tuple[str, Any], None, None]:
 			for e in env.keys():
 				yield (e, s.__getattribute__(e))
 
@@ -545,11 +655,11 @@ class Versioning(ILineTerminal, GitHelper):
 
 		return Environment(**env)
 
-	def writeSourceFile(self, template: Path, filename: Path) -> None:
+	def WriteSourceFile(self, template: Path, filename: Path) -> None:
 		content = template.read_text()
 
 		# apply variables
-		content = content.format(**self.variables)
+		content = content.format(**self._variables)
 
 		with filename.open("w") as file:
 			file.write(content)

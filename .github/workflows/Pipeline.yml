@@ -11,6 +11,7 @@ jobs:
     uses: pyTooling/Actions/.github/workflows/Parameters.yml@dev
     with:
       name: pyVersioning
+      system_list: "ubuntu"
 
   UnitTesting:
     uses: pyTooling/Actions/.github/workflows/UnitTesting.yml@dev
@@ -19,6 +20,15 @@ jobs:
     with:
       jobs: ${{ needs.Params.outputs.python_jobs }}
       artifact: ${{ fromJson(needs.Params.outputs.artifact_names).unittesting_xml }}
+
+  CITesting:
+    uses: pyTooling/Actions/.github/workflows/UnitTesting.yml@dev
+    needs:
+      - Params
+    with:
+      jobs: ${{ needs.Params.outputs.python_jobs }}
+      unittest_directory: CIServices
+      artifact: ${{ fromJson(needs.Params.outputs.artifact_names).unittesting_xml }}-ci
 
   Coverage:
     uses: pyTooling/Actions/.github/workflows/CoverageCollection.yml@dev
@@ -45,6 +55,7 @@ jobs:
     uses: pyTooling/Actions/.github/workflows/PublishTestResults.yml@dev
     needs:
       - UnitTesting
+      - CITesting
 
   Package:
     uses: pyTooling/Actions/.github/workflows/Package.yml@dev
@@ -55,14 +66,23 @@ jobs:
       python_version: ${{ needs.Params.outputs.python_version }}
       artifact: ${{ fromJson(needs.Params.outputs.artifact_names).package_all }}
 
+  AppTesting:
+    uses: pyTooling/Actions/.github/workflows/ApplicationTesting.yml@dev
+    needs:
+      - Params
+      - Package
+    with:
+      jobs: ${{ needs.Params.outputs.python_jobs }}
+      wheel: ${{ fromJson(needs.Params.outputs.artifact_names).package_all }}
+      artifact: ${{ fromJson(needs.Params.outputs.artifact_names).apptesting_xml }}
+
   Release:
     uses: pyTooling/Actions/.github/workflows/Release.yml@dev
     if: startsWith(github.ref, 'refs/tags')
     needs:
-      - UnitTesting
       - Coverage
+      - AppTesting
       - StaticTypeCheck
-      - Package
 
   PublishOnPyPI:
     uses: pyTooling/Actions/.github/workflows/PublishOnPyPI.yml@dev
@@ -110,6 +130,8 @@ jobs:
     needs:
       - Params
       - UnitTesting
+      - CITesting
+      - AppTesting
       - Coverage
       - StaticTypeCheck
       - BuildTheDocs
@@ -119,6 +141,7 @@ jobs:
       package: ${{ fromJson(needs.Params.outputs.artifact_names).package_all }}
       remaining: |
         ${{ fromJson(needs.Params.outputs.artifact_names).unittesting_xml }}-*
+        ${{ fromJson(needs.Params.outputs.artifact_names).apptesting_xml }}
         ${{ fromJson(needs.Params.outputs.artifact_names).codecoverage_html }}
         ${{ fromJson(needs.Params.outputs.artifact_names).statictyping_html }}
         ${{ fromJson(needs.Params.outputs.artifact_names).documentation_html }}

@@ -47,16 +47,16 @@ class GitHub(CIService):
 	ENV_INCLUDES =        ('CI', )
 	ENV_EXCLUDES =        []
 
-	def getPlatform(self) -> Platform:
+	def GetPlatform(self) -> Platform:
 		return Platform("github")
 
-	def getGitHash(self) -> str:
+	def GetGitHash(self) -> str:
 		try:
 			return environ['GITHUB_SHA']
 		except KeyError as ex:
 			raise ServiceException from ex
 
-	def getGitBranch(self) -> Nullable[str]:
+	def GetGitBranch(self) -> Nullable[str]:
 		branchPrefix = "refs/heads/"
 
 		try:
@@ -66,7 +66,7 @@ class GitHub(CIService):
 		except KeyError:
 			return None
 
-	def getGitTag(self) -> Nullable[str]:
+	def GetGitTag(self) -> Nullable[str]:
 		tagPrefix    = "refs/tags/"
 
 		try:
@@ -76,7 +76,7 @@ class GitHub(CIService):
 		except KeyError:
 			return None
 
-	def getGitRepository(self) -> str:
+	def GetGitRepository(self) -> str:
 		try:
 			return environ['GITHUB_REPOSITORY']
 		except KeyError as ex:

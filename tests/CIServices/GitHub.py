@@ -43,7 +43,7 @@ if __name__ == "__main__":
 	exit(1)
 
 
-class GitLabEnvironment(TestCase):
+class GitHubEnvironment(TestCase):
 	@staticmethod
 	def __getExecutable(command: str, *args):
 		if CurrentPlatform.IsNativeWindows:
@@ -66,10 +66,10 @@ class GitLabEnvironment(TestCase):
 		env = {k: v for k, v in os_environ.items()}
 
 		if len(kwargs) == 0:
-			env["GITLAB_CI"] =          "YES"
-			env["CI_COMMIT_SHA"] =      "1234567890123456789012345678901234567890"
-			env["CI_COMMIT_BRANCH"] =   "dev"
-			env["CI_REPOSITORY_URL"] =  "gitlab.com/path/to/repo.git"
+			env["CI"] =                "YES"
+			env["GITHUB_SHA"] =        "1234567890123456789012345678901234567890"
+			env["GITHUB_REF"] =        "dev"
+			env["GITHUB_REPOSITORY"] = "gitlab.com/path/to/repo.git"
 		else:
 			for k,v in kwargs.items():
 				env[k] = v

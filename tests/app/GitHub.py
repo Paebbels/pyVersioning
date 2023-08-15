@@ -43,49 +43,137 @@ if __name__ == "__main__":
 	exit(1)
 
 
-class GitLabEnvironment(TestCase):
+class GitHubEnvironment(TestCase):
 	@staticmethod
 	def __getExecutable(command: str, *args):
-		if CurrentPlatform.IsNativeWindows:
-			callArgs = ["py", f"-{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
-		else:
-			callArgs = [f"python{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
-
-		callArgs.extend([
-			"../pyVersioning/cli.py",
+		callArgs = [
+			"pyVersioning",
 			command
-		])
+		]
 
 		if len(args) > 0:
 			callArgs.extend(args)
 
 		return callArgs
 
-	@staticmethod
-	def __getServiceEnvironment(**kwargs):
-		env = {k: v for k, v in os_environ.items()}
-
-		if len(kwargs) == 0:
-			env["GITLAB_CI"] =          "YES"
-			env["CI_COMMIT_SHA"] =      "1234567890123456789012345678901234567890"
-			env["CI_COMMIT_BRANCH"] =   "dev"
-			env["CI_REPOSITORY_URL"] =  "gitlab.com/path/to/repo.git"
-		else:
-			for k,v in kwargs.items():
-				env[k] = v
-
-		return env
-
-	def test_Variables(self):
+	def test_NoCommand(self):
 		print()
+
+		callArgs = ["pyVersioning"]
 
 		try:
 			prog = subprocess_run(
-				args=self.__getExecutable("variables"),
+				args=callArgs,
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
-				shell=True,
-				env=self.__getServiceEnvironment(),
+				check=True,
+				encoding="utf-8"
+			)
+		except CalledProcessError as ex:
+			print("CALLED PROCESS ERROR")
+			print(ex.returncode)
+			print(ex.output)
+			exit(1)
+		except Exception as ex:
+			print("EXCEPTION")
+			print(ex)
+			exit(3)
+
+		output = prog.stdout
+		for line in output.split("\n"):
+			print(line)
+
+	def test_HelpCommand(self):
+		print()
+
+		callArgs = self.__getExecutable("help")
+
+		try:
+			prog = subprocess_run(
+				args=callArgs,
+				stdout=subprocess_PIPE,
+				stderr=subprocess_STDOUT,
+				check=True,
+				encoding="utf-8"
+			)
+		except CalledProcessError as ex:
+			print("CALLED PROCESS ERROR")
+			print(ex.returncode)
+			print(ex.output)
+			exit(1)
+		except Exception as ex:
+			print("EXCEPTION")
+			print(ex)
+			exit(3)
+
+		output = prog.stdout
+		for line in output.split("\n"):
+			print(line)
+
+	def test_VariablesCommand(self):
+		print()
+
+		callArgs = self.__getExecutable("variables")
+
+		try:
+			prog = subprocess_run(
+				args=callArgs,
+				stdout=subprocess_PIPE,
+				stderr=subprocess_STDOUT,
+				check=True,
+				encoding="utf-8"
+			)
+		except CalledProcessError as ex:
+			print("CALLED PROCESS ERROR")
+			print(ex.returncode)
+			print(ex.output)
+			exit(1)
+		except Exception as ex:
+			print("EXCEPTION")
+			print(ex)
+			exit(3)
+
+		output = prog.stdout
+		for line in output.split("\n"):
+			print(line)
+
+	def test_YAMLCommand(self):
+		print()
+
+		callArgs = self.__getExecutable("yaml")
+
+		try:
+			prog = subprocess_run(
+				args=callArgs,
+				stdout=subprocess_PIPE,
+				stderr=subprocess_STDOUT,
+				check=True,
+				encoding="utf-8"
+			)
+		except CalledProcessError as ex:
+			print("CALLED PROCESS ERROR")
+			print(ex.returncode)
+			print(ex.output)
+			exit(1)
+		except Exception as ex:
+			print("EXCEPTION")
+			print(ex)
+			exit(3)
+
+		output = prog.stdout
+		for line in output.split("\n"):
+			print(line)
+
+	def test_JSONCommand(self):
+		print()
+
+		callArgs = self.__getExecutable("json")
+
+		try:
+			prog = subprocess_run(
+				args=callArgs,
+				stdout=subprocess_PIPE,
+				stderr=subprocess_STDOUT,
 				check=True,
 				encoding="utf-8"
 			)
@@ -106,13 +194,13 @@ class GitLabEnvironment(TestCase):
 	def test_Fillout(self):
 		print()
 
+		callArgs = self.__getExecutable("fillout", "template.in", "template.out")
+
 		try:
 			prog = subprocess_run(
-				args=self.__getExecutable("fillout", "template.in", "template.out"),
+				args=callArgs,
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
-				shell=True,
-				env=self.__getServiceEnvironment(),
 				check=True,
 				encoding="utf-8"
 			)

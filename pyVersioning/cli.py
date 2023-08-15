@@ -33,10 +33,11 @@ from pathlib      import Path
 from textwrap     import dedent
 from typing       import NoReturn
 
-from pyTooling.Decorators import export
+from pyTooling.Decorators            import export
 from pyTooling.TerminalUI            import LineTerminal, Severity
 from pyAttributes                    import Attribute
 from pyAttributes.ArgParseAttributes import ArgParseMixin, CommandAttribute, ArgumentAttribute, DefaultAttribute
+
 
 from pyVersioning                    import Versioning, Platforms, Project, SelfDescriptive
 from pyVersioning.Configuration      import Configuration
@@ -92,8 +93,8 @@ class Application(LineTerminal, ArgParseMixin):
 			self._config = Configuration(self.__configFile)
 
 		self._versioning = Versioning(self)
-		self._versioning.loadDataFromConfiguration(self._config)
-		self._versioning.collectData()
+		self._versioning.LoadDataFromConfiguration(self._config)
+		self._versioning.CollectData()
 
 	def PrintHeadline(self) -> None:
 		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
@@ -154,7 +155,7 @@ class Application(LineTerminal, ArgParseMixin):
 		self.UpdateProject(args)
 		self.UpdateCompiler(args)
 
-		self._versioning.writeSourceFile(templateFile, outputFile)
+		self._versioning.WriteSourceFile(templateFile, outputFile)
 
 	@CommandAttribute("variables", help="Print all available variables.")
 	@ProjectAttributeGroup()
@@ -189,10 +190,10 @@ class Application(LineTerminal, ArgParseMixin):
 		content = dedent("""\
 		{{
 		  version: {{
-		    major: {version.major},
-		    minor: {version.minor},
-		    patch: {version.patch},
-		   flags: {version.flags}
+		    major: {version.Major},
+		    minor: {version.Minor},
+		    patch: {version.Patch},
+		   flags: {version.Flags}
 		  }}
 		}}
 		""")
@@ -236,10 +237,10 @@ class Application(LineTerminal, ArgParseMixin):
 
 		content = dedent("""\
 		  version: {version!s}
-		    major: {version.major}
-		    minor: {version.minor}
-		    patch: {version.patch}
-		    flags: {version.flags}
+		    major: {version.Major}
+		    minor: {version.Minor}
+		    patch: {version.Patch}
+		    flags: {version.Flags}
 
 		  git:
 		    commit:

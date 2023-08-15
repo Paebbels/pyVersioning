@@ -47,35 +47,35 @@ class GitLab(CIService):
 	ENV_INCLUDES =       ('CI', )
 	ENV_EXCLUDES =       ('CI_JOB_TOKEN', )
 
-	def getPlatform(self) -> Platform:
+	def GetPlatform(self) -> Platform:
 		return Platform("gitlab")
 
-	def getGitHash(self) -> str:
+	def GetGitHash(self) -> str:
 		try:
 			return environ['CI_COMMIT_SHA']
 		except KeyError as ex:
 			raise ServiceException from ex
 
-	def getCommitDate(self) -> datetime:
+	def GetCommitDate(self) -> datetime:
 		try:
 			iso8601 = environ['CI_COMMIT_TIMESTAMP']
 			return datetime.strptime(iso8601, "%Y-%m-%dT%H:%M:%S%z")
 		except KeyError as ex:
 			raise ServiceException from ex
 
-	def getGitBranch(self) -> Nullable[str]:
+	def GetGitBranch(self) -> Nullable[str]:
 		try:
 			return environ['CI_COMMIT_BRANCH']
 		except KeyError:
 			return None
 
-	def getGitTag(self) -> Nullable[str]:
+	def GetGitTag(self) -> Nullable[str]:
 		try:
 			return environ['CI_COMMIT_TAG']
 		except KeyError:
 			return None
 
-	def getGitRepository(self) -> str:
+	def GetGitRepository(self) -> str:
 		try:
 			return environ['CI_REPOSITORY_URL']
 		except KeyError as ex:

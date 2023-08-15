@@ -37,37 +37,12 @@ from typing       import Dict, Optional as Nullable
 from pyTooling.Decorators import export
 from pyTooling.MetaClasses import ExtendedType, abstractmethod
 
-from pyVersioning import SelfDescriptive, GitHelper, GitShowCommand
+from pyVersioning import SelfDescriptive, GitHelper, GitShowCommand, BaseService, Platform
 
 
 @export
 class ServiceException(Exception):
 	""".. todo:: ServiceException needs documentation"""
-
-
-@export
-class Platform(SelfDescriptive):
-	""".. todo:: Platform needs documentation"""
-
-	_ciService: str
-
-	_public = ['ci_service']
-
-	def __init__(self, ciService: str):
-		self._ciService = ciService
-
-	@property
-	def ci_service(self) -> str:
-		return self._ciService
-
-
-@export
-class BaseService(metaclass=ExtendedType):
-	"""Base-class to collect platform and environment information from e.g. environment variables."""
-
-	@abstractmethod
-	def getPlatform(self) -> Platform:
-		""".. todo:: getPlatform needs documentation"""
 
 
 @export
@@ -79,7 +54,7 @@ class CIService(BaseService, GitHelper):
 	ENV_INCLUDES =       []
 	ENV_EXCLUDES =       []
 
-	def getEnvironment(self) -> Dict[str, str]:
+	def GetEnvironment(self) -> Dict[str, str]:
 		""".. todo:: getEnvironment needs documentation"""
 
 		filteredEnv = {key:value for (key,value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
@@ -117,30 +92,30 @@ class CIService(BaseService, GitHelper):
 		return Environment(**filteredEnv)
 
 	@abstractmethod
-	def getGitHash(self) -> str:
+	def GetGitHash(self) -> str:
 		""".. todo:: getGithash needs documentation"""
 
 	# @abstractmethod
-	def getCommitDate(self) -> datetime:
+	def GetCommitDate(self) -> datetime:
 		""".. todo:: getCommitDate needs documentation"""
 
-		datetimeString = self.execGitShow(GitShowCommand.CommitDateTime, self.getGitHash())
+		datetimeString = self.ExecuteGitShow(GitShowCommand.CommitDateTime, self.GetGitHash())
 		return datetime.fromtimestamp(int(datetimeString))
 
 	@abstractmethod
-	def getGitBranch(self) -> Nullable[str]:
+	def GetGitBranch(self) -> Nullable[str]:
 		""".. todo:: getGitBranch needs documentation"""
 
 	@abstractmethod
-	def getGitTag(self) -> Nullable[str]:
+	def GetGitTag(self) -> Nullable[str]:
 		""".. todo:: getGitTag needs documentation"""
 
 	@abstractmethod
-	def getGitRepository(self) -> str:
+	def GetGitRepository(self) -> str:
 		""".. todo:: getGitRepository needs documentation"""
 
 
 @export
 class WorkStation(BaseService):
-	def getPlatform(self) -> Platform:
+	def GetPlatform(self) -> Platform:
 		return Platform("NO-CI")

@@ -39,8 +39,9 @@ from pyAttributes                    import Attribute
 from pyAttributes.ArgParseAttributes import ArgParseMixin, CommandAttribute, ArgumentAttribute, DefaultAttribute
 
 
-from pyVersioning                    import Versioning, Platforms, Project, SelfDescriptive
-from pyVersioning.Configuration      import Configuration
+from pyVersioning                            import __version__, __author__, __email__, __copyright__, __license__
+from pyVersioning                            import Versioning, Platforms, Project, SelfDescriptive
+from pyVersioning.Configuration              import Configuration
 
 
 @export
@@ -116,6 +117,11 @@ class Application(LineTerminal, ArgParseMixin):
 	@ArgumentAttribute(metavar="Command", dest="Command", type=str, nargs="?", help="Print help page(s) for a command.")
 	def HandleHelp(self, args) -> None:
 		self.PrintHeadline()
+		self.WriteNormal(f"Author:    {__author__} ({__email__})")
+		self.WriteNormal(f"Copyright: {__copyright__}")
+		self.WriteNormal(f"License:   {__license__}")
+		self.WriteNormal(f"Version:   {__version__}")
+		self.WriteNormal("")
 
 		if args.Command is None:
 			self.MainParser.print_help()

@@ -29,10 +29,14 @@
 # ==================================================================================================================== #
 #
 """Unit tests for GitLab CI."""
+from json import loads, JSONDecodeError
 from os               import environ as os_environ
+
+from ruamel.yaml.reader import ReaderError
 from subprocess       import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
 
 from pyTooling.Common import CurrentPlatform
+from ruamel.yaml      import YAML
 
 from unittest         import TestCase
 
@@ -43,18 +47,18 @@ if __name__ == "__main__":
 	exit(1)
 
 
-class GitLabEnvironment(TestCase):
+class LocalEnvironment(TestCase):
 	@staticmethod
-	def __getExecutable(command: str, *args):
+	def __getExecutable(command: str = None, *args):
 		if CurrentPlatform.IsNativeWindows:
 			callArgs = ["py", f"-{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
 		else:
 			callArgs = [f"python{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
 
-		callArgs.extend([
-			"../pyVersioning/cli.py",
-			command
-		])
+		callArgs.append("../pyVersioning/cli.py")
+
+		if command is not None:
+			callArgs.append(command)
 
 		if len(args) > 0:
 			callArgs.extend(args)
@@ -75,6 +79,43 @@ class GitLabEnvironment(TestCase):
 				env[k] = v
 
 		return env
+
+	def __run(self, command: str = None, *args):
+		try:
+			prog = subprocess_run(
+				args=self.__getExecutable(command, *args),
+				stdout=subprocess_PIPE,
+				stderr=subprocess_STDOUT,
+				shell=True,
+				env=self.__getServiceEnvironment(),
+				check=True,
+				encoding="utf-8"
+			)
+		except CalledProcessError as ex:
+			print("CALLED PROCESS ERROR")
+			print(ex.returncode)
+			print(ex.output)
+			exit(1)
+		except Exception as ex:
+			print("EXCEPTION")
+			print(ex)
+			exit(3)
+
+		output = prog.stdout
+		for line in output.split("\n"):
+			print(line)
+
+		return output
+
+	def test_NoArguments(self):
+		print()
+
+		self.__run()
+
+	def test_Help(self):
+		print()
+
+		self.__run("help")
 
 	def test_Variables(self):
 		print()
@@ -129,3 +170,30 @@ class GitLabEnvironment(TestCase):
 		output = prog.stdout
 		for line in output.split("\n"):
 			print(line)
+
+	def test_Json(self):
+		print()
+
+		output = self.__run("json")
+		try:
+			json = loads(output)
+		except JSONDecodeError as ex:
+			print("=" * 80)
+			print(ex)
+			print("=" * 80)
+			self.fail("Internal JSON error: JSONDecodeError")
+
+	def test_Yaml(self):
+		print()
+
+		yaml = YAML()
+
+		output = self.__run("yaml")
+		try:
+			yaml.load(output)
+		except ReaderError as ex:
+			print("=" * 80)
+			print(ex)
+			print("=" * 80)
+			self.fail("Internal YAML error: ReaderError")
+

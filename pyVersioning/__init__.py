@@ -30,9 +30,9 @@
 #
 __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
-__copyright__ = "2020-2023, Patrick Lehmann"
+__copyright__ = "2020-2024, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
-__version__ =   "0.12.0"
+__version__ =   "0.13.0"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
 from dataclasses  import make_dataclass
@@ -140,7 +140,7 @@ class Commit(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("hash", "date", "time", "author", "committer", "comment", "oneline")
 
-	def __init__(self, hash: str, date: Date, time: Time, author: Person, committer: Person, comment: str):
+	def __init__(self, hash: str, date: Date, time: Time, author: Person, committer: Person, comment: str) -> None:
 		self._hash = hash
 		self._date = date
 		self._time = time

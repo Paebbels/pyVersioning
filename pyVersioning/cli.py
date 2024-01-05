@@ -195,11 +195,13 @@ class Application(LineTerminal, ArgParseMixin):
 
 		content = dedent("""\
 		{{
-		  version: {{
-		    major: {version.Major},
-		    minor: {version.Minor},
-		    patch: {version.Patch},
-		   flags: {version.Flags}
+		  "format": "1.1",
+		  "version": {{
+		    "name": "{version!s}",
+		    "major": {version.Major},
+		    "minor": {version.Minor},
+		    "patch": {version.Patch},
+		   "flags": {version.Flags}
 		  }}
 		}}
 		""")
@@ -242,7 +244,10 @@ class Application(LineTerminal, ArgParseMixin):
 				yamlTravis += f"    {key}: {value}\n"
 
 		content = dedent("""\
-		  version: {version!s}
+		  format: "1.1"
+
+		  version:
+		    name: "{version!s}"
 		    major: {version.Major}
 		    minor: {version.Minor}
 		    patch: {version.Patch}

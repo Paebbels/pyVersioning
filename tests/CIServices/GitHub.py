@@ -94,11 +94,11 @@ class GitHubEnvironment(TestCase):
 			print("CALLED PROCESS ERROR")
 			print(ex.returncode)
 			print(ex.output)
-			exit(1)
+			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
 			print("EXCEPTION")
 			print(ex)
-			exit(3)
+			raise Exception(f"Unknown error: {ex}") from ex
 
 		output = prog.stdout
 		for line in output.split("\n"):

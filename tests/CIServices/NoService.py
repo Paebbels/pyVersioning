@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -29,16 +29,16 @@
 # ==================================================================================================================== #
 #
 """Unit tests for GitLab CI."""
-from json import loads, JSONDecodeError
-from os               import environ as os_environ
+from json               import loads, JSONDecodeError
+from os                 import environ as os_environ
+from subprocess         import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
+from typing             import Tuple, Any, Dict, Optional as Nullable
+from unittest           import TestCase
 
+from ruamel.yaml        import YAML
 from ruamel.yaml.reader import ReaderError
-from subprocess       import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
 
-from pyTooling.Common import CurrentPlatform
-from ruamel.yaml      import YAML
-
-from unittest         import TestCase
+from pyTooling.Common   import CurrentPlatform
 
 
 if __name__ == "__main__":
@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
 class LocalEnvironment(TestCase):
 	@staticmethod
-	def __getExecutable(command: str = None, *args):
+	def __getExecutable(command: Nullable[str] = None, *args: Tuple[Any, ...]):
 		if CurrentPlatform.IsNativeWindows:
 			callArgs = ["py", f"-{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
 		else:
@@ -66,7 +66,7 @@ class LocalEnvironment(TestCase):
 		return callArgs
 
 	@staticmethod
-	def __getServiceEnvironment(**kwargs):
+	def __getServiceEnvironment(**kwargs: Dict[str, Any]):
 		env = {k: v for k, v in os_environ.items()}
 
 		if len(kwargs) == 0:
@@ -80,7 +80,7 @@ class LocalEnvironment(TestCase):
 
 		return env
 
-	def __run(self, command: str = None, *args):
+	def __run(self, command: Nullable[str] = None, *args: Tuple[Any, ...]):
 		try:
 			prog = subprocess_run(
 				args=self.__getExecutable(command, *args),
@@ -112,12 +112,12 @@ class LocalEnvironment(TestCase):
 
 		self.__run()
 
-	def test_Help(self):
+	def test_Help(self) -> None:
 		print()
 
 		self.__run("help")
 
-	def test_Variables(self):
+	def test_Variables(self) -> None:
 		print()
 
 		try:
@@ -144,7 +144,7 @@ class LocalEnvironment(TestCase):
 		for line in output.split("\n"):
 			print(line)
 
-	def test_Fillout(self):
+	def test_Fillout(self) -> None:
 		print()
 
 		try:
@@ -171,10 +171,13 @@ class LocalEnvironment(TestCase):
 		for line in output.split("\n"):
 			print(line)
 
-	def test_Json(self):
+	def test_Json(self) -> None:
 		print()
 
 		output = self.__run("json")
+		print("-" * 80)
+		print(output)
+		print("-" * 80)
 		try:
 			json = loads(output)
 		except JSONDecodeError as ex:
@@ -183,12 +186,15 @@ class LocalEnvironment(TestCase):
 			print("=" * 80)
 			self.fail("Internal JSON error: JSONDecodeError")
 
-	def test_Yaml(self):
+	def test_Yaml(self) -> None:
 		print()
 
 		yaml = YAML()
 
 		output = self.__run("yaml")
+		print("-" * 80)
+		print(output)
+		print("-" * 80)
 		try:
 			yaml.load(output)
 		except ReaderError as ex:

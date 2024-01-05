@@ -10,7 +10,7 @@
 /*                                                                                                                     *
 /* @brief     Code example in C                                                                                        *
 /*                                                                                                                     *
-/* @copyright Copyright 2020-2023 Patrick Lehmann - Boetzingen, Germany                                                *
+/* @copyright Copyright 2020-2024 Patrick Lehmann - Boetzingen, Germany                                                *
 /*                                                                                                                     *
 /* Licensed under the Apache License, Version 2.0 (the "License");                                                     *
 /* you may not use this file except in compliance with the License.                                                    *

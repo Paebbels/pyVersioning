@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -31,6 +31,7 @@
 """Unit tests for GitLab CI."""
 from os               import environ as os_environ
 from subprocess       import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
+from typing           import Tuple, Any, Dict
 
 from pyTooling.Common import CurrentPlatform
 
@@ -45,7 +46,7 @@ if __name__ == "__main__":
 
 class GitHubEnvironment(TestCase):
 	@staticmethod
-	def __getExecutable(command: str, *args):
+	def __getExecutable(command: str, *args: Tuple[Any, ...]):
 		if CurrentPlatform.IsNativeWindows:
 			callArgs = ["py", f"-{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
 		else:
@@ -62,7 +63,7 @@ class GitHubEnvironment(TestCase):
 		return callArgs
 
 	@staticmethod
-	def __getServiceEnvironment(**kwargs):
+	def __getServiceEnvironment(**kwargs: Dict[str, Any]):
 		env = {k: v for k, v in os_environ.items()}
 
 		if len(kwargs) == 0:
@@ -76,7 +77,7 @@ class GitHubEnvironment(TestCase):
 
 		return env
 
-	def test_Variables(self):
+	def test_Variables(self) -> None:
 		print()
 
 		try:
@@ -103,7 +104,7 @@ class GitHubEnvironment(TestCase):
 		for line in output.split("\n"):
 			print(line)
 
-	def test_Fillout(self):
+	def test_Fillout(self) -> None:
 		print()
 
 		try:
@@ -120,11 +121,11 @@ class GitHubEnvironment(TestCase):
 			print("CALLED PROCESS ERROR")
 			print(ex.returncode)
 			print(ex.output)
-			exit(1)
+			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
 			print("EXCEPTION")
 			print(ex)
-			exit(3)
+			raise Exception(f"Unknown error: {ex}") from ex
 
 		output = prog.stdout
 		for line in output.split("\n"):

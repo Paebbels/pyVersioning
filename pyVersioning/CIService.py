@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -34,10 +34,10 @@ from datetime     import datetime
 from os           import environ
 from typing       import Dict, Optional as Nullable
 
-from pyTooling.Decorators import export
+from pyTooling.Decorators  import export
 from pyTooling.MetaClasses import ExtendedType, abstractmethod
 
-from pyVersioning import SelfDescriptive, GitHelper, GitShowCommand, BaseService, Platform
+from pyVersioning          import SelfDescriptive, GitHelper, GitShowCommand, BaseService, Platform
 
 
 @export
@@ -57,7 +57,7 @@ class CIService(BaseService, GitHelper):
 	def GetEnvironment(self) -> Dict[str, str]:
 		""".. todo:: getEnvironment needs documentation"""
 
-		filteredEnv = {key:value for (key,value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
+		filteredEnv = {key: value for (key, value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
 
 		# manually add some variables
 		for key in self.ENV_INCLUDES:

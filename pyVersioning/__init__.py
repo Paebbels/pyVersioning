@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -41,7 +41,7 @@ from enum         import Enum, auto
 from os           import environ
 from pathlib      import Path
 from subprocess   import run as subprocess_run, PIPE
-from typing       import Union, Any, Dict, Tuple, ClassVar, Generator
+from typing       import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable
 
 from pyTooling.Decorators       import export
 from pyTooling.MetaClasses      import ExtendedType
@@ -49,12 +49,7 @@ from pyTooling.Versioning       import SemanticVersion
 from pyTooling.TerminalUI       import ILineTerminal
 
 from pyVersioning.Utils         import GitHelper, GitShowCommand
-# from pyVersioning.AppVeyor      import AppVeyor
-# from pyVersioning.CIService import WorkStation, BaseService
 from pyVersioning.Configuration import Configuration
-# from pyVersioning.GitLab        import GitLab
-# from pyVersioning.GitHub        import GitHub
-# from pyVersioning.Travis        import Travis
 
 
 @export
@@ -82,7 +77,7 @@ class Tool(SelfDescriptive):
 
 	_public:  ClassVar[Tuple[str, ...]] = ("name", "version")
 
-	def __init__(self, name: str, version: SemanticVersion):
+	def __init__(self, name: str, version: SemanticVersion) -> None:
 		self._name = name
 		self._version = version
 
@@ -117,7 +112,7 @@ class Person(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("name", "email")
 
-	def __init__(self, name: str, email: str):
+	def __init__(self, name: str, email: str) -> None:
 		self._name = name
 		self._email = email
 
@@ -195,7 +190,7 @@ class Git(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("commit", "reference", "tag", "branch", "repository")
 
-	def __init__(self, commit: Commit, repository: str, tag: str = "", branch: str = ""):
+	def __init__(self, commit: Commit, repository: str, tag: str = "", branch: str = "") -> None:
 		self._commit = commit
 		self._tag = tag
 		self._branch = branch
@@ -237,7 +232,7 @@ class Project(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("name", "variant", "version")
 
-	def __init__(self, name: str, version: Union[str, SemanticVersion] = None, variant: str = None) -> None:
+	def __init__(self, name: str, version: Union[str, SemanticVersion] = None, variant: Nullable[str] = None) -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self._name    = name    if name    is not None else ""
@@ -314,7 +309,7 @@ class Build(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("date", "time", "compiler")
 
-	def __init__(self, date: Date, time: Time, compiler: Compiler):
+	def __init__(self, date: Date, time: Time, compiler: Compiler) -> None:
 		self._date = date
 		self._time = time
 		self._compiler = compiler
@@ -348,7 +343,7 @@ class Platform(SelfDescriptive):
 	_ciService: str
 	_public:  ClassVar[Tuple[str, ...]] = ('ci_service', )
 
-	def __init__(self, ciService: str):
+	def __init__(self, ciService: str) -> None:
 		self._ciService = ciService
 
 	@property
@@ -371,7 +366,7 @@ class Versioning(ILineTerminal, GitHelper):
 	_platform:  Platforms = Platforms.Workstation
 	_service:   BaseService
 
-	def __init__(self, terminal: ILineTerminal):
+	def __init__(self, terminal: ILineTerminal) -> None:
 		super().__init__(terminal)
 
 		self._variables = {}
@@ -520,7 +515,7 @@ class Versioning(ILineTerminal, GitHelper):
 			message = completed.stderr.decode("utf-8")
 			self.WriteFatal(f"Message from '{command}': {message}")
 
-	def GetGitRemoteBranch(self, localBranch: str = None) -> str:
+	def GetGitRemoteBranch(self, localBranch: Nullable[str] = None) -> str:
 		if self._platform is not Platforms.Workstation:
 			return self._service.GetGitBranch()
 
@@ -541,7 +536,7 @@ class Versioning(ILineTerminal, GitHelper):
 			self.WriteFatal(f"Message from '{command}': {message}")
 			raise Exception()  # XXX: needs error message
 
-	def GetGitRemote(self, localBranch: str = None) -> str:
+	def GetGitRemote(self, localBranch: Nullable[str] = None) -> str:
 		if localBranch is None:
 			localBranch = self.GetGitLocalBranch()
 
@@ -580,7 +575,7 @@ class Versioning(ILineTerminal, GitHelper):
 			self.WriteFatal(f"Message from '{command}': {message}")
 			raise Exception()  # XXX: needs error message
 
-	def GetGitRemoteURL(self, remote: str = None) -> str:
+	def GetGitRemoteURL(self, remote: Nullable[str] = None) -> str:
 		if self._platform is not Platforms.Workstation:
 			return self._service.GetGitRepository()
 

@@ -220,9 +220,9 @@ autodoc_typehints = "both"
 # Sphinx.Ext.ExtLinks
 # ==============================================================================
 extlinks = {
-	"gh":      ("https://GitHub.com/%s", "gh:"),
-	"ghissue": ("https://GitHub.com/Paebbels/pyVersioning/issues/%s", "issue #"),
-	"ghpull":  ("https://GitHub.com/Paebbels/pyVersioning/pull/%s", "pull request #"),
+	"gh":      ("https://GitHub.com/%s", "gh:%s"),
+	"ghissue": ("https://GitHub.com/Paebbels/pyVersioning/issues/%s", "issue #%s"),
+	"ghpull":  ("https://GitHub.com/Paebbels/pyVersioning/pull/%s", "pull request #%s"),
 	"ghsrc":   ("https://GitHub.com/Paebbels/pyVersioning/blob/main/%s", None),
 	"wiki":    ("https://en.wikipedia.org/wiki/%s", None),
 }

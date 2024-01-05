@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
 
 class Project(TestCase):
-	def test_ProjectName(self):
+	def test_ProjectName(self) -> None:
 		name = "Project 1"
 		variant = ""
 
@@ -53,7 +53,7 @@ class Project(TestCase):
 		self.assertEqual(project.variant, variant)
 		self.assertEqual(project.version, SemanticVersion("0.0.0"))
 
-	def test_ProjectName_VariantName(self):
+	def test_ProjectName_VariantName(self) -> None:
 		name = "Project 1"
 		variant = "Variant 1"
 
@@ -63,7 +63,7 @@ class Project(TestCase):
 		self.assertEqual(project.variant, variant)
 		self.assertEqual(project.version, SemanticVersion("0.0.0"))
 
-	def test_ProjectName_VersionAsString(self):
+	def test_ProjectName_VersionAsString(self) -> None:
 		name = "Project 1"
 		variant = ""
 		version = "0.1.2"
@@ -74,7 +74,7 @@ class Project(TestCase):
 		self.assertEqual(project.variant, variant)
 		self.assertEqual(project.version, SemanticVersion(version))
 
-	def test_ProjectName_VersionAsVersion(self):
+	def test_ProjectName_VersionAsVersion(self) -> None:
 		name = "Project 1"
 		variant = ""
 		version = SemanticVersion("1.3.2")

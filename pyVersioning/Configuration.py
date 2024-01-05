@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -43,7 +43,7 @@ class Base:
 	root:   'Base'
 	parent: Nullable['Base']
 
-	def __init__(self, root: 'Base', parent: Nullable['Base']):
+	def __init__(self, root: 'Base', parent: Nullable['Base']) -> None:
 		self.root = root
 		self.parent = parent
 
@@ -55,7 +55,7 @@ class Configuration(Base, metaclass=ExtendedType):
 		variant: str
 		version: SemanticVersion
 
-		def __init__(self, root: 'Base', parent: 'Base', settings: Dict):
+		def __init__(self, root: 'Base', parent: 'Base', settings: Dict) -> None:
 			super().__init__(root, parent)
 
 			self.name =    settings["name"]
@@ -69,7 +69,7 @@ class Configuration(Base, metaclass=ExtendedType):
 			configuration: str
 			options:       str
 
-			def __init__(self, root: 'Base', parent: 'Base', settings: Dict):
+			def __init__(self, root: 'Base', parent: 'Base', settings: Dict) -> None:
 				super().__init__(root, parent)
 
 				self.name =          settings["name"]
@@ -79,7 +79,7 @@ class Configuration(Base, metaclass=ExtendedType):
 
 		compiler: Compiler
 
-		def __init__(self, root: 'Base', parent: 'Base', settings: Dict):
+		def __init__(self, root: 'Base', parent: 'Base', settings: Dict) -> None:
 			super().__init__(root, parent)
 
 			self.compiler = self.Compiler(root, self, settings["compiler"]) if "compiler" in settings else None
@@ -88,7 +88,7 @@ class Configuration(Base, metaclass=ExtendedType):
 	project: Project
 	build:   Build
 
-	def __init__(self, configFile: Path = None):
+	def __init__(self, configFile: Nullable[Path] = None) -> None:
 		super().__init__(self, None)
 
 		if configFile is None:

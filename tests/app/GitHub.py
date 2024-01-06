@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
 class GitHubEnvironment(TestCase):
 	@staticmethod
-	def __getExecutable(command: str, *args: Tuple[Any, ...]):
+	def __getExecutable(command: str, *args: Any):
 		callArgs = [
 			"pyVersioning",
 			command

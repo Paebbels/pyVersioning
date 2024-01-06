@@ -44,7 +44,7 @@ class Travis(CIService):
 	ENV_INCLUDE_FILTER = ("TRAVIS_", )
 	ENV_EXCLUDE_FILTER = ("_TOKEN", )
 	ENV_INCLUDES =       ('CI', 'CONTINUOUS_INTEGRATION', 'TRAVIS')
-	ENV_EXCLUDES =       []
+	ENV_EXCLUDES =       ()
 
 	def GetPlatform(self) -> Platform:
 		return Platform("travis")

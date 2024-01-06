@@ -52,8 +52,8 @@ class Base:
 class Configuration(Base, metaclass=ExtendedType):
 	class Project(Base):
 		name:    str
-		variant: str
-		version: SemanticVersion
+		variant: Nullable[str]
+		version: Nullable[SemanticVersion]
 
 		def __init__(self, root: 'Base', parent: 'Base', settings: Dict) -> None:
 			super().__init__(root, parent)
@@ -77,7 +77,7 @@ class Configuration(Base, metaclass=ExtendedType):
 				self.configuration = settings["configuration"]
 				self.options =       settings["options"]
 
-		compiler: Compiler
+		compiler: Nullable[Compiler]
 
 		def __init__(self, root: 'Base', parent: 'Base', settings: Dict) -> None:
 			super().__init__(root, parent)
@@ -85,8 +85,8 @@ class Configuration(Base, metaclass=ExtendedType):
 			self.compiler = self.Compiler(root, self, settings["compiler"]) if "compiler" in settings else None
 
 	version: int
-	project: Project
-	build:   Build
+	project: Nullable[Project]
+	build:   Nullable[Build]
 
 	def __init__(self, configFile: Nullable[Path] = None) -> None:
 		super().__init__(self, None)

@@ -41,10 +41,10 @@ from pyVersioning.CIService import CIService, Platform, ServiceException
 class AppVeyor(CIService):
 	"""Collect Git and other platform and environment information from environment variables provided by AppVeyor."""
 
-	ENV_INCLUDE_FILTER =  ("APPVEYOR_")
-	ENV_EXCLUDE_FILTER =  ("_TOKEN")
-	ENV_INCLUDES =        ['CI', 'APPVEYOR', 'PLATFORM', 'CONFIGURATION']
-	ENV_EXCLUDES =        []
+	ENV_INCLUDE_FILTER =  ("APPVEYOR_", )
+	ENV_EXCLUDE_FILTER =  ("_TOKEN", )
+	ENV_INCLUDES =        ('CI', 'APPVEYOR', 'PLATFORM', 'CONFIGURATION')
+	ENV_EXCLUDES =        ()
 
 	def GetPlatform(self) -> Platform:
 		return Platform("appveyor")

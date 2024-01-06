@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
 class GitLabEnvironment(TestCase):
 	@staticmethod
-	def __getExecutable(command: str, *args: Tuple[Any, ...]):
+	def __getExecutable(command: str, *args: Any):
 		if CurrentPlatform.IsNativeWindows:
 			callArgs = ["py", f"-{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
 		else:
@@ -63,7 +63,7 @@ class GitLabEnvironment(TestCase):
 		return callArgs
 
 	@staticmethod
-	def __getServiceEnvironment(**kwargs: Dict[str, Any]):
+	def __getServiceEnvironment(**kwargs: Any):
 		env = {k: v for k, v in os_environ.items()}
 
 		if len(kwargs) == 0:

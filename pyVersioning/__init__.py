@@ -40,7 +40,7 @@ from datetime     import date, time, datetime
 from enum         import Enum, auto
 from os           import environ
 from pathlib      import Path
-from subprocess   import run as subprocess_run, PIPE
+from subprocess   import run as subprocess_run, PIPE, CalledProcessError
 from typing       import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable
 
 from pyTooling.Decorators       import export
@@ -131,8 +131,8 @@ class Person(SelfDescriptive):
 @export
 class Commit(SelfDescriptive):
 	_hash:      str
-	_date:      Date
-	_time:      Time
+	_date:      date
+	_time:      time
 	_author:    Person
 	_committer: Person
 	_comment:   str
@@ -156,11 +156,11 @@ class Commit(SelfDescriptive):
 		return self._hash
 
 	@property
-	def date(self) -> Date:
+	def date(self) -> date:
 		return self._date
 
 	@property
-	def time(self) -> Time:
+	def time(self) -> time:
 		return self._time
 
 	@property
@@ -183,7 +183,7 @@ class Commit(SelfDescriptive):
 @export
 class Git(SelfDescriptive):
 	_commit:     Commit
-	_reference:  str = False
+	_reference:  str = ""
 	_tag:        str = ""
 	_branch:     str = ""
 	_repository: str = ""
@@ -232,7 +232,7 @@ class Project(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("name", "variant", "version")
 
-	def __init__(self, name: str, version: Union[str, SemanticVersion] = None, variant: Nullable[str] = None) -> None:
+	def __init__(self, name: str, version: Union[str, SemanticVersion, None] = None, variant: Nullable[str] = None) -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self._name    = name    if name    is not None else ""
@@ -243,7 +243,7 @@ class Project(SelfDescriptive):
 		elif isinstance(version, str):
 			self._version = SemanticVersion(version)
 		elif version is None:
-			self._version = SemanticVersion(0, 0, 0)
+			self._version = SemanticVersion("v0.0.0")
 
 	@property
 	def name(self) -> str:
@@ -282,7 +282,7 @@ class Compiler(SelfDescriptive):
 		elif isinstance(version, str):
 			self._version = SemanticVersion(version)
 		elif version is None:
-			self._version = SemanticVersion(0, 0, 0)
+			self._version = SemanticVersion("v0.0.0")
 
 	@property
 	def name(self) -> str:
@@ -303,23 +303,23 @@ class Compiler(SelfDescriptive):
 
 @export
 class Build(SelfDescriptive):
-	_date:     Date
-	_time:     Time
+	_date:     date
+	_time:     time
 	_compiler: Compiler
 
 	_public: ClassVar[Tuple[str, ...]] = ("date", "time", "compiler")
 
-	def __init__(self, date: Date, time: Time, compiler: Compiler) -> None:
+	def __init__(self, date: date, time: time, compiler: Compiler) -> None:
 		self._date = date
 		self._time = time
 		self._compiler = compiler
 
 	@property
-	def date(self) -> Date:
+	def date(self) -> date:
 		return self._date
 
 	@property
-	def time(self) -> Time:
+	def time(self) -> time:
 		return self._time
 
 	@property
@@ -356,7 +356,7 @@ class BaseService(metaclass=ExtendedType):
 	"""Base-class to collect platform and environment information from e.g. environment variables."""
 
 	# @abstractmethod
-	def GetPlatform(self) -> Platform:
+	def GetPlatform(self) -> Platform:  # type: ignore[empty-body]
 		""".. todo:: getPlatform needs documentation"""
 
 
@@ -506,7 +506,7 @@ class Versioning(ILineTerminal, GitHelper):
 		arguments = ("branch", "--show-current")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
+		except CalledProcessError:
 			return ""
 
 		if completed.returncode == 0:
@@ -526,7 +526,7 @@ class Versioning(ILineTerminal, GitHelper):
 		arguments = ("config", f"branch.{localBranch}.merge")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
+		except CalledProcessError:
 			raise Exception()  # XXX: needs error message
 
 		if completed.returncode == 0:
@@ -544,7 +544,7 @@ class Versioning(ILineTerminal, GitHelper):
 		arguments = ("config", f"branch.{localBranch}.remote")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
+		except CalledProcessError:
 			raise Exception()  # XXX: needs error message
 
 		if completed.returncode == 0:
@@ -565,7 +565,7 @@ class Versioning(ILineTerminal, GitHelper):
 		arguments = ("tag", "--points-at", "HEAD")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
+		except CalledProcessError:
 			raise Exception()  # XXX: needs error message
 
 		if completed.returncode == 0:
@@ -586,7 +586,7 @@ class Versioning(ILineTerminal, GitHelper):
 		arguments = ("config", f"remote.{remote}.url")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
+		except CalledProcessError:
 			raise Exception()  # XXX: needs error message
 
 		if completed.returncode == 0:

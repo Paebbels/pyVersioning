@@ -32,7 +32,7 @@
 from dataclasses  import make_dataclass
 from datetime     import datetime
 from os           import environ
-from typing       import Dict, Optional as Nullable
+from typing import Dict, Optional as Nullable, Tuple, List
 
 from pyTooling.Decorators  import export
 from pyTooling.MetaClasses import ExtendedType, abstractmethod
@@ -49,10 +49,10 @@ class ServiceException(Exception):
 class CIService(BaseService, GitHelper):
 	"""Base-class to collect Git and other platform and environment information from CI service environment variables."""
 
-	ENV_INCLUDE_FILTER = ()
-	ENV_EXCLUDE_FILTER = ()
-	ENV_INCLUDES =       []
-	ENV_EXCLUDES =       []
+	ENV_INCLUDE_FILTER: Tuple[str, ...] = ()
+	ENV_EXCLUDE_FILTER: Tuple[str, ...] = ()
+	ENV_INCLUDES: Tuple[str, ...] =       ()
+	ENV_EXCLUDES: Tuple[str, ...] =       ()
 
 	def GetEnvironment(self) -> Dict[str, str]:
 		""".. todo:: getEnvironment needs documentation"""
@@ -92,7 +92,7 @@ class CIService(BaseService, GitHelper):
 		return Environment(**filteredEnv)
 
 	@abstractmethod
-	def GetGitHash(self) -> str:
+	def GetGitHash(self) -> str:  # type: ignore[empty-body]
 		""".. todo:: getGithash needs documentation"""
 
 	# @abstractmethod
@@ -103,15 +103,15 @@ class CIService(BaseService, GitHelper):
 		return datetime.fromtimestamp(int(datetimeString))
 
 	@abstractmethod
-	def GetGitBranch(self) -> Nullable[str]:
+	def GetGitBranch(self) -> Nullable[str]:  # type: ignore[empty-body]
 		""".. todo:: getGitBranch needs documentation"""
 
 	@abstractmethod
-	def GetGitTag(self) -> Nullable[str]:
+	def GetGitTag(self) -> Nullable[str]:  # type: ignore[empty-body]
 		""".. todo:: getGitTag needs documentation"""
 
 	@abstractmethod
-	def GetGitRepository(self) -> str:
+	def GetGitRepository(self) -> str:  # type: ignore[empty-body]
 		""".. todo:: getGitRepository needs documentation"""
 
 

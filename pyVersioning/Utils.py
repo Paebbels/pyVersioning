@@ -68,8 +68,8 @@ class GitHelper(metaclass=ExtendedType, mixin=True):
 		GitShowCommand.CommitComment:        "%B",
 	}
 
-	def ExecuteGitShow(self, command: GitShowCommand, ref: str = "HEAD") -> str:
-		format = f"--format='{self.__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP[command]}'"
+	def ExecuteGitShow(self, cmd: GitShowCommand, ref: str = "HEAD") -> str:
+		format = f"--format='{self.__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP[cmd]}'"
 
 		command = "git"
 		arguments = ("show", "-s", format, ref)

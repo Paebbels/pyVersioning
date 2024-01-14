@@ -40,7 +40,7 @@ from unittest         import TestCase
 
 if __name__ == "__main__":
 	print("ERROR: you called a testcase declaration file as an executable module.")
-	print("Use: 'python -m unitest <testcase module>'")
+	print("Use: 'python -m unittest <testcase module>'")
 	exit(1)
 
 
@@ -195,7 +195,7 @@ class GitHubEnvironment(TestCase):
 	def test_Fillout(self) -> None:
 		print()
 
-		callArgs = self.__getExecutable("fillout", "template.in", "template.out")
+		callArgs = self.__getExecutable("fillout", "tests/template.in", "tests/template.out")
 
 		try:
 			prog = subprocess_run(

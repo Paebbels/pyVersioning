@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent
 sys_path.insert(0, abspath("."))
 sys_path.insert(0, abspath(".."))
 sys_path.insert(0, abspath("../pyVersioning"))
-sys_path.insert(0, abspath("_extensions"))
+# sys_path.insert(0, abspath("_extensions"))
 
 
 # ==============================================================================
@@ -78,25 +78,18 @@ ctx = ROOT / "context.json"
 if ctx.is_file():
 	html_context.update(loads(ctx.open('r').read()))
 
-if (ROOT / "_theme").is_dir():
-	html_theme_path = ["."]
-	html_theme = "_theme"
-	html_theme_options = {
-		"logo_only": True,
-		"home_breadcrumbs": False,
-		"vcs_pageview_mode": 'blob',
-#		"body_max_width": None
-#		"navigation_depth": 5,
-	}
-elif find_spec("sphinx_rtd_theme") is not None:
-	html_theme = "sphinx_rtd_theme"
-	html_theme_options = {
-		"logo_only": True,
-		"vcs_pageview_mode": 'blob',
-#		"navigation_depth": 5,
-	}
-else:
-	html_theme = "alabaster"
+# ==============================================================================
+# Options for HTML output
+# ==============================================================================
+html_theme = "sphinx_rtd_theme"
+html_theme_options = {
+	"logo_only": True,
+	"vcs_pageview_mode": 'blob',
+	"navigation_depth": 5,
+}
+html_css_files = [
+	'css/override.css',
+]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -174,7 +167,6 @@ latex_documents = [
 extensions = [
 # Standard Sphinx extensions
 	"sphinx.ext.autodoc",
-	"sphinx.ext.coverage",
 	"sphinx.ext.extlinks",
 	"sphinx.ext.intersphinx",
 	"sphinx.ext.inheritance_diagram",
@@ -186,9 +178,12 @@ extensions = [
 # SphinxContrib extensions
 	"sphinxcontrib.mermaid",
 # Other extensions
-	"sphinx_fontawesome",
+	"sphinx_design",
+	"sphinx_copybutton",
 	"sphinx_autodoc_typehints",
 	"autoapi.sphinx",
+	"sphinx_reports",
+# User defined extensions
 ]
 
 
@@ -264,9 +259,45 @@ todo_link_only = True
 
 
 # ==============================================================================
-# Sphinx.Ext.Coverage
+# sphinx-reports
 # ==============================================================================
-coverage_show_missing_items = True
+_coverageLevels = {
+	30:      {"class": "report-cov-below30",  "desc": "almost undocumented"},
+	50:      {"class": "report-cov-below50",  "desc": "poorly documented"},
+	80:      {"class": "report-cov-below80",  "desc": "roughly documented"},
+	90:      {"class": "report-cov-below90",  "desc": "well documented"},
+	100:     {"class": "report-cov-below100", "desc": "excellent documented"},
+	"error": {"class": "report-cov-error",    "desc": "internal error"},
+}
+
+report_unittest_testsuites = {
+	"src": {
+		"name":        "pyVersioning",
+		"xml_report":  "../report/unit/unittest.xml",
+	}
+}
+report_codecov_packages = {
+	"src": {
+		"name":        "pyVersioning",
+		"json_report": "../report/coverage/coverage.json",
+		"fail_below":  80,
+		"levels":      _coverageLevels
+	}
+}
+report_doccov_packages = {
+	"src": {
+		"name":       "pyVersioning",
+		"directory":  "../pyVersioning",
+		"fail_below": 80,
+		"levels":     _coverageLevels
+	}
+}
+
+
+# ==============================================================================
+# Sphinx_Design
+# ==============================================================================
+sd_fontawesome_latex = True
 
 
 # ==============================================================================

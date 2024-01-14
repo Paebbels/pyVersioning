@@ -1,8 +1,8 @@
 [build-system]
 requires = [
-    "pyTooling >= 5.0.0",
-    "setuptools >= 68.0.0",
-    "wheel >= 0.40.0"
+    "setuptools >= 69.0.0",
+    "wheel >= 0.40.0",
+    "pyTooling ~= 6.0"
 ]
 build-backend = "setuptools.build_meta"
 
@@ -10,7 +10,7 @@ build-backend = "setuptools.build_meta"
 line-length = 120
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 namespace_packages = true
 
 pretty = true
@@ -50,6 +50,9 @@ omit = [
 [tool.coverage.html]
 directory = "report/coverage/html"
 title="Code Coverage of pyTooling"
+
+[tool.coverage.json]
+output = "report/coverage/coverage.json"
 
 [tool.coverage.xml]
 output = "report/coverage/coverage.xml"

@@ -7,6 +7,9 @@ __pycache__/
 .cov
 coverage.xml
 
+# Generated reports
+report/
+
 # setuptools
 /build/**/*.*
 /dist/**/*.*

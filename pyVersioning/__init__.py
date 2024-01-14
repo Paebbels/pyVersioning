@@ -43,7 +43,7 @@ from pathlib      import Path
 from subprocess   import run as subprocess_run, PIPE, CalledProcessError
 from typing       import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable
 
-from pyTooling.Decorators       import export
+from pyTooling.Decorators       import export, readonly
 from pyTooling.MetaClasses      import ExtendedType
 from pyTooling.Versioning       import SemanticVersion
 from pyTooling.TerminalUI       import ILineTerminal
@@ -81,11 +81,11 @@ class Tool(SelfDescriptive):
 		self._name = name
 		self._version = version
 
-	@property
+	@readonly
 	def name(self) -> str:
 		return self._name
 
-	@property
+	@readonly
 	def version(self) -> SemanticVersion:
 		return self._version
 
@@ -116,11 +116,11 @@ class Person(SelfDescriptive):
 		self._name = name
 		self._email = email
 
-	@property
+	@readonly
 	def name(self) -> str:
 		return self._name
 
-	@property
+	@readonly
 	def email(self) -> str:
 		return self._email
 
@@ -140,7 +140,7 @@ class Commit(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("hash", "date", "time", "author", "committer", "comment", "oneline")
 
-	def __init__(self, hash: str, date: Date, time: Time, author: Person, committer: Person, comment: str) -> None:
+	def __init__(self, hash: str, date: date, time: time, author: Person, committer: Person, comment: str) -> None:
 		self._hash = hash
 		self._date = date
 		self._time = time
@@ -151,31 +151,31 @@ class Commit(SelfDescriptive):
 		if comment != "":
 			self._oneline = comment.split("\n")[0]
 
-	@property
+	@readonly
 	def hash(self) -> str:
 		return self._hash
 
-	@property
+	@readonly
 	def date(self) -> date:
 		return self._date
 
-	@property
+	@readonly
 	def time(self) -> time:
 		return self._time
 
-	@property
+	@readonly
 	def author(self) -> Person:
 		return self._author
 
-	@property
+	@readonly
 	def committer(self) -> Person:
 		return self._committer
 
-	@property
+	@readonly
 	def comment(self) -> str:
 		return self._comment
 
-	@property
+	@readonly
 	def oneline(self) -> Union[str,  bool]:
 		return self._oneline
 
@@ -203,23 +203,23 @@ class Git(SelfDescriptive):
 		else:
 			self._reference = "[Detached HEAD]"
 
-	@property
+	@readonly
 	def commit(self) -> Commit:
 		return self._commit
 
-	@property
+	@readonly
 	def reference(self) -> str:
 		return self._reference
 
-	@property
+	@readonly
 	def tag(self) -> str:
 		return self._tag
 
-	@property
+	@readonly
 	def branch(self) -> str:
 		return self._branch
 
-	@property
+	@readonly
 	def repository(self) -> str:
 		return self._repository
 
@@ -245,15 +245,15 @@ class Project(SelfDescriptive):
 		elif version is None:
 			self._version = SemanticVersion("v0.0.0")
 
-	@property
+	@readonly
 	def name(self) -> str:
 		return self._name
 
-	@property
+	@readonly
 	def variant(self) -> str:
 		return self._variant
 
-	@property
+	@readonly
 	def version(self) -> SemanticVersion:
 		return self._version
 
@@ -284,19 +284,19 @@ class Compiler(SelfDescriptive):
 		elif version is None:
 			self._version = SemanticVersion("v0.0.0")
 
-	@property
+	@readonly
 	def name(self) -> str:
 		return self._name
 
-	@property
+	@readonly
 	def version(self) -> SemanticVersion:
 		return self._version
 
-	@property
+	@readonly
 	def configuration(self) -> str:
 		return self._configuration
 
-	@property
+	@readonly
 	def options(self) -> str:
 		return self._options
 
@@ -314,15 +314,15 @@ class Build(SelfDescriptive):
 		self._time = time
 		self._compiler = compiler
 
-	@property
+	@readonly
 	def date(self) -> date:
 		return self._date
 
-	@property
+	@readonly
 	def time(self) -> time:
 		return self._time
 
-	@property
+	@readonly
 	def compiler(self) -> Compiler:
 		return self._compiler
 
@@ -346,7 +346,7 @@ class Platform(SelfDescriptive):
 	def __init__(self, ciService: str) -> None:
 		self._ciService = ciService
 
-	@property
+	@readonly
 	def ci_service(self) -> str:
 		return self._ciService
 
@@ -382,11 +382,11 @@ class Versioning(ILineTerminal, GitHelper):
 		else:
 			self._platform = Platforms.Workstation
 
-	@property
+	@readonly
 	def variables(self) -> Dict[str, Any]:
 		return self._variables
 
-	@property
+	@readonly
 	def platform(self) -> Platforms:
 		return self._platform
 

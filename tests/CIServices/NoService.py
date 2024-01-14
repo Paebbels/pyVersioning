@@ -31,6 +31,7 @@
 """Unit tests for GitLab CI."""
 from json               import loads, JSONDecodeError
 from os                 import environ as os_environ
+from re                 import compile as re_compile
 from subprocess         import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
 from typing             import Tuple, Any, Dict, Optional as Nullable
 from unittest           import TestCase
@@ -43,7 +44,7 @@ from pyTooling.Common   import CurrentPlatform
 
 if __name__ == "__main__":
 	print("ERROR: you called a testcase declaration file as an executable module.")
-	print("Use: 'python -m unitest <testcase module>'")
+	print("Use: 'python -m unittest <testcase module>'")
 	exit(1)
 
 
@@ -55,7 +56,7 @@ class LocalEnvironment(TestCase):
 		else:
 			callArgs = [f"python{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
 
-		callArgs.append("../pyVersioning/cli.py")
+		callArgs.append("pyVersioning/cli.py")
 
 		if command is not None:
 			callArgs.append(command)
@@ -149,7 +150,7 @@ class LocalEnvironment(TestCase):
 
 		try:
 			prog = subprocess_run(
-				args=self.__getExecutable("fillout", "template.in", "template.out"),
+				args=self.__getExecutable("fillout", "tests/template.in", "tests/template.out"),
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
 				shell=True,

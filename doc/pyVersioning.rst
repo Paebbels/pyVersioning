@@ -1,4 +1,4 @@
 pyVersioning Module
 ###################
 
-.. automodule:: pyVersioning
+.. #automodule:: pyVersioning

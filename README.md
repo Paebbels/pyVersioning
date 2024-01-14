@@ -49,13 +49,13 @@ into the normal build flow.
 ## Contributors
 
 * [Patrick Lehmann](https://github.com/Paebbels) (Maintainer)
+* [and more...](https://GitHub.com/Paebbels/pyVersioning/graphs/contributors)
 
 
 ## License
 
-This Python package (source code) is licensed under [Apache License 2.0](LICENSE.md).
-
-<!-- The accompanying documentation is licensed under Creative Commons - Attribution-4.0 (CC-BY 4.0). -->
+This Python package (source code) is licensed under [Apache License 2.0](LICENSE.md).  
+The accompanying documentation is licensed under Creative Commons - Attribution-4.0 (CC-BY 4.0).
 
 
 -------------------------

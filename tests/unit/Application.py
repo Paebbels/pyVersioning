@@ -43,7 +43,7 @@ from pyVersioning.cli     import Application as pyV_Application
 
 if __name__ == "__main__":
 	print("ERROR: you called a testcase declaration file as an executable module.")
-	print("Use: 'python -m unitest <testcase module>'")
+	print("Use: 'python -m unittest <testcase module>'")
 	exit(1)
 
 
@@ -52,7 +52,7 @@ class Application(TestCase):
 	def test_JSON(self):
 		print()
 
-		configFile = Path("tests/CIServices/.pyVersioning.yml")
+		configFile = Path("CIServices/.pyVersioning.yml")
 
 		app = pyV_Application()
 		app._stdout, app._stderr = out, err = StringIO(), StringIO()
@@ -78,7 +78,7 @@ class Application(TestCase):
 	def test_YAML(self):
 		print()
 
-		configFile = Path("tests/CIServices/.pyVersioning.yml")
+		configFile = Path("CIServices/.pyVersioning.yml")
 
 		app = pyV_Application()
 		app._stdout, app._stderr = out, err = StringIO(), StringIO()

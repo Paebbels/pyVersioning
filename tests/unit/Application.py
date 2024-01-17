@@ -28,12 +28,17 @@
 # SPDX-License-Identifier: Apache-2.0                                                                                  #
 # ==================================================================================================================== #
 #
-"""Unit tests for project information."""
+"""Unit tests for pyVersioning application."""
+from io                   import StringIO
+from json                 import loads as json_loads
+from pathlib              import Path
+from re                   import compile as re_compile
 from unittest             import TestCase
+from unittest.mock        import patch
 
-from pyTooling.Versioning import SemanticVersion
+from ruamel.yaml          import YAML
 
-from pyVersioning         import Project as pyV_Project
+from pyVersioning.cli     import Application as pyV_Application
 
 
 if __name__ == "__main__":
@@ -42,45 +47,53 @@ if __name__ == "__main__":
 	exit(1)
 
 
-class Project(TestCase):
-	def test_ProjectName(self) -> None:
-		name = "Project 1"
-		variant = ""
+class Application(TestCase):
+	@patch("sys.argv", ["pyVersioning.py", "json"])
+	def test_JSON(self):
+		print()
 
-		project = pyV_Project(name)
+		configFile = Path("CIServices/.pyVersioning.yml")
 
-		self.assertEqual(project.name, name)
-		self.assertEqual(project.variant, variant)
-		self.assertEqual(project.version, SemanticVersion("0.0.0"))
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run(configFile)
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
 
-	def test_ProjectName_VariantName(self) -> None:
-		name = "Project 1"
-		variant = "Variant 1"
+		out.seek(0)
+		err.seek(0)
 
-		project = pyV_Project(name, variant=variant)
+		# WORKAROUND: removing color codes
+		ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+		jsonContent = ansiEscape.sub("", out.read())
+		print("-" * 40)
+		print(jsonContent)
+		print("-" * 40)
+		json = json_loads(jsonContent)
 
-		self.assertEqual(project.name, name)
-		self.assertEqual(project.variant, variant)
-		self.assertEqual(project.version, SemanticVersion("0.0.0"))
+		self.assertEqual("1.1", json["format"])
 
-	def test_ProjectName_VersionAsString(self) -> None:
-		name = "Project 1"
-		variant = ""
-		version = "0.1.2"
+	@patch("sys.argv", ["pyVersioning.py", "yaml"])
+	def test_YAML(self):
+		print()
 
-		project = pyV_Project(name, version)
+		configFile = Path("CIServices/.pyVersioning.yml")
 
-		self.assertEqual(project.name, name)
-		self.assertEqual(project.variant, variant)
-		self.assertEqual(project.version, SemanticVersion(version))
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run(configFile)
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
 
-	def test_ProjectName_VersionAsVersion(self) -> None:
-		name = "Project 1"
-		variant = ""
-		version = SemanticVersion("1.3.2")
+		out.seek(0)
+		err.seek(0)
 
-		project = pyV_Project(name, version)
+		# WORKAROUND: removing color codes
+		ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+		yamlContent = ansiEscape.sub("", out.read())
+		yamlParser = YAML()
+		yaml = yamlParser.load(yamlContent)
 
-		self.assertEqual(project.name, name)
-		self.assertEqual(project.variant, variant)
-		self.assertIs(project.version, version)
+		self.assertEqual("1.1", yaml["format"])

@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -30,9 +30,9 @@
 #
 __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
-__copyright__ = "2020-2023, Patrick Lehmann"
+__copyright__ = "2020-2024, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
-__version__ =   "0.12.0"
+__version__ =   "0.13.0"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
 from dataclasses  import make_dataclass
@@ -40,21 +40,16 @@ from datetime     import date, time, datetime
 from enum         import Enum, auto
 from os           import environ
 from pathlib      import Path
-from subprocess   import run as subprocess_run, PIPE
-from typing       import Union, Any, Dict, Tuple, ClassVar, Generator
+from subprocess   import run as subprocess_run, PIPE, CalledProcessError
+from typing       import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable
 
-from pyTooling.Decorators       import export
+from pyTooling.Decorators       import export, readonly
 from pyTooling.MetaClasses      import ExtendedType
 from pyTooling.Versioning       import SemanticVersion
 from pyTooling.TerminalUI       import ILineTerminal
 
 from pyVersioning.Utils         import GitHelper, GitShowCommand
-# from pyVersioning.AppVeyor      import AppVeyor
-# from pyVersioning.CIService import WorkStation, BaseService
 from pyVersioning.Configuration import Configuration
-# from pyVersioning.GitLab        import GitLab
-# from pyVersioning.GitHub        import GitHub
-# from pyVersioning.Travis        import Travis
 
 
 @export
@@ -82,15 +77,15 @@ class Tool(SelfDescriptive):
 
 	_public:  ClassVar[Tuple[str, ...]] = ("name", "version")
 
-	def __init__(self, name: str, version: SemanticVersion):
+	def __init__(self, name: str, version: SemanticVersion) -> None:
 		self._name = name
 		self._version = version
 
-	@property
+	@readonly
 	def name(self) -> str:
 		return self._name
 
-	@property
+	@readonly
 	def version(self) -> SemanticVersion:
 		return self._version
 
@@ -117,15 +112,15 @@ class Person(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("name", "email")
 
-	def __init__(self, name: str, email: str):
+	def __init__(self, name: str, email: str) -> None:
 		self._name = name
 		self._email = email
 
-	@property
+	@readonly
 	def name(self) -> str:
 		return self._name
 
-	@property
+	@readonly
 	def email(self) -> str:
 		return self._email
 
@@ -136,8 +131,8 @@ class Person(SelfDescriptive):
 @export
 class Commit(SelfDescriptive):
 	_hash:      str
-	_date:      Date
-	_time:      Time
+	_date:      date
+	_time:      time
 	_author:    Person
 	_committer: Person
 	_comment:   str
@@ -145,7 +140,7 @@ class Commit(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("hash", "date", "time", "author", "committer", "comment", "oneline")
 
-	def __init__(self, hash: str, date: Date, time: Time, author: Person, committer: Person, comment: str):
+	def __init__(self, hash: str, date: date, time: time, author: Person, committer: Person, comment: str) -> None:
 		self._hash = hash
 		self._date = date
 		self._time = time
@@ -156,31 +151,31 @@ class Commit(SelfDescriptive):
 		if comment != "":
 			self._oneline = comment.split("\n")[0]
 
-	@property
+	@readonly
 	def hash(self) -> str:
 		return self._hash
 
-	@property
-	def date(self) -> Date:
+	@readonly
+	def date(self) -> date:
 		return self._date
 
-	@property
-	def time(self) -> Time:
+	@readonly
+	def time(self) -> time:
 		return self._time
 
-	@property
+	@readonly
 	def author(self) -> Person:
 		return self._author
 
-	@property
+	@readonly
 	def committer(self) -> Person:
 		return self._committer
 
-	@property
+	@readonly
 	def comment(self) -> str:
 		return self._comment
 
-	@property
+	@readonly
 	def oneline(self) -> Union[str,  bool]:
 		return self._oneline
 
@@ -188,14 +183,14 @@ class Commit(SelfDescriptive):
 @export
 class Git(SelfDescriptive):
 	_commit:     Commit
-	_reference:  str = False
+	_reference:  str = ""
 	_tag:        str = ""
 	_branch:     str = ""
 	_repository: str = ""
 
 	_public: ClassVar[Tuple[str, ...]] = ("commit", "reference", "tag", "branch", "repository")
 
-	def __init__(self, commit: Commit, repository: str, tag: str = "", branch: str = ""):
+	def __init__(self, commit: Commit, repository: str, tag: str = "", branch: str = "") -> None:
 		self._commit = commit
 		self._tag = tag
 		self._branch = branch
@@ -208,23 +203,23 @@ class Git(SelfDescriptive):
 		else:
 			self._reference = "[Detached HEAD]"
 
-	@property
+	@readonly
 	def commit(self) -> Commit:
 		return self._commit
 
-	@property
+	@readonly
 	def reference(self) -> str:
 		return self._reference
 
-	@property
+	@readonly
 	def tag(self) -> str:
 		return self._tag
 
-	@property
+	@readonly
 	def branch(self) -> str:
 		return self._branch
 
-	@property
+	@readonly
 	def repository(self) -> str:
 		return self._repository
 
@@ -237,7 +232,7 @@ class Project(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("name", "variant", "version")
 
-	def __init__(self, name: str, version: Union[str, SemanticVersion] = None, variant: str = None) -> None:
+	def __init__(self, name: str, version: Union[str, SemanticVersion, None] = None, variant: Nullable[str] = None) -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self._name    = name    if name    is not None else ""
@@ -248,17 +243,17 @@ class Project(SelfDescriptive):
 		elif isinstance(version, str):
 			self._version = SemanticVersion(version)
 		elif version is None:
-			self._version = SemanticVersion(0, 0, 0)
+			self._version = SemanticVersion("v0.0.0")
 
-	@property
+	@readonly
 	def name(self) -> str:
 		return self._name
 
-	@property
+	@readonly
 	def variant(self) -> str:
 		return self._variant
 
-	@property
+	@readonly
 	def version(self) -> SemanticVersion:
 		return self._version
 
@@ -287,47 +282,47 @@ class Compiler(SelfDescriptive):
 		elif isinstance(version, str):
 			self._version = SemanticVersion(version)
 		elif version is None:
-			self._version = SemanticVersion(0, 0, 0)
+			self._version = SemanticVersion("v0.0.0")
 
-	@property
+	@readonly
 	def name(self) -> str:
 		return self._name
 
-	@property
+	@readonly
 	def version(self) -> SemanticVersion:
 		return self._version
 
-	@property
+	@readonly
 	def configuration(self) -> str:
 		return self._configuration
 
-	@property
+	@readonly
 	def options(self) -> str:
 		return self._options
 
 
 @export
 class Build(SelfDescriptive):
-	_date:     Date
-	_time:     Time
+	_date:     date
+	_time:     time
 	_compiler: Compiler
 
 	_public: ClassVar[Tuple[str, ...]] = ("date", "time", "compiler")
 
-	def __init__(self, date: Date, time: Time, compiler: Compiler):
+	def __init__(self, date: date, time: time, compiler: Compiler) -> None:
 		self._date = date
 		self._time = time
 		self._compiler = compiler
 
-	@property
-	def date(self) -> Date:
+	@readonly
+	def date(self) -> date:
 		return self._date
 
-	@property
-	def time(self) -> Time:
+	@readonly
+	def time(self) -> time:
 		return self._time
 
-	@property
+	@readonly
 	def compiler(self) -> Compiler:
 		return self._compiler
 
@@ -348,10 +343,10 @@ class Platform(SelfDescriptive):
 	_ciService: str
 	_public:  ClassVar[Tuple[str, ...]] = ('ci_service', )
 
-	def __init__(self, ciService: str):
+	def __init__(self, ciService: str) -> None:
 		self._ciService = ciService
 
-	@property
+	@readonly
 	def ci_service(self) -> str:
 		return self._ciService
 
@@ -361,7 +356,7 @@ class BaseService(metaclass=ExtendedType):
 	"""Base-class to collect platform and environment information from e.g. environment variables."""
 
 	# @abstractmethod
-	def GetPlatform(self) -> Platform:
+	def GetPlatform(self) -> Platform:  # type: ignore[empty-body]
 		""".. todo:: getPlatform needs documentation"""
 
 
@@ -371,7 +366,7 @@ class Versioning(ILineTerminal, GitHelper):
 	_platform:  Platforms = Platforms.Workstation
 	_service:   BaseService
 
-	def __init__(self, terminal: ILineTerminal):
+	def __init__(self, terminal: ILineTerminal) -> None:
 		super().__init__(terminal)
 
 		self._variables = {}
@@ -387,11 +382,11 @@ class Versioning(ILineTerminal, GitHelper):
 		else:
 			self._platform = Platforms.Workstation
 
-	@property
+	@readonly
 	def variables(self) -> Dict[str, Any]:
 		return self._variables
 
-	@property
+	@readonly
 	def platform(self) -> Platforms:
 		return self._platform
 
@@ -511,7 +506,7 @@ class Versioning(ILineTerminal, GitHelper):
 		arguments = ("branch", "--show-current")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
+		except CalledProcessError:
 			return ""
 
 		if completed.returncode == 0:
@@ -520,7 +515,7 @@ class Versioning(ILineTerminal, GitHelper):
 			message = completed.stderr.decode("utf-8")
 			self.WriteFatal(f"Message from '{command}': {message}")
 
-	def GetGitRemoteBranch(self, localBranch: str = None) -> str:
+	def GetGitRemoteBranch(self, localBranch: Nullable[str] = None) -> str:
 		if self._platform is not Platforms.Workstation:
 			return self._service.GetGitBranch()
 
@@ -531,7 +526,7 @@ class Versioning(ILineTerminal, GitHelper):
 		arguments = ("config", f"branch.{localBranch}.merge")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
+		except CalledProcessError:
 			raise Exception()  # XXX: needs error message
 
 		if completed.returncode == 0:
@@ -541,7 +536,7 @@ class Versioning(ILineTerminal, GitHelper):
 			self.WriteFatal(f"Message from '{command}': {message}")
 			raise Exception()  # XXX: needs error message
 
-	def GetGitRemote(self, localBranch: str = None) -> str:
+	def GetGitRemote(self, localBranch: Nullable[str] = None) -> str:
 		if localBranch is None:
 			localBranch = self.GetGitLocalBranch()
 
@@ -549,7 +544,7 @@ class Versioning(ILineTerminal, GitHelper):
 		arguments = ("config", f"branch.{localBranch}.remote")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
+		except CalledProcessError:
 			raise Exception()  # XXX: needs error message
 
 		if completed.returncode == 0:
@@ -570,7 +565,7 @@ class Versioning(ILineTerminal, GitHelper):
 		arguments = ("tag", "--points-at", "HEAD")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
+		except CalledProcessError:
 			raise Exception()  # XXX: needs error message
 
 		if completed.returncode == 0:
@@ -580,7 +575,7 @@ class Versioning(ILineTerminal, GitHelper):
 			self.WriteFatal(f"Message from '{command}': {message}")
 			raise Exception()  # XXX: needs error message
 
-	def GetGitRemoteURL(self, remote: str = None) -> str:
+	def GetGitRemoteURL(self, remote: Nullable[str] = None) -> str:
 		if self._platform is not Platforms.Workstation:
 			return self._service.GetGitRepository()
 
@@ -591,7 +586,7 @@ class Versioning(ILineTerminal, GitHelper):
 		arguments = ("config", f"remote.{remote}.url")
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except:
+		except CalledProcessError:
 			raise Exception()  # XXX: needs error message
 
 		if completed.returncode == 0:

@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -45,7 +45,7 @@ class GitHub(CIService):
 	ENV_INCLUDE_FILTER =  ("GITHUB_", )
 	ENV_EXCLUDE_FILTER =  ("_TOKEN", )
 	ENV_INCLUDES =        ('CI', )
-	ENV_EXCLUDES =        []
+	ENV_EXCLUDES =        ()
 
 	def GetPlatform(self) -> Platform:
 		return Platform("github")
@@ -66,6 +66,8 @@ class GitHub(CIService):
 		except KeyError:
 			return None
 
+		return None
+
 	def GetGitTag(self) -> Nullable[str]:
 		tagPrefix    = "refs/tags/"
 
@@ -75,6 +77,8 @@ class GitHub(CIService):
 				return ref[len(tagPrefix):]
 		except KeyError:
 			return None
+
+		return None
 
 	def GetGitRepository(self) -> str:
 		try:

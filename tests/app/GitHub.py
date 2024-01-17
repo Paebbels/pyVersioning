@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -31,6 +31,7 @@
 """Unit tests for GitLab CI."""
 from os               import environ as os_environ
 from subprocess       import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
+from typing           import Tuple, Any
 
 from pyTooling.Common import CurrentPlatform
 
@@ -39,13 +40,13 @@ from unittest         import TestCase
 
 if __name__ == "__main__":
 	print("ERROR: you called a testcase declaration file as an executable module.")
-	print("Use: 'python -m unitest <testcase module>'")
+	print("Use: 'python -m unittest <testcase module>'")
 	exit(1)
 
 
 class GitHubEnvironment(TestCase):
 	@staticmethod
-	def __getExecutable(command: str, *args):
+	def __getExecutable(command: str, *args: Any):
 		callArgs = [
 			"pyVersioning",
 			command
@@ -56,7 +57,7 @@ class GitHubEnvironment(TestCase):
 
 		return callArgs
 
-	def test_NoCommand(self):
+	def test_NoCommand(self) -> None:
 		print()
 
 		callArgs = ["pyVersioning"]
@@ -73,17 +74,17 @@ class GitHubEnvironment(TestCase):
 			print("CALLED PROCESS ERROR")
 			print(ex.returncode)
 			print(ex.output)
-			exit(1)
+			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
 			print("EXCEPTION")
 			print(ex)
-			exit(3)
+			raise Exception(f"Unknown error: {ex}") from ex
 
 		output = prog.stdout
 		for line in output.split("\n"):
 			print(line)
 
-	def test_HelpCommand(self):
+	def test_HelpCommand(self) -> None:
 		print()
 
 		callArgs = self.__getExecutable("help")
@@ -100,17 +101,17 @@ class GitHubEnvironment(TestCase):
 			print("CALLED PROCESS ERROR")
 			print(ex.returncode)
 			print(ex.output)
-			exit(1)
+			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
 			print("EXCEPTION")
 			print(ex)
-			exit(3)
+			raise Exception(f"Unknown error: {ex}") from ex
 
 		output = prog.stdout
 		for line in output.split("\n"):
 			print(line)
 
-	def test_VariablesCommand(self):
+	def test_VariablesCommand(self) -> None:
 		print()
 
 		callArgs = self.__getExecutable("variables")
@@ -127,17 +128,17 @@ class GitHubEnvironment(TestCase):
 			print("CALLED PROCESS ERROR")
 			print(ex.returncode)
 			print(ex.output)
-			exit(1)
+			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
 			print("EXCEPTION")
 			print(ex)
-			exit(3)
+			raise Exception(f"Unknown error: {ex}") from ex
 
 		output = prog.stdout
 		for line in output.split("\n"):
 			print(line)
 
-	def test_YAMLCommand(self):
+	def test_YAMLCommand(self) -> None:
 		print()
 
 		callArgs = self.__getExecutable("yaml")
@@ -154,17 +155,17 @@ class GitHubEnvironment(TestCase):
 			print("CALLED PROCESS ERROR")
 			print(ex.returncode)
 			print(ex.output)
-			exit(1)
+			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
 			print("EXCEPTION")
 			print(ex)
-			exit(3)
+			raise Exception(f"Unknown error: {ex}") from ex
 
 		output = prog.stdout
 		for line in output.split("\n"):
 			print(line)
 
-	def test_JSONCommand(self):
+	def test_JSONCommand(self) -> None:
 		print()
 
 		callArgs = self.__getExecutable("json")
@@ -181,20 +182,20 @@ class GitHubEnvironment(TestCase):
 			print("CALLED PROCESS ERROR")
 			print(ex.returncode)
 			print(ex.output)
-			exit(1)
+			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
 			print("EXCEPTION")
 			print(ex)
-			exit(3)
+			raise Exception(f"Unknown error: {ex}") from ex
 
 		output = prog.stdout
 		for line in output.split("\n"):
 			print(line)
 
-	def test_Fillout(self):
+	def test_Fillout(self) -> None:
 		print()
 
-		callArgs = self.__getExecutable("fillout", "template.in", "template.out")
+		callArgs = self.__getExecutable("fillout", "tests/template.in", "tests/template.out")
 
 		try:
 			prog = subprocess_run(
@@ -208,11 +209,11 @@ class GitHubEnvironment(TestCase):
 			print("CALLED PROCESS ERROR")
 			print(ex.returncode)
 			print(ex.output)
-			exit(1)
+			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
 			print("EXCEPTION")
 			print(ex)
-			exit(3)
+			raise Exception(f"Unknown error: {ex}") from ex
 
 		output = prog.stdout
 		for line in output.split("\n"):

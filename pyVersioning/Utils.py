@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -51,7 +51,7 @@ class ToolException(Exception):
 	command:      str
 	errorMessage: str
 
-	def __init__(self, command: str, errorMessage: str):
+	def __init__(self, command: str, errorMessage: str) -> None:
 		self.command = command
 		self.errorMessage = errorMessage
 
@@ -68,8 +68,8 @@ class GitHelper(metaclass=ExtendedType, mixin=True):
 		GitShowCommand.CommitComment:        "%B",
 	}
 
-	def ExecuteGitShow(self, command: GitShowCommand, ref: str = "HEAD") -> str:
-		format = f"--format='{self.__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP[command]}'"
+	def ExecuteGitShow(self, cmd: GitShowCommand, ref: str = "HEAD") -> str:
+		format = f"--format='{self.__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP[cmd]}'"
 
 		command = "git"
 		arguments = ("show", "-s", format, ref)

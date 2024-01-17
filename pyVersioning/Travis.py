@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -44,7 +44,7 @@ class Travis(CIService):
 	ENV_INCLUDE_FILTER = ("TRAVIS_", )
 	ENV_EXCLUDE_FILTER = ("_TOKEN", )
 	ENV_INCLUDES =       ('CI', 'CONTINUOUS_INTEGRATION', 'TRAVIS')
-	ENV_EXCLUDES =       []
+	ENV_EXCLUDES =       ()
 
 	def GetPlatform(self) -> Platform:
 		return Platform("travis")

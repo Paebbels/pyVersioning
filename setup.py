@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -29,6 +29,8 @@
 # ==================================================================================================================== #
 #
 """Package installer for 'Write version information for any programming language as source file'."""
+from setuptools          import setup
+
 from pathlib             import Path
 from pyTooling.Packaging import DescribePythonPackageHostedOnGitHub
 
@@ -37,7 +39,7 @@ packageName =            "pyVersioning"
 packageDirectory =       packageName.replace(".", "/")
 packageInformationFile = Path(f"{packageDirectory}/__init__.py")
 
-DescribePythonPackageHostedOnGitHub(
+setup(**DescribePythonPackageHostedOnGitHub(
 	packageName=packageName,
 	description="Write version information for any programming language as source file.",
 	gitHubNamespace=gitHubNamespace,
@@ -45,4 +47,4 @@ DescribePythonPackageHostedOnGitHub(
   consoleScripts={
     "pyVersioning": "pyVersioning.cli:main",
   }
-)
+))

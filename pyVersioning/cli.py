@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -28,42 +28,48 @@
 # SPDX-License-Identifier: Apache-2.0                                                                                  #
 # ==================================================================================================================== #
 #
-from argparse     import RawDescriptionHelpFormatter
+from argparse import RawDescriptionHelpFormatter, Namespace
+from collections import namedtuple
 from pathlib      import Path
 from textwrap     import dedent
-from typing       import NoReturn
+from typing import NoReturn, Callable
 
-from pyTooling.Decorators            import export
-from pyTooling.TerminalUI            import LineTerminal, Severity
-from pyAttributes                    import Attribute
-from pyAttributes.ArgParseAttributes import ArgParseMixin, CommandAttribute, ArgumentAttribute, DefaultAttribute
+from pyTooling.Attributes import Entity
+from pyTooling.Decorators                     import export
+from pyTooling.Attributes.ArgParse            import ArgParseHelperMixin, DefaultHandler, CommandHandler, CommandGroupAttribute
+from pyTooling.Attributes.ArgParse.Argument   import StringArgument, PathArgument
+from pyTooling.Attributes.ArgParse.ValuedFlag import LongValuedFlag
+from pyTooling.TerminalUI                     import TerminalApplication, Severity
 
-
-from pyVersioning                    import Versioning, Platforms, Project, SelfDescriptive
-from pyVersioning.Configuration      import Configuration
+from pyVersioning                             import __version__, __author__, __email__, __copyright__, __license__
+from pyVersioning                             import Versioning, Platforms, Project, SelfDescriptive
+from pyVersioning.Configuration               import Configuration
 
 
 @export
-class ProjectAttributeGroup(Attribute):
-	def __call__(self, func):
-		self._AppendAttribute(func, ArgumentAttribute("--project-name",    metavar="<Name>",    dest="ProjectName",    type=str, help="Name of the project."))
-		self._AppendAttribute(func, ArgumentAttribute("--project-variant", metavar="<Variant>", dest="ProjectVariant", type=str, help="Variant of the project."))
-		self._AppendAttribute(func, ArgumentAttribute("--project-version", metavar="<Version>", dest="ProjectVersion", type=str, help="Version of the project."))
+class ProjectAttributeGroup(CommandGroupAttribute):
+	def __call__(self, func: Entity) -> Entity:
+		self._AppendAttribute(func, LongValuedFlag("--project-name",    dest="ProjectName",    metaName="<Name>",    help="Name of the project."))
+		self._AppendAttribute(func, LongValuedFlag("--project-variant", dest="ProjectVariant", metaName="<Variant>", help="Variant of the project."))
+		self._AppendAttribute(func, LongValuedFlag("--project-version", dest="ProjectVersion", metaName="<Version>", help="Version of the project."))
 		return func
 
 
 @export
-class CompilerAttributeGroup(Attribute):
-	def __call__(self, func):
-		self._AppendAttribute(func, ArgumentAttribute("--compiler-name",    metavar="<Name>",    dest="CompilerName",    type=str, help="Used compiler."))
-		self._AppendAttribute(func, ArgumentAttribute("--compiler-version", metavar="<Version>", dest="CompilerVersion", type=str, help="Used compiler version."))
-		self._AppendAttribute(func, ArgumentAttribute("--compiler-config",  metavar="<Config>",  dest="CompilerConfig",  type=str, help="Used compiler configuration."))
-		self._AppendAttribute(func, ArgumentAttribute("--compiler-options", metavar="<Options>", dest="CompilerOptions", type=str, help="Used compiler options."))
+class CompilerAttributeGroup(CommandGroupAttribute):
+	def __call__(self, func: Entity) -> Entity:
+		self._AppendAttribute(func, LongValuedFlag("--compiler-name",    dest="CompilerName",    metaName="<Name>",    help="Used compiler."))
+		self._AppendAttribute(func, LongValuedFlag("--compiler-version", dest="CompilerVersion", metaName="<Version>", help="Used compiler version."))
+		self._AppendAttribute(func, LongValuedFlag("--compiler-config",  dest="CompilerConfig",  metaName="<Config>",  help="Used compiler configuration."))
+		self._AppendAttribute(func, LongValuedFlag("--compiler-options", dest="CompilerOptions", metaName="<Options>", help="Used compiler options."))
 		return func
 
 
+ArgNames = namedtuple("ArgNames", ("Command", "Template", "Filename", "ProjectName", "ProjectVariant", "ProjectVersion", "CompilerName", "CompilerVersion", "CompilerConfig", "CompilerOptions"))
+
+
 @export
-class Application(LineTerminal, ArgParseMixin):
+class Application(TerminalApplication, ArgParseHelperMixin):
 	HeadLine:     str = "Version file generator."
 
 	__configFile: Path
@@ -73,7 +79,9 @@ class Application(LineTerminal, ArgParseMixin):
 	def __init__(self) -> None:
 		super().__init__()
 
-		ArgParseMixin.__init__(
+		self.HeadLine = "Version file generator."
+
+		ArgParseHelperMixin.__init__(
 			self,
 			description=self.HeadLine,
 			formatter_class=RawDescriptionHelpFormatter,
@@ -97,25 +105,30 @@ class Application(LineTerminal, ArgParseMixin):
 		self._versioning.CollectData()
 
 	def PrintHeadline(self) -> None:
-		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
-		self.WriteNormal("{HEADLINE}{headline: ^80s}".format(headline=self.HeadLine, **LineTerminal.Foreground))
-		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **LineTerminal.Foreground))
+		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.Foreground))
+		self.WriteNormal("{HEADLINE}{headline: ^80s}".format(headline=self.HeadLine, **TerminalApplication.Foreground))
+		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.Foreground))
 
 	def Run(self, configFile: Path) -> NoReturn:
 		self.__configFile = configFile
 
 		super().Run(self)
-		self.exit()
+		self.Exit()
 
-	@DefaultAttribute()
-	def HandleDefault(self, args) -> None:
+	@DefaultHandler()
+	def HandleDefault(self, args: Namespace) -> None:
 		self.PrintHeadline()
 		self.MainParser.print_help()
 
-	@CommandAttribute("help", help="Display help page(s) for the given command name.")
-	@ArgumentAttribute(metavar="Command", dest="Command", type=str, nargs="?", help="Print help page(s) for a command.")
-	def HandleHelp(self, args) -> None:
+	@CommandHandler("help", help="Display help page(s) for the given command name.")
+	@StringArgument(dest="Command", metaName="Command", optional=True, help="Print help page(s) for a command.")
+	def HandleHelp(self, args: Namespace) -> None:
 		self.PrintHeadline()
+		self.WriteNormal(f"Author:    {__author__} ({__email__})")
+		self.WriteNormal(f"Copyright: {__copyright__}")
+		self.WriteNormal(f"License:   {__license__}")
+		self.WriteNormal(f"Version:   {__version__}")
+		self.WriteNormal("")
 
 		if args.Command is None:
 			self.MainParser.print_help()
@@ -127,12 +140,13 @@ class Application(LineTerminal, ArgParseMixin):
 			except KeyError:
 				self.WriteError(f"Command {args.Command} is unknown.")
 
-	@CommandAttribute("fillout", help="Read a template and replace tokens with version information.")
-	@ProjectAttributeGroup()
-	@CompilerAttributeGroup()
-	@ArgumentAttribute(metavar="<Template file>", dest="Template", type=str, help="Template input filename.")
-	@ArgumentAttribute(metavar="<Output file>",   dest="Filename", type=str, help="Output filename.")
-	def HandleFillOut(self, args) -> None:
+	@CommandHandler("fillout", help="Read a template and replace tokens with version information.")
+	@ProjectAttributeGroup("dummy")
+	@CompilerAttributeGroup("flummy")
+	@PathArgument(dest="Template", metaName="<Template file>", help="Template input filename.")
+	@PathArgument(dest="Filename", metaName="<Output file>",   help="Output filename.")
+	def HandleFillOut(self, args: Namespace) -> None:
+		self.Configure(quiet=True)
 		self.PrintHeadline()
 		self.Initialize()
 
@@ -157,10 +171,11 @@ class Application(LineTerminal, ArgParseMixin):
 
 		self._versioning.WriteSourceFile(templateFile, outputFile)
 
-	@CommandAttribute("variables", help="Print all available variables.")
-	@ProjectAttributeGroup()
-	@CompilerAttributeGroup()
-	def HandleVariables(self, args) -> None:
+	@CommandHandler("variables", help="Print all available variables.")
+	@ProjectAttributeGroup("dummy")
+	@CompilerAttributeGroup("flummy")
+	def HandleVariables(self, args: Namespace) -> None:
+		self.Configure(quiet=True)
 		self.PrintHeadline()
 		self.Initialize()
 
@@ -177,11 +192,12 @@ class Application(LineTerminal, ArgParseMixin):
 		for key,value in self._versioning.variables.items():
 			print(key, value, 0)
 
-	@CommandAttribute("json", help="Write all available variables as JSON.")
-	@ProjectAttributeGroup()
-	@CompilerAttributeGroup()
-	@ArgumentAttribute(metavar="<Output file>",   dest="Filename", type=str, nargs="?", help="Output filename.")
-	def HandleJSON(self, args) -> None:
+	@CommandHandler("json", help="Write all available variables as JSON.")
+	@ProjectAttributeGroup("dummy")
+	@CompilerAttributeGroup("flummy")
+	@PathArgument(dest="Filename", metaName="<Output file>", optional=True, help="Output filename.")
+	def HandleJSON(self, args: Namespace) -> None:
+		self.Configure(quiet=True)
 		self.Initialize()
 
 		self.UpdateProject(args)
@@ -189,22 +205,25 @@ class Application(LineTerminal, ArgParseMixin):
 
 		content = dedent("""\
 		{{
-		  version: {{
-		    major: {version.Major},
-		    minor: {version.Minor},
-		    patch: {version.Patch},
-		   flags: {version.Flags}
+		  "format": "1.1",
+		  "version": {{
+		    "name": "{version!s}",
+		    "major": {version.Major},
+		    "minor": {version.Minor},
+		    "patch": {version.Patch},
+		   "flags": {version.Flags}
 		  }}
 		}}
 		""")
 		output = content.format(**self._versioning.variables)
-		self.WriteNormal(output)
+		self.WriteQuiet(output)
 
-	@CommandAttribute("yaml", help="Write all available variables as YAML.")
-	@ProjectAttributeGroup()
-	@CompilerAttributeGroup()
-	@ArgumentAttribute(metavar="<Output file>",   dest="Filename", type=str, nargs="?", help="Output filename.")
-	def HandleYAML(self, args) -> None:
+	@CommandHandler("yaml", help="Write all available variables as YAML.")
+	@ProjectAttributeGroup("dummy")
+	@CompilerAttributeGroup("flummy")
+	@PathArgument(dest="Filename", metaName="<Output file>", optional=True, help="Output filename.")
+	def HandleYAML(self, args: Namespace) -> None:
+		self.Configure(quiet=True)
 		self.Initialize()
 
 		self.UpdateProject(args)
@@ -236,7 +255,10 @@ class Application(LineTerminal, ArgParseMixin):
 				yamlTravis += f"    {key}: {value}\n"
 
 		content = dedent("""\
-		  version: {version!s}
+		  format: "1.1"
+
+		  version:
+		    name: "{version!s}"
 		    major: {version.Major}
 		    minor: {version.Minor}
 		    patch: {version.Patch}
@@ -272,9 +294,9 @@ class Application(LineTerminal, ArgParseMixin):
 		  env:{yamlEnvironment}
 		""")
 		output = content.format(**self._versioning.variables, yamlEnvironment=yamlEnvironment, yamlAppVeyor=yamlAppVeyor, yamlGitHub=yamlGitHub, yamlGitLab=yamlGitLab, yamlTravis=yamlTravis)
-		self.WriteNormal(output)
+		self.WriteQuiet(output)
 
-	def UpdateProject(self, args) -> None:
+	def UpdateProject(self, args: Namespace) -> None:
 		if "project" not in self._versioning.variables:
 			self._versioning.variables["project"] = Project(args.ProjectName, args.ProjectVersion, args.ProjectVariant)
 		elif args.ProjectName is not None:
@@ -286,7 +308,7 @@ class Application(LineTerminal, ArgParseMixin):
 		if args.ProjectVersion is not None:
 			self._versioning.variables["project"]._version = args.ProjectVersion
 
-	def UpdateCompiler(self, args) -> None:
+	def UpdateCompiler(self, args: Namespace) -> None:
 		if args.CompilerName is not None:
 			self._versioning.variables["build"]._compiler._name = args.CompilerName
 		if args.CompilerVersion is not None:
@@ -300,8 +322,8 @@ class Application(LineTerminal, ArgParseMixin):
 def main() -> NoReturn:
 	configFile = Path(".pyVersioning.yml")
 
-	Application.versionCheck((3, 7, 0))
 	application = Application()
+	application.CheckPythonVersion((3, 8, 0))
 	application.Run(configFile)
 
 

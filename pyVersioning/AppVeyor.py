@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -41,10 +41,10 @@ from pyVersioning.CIService import CIService, Platform, ServiceException
 class AppVeyor(CIService):
 	"""Collect Git and other platform and environment information from environment variables provided by AppVeyor."""
 
-	ENV_INCLUDE_FILTER =  ("APPVEYOR_")
-	ENV_EXCLUDE_FILTER =  ("_TOKEN")
-	ENV_INCLUDES =        ['CI', 'APPVEYOR', 'PLATFORM', 'CONFIGURATION']
-	ENV_EXCLUDES =        []
+	ENV_INCLUDE_FILTER =  ("APPVEYOR_", )
+	ENV_EXCLUDE_FILTER =  ("_TOKEN", )
+	ENV_INCLUDES =        ('CI', 'APPVEYOR', 'PLATFORM', 'CONFIGURATION')
+	ENV_EXCLUDES =        ()
 
 	def GetPlatform(self) -> Platform:
 		return Platform("appveyor")

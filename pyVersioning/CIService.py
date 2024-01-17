@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2023 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -32,12 +32,12 @@
 from dataclasses  import make_dataclass
 from datetime     import datetime
 from os           import environ
-from typing       import Dict, Optional as Nullable
+from typing import Dict, Optional as Nullable, Tuple, List
 
-from pyTooling.Decorators import export
+from pyTooling.Decorators  import export
 from pyTooling.MetaClasses import ExtendedType, abstractmethod
 
-from pyVersioning import SelfDescriptive, GitHelper, GitShowCommand, BaseService, Platform
+from pyVersioning          import SelfDescriptive, GitHelper, GitShowCommand, BaseService, Platform
 
 
 @export
@@ -49,15 +49,15 @@ class ServiceException(Exception):
 class CIService(BaseService, GitHelper):
 	"""Base-class to collect Git and other platform and environment information from CI service environment variables."""
 
-	ENV_INCLUDE_FILTER = ()
-	ENV_EXCLUDE_FILTER = ()
-	ENV_INCLUDES =       []
-	ENV_EXCLUDES =       []
+	ENV_INCLUDE_FILTER: Tuple[str, ...] = ()
+	ENV_EXCLUDE_FILTER: Tuple[str, ...] = ()
+	ENV_INCLUDES: Tuple[str, ...] =       ()
+	ENV_EXCLUDES: Tuple[str, ...] =       ()
 
 	def GetEnvironment(self) -> Dict[str, str]:
 		""".. todo:: getEnvironment needs documentation"""
 
-		filteredEnv = {key:value for (key,value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
+		filteredEnv = {key: value for (key, value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
 
 		# manually add some variables
 		for key in self.ENV_INCLUDES:
@@ -92,7 +92,7 @@ class CIService(BaseService, GitHelper):
 		return Environment(**filteredEnv)
 
 	@abstractmethod
-	def GetGitHash(self) -> str:
+	def GetGitHash(self) -> str:  # type: ignore[empty-body]
 		""".. todo:: getGithash needs documentation"""
 
 	# @abstractmethod
@@ -103,15 +103,15 @@ class CIService(BaseService, GitHelper):
 		return datetime.fromtimestamp(int(datetimeString))
 
 	@abstractmethod
-	def GetGitBranch(self) -> Nullable[str]:
+	def GetGitBranch(self) -> Nullable[str]:  # type: ignore[empty-body]
 		""".. todo:: getGitBranch needs documentation"""
 
 	@abstractmethod
-	def GetGitTag(self) -> Nullable[str]:
+	def GetGitTag(self) -> Nullable[str]:  # type: ignore[empty-body]
 		""".. todo:: getGitTag needs documentation"""
 
 	@abstractmethod
-	def GetGitRepository(self) -> str:
+	def GetGitRepository(self) -> str:  # type: ignore[empty-body]
 		""".. todo:: getGitRepository needs documentation"""
 
 

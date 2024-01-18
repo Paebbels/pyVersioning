@@ -62,7 +62,7 @@ jobs:
     uses: pyTooling/Actions/.github/workflows/Package.yml@dev
     needs:
       - UnitTestingParams
-#      - UnitTesting
+      - UnitTesting
     with:
       python_version: ${{ needs.UnitTestingParams.outputs.python_version }}
       artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}

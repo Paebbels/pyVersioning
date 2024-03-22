@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyVersioning.cli &mdash; pyVersioning 0.13.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=77553476" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-reports.e44b1595f1e09d5e109d001839ba3f42.css?v=0b41afa8" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=d48d1b8b" />
+
+  
+    <link rel="shortcut icon" href="../_static/icon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=b4617fb1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Unittest Summary Report" href="../unittests/index.html" />
+    <link rel="prev" title="pyVersioning.Utils" href="pyVersioning.Utils.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.13
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation/Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Dependency.html">Dependencies</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../example/ANSI-C.html">ANSI-C</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../example/VHDL.html">VHDL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Details</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyVersioning.html">pyVersioning Module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References and Reports</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="pyVersioning.html">pyVersioning</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.AppVeyor.html">pyVersioning.AppVeyor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.CIService.html">pyVersioning.CIService</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.Configuration.html">pyVersioning.Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.GitHub.html">pyVersioning.GitHub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.GitLab.html">pyVersioning.GitLab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.Travis.html">pyVersioning.Travis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.Utils.html">pyVersioning.Utils</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pyVersioning.cli</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup.__call__"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup.__call__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup.GetAttributes"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup.GetAttributes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup.GetClasses"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup.GetClasses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup.GetFunctions"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup.GetFunctions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup.GetMethods"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup.GetMethods()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup.GroupName"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup.GroupName</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup._AppendAttribute"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup._AppendAttribute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup.__init__"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup.__init_subclass__"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup.__init_subclass__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup._classes"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup._classes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup._functions"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup._functions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup._methods"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup._methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup._scope"><code class="docutils literal notranslate"><span class="pre">ProjectAttributeGroup._scope</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup.__call__"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup.__call__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup.GetAttributes"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup.GetAttributes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup.GetClasses"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup.GetClasses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup.GetFunctions"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup.GetFunctions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup.GetMethods"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup.GetMethods()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup.GroupName"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup.GroupName</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup._AppendAttribute"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup._AppendAttribute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup.__init__"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup.__init_subclass__"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup.__init_subclass__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup._classes"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup._classes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup._functions"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup._functions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup._methods"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup._methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup._scope"><code class="docutils literal notranslate"><span class="pre">CompilerAttributeGroup._scope</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.cli.Application"><code class="docutils literal notranslate"><span class="pre">Application</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.__init__"><code class="docutils literal notranslate"><span class="pre">Application.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.CheckPythonVersion"><code class="docutils literal notranslate"><span class="pre">Application.CheckPythonVersion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.Debug"><code class="docutils literal notranslate"><span class="pre">Application.Debug</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.Exit"><code class="docutils literal notranslate"><span class="pre">Application.Exit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.ExitOnPreviousErrors"><code class="docutils literal notranslate"><span class="pre">Application.ExitOnPreviousErrors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.ExitOnPreviousWarnings"><code class="docutils literal notranslate"><span class="pre">Application.ExitOnPreviousWarnings()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.FATAL_EXIT_CODE"><code class="docutils literal notranslate"><span class="pre">Application.FATAL_EXIT_CODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.FatalExit"><code class="docutils literal notranslate"><span class="pre">Application.FatalExit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.Foreground"><code class="docutils literal notranslate"><span class="pre">Application.Foreground</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.GetTerminalSize"><code class="docutils literal notranslate"><span class="pre">Application.GetTerminalSize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.HasClassAttributes"><code class="docutils literal notranslate"><span class="pre">Application.HasClassAttributes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.HasMethodAttributes"><code class="docutils literal notranslate"><span class="pre">Application.HasMethodAttributes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.Height"><code class="docutils literal notranslate"><span class="pre">Application.Height</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.INDENT"><code class="docutils literal notranslate"><span class="pre">Application.INDENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.ISSUE_TRACKER_URL"><code class="docutils literal notranslate"><span class="pre">Application.ISSUE_TRACKER_URL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.InitializeColors"><code class="docutils literal notranslate"><span class="pre">Application.InitializeColors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.LogLevel"><code class="docutils literal notranslate"><span class="pre">Application.LogLevel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.MainParser"><code class="docutils literal notranslate"><span class="pre">Application.MainParser</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.NOT_IMPLEMENTED_EXCEPTION_EXIT_CODE"><code class="docutils literal notranslate"><span class="pre">Application.NOT_IMPLEMENTED_EXCEPTION_EXIT_CODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.PYTHON_VERSION_CHECK_FAILED_EXIT_CODE"><code class="docutils literal notranslate"><span class="pre">Application.PYTHON_VERSION_CHECK_FAILED_EXIT_CODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.PrintException"><code class="docutils literal notranslate"><span class="pre">Application.PrintException()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.PrintExceptionBase"><code class="docutils literal notranslate"><span class="pre">Application.PrintExceptionBase()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.PrintNotImplementedError"><code class="docutils literal notranslate"><span class="pre">Application.PrintNotImplementedError()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.Quiet"><code class="docutils literal notranslate"><span class="pre">Application.Quiet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.SubParsers"><code class="docutils literal notranslate"><span class="pre">Application.SubParsers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.UNHANDLED_EXCEPTION_EXIT_CODE"><code class="docutils literal notranslate"><span class="pre">Application.UNHANDLED_EXCEPTION_EXIT_CODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.UninitializeColors"><code class="docutils literal notranslate"><span class="pre">Application.UninitializeColors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.Verbose"><code class="docutils literal notranslate"><span class="pre">Application.Verbose</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.Width"><code class="docutils literal notranslate"><span class="pre">Application.Width</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.WriteLine"><code class="docutils literal notranslate"><span class="pre">Application.WriteLine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.WriteLineToStdErr"><code class="docutils literal notranslate"><span class="pre">Application.WriteLineToStdErr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.WriteLineToStdOut"><code class="docutils literal notranslate"><span class="pre">Application.WriteLineToStdOut()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.WriteNormal"><code class="docutils literal notranslate"><span class="pre">Application.WriteNormal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.WriteToStdErr"><code class="docutils literal notranslate"><span class="pre">Application.WriteToStdErr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application.WriteToStdOut"><code class="docutils literal notranslate"><span class="pre">Application.WriteToStdOut()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application._LOG_LEVEL_ROUTING__"><code class="docutils literal notranslate"><span class="pre">Application._LOG_LEVEL_ROUTING__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application._LOG_MESSAGE_FORMAT__"><code class="docutils literal notranslate"><span class="pre">Application._LOG_MESSAGE_FORMAT__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application._height"><code class="docutils literal notranslate"><span class="pre">Application._height</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application._stderr"><code class="docutils literal notranslate"><span class="pre">Application._stderr</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application._stdin"><code class="docutils literal notranslate"><span class="pre">Application._stdin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application._stdout"><code class="docutils literal notranslate"><span class="pre">Application._stdout</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyVersioning.cli.Application._width"><code class="docutils literal notranslate"><span class="pre">Application._width</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.SelfDescriptive"><code class="docutils literal notranslate"><span class="pre">SelfDescriptive</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.Tool"><code class="docutils literal notranslate"><span class="pre">Tool</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.Date"><code class="docutils literal notranslate"><span class="pre">Date</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.Time"><code class="docutils literal notranslate"><span class="pre">Time</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.Person"><code class="docutils literal notranslate"><span class="pre">Person</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.Commit"><code class="docutils literal notranslate"><span class="pre">Commit</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.Git"><code class="docutils literal notranslate"><span class="pre">Git</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.Project"><code class="docutils literal notranslate"><span class="pre">Project</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.Compiler"><code class="docutils literal notranslate"><span class="pre">Compiler</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.Build"><code class="docutils literal notranslate"><span class="pre">Build</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.Platforms"><code class="docutils literal notranslate"><span class="pre">Platforms</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.Platform"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.BaseService"><code class="docutils literal notranslate"><span class="pre">BaseService</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.html#pyVersioning.Versioning"><code class="docutils literal notranslate"><span class="pre">Versioning</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../unittests/index.html">Unittest Summary Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage/index.html">Code Coverage Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DocCoverage.html">Doc. Coverage Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typing/index.html">Static Type Check Report ➚</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../License.html">Apache License 2.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Doc-License.html">Creative Commons Attribution 4.0 International</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../py-modindex.html">Python Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODOs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyVersioning</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="pyVersioning.html">pyVersioning</a></li>
+      <li class="breadcrumb-item active">pyVersioning.cli</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/pyVersioning/pyVersioning.cli.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <style type="text/css">
+  span.bolditalic {font-weight: bold; font-style: italic; }
+  span.underline {text-decoration: underline; }
+  span.strike {text-decoration: line-through; }
+  span.xlarge {font-size: x-large; }
+  span.colorred {color: #CC0000; }
+  span.colorgreen {color: #009933; }
+  span.colorblue {color: #0066FF; }
+  span.colorpurple {color: #9900CC; }
+</style><section id="module-pyVersioning.cli">
+<span id="pyversioning-cli"></span><h1>pyVersioning.cli<a class="headerlink" href="#module-pyVersioning.cli" title="Link to this heading"></a></h1>
+<p><strong>Classes</strong></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#pyVersioning.cli.ProjectAttributeGroup" title="pyVersioning.cli.ProjectAttributeGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectAttributeGroup</span></code></a>:
+<em>Experimental</em> attribute to group sub-commands in groups for better readability in a <code class="docutils literal notranslate"><span class="pre">prog.py</span> <span class="pre">--help</span></code> call.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.cli.CompilerAttributeGroup" title="pyVersioning.cli.CompilerAttributeGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompilerAttributeGroup</span></code></a>:
+<em>Experimental</em> attribute to group sub-commands in groups for better readability in a <code class="docutils literal notranslate"><span class="pre">prog.py</span> <span class="pre">--help</span></code> call.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.cli.Application" title="pyVersioning.cli.Application"><code class="xref py py-class docutils literal notranslate"><span class="pre">Application</span></code></a>:
+The class offers a basic terminal application base-class.</p></li>
+</ul>
+<hr class="docutils" />
+<p><strong>Classes</strong></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.cli.</span></span><span class="sig-name descname"><span class="pre">ProjectAttributeGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">groupName</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning/cli.html#ProjectAttributeGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-a2bbafedcd0ef6e55d9c782f1feabd4940f2d8fe.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of ProjectAttributeGroup</p></object></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>groupName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning/cli.html#ProjectAttributeGroup.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup.__call__" title="Link to this definition"></a></dt>
+<dd><p>Attributes get attached to an entity (function, class, method) and an index is updated at the attribute for reverse
+lookups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entity</strong> – Entity (function, class, method), to attach an attribute to.</p></li>
+<li><p><strong>func</strong> (<em>Entity</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Same entity, with attached attribute.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.12)"><strong>TypeError</strong></a> – If parameter ‘entity’ is not a function, class nor method.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup.GetAttributes">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetAttributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">includeSubClasses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup.GetAttributes" title="Link to this definition"></a></dt>
+<dd><p>Returns attached attributes of this kind for a given method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – </p></li>
+<li><p><strong>includeSubClasses</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.12)"><strong>TypeError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup.GetClasses">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetClasses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subclassOf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup.GetClasses" title="Link to this definition"></a></dt>
+<dd><p>Return a generator for all classes, where this attribute is attached to.</p>
+<dl class="simple">
+<dt>The resulting item stream can be filtered by:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">scope</span></code> - when the item is a nested class in scope <code class="docutils literal notranslate"><span class="pre">scope</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">subclassOf</span></code> - when the item is a subclass of <code class="docutils literal notranslate"><span class="pre">subclassOf</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scope</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Undocumented.</p></li>
+<li><p><strong>subclassOf</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – An attribute class or tuple thereof, to filter for that attribute type or subtype.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sequence of classes where this attribute is attached to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup.GetFunctions">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetFunctions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup.GetFunctions" title="Link to this definition"></a></dt>
+<dd><p>Return a generator for all functions, where this attribute is attached to.</p>
+<dl class="simple">
+<dt>The resulting item stream can be filtered by:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">scope</span></code> - when the item is a nested class in scope <code class="docutils literal notranslate"><span class="pre">scope</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scope</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Undocumented.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sequence of functions where this attribute is attached to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup.GetMethods">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetMethods</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup.GetMethods" title="Link to this definition"></a></dt>
+<dd><p>Return a generator for all methods, where this attribute is attached to.</p>
+<dl class="simple">
+<dt>The resulting item stream can be filtered by:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">scope</span></code> - when the item is a nested class in scope <code class="docutils literal notranslate"><span class="pre">scope</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scope</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Undocumented.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sequence of methods where this attribute is attached to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup.GroupName">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GroupName</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup.GroupName" title="Link to this definition"></a></dt>
+<dd><p>Returns the name of the command group.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup._AppendAttribute">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_AppendAttribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup._AppendAttribute" title="Link to this definition"></a></dt>
+<dd><p>Append an attribute to a language entity (class, method, function).</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>This method can be used in attribute groups to apply multiple attributes within <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">GroupAttribute</span><span class="p">(</span><span class="n">Attribute</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">Entity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Entity</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_AppendAttribute</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">SimpleAttribute</span><span class="p">(</span><span class="o">...</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_AppendAttribute</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">SimpleAttribute</span><span class="p">(</span><span class="o">...</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">entity</span>
+</pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entity</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Entity, the attribute is attached to.</p></li>
+<li><p><strong>attribute</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Attribute to attach.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.12)"><strong>TypeError</strong></a> – If parameter ‘entity’ is not a class, method or function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">groupName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup.__init__" title="Link to this definition"></a></dt>
+<dd><p>The constructor expects a ‘groupName’ which can be used to group sub-commands for better readability.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>groupName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup.__init_subclass__">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup.__init_subclass__" title="Link to this definition"></a></dt>
+<dd><p>Ensure each derived class has its own instance of <code class="docutils literal notranslate"><span class="pre">_functions</span></code>, <code class="docutils literal notranslate"><span class="pre">_classes</span></code> and <code class="docutils literal notranslate"><span class="pre">_methods</span></code> to register the
+:rtype: <span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+<p>usage of that Attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><em>Any</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup._classes">
+<span class="sig-name descname"><span class="pre">_classes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup._classes" title="Link to this definition"></a></dt>
+<dd><p>List of classes, this Attribute was attached to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup._functions">
+<span class="sig-name descname"><span class="pre">_functions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup._functions" title="Link to this definition"></a></dt>
+<dd><p>List of functions, this Attribute was attached to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup._methods">
+<span class="sig-name descname"><span class="pre">_methods</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup._methods" title="Link to this definition"></a></dt>
+<dd><p>List of methods, this Attribute was attached to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.ProjectAttributeGroup._scope">
+<span class="sig-name descname"><span class="pre">_scope</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#pyVersioning.cli.ProjectAttributeGroup._scope" title="Link to this definition"></a></dt>
+<dd><p>Allowed language construct this attribute can be used with.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.cli.</span></span><span class="sig-name descname"><span class="pre">CompilerAttributeGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">groupName</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning/cli.html#CompilerAttributeGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-de527bf479e4118eccad29d93e996c81b0d108d6.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of CompilerAttributeGroup</p></object></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>groupName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning/cli.html#CompilerAttributeGroup.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup.__call__" title="Link to this definition"></a></dt>
+<dd><p>Attributes get attached to an entity (function, class, method) and an index is updated at the attribute for reverse
+lookups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entity</strong> – Entity (function, class, method), to attach an attribute to.</p></li>
+<li><p><strong>func</strong> (<em>Entity</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Same entity, with attached attribute.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.12)"><strong>TypeError</strong></a> – If parameter ‘entity’ is not a function, class nor method.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup.GetAttributes">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetAttributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">includeSubClasses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup.GetAttributes" title="Link to this definition"></a></dt>
+<dd><p>Returns attached attributes of this kind for a given method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – </p></li>
+<li><p><strong>includeSubClasses</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.12)"><strong>TypeError</strong></a> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup.GetClasses">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetClasses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subclassOf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup.GetClasses" title="Link to this definition"></a></dt>
+<dd><p>Return a generator for all classes, where this attribute is attached to.</p>
+<dl class="simple">
+<dt>The resulting item stream can be filtered by:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">scope</span></code> - when the item is a nested class in scope <code class="docutils literal notranslate"><span class="pre">scope</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">subclassOf</span></code> - when the item is a subclass of <code class="docutils literal notranslate"><span class="pre">subclassOf</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scope</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Undocumented.</p></li>
+<li><p><strong>subclassOf</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – An attribute class or tuple thereof, to filter for that attribute type or subtype.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sequence of classes where this attribute is attached to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup.GetFunctions">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetFunctions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup.GetFunctions" title="Link to this definition"></a></dt>
+<dd><p>Return a generator for all functions, where this attribute is attached to.</p>
+<dl class="simple">
+<dt>The resulting item stream can be filtered by:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">scope</span></code> - when the item is a nested class in scope <code class="docutils literal notranslate"><span class="pre">scope</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scope</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Undocumented.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sequence of functions where this attribute is attached to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup.GetMethods">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetMethods</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup.GetMethods" title="Link to this definition"></a></dt>
+<dd><p>Return a generator for all methods, where this attribute is attached to.</p>
+<dl class="simple">
+<dt>The resulting item stream can be filtered by:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">scope</span></code> - when the item is a nested class in scope <code class="docutils literal notranslate"><span class="pre">scope</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scope</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Undocumented.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sequence of methods where this attribute is attached to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup.GroupName">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GroupName</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup.GroupName" title="Link to this definition"></a></dt>
+<dd><p>Returns the name of the command group.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup._AppendAttribute">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_AppendAttribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup._AppendAttribute" title="Link to this definition"></a></dt>
+<dd><p>Append an attribute to a language entity (class, method, function).</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>This method can be used in attribute groups to apply multiple attributes within <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">GroupAttribute</span><span class="p">(</span><span class="n">Attribute</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">Entity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Entity</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_AppendAttribute</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">SimpleAttribute</span><span class="p">(</span><span class="o">...</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_AppendAttribute</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">SimpleAttribute</span><span class="p">(</span><span class="o">...</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">entity</span>
+</pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entity</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Entity, the attribute is attached to.</p></li>
+<li><p><strong>attribute</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Attribute to attach.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.12)"><strong>TypeError</strong></a> – If parameter ‘entity’ is not a class, method or function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">groupName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup.__init__" title="Link to this definition"></a></dt>
+<dd><p>The constructor expects a ‘groupName’ which can be used to group sub-commands for better readability.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>groupName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup.__init_subclass__">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup.__init_subclass__" title="Link to this definition"></a></dt>
+<dd><p>Ensure each derived class has its own instance of <code class="docutils literal notranslate"><span class="pre">_functions</span></code>, <code class="docutils literal notranslate"><span class="pre">_classes</span></code> and <code class="docutils literal notranslate"><span class="pre">_methods</span></code> to register the
+:rtype: <span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+<p>usage of that Attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><em>Any</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup._classes">
+<span class="sig-name descname"><span class="pre">_classes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup._classes" title="Link to this definition"></a></dt>
+<dd><p>List of classes, this Attribute was attached to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup._functions">
+<span class="sig-name descname"><span class="pre">_functions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup._functions" title="Link to this definition"></a></dt>
+<dd><p>List of functions, this Attribute was attached to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup._methods">
+<span class="sig-name descname"><span class="pre">_methods</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup._methods" title="Link to this definition"></a></dt>
+<dd><p>List of methods, this Attribute was attached to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.CompilerAttributeGroup._scope">
+<span class="sig-name descname"><span class="pre">_scope</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#pyVersioning.cli.CompilerAttributeGroup._scope" title="Link to this definition"></a></dt>
+<dd><p>Allowed language construct this attribute can be used with.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.cli.</span></span><span class="sig-name descname"><span class="pre">Application</span></span><a class="reference internal" href="../_modules/pyVersioning/cli.html#Application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.cli.Application" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-752ebe874a9b4e80a26b69f3b3d95301986aa2f4.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of Application</p></object></div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning/cli.html#Application.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.cli.Application.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializer of a line based terminal interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.CheckPythonVersion">
+<span class="sig-name descname"><span class="pre">CheckPythonVersion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.CheckPythonVersion" title="Link to this definition"></a></dt>
+<dd><p>Check if the used Python interpreter fulfills the minimum version requirements.
+:rtype: <span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.Debug">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Debug</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><a class="headerlink" href="#pyVersioning.cli.Application.Debug" title="Link to this definition"></a></dt>
+<dd><p>Returns true, if debug messages are enabled.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.Exit">
+<span class="sig-name descname"><span class="pre">Exit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">returnCode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.Exit" title="Link to this definition"></a></dt>
+<dd><p>Exit the terminal application by uninitializing color support and returning an Exit code.
+:rtype: <span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>returnCode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.NoReturn" title="(in Python v3.12)"><em>NoReturn</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.ExitOnPreviousErrors">
+<span class="sig-name descname"><span class="pre">ExitOnPreviousErrors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.ExitOnPreviousErrors" title="Link to this definition"></a></dt>
+<dd><p>Exit application if errors have been printed.
+:rtype: <span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.ExitOnPreviousWarnings">
+<span class="sig-name descname"><span class="pre">ExitOnPreviousWarnings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.ExitOnPreviousWarnings" title="Link to this definition"></a></dt>
+<dd><p>Exit application if warnings have been printed.
+:rtype: <span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.FATAL_EXIT_CODE">
+<span class="sig-name descname"><span class="pre">FATAL_EXIT_CODE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">255</span></em><a class="headerlink" href="#pyVersioning.cli.Application.FATAL_EXIT_CODE" title="Link to this definition"></a></dt>
+<dd><p>Return code for fatal exits.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.FatalExit">
+<span class="sig-name descname"><span class="pre">FatalExit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">returnCode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.FatalExit" title="Link to this definition"></a></dt>
+<dd><p>Exit the terminal application by uninitializing color support and returning a fatal Exit code.
+:rtype: <span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>returnCode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.NoReturn" title="(in Python v3.12)"><em>NoReturn</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.Foreground">
+<span class="sig-name descname"><span class="pre">Foreground</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'BLUE':</span> <span class="pre">'\x1b[94m',</span> <span class="pre">'CYAN':</span> <span class="pre">'\x1b[96m',</span> <span class="pre">'DARK_BLUE':</span> <span class="pre">'\x1b[34m',</span> <span class="pre">'DARK_CYAN':</span> <span class="pre">'\x1b[36m',</span> <span class="pre">'DARK_GRAY':</span> <span class="pre">'\x1b[90m',</span> <span class="pre">'DARK_GREEN':</span> <span class="pre">'\x1b[32m',</span> <span class="pre">'DARK_RED':</span> <span class="pre">'\x1b[31m',</span> <span class="pre">'DARK_YELLOW':</span> <span class="pre">'\x1b[33m',</span> <span class="pre">'ERROR':</span> <span class="pre">'\x1b[91m',</span> <span class="pre">'GRAY':</span> <span class="pre">'\x1b[37m',</span> <span class="pre">'GREEN':</span> <span class="pre">'\x1b[92m',</span> <span class="pre">'HEADLINE':</span> <span class="pre">'\x1b[95m',</span> <span class="pre">'MAGENTA':</span> <span class="pre">'\x1b[95m',</span> <span class="pre">'NOCOLOR':</span> <span class="pre">'\x1b[39m',</span> <span class="pre">'RED':</span> <span class="pre">'\x1b[91m',</span> <span class="pre">'WARNING':</span> <span class="pre">'\x1b[93m',</span> <span class="pre">'WHITE':</span> <span class="pre">'\x1b[97m',</span> <span class="pre">'YELLOW':</span> <span class="pre">'\x1b[93m'}</span></em><a class="headerlink" href="#pyVersioning.cli.Application.Foreground" title="Link to this definition"></a></dt>
+<dd><p>Terminal colors</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.GetTerminalSize">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetTerminalSize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.GetTerminalSize" title="Link to this definition"></a></dt>
+<dd><p>Returns the terminal size as tuple (width, height) for Windows, macOS (Darwin), Linux, cygwin (Windows), MinGW32/64 (Windows).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing width and height of the terminal’s size in characters.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>PlatformNotSupportedException</strong> – When a platform is not yet supported.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.HasClassAttributes">
+<em class="property"><span class="pre">class</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HasClassAttributes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><a class="headerlink" href="#pyVersioning.cli.Application.HasClassAttributes" title="Link to this definition"></a></dt>
+<dd><p>Check if class has Attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code>, if the class has Attributes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.HasMethodAttributes">
+<em class="property"><span class="pre">class</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HasMethodAttributes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><a class="headerlink" href="#pyVersioning.cli.Application.HasMethodAttributes" title="Link to this definition"></a></dt>
+<dd><p>Check if class has any method with Attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code>, if the class has any method with Attributes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.Height">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Height</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></em><a class="headerlink" href="#pyVersioning.cli.Application.Height" title="Link to this definition"></a></dt>
+<dd><p>Returns the current terminal window’s height.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.INDENT">
+<span class="sig-name descname"><span class="pre">INDENT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'</span>&#160; <span class="pre">'</span></em><a class="headerlink" href="#pyVersioning.cli.Application.INDENT" title="Link to this definition"></a></dt>
+<dd><p>Indentation. Default: <code class="docutils literal notranslate"><span class="pre">&quot;</span>&#160; <span class="pre">&quot;</span></code> (2 spaces)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.ISSUE_TRACKER_URL">
+<span class="sig-name descname"><span class="pre">ISSUE_TRACKER_URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pyVersioning.cli.Application.ISSUE_TRACKER_URL" title="Link to this definition"></a></dt>
+<dd><p>URL to the issue tracker for reporting bugs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.InitializeColors">
+<span class="sig-name descname"><span class="pre">InitializeColors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.InitializeColors" title="Link to this definition"></a></dt>
+<dd><p>Initialize the terminal for color support by <a class="reference external" href="https://GitHub.com/tartley/colorama">colorama</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True, if ‘colorama’ package could be imported and initialized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.LogLevel">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LogLevel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Severity</span></em><a class="headerlink" href="#pyVersioning.cli.Application.LogLevel" title="Link to this definition"></a></dt>
+<dd><p>Return the current minimal severity level for writing.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.MainParser">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MainParser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser" title="(in Python v3.12)"><span class="pre">ArgumentParser</span></a></em><a class="headerlink" href="#pyVersioning.cli.Application.MainParser" title="Link to this definition"></a></dt>
+<dd><p>Returns the main parser.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.NOT_IMPLEMENTED_EXCEPTION_EXIT_CODE">
+<span class="sig-name descname"><span class="pre">NOT_IMPLEMENTED_EXCEPTION_EXIT_CODE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">240</span></em><a class="headerlink" href="#pyVersioning.cli.Application.NOT_IMPLEMENTED_EXCEPTION_EXIT_CODE" title="Link to this definition"></a></dt>
+<dd><p>Return code, if unimplemented methods or code sections were called.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.PYTHON_VERSION_CHECK_FAILED_EXIT_CODE">
+<span class="sig-name descname"><span class="pre">PYTHON_VERSION_CHECK_FAILED_EXIT_CODE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">254</span></em><a class="headerlink" href="#pyVersioning.cli.Application.PYTHON_VERSION_CHECK_FAILED_EXIT_CODE" title="Link to this definition"></a></dt>
+<dd><p>Return code, if version check was not successful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.PrintException">
+<span class="sig-name descname"><span class="pre">PrintException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ex</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.PrintException" title="Link to this definition"></a></dt>
+<dd><p>Prints an exception of type <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Exception</span></code></a> and its traceback.
+:rtype: <span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+<p>If the exception as a nested action, the cause is printed as well.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">ISSUE_TRACKER_URL</span></code> is configured, a URL to the issue tracker is added.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ex</strong> (<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.12)"><em>Exception</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.NoReturn" title="(in Python v3.12)"><em>NoReturn</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.PrintExceptionBase">
+<span class="sig-name descname"><span class="pre">PrintExceptionBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ex</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.PrintExceptionBase" title="Link to this definition"></a></dt>
+<dd><p>Prints an exception of type <code class="xref py py-exc docutils literal notranslate"><span class="pre">ExceptionBase</span></code> and its traceback.
+:rtype: <span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+<p>If the exception as a nested action, the cause is printed as well.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">ISSUE_TRACKER_URL</span></code> is configured, a URL to the issue tracker is added.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ex</strong> (<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.12)"><em>Exception</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.NoReturn" title="(in Python v3.12)"><em>NoReturn</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.PrintNotImplementedError">
+<span class="sig-name descname"><span class="pre">PrintNotImplementedError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ex</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.PrintNotImplementedError" title="Link to this definition"></a></dt>
+<dd><p>Prints a not-implemented exception of type <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a>.
+:rtype: <span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ex</strong> (<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><em>NotImplementedError</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.NoReturn" title="(in Python v3.12)"><em>NoReturn</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.Quiet">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Quiet</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><a class="headerlink" href="#pyVersioning.cli.Application.Quiet" title="Link to this definition"></a></dt>
+<dd><p>Returns true, if quiet mode is enabled.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.SubParsers">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SubParsers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a></em><a class="headerlink" href="#pyVersioning.cli.Application.SubParsers" title="Link to this definition"></a></dt>
+<dd><p>Returns the sub-parsers.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.UNHANDLED_EXCEPTION_EXIT_CODE">
+<span class="sig-name descname"><span class="pre">UNHANDLED_EXCEPTION_EXIT_CODE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">241</span></em><a class="headerlink" href="#pyVersioning.cli.Application.UNHANDLED_EXCEPTION_EXIT_CODE" title="Link to this definition"></a></dt>
+<dd><p>Return code, if an unhandled exception reached the topmost exception handler.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.UninitializeColors">
+<span class="sig-name descname"><span class="pre">UninitializeColors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.UninitializeColors" title="Link to this definition"></a></dt>
+<dd><p>Uninitialize the terminal for color support by <a class="reference external" href="https://GitHub.com/tartley/colorama">colorama</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True, if ‘colorama’ package could be imported and uninitialized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.Verbose">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><a class="headerlink" href="#pyVersioning.cli.Application.Verbose" title="Link to this definition"></a></dt>
+<dd><p>Returns true, if verbose messages are enabled.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.Width">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Width</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></em><a class="headerlink" href="#pyVersioning.cli.Application.Width" title="Link to this definition"></a></dt>
+<dd><p>Returns the current terminal window’s width.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.WriteLine">
+<span class="sig-name descname"><span class="pre">WriteLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.WriteLine" title="Link to this definition"></a></dt>
+<dd><p>Print a formatted line to the underlying terminal/console offered by the operating system.
+:rtype: <span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>line</strong> (<em>Line</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.WriteLineToStdErr">
+<span class="sig-name descname"><span class="pre">WriteLineToStdErr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\\n'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.WriteLineToStdErr" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Low-level method for writing to <code class="docutils literal notranslate"><span class="pre">STDERR</span></code>.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>
+:param message: Message to write to <code class="docutils literal notranslate"><span class="pre">STDERR</span></code>.) – </p></li>
+<li><p><strong>end</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>
+:param end:     Use newline character. Default: ``) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt><a href="#id1"><span class="problematic" id="id2">``</span></a>.</dt><dd><dl class="field-list simple">
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of written characters.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.WriteLineToStdOut">
+<span class="sig-name descname"><span class="pre">WriteLineToStdOut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\\n'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.WriteLineToStdOut" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Low-level method for writing to <code class="docutils literal notranslate"><span class="pre">STDOUT</span></code>.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>
+:param message: Message to write to <code class="docutils literal notranslate"><span class="pre">STDOUT</span></code>.) – </p></li>
+<li><p><strong>end</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>
+:param end:     Use newline character. Default: ``) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt><a href="#id3"><span class="problematic" id="id4">``</span></a>.</dt><dd><dl class="field-list simple">
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of written characters.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.WriteNormal">
+<span class="sig-name descname"><span class="pre">WriteNormal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">appendLinebreak</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.WriteNormal" title="Link to this definition"></a></dt>
+<dd><p>Write a normal message.</p>
+<p>Depending on internal settings and rules, a message might be skipped.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Message to write.</p></li>
+<li><p><strong>indent</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Indentation level of the message.</p></li>
+<li><p><strong>appendLinebreak</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Append a linebreak after the message. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True, if message was actually written.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.WriteToStdErr">
+<span class="sig-name descname"><span class="pre">WriteToStdErr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.WriteToStdErr" title="Link to this definition"></a></dt>
+<dd><p>Low-level method for writing to <code class="docutils literal notranslate"><span class="pre">STDERR</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Message to write to <code class="docutils literal notranslate"><span class="pre">STDERR</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of written characters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application.WriteToStdOut">
+<span class="sig-name descname"><span class="pre">WriteToStdOut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.cli.Application.WriteToStdOut" title="Link to this definition"></a></dt>
+<dd><p>Low-level method for writing to <code class="docutils literal notranslate"><span class="pre">STDOUT</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span>) – Message to write to <code class="docutils literal notranslate"><span class="pre">STDOUT</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"># Load pre-defined aliases and graphical characters like © from docutils
+# &lt;file&gt; is used to denote the special path
+# &lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of written characters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application._LOG_LEVEL_ROUTING__">
+<span class="sig-name descname"><span class="pre">_LOG_LEVEL_ROUTING__</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><a class="headerlink" href="#pyVersioning.cli.Application._LOG_LEVEL_ROUTING__" title="Link to this definition"></a></dt>
+<dd><p>Message routing rules.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application._LOG_MESSAGE_FORMAT__">
+<span class="sig-name descname"><span class="pre">_LOG_MESSAGE_FORMAT__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{Severity.Debug:</span> <span class="pre">'{DARK_GRAY}{message}{NOCOLOR}',</span> <span class="pre">Severity.Verbose:</span> <span class="pre">'{GRAY}{message}{NOCOLOR}',</span> <span class="pre">Severity.DryRun:</span> <span class="pre">'{DARK_CYAN}[DRY]</span> <span class="pre">{message}{NOCOLOR}',</span> <span class="pre">Severity.Normal:</span> <span class="pre">'{WHITE}{message}{NOCOLOR}',</span> <span class="pre">Severity.Info:</span> <span class="pre">'{WHITE}{message}{NOCOLOR}',</span> <span class="pre">Severity.Warning:</span> <span class="pre">'{YELLOW}[WARNING]</span> <span class="pre">{message}{NOCOLOR}',</span> <span class="pre">Severity.Quiet:</span> <span class="pre">'{WHITE}{message}{NOCOLOR}',</span> <span class="pre">Severity.Error:</span> <span class="pre">'{RED}[ERROR]</span>&#160;&#160; <span class="pre">{message}{NOCOLOR}',</span> <span class="pre">Severity.Fatal:</span> <span class="pre">'{DARK_RED}[FATAL]</span>&#160;&#160; <span class="pre">{message}{NOCOLOR}'}</span></em><a class="headerlink" href="#pyVersioning.cli.Application._LOG_MESSAGE_FORMAT__" title="Link to this definition"></a></dt>
+<dd><p>Message formatting rules.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application._height">
+<span class="sig-name descname"><span class="pre">_height</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><a class="headerlink" href="#pyVersioning.cli.Application._height" title="Link to this definition"></a></dt>
+<dd><p>Terminal height in characters</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application._stderr">
+<span class="sig-name descname"><span class="pre">_stderr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><a class="headerlink" href="#pyVersioning.cli.Application._stderr" title="Link to this definition"></a></dt>
+<dd><p>STDERR</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application._stdin">
+<span class="sig-name descname"><span class="pre">_stdin</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><a class="headerlink" href="#pyVersioning.cli.Application._stdin" title="Link to this definition"></a></dt>
+<dd><p>STDIN</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application._stdout">
+<span class="sig-name descname"><span class="pre">_stdout</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><a class="headerlink" href="#pyVersioning.cli.Application._stdout" title="Link to this definition"></a></dt>
+<dd><p>STDOUT</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.cli.Application._width">
+<span class="sig-name descname"><span class="pre">_width</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">#</span> <span class="pre">Load</span> <span class="pre">pre-defined</span> <span class="pre">aliases</span> <span class="pre">and</span> <span class="pre">graphical</span> <span class="pre">characters</span> <span class="pre">like</span> <span class="pre">©</span> <span class="pre">from</span> <span class="pre">docutils</span>
+<span class="pre">#</span> <span class="pre">&lt;file&gt;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">denote</span> <span class="pre">the</span> <span class="pre">special</span> <span class="pre">path</span>
+<span class="pre">#</span> <span class="pre">&lt;Python&gt;\Lib\site-packages\docutils\parsers\rst\include</span></em><a class="headerlink" href="#pyVersioning.cli.Application._width" title="Link to this definition"></a></dt>
+<dd><p>Terminal width in characters</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pyVersioning.Utils.html" class="btn btn-neutral float-left" title="pyVersioning.Utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../unittests/index.html" class="btn btn-neutral float-right" title="Unittest Summary Report" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020-2024, Patrick Lehmann.
+      <span class="lastupdated">Last updated on 22.03.2024.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

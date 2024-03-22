@@ -1,0 +1,66 @@
+.. # Template modified by Patrick Lehmann
+     * removed automodule on top, because private members are activated for autodoc (no doubled documentation).
+     * Made sections like 'submodules' bold text, but no headlines to reduce number of ToC levels.
+
+================
+pyVersioning.cli
+================
+
+.. automodule:: pyVersioning.cli
+
+
+.. currentmodule:: pyVersioning.cli
+
+
+**Classes**
+
+- :py:class:`ProjectAttributeGroup`:
+  *Experimental* attribute to group sub-commands in groups for better readability in a ``prog.py --help`` call.
+
+- :py:class:`CompilerAttributeGroup`:
+  *Experimental* attribute to group sub-commands in groups for better readability in a ``prog.py --help`` call.
+
+- :py:class:`Application`:
+  The class offers a basic terminal application base-class.
+
+
+
+---------------------
+
+**Classes**
+
+
+
+
+.. autoclass:: ProjectAttributeGroup
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: ProjectAttributeGroup
+      :parts: 1
+
+.. autoclass:: CompilerAttributeGroup
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: CompilerAttributeGroup
+      :parts: 1
+
+.. autoclass:: Application
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Application
+      :parts: 1

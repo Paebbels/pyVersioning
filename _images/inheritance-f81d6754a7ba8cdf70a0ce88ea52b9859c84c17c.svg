@@ -1,0 +1,59 @@
+<ns0:svg xmlns:ns0="http://www.w3.org/2000/svg" xmlns:ns1="http://www.w3.org/1999/xlink" width="273pt" height="64pt" viewBox="0.00 0.00 273.00 64.00">
+<ns0:g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 60)">
+<ns0:title>inheritance620dfcf9e3</ns0:title>
+
+<ns0:g id="node1" class="node">
+<ns0:title>BaseService</ns0:title>
+<ns0:g id="a_node1"><ns0:a ns1:href="../pyVersioning/pyVersioning.html#pyVersioning.BaseService" ns1:title="Base-class to collect platform and environment information from e.g. environment variables." target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="77,-56 0,-56 0,-37 77,-37 77,-56" />
+<ns0:text text-anchor="middle" x="38.5" y="-44" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">BaseService</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="node2" class="node">
+<ns0:title>CIService</ns0:title>
+<ns0:g id="a_node2"><ns0:a ns1:href="../pyVersioning/pyVersioning.CIService.html#pyVersioning.CIService.CIService" ns1:title="Base-class to collect Git and other platform and environment information from CI service environment variables." target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="175,-37 113,-37 113,-18 175,-18 175,-37" />
+<ns0:text text-anchor="middle" x="144" y="-25" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">CIService</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="edge1" class="edge">
+<ns0:title>BaseService-&gt;CIService</ns0:title>
+<ns0:path fill="none" stroke="black" stroke-width="0.5" d="M77.16,-39.59C87.2,-37.74 98.01,-35.76 107.9,-33.94" />
+<ns0:polygon fill="black" stroke="black" stroke-width="0.5" points="108.39,-35.63 112.99,-33.01 107.75,-32.19 108.39,-35.63" />
+</ns0:g>
+
+<ns0:g id="node4" class="node">
+<ns0:title>GitHub</ns0:title>
+<ns0:g id="a_node4"><ns0:a ns1:href="../pyVersioning/pyVersioning.GitHub.html#pyVersioning.GitHub.GitHub" ns1:title="Collect Git and other platform and environment information from environment variables provided by GitHub Actions." target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="265,-37 211,-37 211,-18 265,-18 265,-37" />
+<ns0:text text-anchor="middle" x="238" y="-25" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">GitHub</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="edge3" class="edge">
+<ns0:title>CIService-&gt;GitHub</ns0:title>
+<ns0:path fill="none" stroke="black" stroke-width="0.5" d="M175.12,-27.5C184.94,-27.5 195.86,-27.5 205.76,-27.5" />
+<ns0:polygon fill="black" stroke="black" stroke-width="0.5" points="205.83,-29.25 210.83,-27.5 205.83,-25.75 205.83,-29.25" />
+</ns0:g>
+
+<ns0:g id="node3" class="node">
+<ns0:title>GitHelper</ns0:title>
+<ns0:g id="a_node3"><ns0:a ns1:href="../pyVersioning/pyVersioning.Utils.html#pyVersioning.Utils.GitHelper" ns1:title="GitHelper" target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="70,-19 7,-19 7,0 70,0 70,-19" />
+<ns0:text text-anchor="middle" x="38.5" y="-7" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">GitHelper</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="edge2" class="edge">
+<ns0:title>GitHelper-&gt;CIService</ns0:title>
+<ns0:path fill="none" stroke="black" stroke-width="0.5" d="M70.27,-14.85C82.06,-16.9 95.59,-19.25 107.76,-21.37" />
+<ns0:polygon fill="black" stroke="black" stroke-width="0.5" points="107.65,-23.13 112.88,-22.26 108.25,-19.68 107.65,-23.13" />
+</ns0:g>
+</ns0:g>
+</ns0:svg>

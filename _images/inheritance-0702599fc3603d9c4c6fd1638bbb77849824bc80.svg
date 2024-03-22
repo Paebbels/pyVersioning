@@ -1,0 +1,44 @@
+<ns0:svg xmlns:ns0="http://www.w3.org/2000/svg" xmlns:ns1="http://www.w3.org/1999/xlink" width="194pt" height="64pt" viewBox="0.00 0.00 194.00 64.00">
+<ns0:g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 60)">
+<ns0:title>inheritance062a0df663</ns0:title>
+
+<ns0:g id="node1" class="node">
+<ns0:title>GitHelper</ns0:title>
+<ns0:g id="a_node1"><ns0:a ns1:href="../pyVersioning/pyVersioning.Utils.html#pyVersioning.Utils.GitHelper" ns1:title="GitHelper" target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="72.5,-56 9.5,-56 9.5,-37 72.5,-37 72.5,-56" />
+<ns0:text text-anchor="middle" x="41" y="-44" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">GitHelper</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="node3" class="node">
+<ns0:title>Versioning</ns0:title>
+<ns0:g id="a_node3"><ns0:a ns1:href="../pyVersioning/pyVersioning.html#pyVersioning.Versioning" ns1:title="Versioning" target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="186,-37 118,-37 118,-18 186,-18 186,-37" />
+<ns0:text text-anchor="middle" x="152" y="-25" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">Versioning</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="edge2" class="edge">
+<ns0:title>GitHelper-&gt;Versioning</ns0:title>
+<ns0:path fill="none" stroke="black" stroke-width="0.5" d="M72.65,-41.16C85.1,-38.99 99.63,-36.46 112.76,-34.17" />
+<ns0:polygon fill="black" stroke="black" stroke-width="0.5" points="113.28,-35.85 117.91,-33.27 112.68,-32.4 113.28,-35.85" />
+</ns0:g>
+
+<ns0:g id="node2" class="node">
+<ns0:title>ILineTerminal</ns0:title>
+<ns0:g id="a_node2"><ns0:a ns1:title="A mixin class (interface) to provide class-local terminal writing methods.">
+<ns0:polygon fill="white" stroke="#1e90ff" points="82,-19 0,-19 0,0 82,0 82,-19" />
+<ns0:text text-anchor="middle" x="41" y="-7" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">ILineTerminal</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="edge1" class="edge">
+<ns0:title>ILineTerminal-&gt;Versioning</ns0:title>
+<ns0:path fill="none" stroke="black" stroke-width="0.5" d="M82.28,-16.15C92.19,-17.79 102.78,-19.54 112.61,-21.16" />
+<ns0:polygon fill="black" stroke="black" stroke-width="0.5" points="112.45,-22.91 117.67,-22 113.02,-19.45 112.45,-22.91" />
+</ns0:g>
+</ns0:g>
+</ns0:svg>

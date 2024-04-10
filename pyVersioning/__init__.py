@@ -241,9 +241,9 @@ class Project(SelfDescriptive):
 		if isinstance(version, SemanticVersion):
 			self._version = version
 		elif isinstance(version, str):
-			self._version = SemanticVersion(version)
+			self._version = SemanticVersion.Parse(version)
 		elif version is None:
-			self._version = SemanticVersion("v0.0.0")
+			self._version = SemanticVersion.Parse("v0.0.0")
 
 	@readonly
 	def name(self) -> str:
@@ -280,9 +280,9 @@ class Compiler(SelfDescriptive):
 		if isinstance(version, SemanticVersion):
 			self._version = version
 		elif isinstance(version, str):
-			self._version = SemanticVersion(version)
+			self._version = SemanticVersion.Parse(version)
 		elif version is None:
-			self._version = SemanticVersion("v0.0.0")
+			self._version = SemanticVersion.Parse("v0.0.0")
 
 	@readonly
 	def name(self) -> str:
@@ -421,7 +421,7 @@ class Versioning(ILineTerminal, GitHelper):
 		else:
 			self._service                = WorkStation()
 
-		self._variables["tool"]     = Tool("pyVersioning", SemanticVersion(__version__))
+		self._variables["tool"]     = Tool("pyVersioning", SemanticVersion.Parse(__version__))
 		self._variables["git"]      = self.GetGitInformation()
 		self._variables["env"]      = self.GetEnvironment()
 		self._variables["platform"] = self._service.GetPlatform()
@@ -436,7 +436,7 @@ class Versioning(ILineTerminal, GitHelper):
 		if config.version is not None:
 			return config.version
 		else:
-			return SemanticVersion("0.0.0")
+			return SemanticVersion.Parse("0.0.0")
 
 	def GetGitInformation(self) -> Git:
 		return Git(
@@ -616,7 +616,7 @@ class Versioning(ILineTerminal, GitHelper):
 	def GetCompiler(self, config: Configuration.Build.Compiler) -> Compiler:
 		return Compiler(
 			name=config.name,
-			version=SemanticVersion(config.version),
+			version=SemanticVersion.Parse(config.version),
 			configuration=config.configuration,
 			options=config.options
 		)

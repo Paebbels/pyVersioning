@@ -60,7 +60,7 @@ class Configuration(Base, metaclass=ExtendedType):
 
 			self.name =    settings["name"]
 			self.variant = settings["variant"] if "variant" in settings else None
-			self.version = SemanticVersion(settings["version"]) if "version" in settings else None
+			self.version = SemanticVersion.Parse(settings["version"]) if "version" in settings else None
 
 	class Build(Base):
 		class Compiler(Base):

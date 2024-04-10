@@ -51,7 +51,7 @@ class Project(TestCase):
 
 		self.assertEqual(project.name, name)
 		self.assertEqual(project.variant, variant)
-		self.assertEqual(project.version, SemanticVersion("0.0.0"))
+		self.assertEqual(project.version, SemanticVersion.Parse("0.0.0"))
 
 	def test_ProjectName_VariantName(self) -> None:
 		name = "Project 1"
@@ -61,7 +61,7 @@ class Project(TestCase):
 
 		self.assertEqual(project.name, name)
 		self.assertEqual(project.variant, variant)
-		self.assertEqual(project.version, SemanticVersion("0.0.0"))
+		self.assertEqual(project.version, SemanticVersion.Parse("0.0.0"))
 
 	def test_ProjectName_VersionAsString(self) -> None:
 		name = "Project 1"
@@ -72,12 +72,12 @@ class Project(TestCase):
 
 		self.assertEqual(project.name, name)
 		self.assertEqual(project.variant, variant)
-		self.assertEqual(project.version, SemanticVersion(version))
+		self.assertEqual(project.version, SemanticVersion.Parse(version))
 
 	def test_ProjectName_VersionAsVersion(self) -> None:
 		name = "Project 1"
 		variant = ""
-		version = SemanticVersion("1.3.2")
+		version = SemanticVersion.Parse("1.3.2")
 
 		project = pyV_Project(name, version)
 

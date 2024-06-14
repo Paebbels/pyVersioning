@@ -56,7 +56,7 @@ class LocalEnvironment(TestCase):
 		else:
 			callArgs = [f"python{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
 
-		callArgs.append("pyVersioning/cli.py")
+		callArgs.append("pyVersioning/CLI.py")
 
 		if command is not None:
 			callArgs.append(command)

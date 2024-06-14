@@ -38,7 +38,7 @@ from unittest.mock        import patch
 
 from ruamel.yaml          import YAML
 
-from pyVersioning.cli     import Application as pyV_Application
+from pyVersioning.CLI     import Application as pyV_Application
 
 
 if __name__ == "__main__":

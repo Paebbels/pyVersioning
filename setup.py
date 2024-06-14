@@ -45,6 +45,6 @@ setup(**DescribePythonPackageHostedOnGitHub(
 	gitHubNamespace=gitHubNamespace,
 	sourceFileWithVersion=packageInformationFile,
   consoleScripts={
-    "pyVersioning": "pyVersioning.cli:main",
+    "pyVersioning": "pyVersioning.CLI:main",
   }
 ))

@@ -53,7 +53,7 @@ class GitHubEnvironment(TestCase):
 			callArgs = [f"python{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
 
 		callArgs.extend([
-			"pyVersioning/cli.py",
+			"pyVersioning/CLI.py",
 			command
 		])
 

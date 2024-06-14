@@ -54,7 +54,6 @@ from pyVersioning.Configuration import Configuration
 
 @export
 class SelfDescriptive(metaclass=ExtendedType, slots=True, mixin=True):
-
 	# TODO: could this be filled with a decorator?
 	_public: ClassVar[Tuple[str, ...]]
 

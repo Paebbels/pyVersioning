@@ -104,30 +104,34 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 		self._versioning.LoadDataFromConfiguration(self._config)
 		self._versioning.CollectData()
 
-	def PrintHeadline(self) -> None:
-		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.Foreground))
-		self.WriteNormal("{HEADLINE}{headline: ^80s}".format(headline=self.HeadLine, **TerminalApplication.Foreground))
-		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.Foreground))
-
 	def Run(self, configFile: Path) -> NoReturn:
 		self.__configFile = configFile
 
 		super().Run(self)
 		self.Exit()
 
+	def _PrintHeadline(self) -> None:
+		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.Foreground))
+		self.WriteNormal("{HEADLINE}{headline: ^80s}".format(headline=self.HeadLine, **TerminalApplication.Foreground))
+		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.Foreground))
+
+	def _PrintVersion(self) -> None:
+		"""Helper function to print the version information."""
+		self.WriteNormal(f"Author:    {__author__} ({__email__})")
+		self.WriteNormal(f"Copyright: {__copyright__}")
+		self.WriteNormal(f"License:   {__license__}")
+		self.WriteNormal(f"Version:   {__version__}")
+
 	@DefaultHandler()
 	def HandleDefault(self, args: Namespace) -> None:
-		self.PrintHeadline()
+		self._PrintHeadline()
 		self.MainParser.print_help()
 
 	@CommandHandler("help", help="Display help page(s) for the given command name.")
 	@StringArgument(dest="Command", metaName="Command", optional=True, help="Print help page(s) for a command.")
 	def HandleHelp(self, args: Namespace) -> None:
-		self.PrintHeadline()
-		self.WriteNormal(f"Author:    {__author__} ({__email__})")
-		self.WriteNormal(f"Copyright: {__copyright__}")
-		self.WriteNormal(f"License:   {__license__}")
-		self.WriteNormal(f"Version:   {__version__}")
+		self._PrintHeadline()
+		self._PrintVersion()
 		self.WriteNormal("")
 
 		if args.Command is None:
@@ -140,6 +144,12 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 			except KeyError:
 				self.WriteError(f"Command {args.Command} is unknown.")
 
+	@CommandHandler("version", help="Display version information.", description="Display version information.")
+	def HandleVersion(self, _: Namespace) -> None:
+		"""Handle program calls with command ``version``."""
+		self._PrintHeadline()
+		self._PrintVersion()
+
 	@CommandHandler("fillout", help="Read a template and replace tokens with version information.")
 	@ProjectAttributeGroup("dummy")
 	@CompilerAttributeGroup("flummy")
@@ -147,7 +157,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 	@PathArgument(dest="Filename", metaName="<Output file>",   help="Output filename.")
 	def HandleFillOut(self, args: Namespace) -> None:
 		self.Configure(quiet=True)
-		self.PrintHeadline()
+		self._PrintHeadline()
 		self.Initialize()
 
 		templateFile = Path(args.Template)
@@ -176,7 +186,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 	@CompilerAttributeGroup("flummy")
 	def HandleVariables(self, args: Namespace) -> None:
 		self.Configure(quiet=True)
-		self.PrintHeadline()
+		self._PrintHeadline()
 		self.Initialize()
 
 		self.UpdateProject(args)

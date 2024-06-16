@@ -91,10 +91,11 @@ jobs:
       codacy_token: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
   PublishTestResults:
-    uses: pyTooling/Actions/.github/workflows/PublishTestResults.yml@r1
+    uses: pyTooling/Actions/.github/workflows/PublishTestResults.yml@dev
     needs:
       - UnitTestingParams
       - UnitTesting
+      - AppTesting
     with:
       merged_junit_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).unittesting_xml }}
 

@@ -40,7 +40,7 @@ from pyTooling.Attributes.ArgParse            import ArgParseHelperMixin, Defaul
 from pyTooling.Attributes.ArgParse.Argument   import StringArgument, PathArgument
 from pyTooling.Attributes.ArgParse.Flag       import FlagArgument
 from pyTooling.Attributes.ArgParse.ValuedFlag import LongValuedFlag
-from pyTooling.TerminalUI                     import TerminalApplication, Severity
+from pyTooling.TerminalUI                     import TerminalApplication, Severity, Mode
 
 from pyVersioning                             import __version__, __author__, __email__, __copyright__, __license__
 from pyVersioning                             import Versioning, Platforms, Project, SelfDescriptive
@@ -78,7 +78,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 	_versioning:  Nullable[Versioning]
 
 	def __init__(self) -> None:
-		super().__init__()
+		super().__init__(Mode.TextToStdOut_ErrorsToStdErr)
 
 		self.HeadLine = "Version file generator."
 

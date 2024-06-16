@@ -34,7 +34,7 @@ from os                 import environ as os_environ
 from pathlib            import Path
 from re                 import compile as re_compile
 from subprocess         import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
-from typing             import Any, Optional as Nullable
+from typing             import Any, Optional as Nullable, Tuple
 from unittest           import TestCase
 
 from ruamel.yaml        import YAML
@@ -82,7 +82,7 @@ class LocalEnvironment(TestCase):
 
 		return env
 
-	def __run(self, command: Nullable[str] = None, *args: Any):
+	def __run(self, command: Nullable[str] = None, *args: Any) -> Tuple[str, str]:
 		try:
 			prog = subprocess_run(
 				args=self.__getExecutable(command, *args),
@@ -94,20 +94,29 @@ class LocalEnvironment(TestCase):
 				encoding="utf-8"
 			)
 		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
+			print("-- CALLED PROCESS ERROR " + "-" * 56)
+			print(f"Return code: {ex.returncode}")
 			print(ex.output)
+			print("-" * 80)
 			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
-			print("EXCEPTION")
+			print("-- EXCEPTION " + "-" * 67)
 			print(ex)
 			raise Exception(f"Unknown error: {ex}") from ex
 
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
+		stdout = prog.stdout
+		stderr = prog.stderr
 
-		return output
+		print("-- STDOUT " + "-" * 70)
+		for line in stdout.split("\n"):
+			print(line)
+		if stderr is not None:
+			print("-- STDERR " + "-" * 70)
+			for line in stderr.split("\n"):
+				print(line)
+		print("-" * 80)
+
+		return (stdout, stderr)
 
 	def test_NoArguments(self):
 		print()
@@ -133,18 +142,27 @@ class LocalEnvironment(TestCase):
 				encoding="utf-8"
 			)
 		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
+			print("-- CALLED PROCESS ERROR " + "-" * 56)
+			print(f"Return code: {ex.returncode}")
 			print(ex.output)
+			print("-" * 80)
 			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
-			print("EXCEPTION")
+			print("-- EXCEPTION " + "-" * 67)
 			print(ex)
 			raise Exception(f"Unknown error: {ex}") from ex
 
-		output = prog.stdout
-		for line in output.split("\n"):
+		stdout = prog.stdout
+		stderr = prog.stderr
+
+		print("-- STDOUT " + "-" * 70)
+		for line in stdout.split("\n"):
 			print(line)
+		if stderr is not None:
+			print("-- STDERR " + "-" * 70)
+			for line in stderr.split("\n"):
+				print(line)
+		print("-" * 80)
 
 	def test_Fillout_WithoutOutputFile(self) -> None:
 		print()
@@ -160,18 +178,27 @@ class LocalEnvironment(TestCase):
 				encoding="utf-8"
 			)
 		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
+			print("-- CALLED PROCESS ERROR " + "-" * 56)
+			print(f"Return code: {ex.returncode}")
 			print(ex.output)
+			print("-" * 80)
 			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
-			print("EXCEPTION")
+			print("-- EXCEPTION " + "-" * 67)
 			print(ex)
 			raise Exception(f"Unknown error: {ex}") from ex
 
-		output = prog.stdout
-		for line in output.split("\n"):
+		stdout = prog.stdout
+		stderr = prog.stderr
+
+		print("-- STDOUT " + "-" * 70)
+		for line in stdout.split("\n"):
 			print(line)
+		if stderr is not None:
+			print("-- STDERR " + "-" * 70)
+			for line in stderr.split("\n"):
+				print(line)
+		print("-" * 80)
 
 	def test_Fillout_WithOutputFile(self) -> None:
 		print()
@@ -187,26 +214,33 @@ class LocalEnvironment(TestCase):
 				encoding="utf-8"
 			)
 		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
+			print("-- CALLED PROCESS ERROR " + "-" * 56)
+			print(f"Return code: {ex.returncode}")
 			print(ex.output)
+			print("-" * 80)
 			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
-			print("EXCEPTION")
+			print("-- EXCEPTION " + "-" * 67)
 			print(ex)
 			raise Exception(f"Unknown error: {ex}") from ex
 
-		output = prog.stdout
-		for line in output.split("\n"):
+		stdout = prog.stdout
+		stderr = prog.stderr
+
+		print("-- STDOUT " + "-" * 70)
+		for line in stdout.split("\n"):
 			print(line)
+		if stderr is not None:
+			print("-- STDERR " + "-" * 70)
+			for line in stderr.split("\n"):
+				print(line)
+		print("-" * 80)
 
 	def test_Json_WithoutOutputFile(self) -> None:
 		print()
 
-		output = self.__run("json")
-		print("-" * 80)
-		print(output, end="")
-		print("-" * 80)
+		output, error = self.__run("json")
+
 		try:
 			# WORKAROUND: removing color codes
 			ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
@@ -222,11 +256,7 @@ class LocalEnvironment(TestCase):
 		print()
 
 		outputFile = Path("tests/template.json")
-
-		output = self.__run("json", outputFile.as_posix())
-		print("-" * 80)
-		print(output, end="")
-		print("-" * 80)
+		output, error = self.__run("json", outputFile.as_posix())
 
 		try:
 			json = loads(outputFile.read_text())
@@ -241,10 +271,8 @@ class LocalEnvironment(TestCase):
 
 		yaml = YAML()
 
-		output = self.__run("yaml")
-		print("-" * 80)
-		print(output, end="")
-		print("-" * 80)
+		output, error = self.__run("yaml")
+
 		try:
 			# WORKAROUND: removing color codes
 			ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
@@ -261,10 +289,7 @@ class LocalEnvironment(TestCase):
 
 		outputFile = Path("tests/template.yaml")
 
-		output = self.__run("yaml", outputFile.as_posix())
-		print("-" * 80)
-		print(output, end="")
-		print("-" * 80)
+		output, error = self.__run("yaml", outputFile.as_posix())
 
 		yaml = YAML()
 		try:

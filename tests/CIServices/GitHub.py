@@ -109,7 +109,7 @@ class GitHubEnvironment(TestCase):
 
 		try:
 			prog = subprocess_run(
-				args=self.__getExecutable("fillout", "tests/template.in", "tests/template.out"),
+				args=self.__getExecutable("-v", "fillout", "tests/template.in", "tests/template.out"),
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
 				shell=True,

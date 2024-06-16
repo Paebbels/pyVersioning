@@ -32,6 +32,7 @@
 from io                   import StringIO
 from json                 import loads as json_loads
 from re                   import compile as re_compile
+from typing               import Tuple
 from unittest             import TestCase
 from unittest.mock        import patch
 
@@ -47,6 +48,104 @@ if __name__ == "__main__":
 
 
 class Application(TestCase):
+	@staticmethod
+	def _PrintToStdOutAndStdErr(out, err) -> Tuple[str, str]:
+		out.seek(0)
+		err.seek(0)
+
+		stdout = out.read()
+		stderr = err.read()
+
+		print("-- STDOUT " + "-" * 70)
+		print(stdout, end="")
+		if len(stderr) > 0:
+			print("-- STDERR " + "-" * 70)
+			print(stderr, end="")
+		print("-" * 80)
+
+		return stdout, stderr
+
+	@staticmethod
+	def _RemoveColorCodes(content: str) -> str:
+		# WORKAROUND: removing color codes
+		ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+		return ansiEscape.sub("", content)
+
+	@patch("sys.argv", ["pyVersioning.py"])
+	def test_NoCommand(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+
+		# self.assertEqual("1.1", json["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "help"])
+	def test_Help(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+
+		# self.assertEqual("1.1", json["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "version"])
+	def test_Version(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+
+		# self.assertEqual("1.1", json["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "variables"])
+	def test_Variables(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+
+		# self.assertEqual("1.1", json["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "fillout", "tests/template.in"])
+	def test_Fillout(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+
+		# self.assertEqual("1.1", json["format"])
+
 	@patch("sys.argv", ["pyVersioning.py", "--config-file=tests/CIServices/.pyVersioning.yml", "json"])
 	def test_JSON_WithoutError(self):
 		print()
@@ -58,21 +157,8 @@ class Application(TestCase):
 		except SystemExit as ex:
 			self.assertEqual(0, ex.code)
 
-		out.seek(0)
-		err.seek(0)
-
-		stdout = out.read()
-		stderr = err.read()
-
-		print("-- STDOUT " + "-" * 70)
-		print(stdout, end="")
-		print("-- STDERR " + "-" * 70)
-		print(stderr, end="")
-		print("-" * 80)
-
-		# WORKAROUND: removing color codes
-		ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
-		jsonContent = ansiEscape.sub("", stdout)
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+		jsonContent = self._RemoveColorCodes(stdout)
 
 		json = json_loads(jsonContent)
 
@@ -89,21 +175,8 @@ class Application(TestCase):
 		except SystemExit as ex:
 			self.assertEqual(0, ex.code)
 
-		out.seek(0)
-		err.seek(0)
-
-		stdout = out.read()
-		stderr = err.read()
-
-		print("-- STDOUT " + "-" * 70)
-		print(stdout, end="")
-		print("-- STDERR " + "-" * 70)
-		print(stderr, end="")
-		print("-" * 80)
-
-		# WORKAROUND: removing color codes
-		ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
-		jsonContent = ansiEscape.sub("", stdout)
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+		jsonContent = self._RemoveColorCodes(stdout)
 
 		json = json_loads(jsonContent)
 
@@ -120,21 +193,8 @@ class Application(TestCase):
 		except SystemExit as ex:
 			self.assertEqual(0, ex.code)
 
-		out.seek(0)
-		err.seek(0)
-
-		stdout = out.read()
-		stderr = err.read()
-
-		print("-- STDOUT " + "-" * 70)
-		print(stdout, end="")
-		print("-- STDERR " + "-" * 70)
-		print(stderr, end="")
-		print("-" * 80)
-
-		# WORKAROUND: removing color codes
-		ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
-		yamlContent = ansiEscape.sub("", stdout)
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+		yamlContent = self._RemoveColorCodes(stdout)
 
 		yamlParser = YAML()
 		yaml = yamlParser.load(yamlContent)
@@ -152,21 +212,8 @@ class Application(TestCase):
 		except SystemExit as ex:
 			self.assertEqual(0, ex.code)
 
-		out.seek(0)
-		err.seek(0)
-
-		stdout = out.read()
-		stderr = err.read()
-
-		print("-- STDOUT " + "-" * 70)
-		print(stdout, end="")
-		print("-- STDERR " + "-" * 70)
-		print(stderr, end="")
-		print("-" * 80)
-
-		# WORKAROUND: removing color codes
-		ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
-		yamlContent = ansiEscape.sub("", stdout)
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+		yamlContent = self._RemoveColorCodes(stdout)
 
 		yamlParser = YAML()
 		yaml = yamlParser.load(yamlContent)

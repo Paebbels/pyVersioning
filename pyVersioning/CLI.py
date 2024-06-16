@@ -146,7 +146,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 		self._PrintHeadline()
 		self._PrintVersion()
 		self.WriteNormal("")
-		self.MainParser.print_help()
+		self.MainParser.print_help(self._stdout)
 
 	@CommandHandler("help", help="Display help page(s) for the given command name.")
 	@StringArgument(dest="Command", metaName="Command", optional=True, help="Print help page(s) for a command.")
@@ -158,12 +158,12 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 		self.WriteNormal("")
 
 		if args.Command is None:
-			self.MainParser.print_help()
+			self.MainParser.print_help(self._stdout)
 		elif args.Command == "help":
 			self.WriteError("This is a recursion ...")
 		else:
 			try:
-				self.SubParsers[args.Command].print_help()
+				self.SubParsers[args.Command].print_help(self._stdout)
 			except KeyError:
 				self.WriteError(f"Command {args.Command} is unknown.")
 

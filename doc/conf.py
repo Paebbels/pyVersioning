@@ -273,7 +273,7 @@ _coverageLevels = {
 report_unittest_testsuites = {
 	"src": {
 		"name":        "pyVersioning",
-		"xml_report":  "../report/unit/TestReportSummary.xml",
+		"xml_report":  "../report/unit/Unittesting.xml",
 	}
 }
 report_codecov_packages = {

@@ -29,11 +29,8 @@
 # ==================================================================================================================== #
 #
 """Unit tests for GitLab CI."""
-from os               import environ as os_environ
 from subprocess       import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
-from typing           import Tuple, Any
-
-from pyTooling.Common import CurrentPlatform
+from typing           import Any
 
 from unittest         import TestCase
 
@@ -71,18 +68,27 @@ class GitHubEnvironment(TestCase):
 				encoding="utf-8"
 			)
 		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
+			print("-- CALLED PROCESS ERROR " + "-" * 56)
+			print(f"Return code: {ex.returncode}")
 			print(ex.output)
+			print("-" * 80)
 			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
-			print("EXCEPTION")
+			print("-- EXCEPTION " + "-" * 67)
 			print(ex)
 			raise Exception(f"Unknown error: {ex}") from ex
 
-		output = prog.stdout
-		for line in output.split("\n"):
+		stdout = prog.stdout
+		stderr = prog.stderr
+
+		print("-- STDOUT " + "-" * 70)
+		for line in stdout.split("\n"):
 			print(line)
+		if stderr is not None:
+			print("-- STDERR " + "-" * 70)
+			for line in stderr.split("\n"):
+				print(line)
+		print("-" * 80)
 
 	def test_HelpCommand(self) -> None:
 		print()
@@ -98,18 +104,27 @@ class GitHubEnvironment(TestCase):
 				encoding="utf-8"
 			)
 		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
+			print("-- CALLED PROCESS ERROR " + "-" * 56)
+			print(f"Return code: {ex.returncode}")
 			print(ex.output)
+			print("-" * 80)
 			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
-			print("EXCEPTION")
+			print("-- EXCEPTION " + "-" * 67)
 			print(ex)
 			raise Exception(f"Unknown error: {ex}") from ex
 
-		output = prog.stdout
-		for line in output.split("\n"):
+		stdout = prog.stdout
+		stderr = prog.stderr
+
+		print("-- STDOUT " + "-" * 70)
+		for line in stdout.split("\n"):
 			print(line)
+		if stderr is not None:
+			print("-- STDERR " + "-" * 70)
+			for line in stderr.split("\n"):
+				print(line)
+		print("-" * 80)
 
 	def test_VariablesCommand(self) -> None:
 		print()
@@ -125,18 +140,27 @@ class GitHubEnvironment(TestCase):
 				encoding="utf-8"
 			)
 		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
+			print("-- CALLED PROCESS ERROR " + "-" * 56)
+			print(f"Return code: {ex.returncode}")
 			print(ex.output)
+			print("-" * 80)
 			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
-			print("EXCEPTION")
+			print("-- EXCEPTION " + "-" * 67)
 			print(ex)
 			raise Exception(f"Unknown error: {ex}") from ex
 
-		output = prog.stdout
-		for line in output.split("\n"):
+		stdout = prog.stdout
+		stderr = prog.stderr
+
+		print("-- STDOUT " + "-" * 70)
+		for line in stdout.split("\n"):
 			print(line)
+		if stderr is not None:
+			print("-- STDERR " + "-" * 70)
+			for line in stderr.split("\n"):
+				print(line)
+		print("-" * 80)
 
 	def test_YAMLCommand(self) -> None:
 		print()
@@ -152,18 +176,27 @@ class GitHubEnvironment(TestCase):
 				encoding="utf-8"
 			)
 		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
+			print("-- CALLED PROCESS ERROR " + "-" * 56)
+			print(f"Return code: {ex.returncode}")
 			print(ex.output)
+			print("-" * 80)
 			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
-			print("EXCEPTION")
+			print("-- EXCEPTION " + "-" * 67)
 			print(ex)
 			raise Exception(f"Unknown error: {ex}") from ex
 
-		output = prog.stdout
-		for line in output.split("\n"):
+		stdout = prog.stdout
+		stderr = prog.stderr
+
+		print("-- STDOUT " + "-" * 70)
+		for line in stdout.split("\n"):
 			print(line)
+		if stderr is not None:
+			print("-- STDERR " + "-" * 70)
+			for line in stderr.split("\n"):
+				print(line)
+		print("-" * 80)
 
 	def test_JSONCommand(self) -> None:
 		print()
@@ -179,18 +212,27 @@ class GitHubEnvironment(TestCase):
 				encoding="utf-8"
 			)
 		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
+			print("-- CALLED PROCESS ERROR " + "-" * 56)
+			print(f"Return code: {ex.returncode}")
 			print(ex.output)
+			print("-" * 80)
 			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
-			print("EXCEPTION")
+			print("-- EXCEPTION " + "-" * 67)
 			print(ex)
 			raise Exception(f"Unknown error: {ex}") from ex
 
-		output = prog.stdout
-		for line in output.split("\n"):
+		stdout = prog.stdout
+		stderr = prog.stderr
+
+		print("-- STDOUT " + "-" * 70)
+		for line in stdout.split("\n"):
 			print(line)
+		if stderr is not None:
+			print("-- STDERR " + "-" * 70)
+			for line in stderr.split("\n"):
+				print(line)
+		print("-" * 80)
 
 	def test_Fillout(self) -> None:
 		print()
@@ -206,15 +248,24 @@ class GitHubEnvironment(TestCase):
 				encoding="utf-8"
 			)
 		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
+			print("-- CALLED PROCESS ERROR " + "-" * 56)
+			print(f"Return code: {ex.returncode}")
 			print(ex.output)
+			print("-" * 80)
 			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:
-			print("EXCEPTION")
+			print("-- EXCEPTION " + "-" * 67)
 			print(ex)
 			raise Exception(f"Unknown error: {ex}") from ex
 
-		output = prog.stdout
-		for line in output.split("\n"):
+		stdout = prog.stdout
+		stderr = prog.stderr
+
+		print("-- STDOUT " + "-" * 70)
+		for line in stdout.split("\n"):
 			print(line)
+		if stderr is not None:
+			print("-- STDERR " + "-" * 70)
+			for line in stderr.split("\n"):
+				print(line)
+		print("-" * 80)

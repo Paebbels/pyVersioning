@@ -29,5 +29,10 @@ doc/_theme/**/*.*
 # IntelliJ project files
 /.idea/workspace.xml
 
+# Unit test outputs
+/tests/template.out
+/tests/template.json
+/tests/template.yaml
+
 # Git files
 !.git*

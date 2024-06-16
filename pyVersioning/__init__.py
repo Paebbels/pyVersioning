@@ -382,11 +382,11 @@ class Versioning(ILineTerminal, GitHelper):
 			self._platform = Platforms.Workstation
 
 	@readonly
-	def variables(self) -> Dict[str, Any]:
+	def Variables(self) -> Dict[str, Any]:
 		return self._variables
 
 	@readonly
-	def platform(self) -> Platforms:
+	def Platform(self) -> Platforms:
 		return self._platform
 
 	def LoadDataFromConfiguration(self, config: Configuration) -> None:
@@ -649,11 +649,6 @@ class Versioning(ILineTerminal, GitHelper):
 
 		return Environment(**env)
 
-	def WriteSourceFile(self, template: Path, filename: Path) -> None:
-		content = template.read_text()
-
+	def FillOutTemplate(self, template: str, **kwargs) -> str:
 		# apply variables
-		content = content.format(**self._variables)
-
-		with filename.open("w") as file:
-			file.write(content)
+		return template.format(**self._variables, **kwargs)

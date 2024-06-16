@@ -29,13 +29,13 @@
 # ==================================================================================================================== #
 #
 """Unit tests for GitLab CI."""
-from os               import environ as os_environ
-from subprocess       import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
-from typing           import Tuple, Any, Dict
+from os                 import environ as os_environ
+from subprocess         import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
+from typing             import Any
 
-from pyTooling.Common import CurrentPlatform
+from pyTooling.Platform import CurrentPlatform
 
-from unittest         import TestCase
+from unittest           import TestCase
 
 
 if __name__ == "__main__":
@@ -109,7 +109,7 @@ class GitLabEnvironment(TestCase):
 
 		try:
 			prog = subprocess_run(
-				args=self.__getExecutable("fillout", "tests/template.in", "tests/template.out"),
+				args=self.__getExecutable("-d", "--config-file=tests/CIServices/.pyVersioning.yml", "fillout", "tests/template.in", "tests/template.out"),
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
 				shell=True,

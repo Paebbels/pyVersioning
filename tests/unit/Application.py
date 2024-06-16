@@ -31,7 +31,6 @@
 """Unit tests for pyVersioning application."""
 from io                   import StringIO
 from json                 import loads as json_loads
-from pathlib              import Path
 from re                   import compile as re_compile
 from unittest             import TestCase
 from unittest.mock        import patch
@@ -48,16 +47,14 @@ if __name__ == "__main__":
 
 
 class Application(TestCase):
-	@patch("sys.argv", ["pyVersioning.py", "json"])
+	@patch("sys.argv", ["pyVersioning.py", "--config-file=CIServices/.pyVersioning.yml", "json"])
 	def test_JSON(self):
 		print()
-
-		configFile = Path("CIServices/.pyVersioning.yml")
 
 		app = pyV_Application()
 		app._stdout, app._stderr = out, err = StringIO(), StringIO()
 		try:
-			app.Run(configFile)
+			app.Run()
 		except SystemExit as ex:
 			self.assertEqual(0, ex.code)
 
@@ -74,16 +71,14 @@ class Application(TestCase):
 
 		self.assertEqual("1.1", json["format"])
 
-	@patch("sys.argv", ["pyVersioning.py", "yaml"])
+	@patch("sys.argv", ["pyVersioning.py", "--config-file=CIServices/.pyVersioning.yml", "yaml"])
 	def test_YAML(self):
 		print()
-
-		configFile = Path("CIServices/.pyVersioning.yml")
 
 		app = pyV_Application()
 		app._stdout, app._stderr = out, err = StringIO(), StringIO()
 		try:
-			app.Run(configFile)
+			app.Run()
 		except SystemExit as ex:
 			self.assertEqual(0, ex.code)
 

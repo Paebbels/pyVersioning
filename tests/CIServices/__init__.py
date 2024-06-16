@@ -29,10 +29,11 @@
 # ==================================================================================================================== #
 #
 """Unit tests for GitLab CI."""
-from subprocess       import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
-from typing           import Any, Optional as Nullable
+from subprocess         import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
+from typing import Any, Optional as Nullable, Tuple, List
+from unittest           import TestCase as ut_TestCase
 
-from unittest         import TestCase
+from pyTooling.Platform import CurrentPlatform
 
 
 if __name__ == "__main__":
@@ -41,20 +42,36 @@ if __name__ == "__main__":
 	exit(1)
 
 
-class GitHubEnvironment(TestCase):
+class TestCase(ut_TestCase):
 	@classmethod
-	def _run(cls, command: Nullable[str] = None, *args: Any):
-		callArgs = ["pyVersioning"]
+	def _getServiceEnvironment(cls, **kwargs: Any):
+		raise NotImplementedError()
+
+	@classmethod
+	def _getExecutable(cls, command: Nullable[str] = None, *args: Any) -> List[str]:
+		if CurrentPlatform.IsNativeWindows:
+			callArgs = ["py", f"-{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
+		else:
+			callArgs = [f"python{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
+
+		callArgs.append("pyVersioning/CLI.py")
 		if command is not None:
 			callArgs.append(command)
+
 		if len(args) > 0:
 			callArgs.extend(args)
 
+		return callArgs
+
+	@classmethod
+	def _run(self, command: Nullable[str] = None, *args: Any) -> Tuple[str, str]:
 		try:
 			prog = subprocess_run(
-				args=callArgs,
+				args=self._getExecutable(command, *args),
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
+				shell=True,
+				env=self._getServiceEnvironment(),
 				check=True,
 				encoding="utf-8"
 			)
@@ -81,34 +98,4 @@ class GitHubEnvironment(TestCase):
 				print(line)
 		print("-" * 80)
 
-		return stdout, stderr
-
-	def test_NoCommand(self) -> None:
-		print()
-
-		stdout, stderr = self._run()
-
-	def test_HelpCommand(self) -> None:
-		print()
-
-		stdout, stderr = self._run("help")
-
-	def test_VariablesCommand(self) -> None:
-		print()
-
-		stdout, stderr = self._run("variables")
-
-	def test_YAMLCommand(self) -> None:
-		print()
-
-		stdout, stderr = self._run("yaml")
-
-	def test_JSONCommand(self) -> None:
-		print()
-
-		stdout, stderr = self._run("json")
-
-	def test_Fillout(self) -> None:
-		print()
-
-		stdout, stderr = self._run("fillout", "tests/template.in", "tests/template.out")
+		return (stdout, stderr)

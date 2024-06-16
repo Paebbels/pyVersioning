@@ -29,13 +29,10 @@
 # ==================================================================================================================== #
 #
 """Unit tests for GitLab CI."""
-from os                 import environ as os_environ
-from subprocess         import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
-from typing             import Any
+from os     import environ as os_environ
+from typing import Any
 
-from pyTooling.Platform import CurrentPlatform
-
-from unittest           import TestCase
+from .      import TestCase
 
 
 if __name__ == "__main__":
@@ -46,24 +43,7 @@ if __name__ == "__main__":
 
 class GitHubEnvironment(TestCase):
 	@staticmethod
-	def __getExecutable(command: str, *args: Any):
-		if CurrentPlatform.IsNativeWindows:
-			callArgs = ["py", f"-{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
-		else:
-			callArgs = [f"python{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
-
-		callArgs.extend([
-			"pyVersioning/CLI.py",
-			command
-		])
-
-		if len(args) > 0:
-			callArgs.extend(args)
-
-		return callArgs
-
-	@staticmethod
-	def __getServiceEnvironment(**kwargs: Any):
+	def _getServiceEnvironment(**kwargs: Any):
 		env = {k: v for k, v in os_environ.items()}
 
 		if len(kwargs) == 0:
@@ -72,7 +52,7 @@ class GitHubEnvironment(TestCase):
 			env["GITHUB_REF"] =        "dev"
 			env["GITHUB_REPOSITORY"] = "gitlab.com/path/to/repo.git"
 		else:
-			for k,v in kwargs.items():
+			for k, v in kwargs.items():
 				env[k] = v
 
 		return env
@@ -80,53 +60,9 @@ class GitHubEnvironment(TestCase):
 	def test_Variables(self) -> None:
 		print()
 
-		try:
-			prog = subprocess_run(
-				args=self.__getExecutable("variables"),
-				stdout=subprocess_PIPE,
-				stderr=subprocess_STDOUT,
-				shell=True,
-				env=self.__getServiceEnvironment(),
-				check=True,
-				encoding="utf-8"
-			)
-		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
-			print(ex.output)
-			raise Exception(f"Error when executing the process: {ex}") from ex
-		except Exception as ex:
-			print("EXCEPTION")
-			print(ex)
-			raise Exception(f"Unknown error: {ex}") from ex
-
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
+		stdout, stderr = self._run("variables")
 
 	def test_Fillout(self) -> None:
 		print()
 
-		try:
-			prog = subprocess_run(
-				args=self.__getExecutable("-v", "fillout", "tests/template.in", "tests/template.out"),
-				stdout=subprocess_PIPE,
-				stderr=subprocess_STDOUT,
-				shell=True,
-				env=self.__getServiceEnvironment(),
-				check=True,
-				encoding="utf-8"
-			)
-		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
-			print(ex.output)
-			raise Exception(f"Error when executing the process: {ex}") from ex
-		except Exception as ex:
-			print("EXCEPTION")
-			print(ex)
-			raise Exception(f"Unknown error: {ex}") from ex
-
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
+		stdout, stderr = self._run("-v", "fillout", "tests/template.in", "tests/template.out")

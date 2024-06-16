@@ -32,7 +32,7 @@ __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
 __copyright__ = "2020-2024, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
-__version__ =   "0.13.3"
+__version__ =   "0.14.0"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
 from dataclasses  import make_dataclass
@@ -54,7 +54,6 @@ from pyVersioning.Configuration import Configuration
 
 @export
 class SelfDescriptive(metaclass=ExtendedType, slots=True, mixin=True):
-
 	# TODO: could this be filled with a decorator?
 	_public: ClassVar[Tuple[str, ...]]
 
@@ -383,11 +382,11 @@ class Versioning(ILineTerminal, GitHelper):
 			self._platform = Platforms.Workstation
 
 	@readonly
-	def variables(self) -> Dict[str, Any]:
+	def Variables(self) -> Dict[str, Any]:
 		return self._variables
 
 	@readonly
-	def platform(self) -> Platforms:
+	def Platform(self) -> Platforms:
 		return self._platform
 
 	def LoadDataFromConfiguration(self, config: Configuration) -> None:
@@ -650,11 +649,6 @@ class Versioning(ILineTerminal, GitHelper):
 
 		return Environment(**env)
 
-	def WriteSourceFile(self, template: Path, filename: Path) -> None:
-		content = template.read_text()
-
+	def FillOutTemplate(self, template: str, **kwargs) -> str:
 		# apply variables
-		content = content.format(**self._variables)
-
-		with filename.open("w") as file:
-			file.write(content)
+		return template.format(**self._variables, **kwargs)

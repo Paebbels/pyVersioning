@@ -31,15 +31,14 @@
 """Unit tests for GitLab CI."""
 from json               import loads, JSONDecodeError
 from os                 import environ as os_environ
+from pathlib            import Path
 from re                 import compile as re_compile
-from subprocess         import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
-from typing             import Tuple, Any, Dict, Optional as Nullable
-from unittest           import TestCase
+from typing             import Any
 
 from ruamel.yaml        import YAML
 from ruamel.yaml.reader import ReaderError
 
-from pyTooling.Common   import CurrentPlatform
+from . import TestCase
 
 
 if __name__ == "__main__":
@@ -49,25 +48,8 @@ if __name__ == "__main__":
 
 
 class LocalEnvironment(TestCase):
-	@staticmethod
-	def __getExecutable(command: Nullable[str] = None, *args: Any):
-		if CurrentPlatform.IsNativeWindows:
-			callArgs = ["py", f"-{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
-		else:
-			callArgs = [f"python{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
-
-		callArgs.append("pyVersioning/cli.py")
-
-		if command is not None:
-			callArgs.append(command)
-
-		if len(args) > 0:
-			callArgs.extend(args)
-
-		return callArgs
-
-	@staticmethod
-	def __getServiceEnvironment(**kwargs: Any):
+	@classmethod
+	def _getServiceEnvironment(cls, **kwargs: Any):
 		env = {k: v for k, v in os_environ.items()}
 
 		if len(kwargs) == 0:
@@ -81,126 +63,92 @@ class LocalEnvironment(TestCase):
 
 		return env
 
-	def __run(self, command: Nullable[str] = None, *args: Any):
-		try:
-			prog = subprocess_run(
-				args=self.__getExecutable(command, *args),
-				stdout=subprocess_PIPE,
-				stderr=subprocess_STDOUT,
-				shell=True,
-				env=self.__getServiceEnvironment(),
-				check=True,
-				encoding="utf-8"
-			)
-		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
-			print(ex.output)
-			raise Exception(f"Error when executing the process: {ex}") from ex
-		except Exception as ex:
-			print("EXCEPTION")
-			print(ex)
-			raise Exception(f"Unknown error: {ex}") from ex
-
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
-
-		return output
-
 	def test_NoArguments(self):
 		print()
 
-		self.__run()
+		stdout, stderr = self._run()
 
 	def test_Help(self) -> None:
 		print()
 
-		self.__run("help")
+		stdout, stderr = self._run("help")
 
 	def test_Variables(self) -> None:
 		print()
 
-		try:
-			prog = subprocess_run(
-				args=self.__getExecutable("variables"),
-				stdout=subprocess_PIPE,
-				stderr=subprocess_STDOUT,
-				shell=True,
-				env=self.__getServiceEnvironment(),
-				check=True,
-				encoding="utf-8"
-			)
-		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
-			print(ex.output)
-			raise Exception(f"Error when executing the process: {ex}") from ex
-		except Exception as ex:
-			print("EXCEPTION")
-			print(ex)
-			raise Exception(f"Unknown error: {ex}") from ex
+		stdout, stderr = self._run("variables")
 
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
-
-	def test_Fillout(self) -> None:
+	def test_Fillout_WithoutOutputFile(self) -> None:
 		print()
 
-		try:
-			prog = subprocess_run(
-				args=self.__getExecutable("fillout", "tests/template.in", "tests/template.out"),
-				stdout=subprocess_PIPE,
-				stderr=subprocess_STDOUT,
-				shell=True,
-				env=self.__getServiceEnvironment(),
-				check=True,
-				encoding="utf-8"
-			)
-		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
-			print(ex.output)
-			raise Exception(f"Error when executing the process: {ex}") from ex
-		except Exception as ex:
-			print("EXCEPTION")
-			print(ex)
-			raise Exception(f"Unknown error: {ex}") from ex
+		stdout, stderr = self._run("fillout", "tests/template.in")
 
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
-
-	def test_Json(self) -> None:
+	def test_Fillout_WithOutputFile(self) -> None:
 		print()
 
-		output = self.__run("json")
-		print("-" * 80)
-		print(output)
-		print("-" * 80)
+		stdout, stderr = self._run("fillout", "tests/template.in", "tests/template.out")
+
+
+	def test_Json_WithoutOutputFile(self) -> None:
+		print()
+
+		stdout, stderr = self._run("json")
+
 		try:
-			json = loads(output)
+			# WORKAROUND: removing color codes
+			ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+			jsonContent = ansiEscape.sub("", stdout)
+			json = loads(jsonContent)
 		except JSONDecodeError as ex:
 			print("=" * 80)
 			print(ex)
 			print("=" * 80)
 			self.fail("Internal JSON error: JSONDecodeError")
 
-	def test_Yaml(self) -> None:
+	def test_Json_WithOutputFile(self) -> None:
+		print()
+
+		outputFile = Path("tests/template.json")
+		stdout, stderr = self._run("json", outputFile.as_posix())
+
+		try:
+			json = loads(outputFile.read_text())
+		except JSONDecodeError as ex:
+			print("=" * 80)
+			print(ex)
+			print("=" * 80)
+			self.fail("Internal JSON error: JSONDecodeError")
+
+	def test_Yaml_WithoutOutputFile(self) -> None:
 		print()
 
 		yaml = YAML()
 
-		output = self.__run("yaml")
-		print("-" * 80)
-		print(output)
-		print("-" * 80)
+		stdout, stderr = self._run("yaml")
+
 		try:
-			yaml.load(output)
+			# WORKAROUND: removing color codes
+			ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+			yamlContent = ansiEscape.sub("", stdout)
+			yaml.load(yamlContent)
 		except ReaderError as ex:
 			print("=" * 80)
 			print(ex)
 			print("=" * 80)
 			self.fail("Internal YAML error: ReaderError")
 
+	def test_Yaml_WithOutputFile(self) -> None:
+		print()
+
+		outputFile = Path("tests/template.yaml")
+
+		stdout, stderr = self._run("yaml", outputFile.as_posix())
+
+		yaml = YAML()
+		try:
+			yaml.load(outputFile.read_text())
+		except ReaderError as ex:
+			print("=" * 80)
+			print(ex)
+			print("=" * 80)
+			self.fail("Internal YAML error: ReaderError")

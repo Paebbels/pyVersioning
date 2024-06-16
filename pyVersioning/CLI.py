@@ -28,18 +28,19 @@
 # SPDX-License-Identifier: Apache-2.0                                                                                  #
 # ==================================================================================================================== #
 #
-from argparse import RawDescriptionHelpFormatter, Namespace
+from argparse    import RawDescriptionHelpFormatter, Namespace
 from collections import namedtuple
-from pathlib      import Path
-from textwrap     import dedent
-from typing import NoReturn, Callable
+from pathlib     import Path
+from textwrap    import dedent
+from typing      import NoReturn, Optional as Nullable
 
-from pyTooling.Attributes import Entity
+from pyTooling.Attributes                     import Entity
 from pyTooling.Decorators                     import export
 from pyTooling.Attributes.ArgParse            import ArgParseHelperMixin, DefaultHandler, CommandHandler, CommandGroupAttribute
 from pyTooling.Attributes.ArgParse.Argument   import StringArgument, PathArgument
+from pyTooling.Attributes.ArgParse.Flag       import FlagArgument
 from pyTooling.Attributes.ArgParse.ValuedFlag import LongValuedFlag
-from pyTooling.TerminalUI                     import TerminalApplication, Severity
+from pyTooling.TerminalUI                     import TerminalApplication, Severity, Mode
 
 from pyVersioning                             import __version__, __author__, __email__, __copyright__, __license__
 from pyVersioning                             import Versioning, Platforms, Project, SelfDescriptive
@@ -73,13 +74,17 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 	HeadLine:     str = "Version file generator."
 
 	__configFile: Path
-	_config:      Configuration
-	_versioning:  Versioning
+	_config:      Nullable[Configuration]
+	_versioning:  Nullable[Versioning]
 
 	def __init__(self) -> None:
-		super().__init__()
+		super().__init__(Mode.TextToStdOut_ErrorsToStdErr)
 
 		self.HeadLine = "Version file generator."
+
+		self.__configFile = Path(".pyVersioning.yml")
+		self._config = None
+		self._versioning = None
 
 		ArgParseHelperMixin.__init__(
 			self,
@@ -93,117 +98,141 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 		self._LOG_MESSAGE_FORMAT__[Severity.Warning] = "{YELLOW}[WARNING] {message}{NOCOLOR}"
 		self._LOG_MESSAGE_FORMAT__[Severity.Normal]=   "{GRAY}{message}{NOCOLOR}"
 
-	def Initialize(self) -> None:
-		if not self.__configFile.exists():
-			self.WriteWarning(f"Configuration file '{self.__configFile}' does not exist.")
-			self._config = Configuration()
+	def Initialize(self, configFile: Nullable[Path] = None) -> None:
+		if configFile is None:
+			if not self.__configFile.exists():
+				self.WriteWarning(f"Configuration file '{self.__configFile}' does not exist.")
+				self._config = Configuration()
+			else:
+				self.WriteVerbose(f"Reading configuration file '{self.__configFile}'")
+				self._config = Configuration(self.__configFile)
+		elif configFile.exists():
+			self.WriteVerbose(f"Reading configuration file '{configFile}'")
+			self._config = Configuration(configFile)
 		else:
-			self._config = Configuration(self.__configFile)
+			self.WriteError(f"Configuration file '{configFile}' does not exist.")
+			self._config = Configuration()
 
+		self.WriteVerbose(f"Creating internal data model ...")
 		self._versioning = Versioning(self)
+		self.WriteDebug(f"  Loading information from configuration file ...")
 		self._versioning.LoadDataFromConfiguration(self._config)
+		self.WriteDebug(f"  Collecting information from environment ...")
 		self._versioning.CollectData()
 
-	def PrintHeadline(self) -> None:
+	def Run(self) -> NoReturn:
+		super().Run()  # todo: enableAutoComplete ??
+		self.Exit()
+
+	def _PrintHeadline(self) -> None:
 		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.Foreground))
 		self.WriteNormal("{HEADLINE}{headline: ^80s}".format(headline=self.HeadLine, **TerminalApplication.Foreground))
 		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.Foreground))
 
-	def Run(self, configFile: Path) -> NoReturn:
-		self.__configFile = configFile
-
-		super().Run(self)
-		self.Exit()
-
-	@DefaultHandler()
-	def HandleDefault(self, args: Namespace) -> None:
-		self.PrintHeadline()
-		self.MainParser.print_help()
-
-	@CommandHandler("help", help="Display help page(s) for the given command name.")
-	@StringArgument(dest="Command", metaName="Command", optional=True, help="Print help page(s) for a command.")
-	def HandleHelp(self, args: Namespace) -> None:
-		self.PrintHeadline()
+	def _PrintVersion(self) -> None:
+		"""Helper function to print the version information."""
 		self.WriteNormal(f"Author:    {__author__} ({__email__})")
 		self.WriteNormal(f"Copyright: {__copyright__}")
 		self.WriteNormal(f"License:   {__license__}")
 		self.WriteNormal(f"Version:   {__version__}")
+
+	@DefaultHandler()
+	@FlagArgument(short="-v", long="--verbose", dest="Verbose", help="Print verbose messages.")
+	@FlagArgument(short="-d", long="--debug", dest="Debug", help="Print debug messages.")
+	@LongValuedFlag("--config-file", dest="ConfigFile", metaName="<pyVersioning.yaml>", help="Path to pyVersioning.yaml .")
+	def HandleDefault(self, args: Namespace) -> None:
+		"""Handle program calls for no given command."""
+		self.Configure(verbose=args.Verbose, debug=args.Debug)
+		self._PrintHeadline()
+		self._PrintVersion()
+		self.WriteNormal("")
+		self.MainParser.print_help(self._stdout)
+
+	@CommandHandler("help", help="Display help page(s) for the given command name.")
+	@StringArgument(dest="Command", metaName="Command", optional=True, help="Print help page(s) for a command.")
+	def HandleHelp(self, args: Namespace) -> None:
+		"""Handle program calls for command ``help``."""
+		self.Configure(verbose=args.Verbose, debug=args.Debug)
+		self._PrintHeadline()
+		self._PrintVersion()
 		self.WriteNormal("")
 
 		if args.Command is None:
-			self.MainParser.print_help()
+			self.MainParser.print_help(self._stdout)
 		elif args.Command == "help":
 			self.WriteError("This is a recursion ...")
 		else:
 			try:
-				self.SubParsers[args.Command].print_help()
+				self.SubParsers[args.Command].print_help(self._stdout)
 			except KeyError:
 				self.WriteError(f"Command {args.Command} is unknown.")
 
-	@CommandHandler("fillout", help="Read a template and replace tokens with version information.")
-	@ProjectAttributeGroup("dummy")
-	@CompilerAttributeGroup("flummy")
-	@PathArgument(dest="Template", metaName="<Template file>", help="Template input filename.")
-	@PathArgument(dest="Filename", metaName="<Output file>",   help="Output filename.")
-	def HandleFillOut(self, args: Namespace) -> None:
-		self.Configure(quiet=True)
-		self.PrintHeadline()
-		self.Initialize()
-
-		templateFile = Path(args.Template)
-		if not templateFile.exists():
-			self.WriteError(f"Template file '{templateFile}' does not exist.")
-
-		outputFile = Path(args.Filename)
-		if not outputFile.parent.exists():
-			self.WriteWarning(f"Directory for file '{outputFile}' does not exist. Directory will be created")
-			try:
-				outputFile.parent.mkdir()
-			except:
-				self.WriteError(f"Failed to create the directory '{outputFile.parent}' for the output file.")
-		elif outputFile.exists():
-			self.WriteWarning(f"Output file '{outputFile}' already exists. This file will be overwritten.")
-
-		self.ExitOnPreviousErrors()
-
-		self.UpdateProject(args)
-		self.UpdateCompiler(args)
-
-		self._versioning.WriteSourceFile(templateFile, outputFile)
+	@CommandHandler("version", help="Display version information.", description="Display version information.")
+	def HandleVersion(self, args: Namespace) -> None:
+		"""Handle program calls for command ``version``."""
+		self.Configure(verbose=args.Verbose, debug=args.Debug)
+		self._PrintHeadline()
+		self._PrintVersion()
 
 	@CommandHandler("variables", help="Print all available variables.")
 	@ProjectAttributeGroup("dummy")
 	@CompilerAttributeGroup("flummy")
 	def HandleVariables(self, args: Namespace) -> None:
-		self.Configure(quiet=True)
-		self.PrintHeadline()
-		self.Initialize()
+		self.Configure(verbose=args.Verbose, debug=args.Debug, quiet=True)
+		self._PrintHeadline()
+		self.Initialize(Path(args.ConfigFile) if args.ConfigFile is not None else None)
 
 		self.UpdateProject(args)
 		self.UpdateCompiler(args)
 
-		def print(key, value, indent):
+		def _print(key, value, indent):
 			key = ("  " * indent) + str(key)
-			self.WriteNormal(f"{key:24}: {value!s}")
+			self.WriteQuiet(f"{key:24}: {value!s}")
 			if isinstance(value, SelfDescriptive):
 				for k, v in value.KeyValuePairs():
-					print(k, v, indent + 1)
+					_print(k, v, indent + 1)
 
-		for key,value in self._versioning.variables.items():
-			print(key, value, 0)
+		for key,value in self._versioning.Variables.items():
+			_print(key, value, 0)
+
+	@CommandHandler("fillout", help="Read a template and replace tokens with version information.")
+	@ProjectAttributeGroup("dummy")
+	@CompilerAttributeGroup("flummy")
+	@PathArgument(dest="Template", metaName="<Template file>", help="Template input filename.")
+	@PathArgument(dest="Filename", metaName="<Output file>",   optional=True, help="Output filename.")
+	def HandleFillOut(self, args: Namespace) -> None:
+		self.Configure(verbose=args.Verbose, debug=args.Debug, quiet=args.Filename is None)
+		self._PrintHeadline()
+		self.Initialize(None if args.ConfigFile is None else Path(args.ConfigFile))
+
+		templateFile = Path(args.Template)
+		if not templateFile.exists():
+			self.WriteError(f"Template file '{templateFile}' does not exist.")
+
+		template = templateFile.read_text(encoding="utf-8")
+
+		self.UpdateProject(args)
+		self.UpdateCompiler(args)
+
+		content = self.FillOutTemplate(template)
+
+		self.WriteOutput(
+			None if args.Filename is None else Path(args.Filename),
+			content
+		)
 
 	@CommandHandler("json", help="Write all available variables as JSON.")
 	@ProjectAttributeGroup("dummy")
 	@CompilerAttributeGroup("flummy")
 	@PathArgument(dest="Filename", metaName="<Output file>", optional=True, help="Output filename.")
 	def HandleJSON(self, args: Namespace) -> None:
-		self.Configure(quiet=True)
-		self.Initialize()
+		self.Configure(verbose=args.Verbose, debug=args.Debug, quiet=args.Filename is None)
+		self.Initialize(Path(args.ConfigFile) if args.ConfigFile is not None else None)
 
 		self.UpdateProject(args)
 		self.UpdateCompiler(args)
 
-		content = dedent("""\
+		template = dedent("""\
 		{{
 		  "format": "1.1",
 		  "version": {{
@@ -215,16 +244,21 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 		  }}
 		}}
 		""")
-		output = content.format(**self._versioning.variables)
-		self.WriteQuiet(output)
+
+		content = self._versioning.FillOutTemplate(template)
+
+		self.WriteOutput(
+			None if args.Filename is None else Path(args.Filename),
+			content
+		)
 
 	@CommandHandler("yaml", help="Write all available variables as YAML.")
 	@ProjectAttributeGroup("dummy")
 	@CompilerAttributeGroup("flummy")
 	@PathArgument(dest="Filename", metaName="<Output file>", optional=True, help="Output filename.")
 	def HandleYAML(self, args: Namespace) -> None:
-		self.Configure(quiet=True)
-		self.Initialize()
+		self.Configure(verbose=args.Verbose, debug=args.Debug, quiet=args.Filename is None)
+		self.Initialize(Path(args.ConfigFile) if args.ConfigFile is not None else None)
 
 		self.UpdateProject(args)
 		self.UpdateCompiler(args)
@@ -237,24 +271,24 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 		yamlGitHub =   "\n#   not found"
 		yamlGitLab =   "\n#   not found"
 		yamlTravis =   "\n#   not found"
-		if self._versioning.platform is Platforms.AppVeyor:
+		if self._versioning.Platform is Platforms.AppVeyor:
 			yamlAppVeyor = "\n"
-			for key, value in self._versioning.variables["appveyor"].as_dict().items():
+			for key, value in self._versioning.Variables["appveyor"].as_dict().items():
 				yamlAppVeyor += f"    {key}: {value}\n"
-		elif self._versioning.platform is Platforms.GitHub:
+		elif self._versioning.Platform is Platforms.GitHub:
 			yamlGitHub = "\n"
-			for key, value in self._versioning.variables["github"].as_dict().items():
+			for key, value in self._versioning.Variables["github"].as_dict().items():
 				yamlGitHub += f"    {key}: {value}\n"
-		elif self._versioning.platform is Platforms.GitLab:
+		elif self._versioning.Platform is Platforms.GitLab:
 			yamlGitLab = "\n"
-			for key, value in self._versioning.variables["gitlab"].as_dict().items():
+			for key, value in self._versioning.Variables["gitlab"].as_dict().items():
 				yamlGitLab += f"    {key}: {value}\n"
-		elif self._versioning.platform is Platforms.Travis:
+		elif self._versioning.Platform is Platforms.Travis:
 			yamlTravis = "\n"
-			for key, value in self._versioning.variables["travis"].as_dict().items():
+			for key, value in self._versioning.Variables["travis"].as_dict().items():
 				yamlTravis += f"    {key}: {value}\n"
 
-		content = dedent("""\
+		template = dedent("""\
 		  format: "1.1"
 
 		  version:
@@ -293,38 +327,70 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 		  travis: {yamlTravis}
 		  env:{yamlEnvironment}
 		""")
-		output = content.format(**self._versioning.variables, yamlEnvironment=yamlEnvironment, yamlAppVeyor=yamlAppVeyor, yamlGitHub=yamlGitHub, yamlGitLab=yamlGitLab, yamlTravis=yamlTravis)
-		self.WriteQuiet(output)
+
+		content = self.FillOutTemplate(
+			template,
+			yamlEnvironment=yamlEnvironment,
+			yamlAppVeyor=yamlAppVeyor,
+			yamlGitHub=yamlGitHub,
+			yamlGitLab=yamlGitLab,
+			yamlTravis=yamlTravis
+		)
+
+		self.WriteOutput(
+			None if args.Filename is None else Path(args.Filename),
+			content
+		)
 
 	def UpdateProject(self, args: Namespace) -> None:
-		if "project" not in self._versioning.variables:
-			self._versioning.variables["project"] = Project(args.ProjectName, args.ProjectVersion, args.ProjectVariant)
+		if "project" not in self._versioning.Variables:
+			self._versioning.Variables["project"] = Project(args.ProjectName, args.ProjectVersion, args.ProjectVariant)
 		elif args.ProjectName is not None:
-			self._versioning.variables["project"]._name = args.ProjectName
+			self._versioning.Variables["project"]._name = args.ProjectName
 
 		if args.ProjectVariant is not None:
-			self._versioning.variables["project"]._variant = args.ProjectVariant
+			self._versioning.Variables["project"]._variant = args.ProjectVariant
 
 		if args.ProjectVersion is not None:
-			self._versioning.variables["project"]._version = args.ProjectVersion
+			self._versioning.Variables["project"]._version = args.ProjectVersion
 
 	def UpdateCompiler(self, args: Namespace) -> None:
 		if args.CompilerName is not None:
-			self._versioning.variables["build"]._compiler._name = args.CompilerName
+			self._versioning.Variables["build"]._compiler._name = args.CompilerName
 		if args.CompilerVersion is not None:
-			self._versioning.variables["build"]._compiler._version = args.CompilerVersion
+			self._versioning.Variables["build"]._compiler._version = args.CompilerVersion
 		if args.CompilerConfig is not None:
-			self._versioning.variables["build"]._compiler._configuration = args.CompilerConfig
+			self._versioning.Variables["build"]._compiler._configuration = args.CompilerConfig
 		if args.CompilerOptions is not None:
-			self._versioning.variables["build"]._compiler._options = args.CompilerOptions
+			self._versioning.Variables["build"]._compiler._options = args.CompilerOptions
+
+	def FillOutTemplate(self, template: str, **kwargs) -> str:
+		self.WriteVerbose(f"Applying variables to template ...")
+		return self._versioning.FillOutTemplate(template, **kwargs)
+
+	def WriteOutput(self, outputFile: Nullable[Path], content: str):
+		if outputFile is not None:
+			self.WriteVerbose(f"Writing output to '{outputFile}' ...")
+			if not outputFile.parent.exists():
+				self.WriteWarning(f"Directory for file '{outputFile}' does not exist. Directory will be created")
+				try:
+					outputFile.parent.mkdir()
+				except:
+					self.WriteError(f"Failed to create the directory '{outputFile.parent}' for the output file.")
+			elif outputFile.exists():
+				self.WriteWarning(f"Output file '{outputFile}' already exists. This file will be overwritten.")
+
+			self.ExitOnPreviousErrors()
+
+			outputFile.write_text(content, encoding="utf-8")
+		else:
+			self.WriteToStdOut(content)
 
 
 def main() -> NoReturn:
-	configFile = Path(".pyVersioning.yml")
-
 	application = Application()
 	application.CheckPythonVersion((3, 8, 0))
-	application.Run(configFile)
+	application.Run()
 
 
 if __name__ == "__main__":

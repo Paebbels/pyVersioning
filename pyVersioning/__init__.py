@@ -651,4 +651,7 @@ class Versioning(ILineTerminal, GitHelper):
 
 	def FillOutTemplate(self, template: str, **kwargs) -> str:
 		# apply variables
-		return template.format(**self._variables, **kwargs)
+		try:
+			return template.format(**self._variables, **kwargs)
+		except AttributeError as ex:
+			self.WriteFatal(f"Syntax error in template. Accessing field '{ex.name}'")

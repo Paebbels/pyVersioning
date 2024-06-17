@@ -30,10 +30,10 @@
 
 const VersioningInformation versioningInformation = {{
 	.version = {{
-		.flags = 0x0/*{{version.flags:02X}}*/,
-		.major = 0x{version.major} /*:02X}}*/,
-		.minor = 0x{version.minor} /*:02X}}*/,
-		.patch = 0x{version.patch} /*:02X}}*/
+		.flags = 0x0/*{{version.Flags:02X}}*/,
+		.major = 0x{version.Major} /*:02X}}*/,
+		.minor = 0x{version.Minor} /*:02X}}*/,
+		.patch = 0x{version.Patch} /*:02X}}*/
 	}},
 	.git = {{
 		.commit = {{
@@ -74,10 +74,10 @@ const VersioningInformation versioningInformation = {{
 		.compiler = {{
 			.name =       "{build.compiler.name}\0",
 			.version = {{
-				.flags =    0x0/*{{build.compiler.version.flags:02X}}*/,
-				.major =    /*0x*/ {build.compiler.version.major} /*:02X}}*/,
-				.minor =    0x{build.compiler.version.minor} /*:02X}}*/,
-				.patch =    0x{build.compiler.version.patch} /*:02X}}*/
+				.flags =    0x0/*{{build.compiler.version.Flags:02X}}*/,
+				.major =    /*0x*/ {build.compiler.version.Major} /*:02X}}*/,
+				.minor =    0x{build.compiler.version.Minor} /*:02X}}*/,
+				.patch =    0x{build.compiler.version.Patch} /*:02X}}*/
 			}},
 			.configuration =  "{build.compiler.configuration}\0",
 			.options =        "{build.compiler.options}\0"

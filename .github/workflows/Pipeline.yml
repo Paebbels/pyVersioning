@@ -110,7 +110,7 @@ jobs:
       - name: Compile example
         run: |
           cd example/C
-          gcc -o example.exe example.c versioning.c
+          gcc -o example example.c versioning.c
 
       - name: Execute example
         run: |

@@ -654,4 +654,4 @@ class Versioning(ILineTerminal, GitHelper):
 		try:
 			return template.format(**self._variables, **kwargs)
 		except AttributeError as ex:
-			self.WriteFatal(f"Syntax error in template. Accessing field '{ex.name}'")
+			self.WriteFatal(f"Syntax error in template. Accessing field '{ex.name}' of '{ex.obj.__class__.__name__}'.")

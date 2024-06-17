@@ -32,24 +32,46 @@ __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
 __copyright__ = "2020-2024, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
-__version__ =   "0.14.1"
+__version__ =   "0.15.0"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
 from dataclasses  import make_dataclass
 from datetime     import date, time, datetime
 from enum         import Enum, auto
 from os           import environ
-from pathlib      import Path
 from subprocess   import run as subprocess_run, PIPE, CalledProcessError
-from typing       import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable
+from sys          import version_info
+from typing       import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable, List
 
 from pyTooling.Decorators       import export, readonly
 from pyTooling.MetaClasses      import ExtendedType
 from pyTooling.Versioning       import SemanticVersion
 from pyTooling.TerminalUI       import ILineTerminal
 
-from pyVersioning.Utils         import GitHelper, GitShowCommand
 from pyVersioning.Configuration import Configuration
+
+
+@export
+class VersioningException(Exception):
+	# WORKAROUND: for Python <3.11
+	# Implementing a dummy method for Python versions before
+	__notes__: List[str]
+	if version_info < (3, 11):  # pragma: no cover
+		def add_note(self, message: str) -> None:
+			try:
+				self.__notes__.append(message)
+			except AttributeError:
+				self.__notes__ = [message]
+
+
+@export
+class ToolException(VersioningException):
+	command:      str
+	errorMessage: str
+
+	def __init__(self, command: str, errorMessage: str) -> None:
+		self.command = command
+		self.errorMessage = errorMessage
 
 
 @export
@@ -360,7 +382,48 @@ class BaseService(metaclass=ExtendedType):
 
 
 @export
-class Versioning(ILineTerminal, GitHelper):
+class GitShowCommand(Enum):
+	CommitDateTime =       auto()
+	CommitAuthorName =     auto()
+	CommitAuthorEmail =    auto()
+	CommitCommitterName =  auto()
+	CommitCommitterEmail = auto()
+	CommitHash =           auto()
+	CommitComment =        auto()
+
+
+@export
+class GitHelperMixin(metaclass=ExtendedType, mixin=True):
+	__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP = {
+		GitShowCommand.CommitHash:           "%H",
+		GitShowCommand.CommitDateTime:       "%ct",
+		GitShowCommand.CommitAuthorName:     "%an",
+		GitShowCommand.CommitAuthorEmail:    "%ae",
+		GitShowCommand.CommitCommitterName:  "%cn",
+		GitShowCommand.CommitCommitterEmail: "%ce",
+		GitShowCommand.CommitComment:        "%B",
+	}
+
+	def ExecuteGitShow(self, cmd: GitShowCommand, ref: str = "HEAD") -> str:
+		format = f"--format='{self.__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP[cmd]}'"
+
+		command = "git"
+		arguments = ("show", "-s", format, ref)
+		try:
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
+		except CalledProcessError as ex:
+			raise ToolException(f"{command} {' '.join(arguments)}", str(ex))
+
+		if completed.returncode == 0:
+			comment = completed.stdout.decode("utf-8")
+			return comment[1:-2]
+		else:
+			message = completed.stderr.decode("utf-8")
+			raise ToolException(f"{command} {' '.join(arguments)}", message)
+
+
+@export
+class Versioning(ILineTerminal, GitHelperMixin):
 	_variables: Dict[str, Any]
 	_platform:  Platforms = Platforms.Workstation
 	_service:   BaseService

@@ -28,7 +28,7 @@
 # SPDX-License-Identifier: Apache-2.0                                                                                  #
 # ==================================================================================================================== #
 #
-"""Unit tests for pyVersioning application."""
+"""Unit tests for pyVersioning application using mocking."""
 from io                   import StringIO
 from json                 import loads as json_loads
 from re                   import compile as re_compile
@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
 class Application(TestCase):
 	@staticmethod
-	def _PrintToStdOutAndStdErr(out, err) -> Tuple[str, str]:
+	def _PrintToStdOutAndStdErr(out: StringIO, err: StringIO, stdoutEnd: str = "") -> Tuple[str, str]:
 		out.seek(0)
 		err.seek(0)
 
@@ -57,7 +57,7 @@ class Application(TestCase):
 		stderr = err.read()
 
 		print("-- STDOUT " + "-" * 70)
-		print(stdout, end="")
+		print(stdout, end=stdoutEnd)
 		if len(stderr) > 0:
 			print("-- STDERR " + "-" * 70)
 			print(stderr, end="")
@@ -131,6 +131,36 @@ class Application(TestCase):
 
 		# self.assertEqual("1.1", json["format"])
 
+	@patch("sys.argv", ["pyVersioning.py", "field", "version"])
+	def test_Field_Version(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err, "\n")
+
+		# self.assertEqual("1.1", json["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "field", "git.commit.hash"])
+	def test_Field_GitCommitHash(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err, "\n")
+
+		# self.assertEqual("1.1", json["format"])
+
 	@patch("sys.argv", ["pyVersioning.py", "fillout", "tests/template.in"])
 	def test_Fillout(self):
 		print()
@@ -146,7 +176,7 @@ class Application(TestCase):
 
 		# self.assertEqual("1.1", json["format"])
 
-	@patch("sys.argv", ["pyVersioning.py", "--config-file=tests/CIServices/.pyVersioning.yml", "json"])
+	@patch("sys.argv", ["pyVersioning.py", "--config-file=tests/unit/CIServices/.pyVersioning.yml", "json"])
 	def test_JSON_WithoutError(self):
 		print()
 
@@ -182,7 +212,7 @@ class Application(TestCase):
 
 		self.assertEqual("1.1", json["format"])
 
-	@patch("sys.argv", ["pyVersioning.py", "--config-file=tests/CIServices/.pyVersioning.yml", "yaml"])
+	@patch("sys.argv", ["pyVersioning.py", "--config-file=tests/unit/CIServices/.pyVersioning.yml", "yaml"])
 	def test_YAML_WithoutError(self):
 		print()
 

@@ -65,4 +65,4 @@ class GitLabEnvironment(TestCase):
 	def test_Fillout(self) -> None:
 		print()
 
-		stdout, stderr = self._run("-d", "--config-file=tests/CIServices/.pyVersioning.yml", "fillout", "tests/template.in", "tests/template.out")
+		stdout, stderr = self._run("-d", "--config-file=tests/unit/CIServices/.pyVersioning.yml", "fillout", "tests/template.in", "tests/template.out")

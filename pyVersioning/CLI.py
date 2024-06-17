@@ -44,6 +44,7 @@ from pyTooling.TerminalUI                     import TerminalApplication, Severi
 
 from pyVersioning                             import __version__, __author__, __email__, __copyright__, __license__
 from pyVersioning                             import Versioning, Platforms, Project, SelfDescriptive
+from pyVersioning.CIService                   import ServiceException
 from pyVersioning.Configuration               import Configuration
 
 
@@ -194,6 +195,25 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 
 		for key,value in self._versioning.Variables.items():
 			_print(key, value, 0)
+
+	@CommandHandler("field", help="Return a single pyVersioning field.")
+	@ProjectAttributeGroup("dummy")
+	@CompilerAttributeGroup("flummy")
+	@StringArgument(dest="Field", metaName="<Field name>", help="Field to return.")
+	@PathArgument(dest="Filename", metaName="<Output file>", optional=True, help="Output filename.")
+	def HandleField(self, args: Namespace) -> None:
+		self.Configure(verbose=args.Verbose, debug=args.Debug, quiet=args.Filename is None)
+		self._PrintHeadline()
+		self.Initialize(None if args.ConfigFile is None else Path(args.ConfigFile))
+
+		query = f"{{{args.Field}}}"
+
+		content = self.FillOutTemplate(query)
+
+		self.WriteOutput(
+			None if args.Filename is None else Path(args.Filename),
+			content
+		)
 
 	@CommandHandler("fillout", help="Read a template and replace tokens with version information.")
 	@ProjectAttributeGroup("dummy")
@@ -390,7 +410,12 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 def main() -> NoReturn:
 	application = Application()
 	application.CheckPythonVersion((3, 8, 0))
-	application.Run()
+	try:
+		application.Run()
+	# except ServiceException as ex:
+	# 	application.PrintException(ex)
+	except Exception as ex:
+		application.PrintException(ex)
 
 
 if __name__ == "__main__":

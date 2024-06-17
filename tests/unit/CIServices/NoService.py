@@ -28,59 +28,137 @@
 # SPDX-License-Identifier: Apache-2.0                                                                                  #
 # ==================================================================================================================== #
 #
-from enum       import Enum, auto
-from subprocess import run as subprocess_run, PIPE
+"""Unit tests for GitLab CI."""
+from json               import loads, JSONDecodeError
+from os                 import environ as os_environ
+from pathlib            import Path
+from re                 import compile as re_compile
+from typing             import Any
 
-from pyTooling.Decorators  import export
-from pyTooling.MetaClasses import ExtendedType
+from ruamel.yaml        import YAML
+from ruamel.yaml.reader import ReaderError
 
-
-@export
-class GitShowCommand(Enum):
-	CommitDateTime =       auto()
-	CommitAuthorName =     auto()
-	CommitAuthorEmail =    auto()
-	CommitCommitterName =  auto()
-	CommitCommitterEmail = auto()
-	CommitHash =           auto()
-	CommitComment =        auto()
+from . import TestCase
 
 
-@export
-class ToolException(Exception):
-	command:      str
-	errorMessage: str
-
-	def __init__(self, command: str, errorMessage: str) -> None:
-		self.command = command
-		self.errorMessage = errorMessage
+if __name__ == "__main__":
+	print("ERROR: you called a testcase declaration file as an executable module.")
+	print("Use: 'python -m unittest <testcase module>'")
+	exit(1)
 
 
-@export
-class GitHelper(metaclass=ExtendedType, mixin=True):
-	__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP = {
-		GitShowCommand.CommitHash:           "%H",
-		GitShowCommand.CommitDateTime:       "%ct",
-		GitShowCommand.CommitAuthorName:     "%an",
-		GitShowCommand.CommitAuthorEmail:    "%ae",
-		GitShowCommand.CommitCommitterName:  "%cn",
-		GitShowCommand.CommitCommitterEmail: "%ce",
-		GitShowCommand.CommitComment:        "%B",
-	}
+class LocalEnvironment(TestCase):
+	@classmethod
+	def _getServiceEnvironment(cls, **kwargs: Any):
+		env = {k: v for k, v in os_environ.items()}
 
-	def ExecuteGitShow(self, cmd: GitShowCommand, ref: str = "HEAD") -> str:
-		format = f"--format='{self.__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP[cmd]}'"
-
-		command = "git"
-		arguments = ("show", "-s", format, ref)
-		try:
-			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
-		except Exception as ex:
-			raise ToolException(f"{command} {' '.join(arguments)}", str(ex))
-
-		if completed.returncode == 0:
-			comment = completed.stdout.decode("utf-8")
-			return comment[1:-2]
+		if len(kwargs) == 0:
+			env["GITLAB_CI"] =          "YES"
+			env["CI_COMMIT_SHA"] =      "1234567890123456789012345678901234567890"
+			env["CI_COMMIT_BRANCH"] =   "dev"
+			env["CI_REPOSITORY_URL"] =  "gitlab.com/path/to/repo.git"
 		else:
-			message = completed.stderr.decode("utf-8")
-			raise ToolException(f"{command} {' '.join(arguments)}", message)
+			for k, v in kwargs.items():
+				env[k] = v
+
+		return env
+
+	def test_NoArguments(self):
+		print()
+
+		stdout, stderr = self._run()
+
+	def test_Help(self) -> None:
+		print()
+
+		stdout, stderr = self._run("help")
+
+	def test_Variables(self) -> None:
+		print()
+
+		stdout, stderr = self._run("variables")
+
+	def test_Field_Version(self) -> None:
+		print()
+
+		stdout, stderr = self._run("field", "version")
+
+	def test_Field_GitCommitHash(self) -> None:
+		print()
+
+		stdout, stderr = self._run("field", "git.commit.hash")
+
+	def test_Fillout_WithoutOutputFile(self) -> None:
+		print()
+
+		stdout, stderr = self._run("fillout", "tests/template.in")
+
+	def test_Fillout_WithOutputFile(self) -> None:
+		print()
+
+		stdout, stderr = self._run("fillout", "tests/template.in", "tests/template.out")
+
+
+	def test_Json_WithoutOutputFile(self) -> None:
+		print()
+
+		stdout, stderr = self._run("json")
+
+		try:
+			# WORKAROUND: removing color codes
+			ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+			jsonContent = ansiEscape.sub("", stdout)
+			json = loads(jsonContent)
+		except JSONDecodeError as ex:
+			print("=" * 80)
+			print(ex)
+			print("=" * 80)
+			self.fail("Internal JSON error: JSONDecodeError")
+
+	def test_Json_WithOutputFile(self) -> None:
+		print()
+
+		outputFile = Path("tests/template.json")
+		stdout, stderr = self._run("json", outputFile.as_posix())
+
+		try:
+			json = loads(outputFile.read_text())
+		except JSONDecodeError as ex:
+			print("=" * 80)
+			print(ex)
+			print("=" * 80)
+			self.fail("Internal JSON error: JSONDecodeError")
+
+	def test_Yaml_WithoutOutputFile(self) -> None:
+		print()
+
+		yaml = YAML()
+
+		stdout, stderr = self._run("yaml")
+
+		try:
+			# WORKAROUND: removing color codes
+			ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+			yamlContent = ansiEscape.sub("", stdout)
+			yaml.load(yamlContent)
+		except ReaderError as ex:
+			print("=" * 80)
+			print(ex)
+			print("=" * 80)
+			self.fail("Internal YAML error: ReaderError")
+
+	def test_Yaml_WithOutputFile(self) -> None:
+		print()
+
+		outputFile = Path("tests/template.yaml")
+
+		stdout, stderr = self._run("yaml", outputFile.as_posix())
+
+		yaml = YAML()
+		try:
+			yaml.load(outputFile.read_text())
+		except ReaderError as ex:
+			print("=" * 80)
+			print(ex)
+			print("=" * 80)
+			self.fail("Internal YAML error: ReaderError")

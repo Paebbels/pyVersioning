@@ -32,21 +32,21 @@
 from dataclasses  import make_dataclass
 from datetime     import datetime
 from os           import environ
-from typing import Dict, Optional as Nullable, Tuple, List
+from typing       import Dict, Optional as Nullable, Tuple, List
 
 from pyTooling.Decorators  import export
-from pyTooling.MetaClasses import ExtendedType, abstractmethod
+from pyTooling.MetaClasses import abstractmethod
 
-from pyVersioning          import SelfDescriptive, GitHelper, GitShowCommand, BaseService, Platform
+from pyVersioning          import VersioningException, GitHelperMixin, SelfDescriptive, GitShowCommand, BaseService, Platform
 
 
 @export
-class ServiceException(Exception):
+class ServiceException(VersioningException):
 	""".. todo:: ServiceException needs documentation"""
 
 
 @export
-class CIService(BaseService, GitHelper):
+class CIService(BaseService, GitHelperMixin):
 	"""Base-class to collect Git and other platform and environment information from CI service environment variables."""
 
 	ENV_INCLUDE_FILTER: Tuple[str, ...] = ()

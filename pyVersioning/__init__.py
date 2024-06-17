@@ -32,7 +32,7 @@ __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
 __copyright__ = "2020-2024, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
-__version__ =   "0.14.0"
+__version__ =   "0.14.1"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
 from dataclasses  import make_dataclass
@@ -651,4 +651,7 @@ class Versioning(ILineTerminal, GitHelper):
 
 	def FillOutTemplate(self, template: str, **kwargs) -> str:
 		# apply variables
-		return template.format(**self._variables, **kwargs)
+		try:
+			return template.format(**self._variables, **kwargs)
+		except AttributeError as ex:
+			self.WriteFatal(f"Syntax error in template. Accessing field '{ex.name}' of '{ex.obj.__class__.__name__}'.")

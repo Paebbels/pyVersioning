@@ -8,7 +8,7 @@
 /***********************************************************************************************************************
 /* @author    Patrick Lehmann                                                                                          *
 /*                                                                                                                     *
-/* @brief     C constant declaration of the version data structure                                                     *
+/* @brief     C Structure definitions for pyVersioning                                                                 *
 /*                                                                                                                     *
 /* @copyright Copyright 2020-2024 Patrick Lehmann - Boetzingen, Germany                                                *
 /*                                                                                                                     *
@@ -26,61 +26,71 @@
 /*                                                                                                                     *
 /* SPDX-License-Identifier: Apache-2.0                                                                                 *
 /**********************************************************************************************************************/
-#include "versioning.h"
+#include <stdint.h>
 
-const VersioningInformation versioningInformation = {{
-	.version = {{
-		.flags = 0x0/*{{version.Flags:02X}}*/,
-		.major = 0x{version.Major} /*:02X}}*/,
-		.minor = 0x{version.Minor} /*:02X}}*/,
-		.patch = 0x{version.Patch} /*:02X}}*/
-	}},
-	.git = {{
-		.commit = {{
-			.hash =      "{git.commit.hash}\0",
-			.datetime = {{
-				.date = {{
-					.day =   {git.commit.date.day},
-					.month = {git.commit.date.month},
-					.year =  {git.commit.date.year}
-				}},
-				.time = {{
-					.hour =   {git.commit.time.hour},
-					.minute = {git.commit.time.minute},
-					.second = {git.commit.time.second}
-				}}
-			}}
-		}},
-		.reference =  "{git.reference}\0",
-		.repository = "{git.repository}\0"
-	}},
-	.project = {{
-		.name =         "{project.name}\0",
-		.variant =      "{project.variant}\0",
-	}},
-	.build = {{
-		.datetime = {{
-			.date = {{
-				.day =      {build.date.day},
-				.month =    {build.date.month},
-				.year =     {build.date.year}
-			}},
-			.time = {{
-				.hour =     {build.time.hour},
-				.minute =   {build.time.minute},
-				.second =   {build.time.second}
-			}}
-		}},
-		.compiler = {{
-			.name =       "{build.compiler.name}\0",
-			.version = {{
-				.flags =    0x0/*{{build.compiler.version.Flags:02X}}*/,
-				.major =    /*0x*/ {build.compiler.version.Major} /*:02X}}*/,
-				.minor =    0x{build.compiler.version.Minor} /*:02X}}*/,
-				.patch =    0x{build.compiler.version.Patch} /*:02X}}*/
-			}},
-			.configuration =  "{build.compiler.configuration}\0",
-			.options =        "{build.compiler.options}\0"
-		}}
-	}}
-}};
+#ifndef VERSIONING_H
+#define VERSIONING_H
+
+typedef struct {
+	uint8_t day;
+	uint8_t month;
+	uint16_t year;
+} Date;
+
+typedef struct {
+	uint8_t hour;
+	uint8_t minute;
+	uint8_t second;
+} Time;
+
+typedef struct {
+	Date date;
+	Time time;
+} DateTime;
+
+typedef struct {
+	uint8_t flags;
+	uint16_t major;
+	uint16_t minor;
+	uint16_t patch;
+} Version;
+
+typedef struct {
+	char       hash[41];    // hex-value as string (160-bit => 40 characters + \0)
+	DateTime   datetime;
+} Commit;
+
+typedef struct {
+	Commit      commit;
+	const char* reference;
+	const char* repository;
+} Git;
+
+typedef struct {
+	const char* name;
+	const char* variant;
+} Project;
+
+typedef struct {
+	const char* name;
+	Version     version;
+	const char* configuration;
+	const char* options;
+} Compiler;
+
+typedef struct {
+	DateTime    datetime;
+	Compiler    compiler;
+} Build;
+
+typedef struct {
+	Version    version;
+	Git        git;
+	Project    project;
+	Build      build;
+} VersioningInformation;
+
+
+extern const VersioningInformation versioningInformation;
+
+#endif /* VERSIONING_H */

@@ -34,5 +34,9 @@ doc/_theme/**/*.*
 /tests/template.json
 /tests/template.yaml
 
+# Generated code from examples
+/example/C/versioning.c
+/example/C/example.exe
+
 # Git files
 !.git*

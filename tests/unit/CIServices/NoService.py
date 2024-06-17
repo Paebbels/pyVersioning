@@ -110,41 +110,45 @@ class LocalEnvironment(TestCase):
 			jsonContent = ansiEscape.sub("", stdout)
 			json = loads(jsonContent)
 		except JSONDecodeError as ex:
-			print("=" * 80)
-			print(ex)
-			print("=" * 80)
+			print(f"JSON: JSONDecodeError")
+			print(f"  {ex}")
 			self.fail("Internal JSON error: JSONDecodeError")
 
 	def test_Json_WithOutputFile(self) -> None:
 		print()
 
 		outputFile = Path("tests/template.json")
-		stdout, stderr = self._run("json", outputFile.as_posix())
+		stdout, stderr = self._run("-d", "json", outputFile.as_posix())
 
 		try:
 			json = loads(outputFile.read_text())
 		except JSONDecodeError as ex:
-			print("=" * 80)
-			print(ex)
-			print("=" * 80)
+			print(f"JSON: JSONDecodeError")
+			print(f"  {ex}")
 			self.fail("Internal JSON error: JSONDecodeError")
+		except FileNotFoundError as ex:
+			print(f"OS: FileNotFoundError")
+			print(f"  {ex}")
+			print(f"  cwd: {Path.cwd()}")
+			print(f"  tests/")
+			for item in (Path.cwd() / 'tests').glob("*.*"):
+				print(f"    {item}")
+			self.fail("Unittest error: FileNotFoundError")
 
 	def test_Yaml_WithoutOutputFile(self) -> None:
 		print()
 
-		yaml = YAML()
-
 		stdout, stderr = self._run("yaml")
 
+		yaml = YAML()
 		try:
 			# WORKAROUND: removing color codes
 			ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 			yamlContent = ansiEscape.sub("", stdout)
 			yaml.load(yamlContent)
 		except ReaderError as ex:
-			print("=" * 80)
-			print(ex)
-			print("=" * 80)
+			print(f"YAML: ReaderError")
+			print(f"  {ex}")
 			self.fail("Internal YAML error: ReaderError")
 
 	def test_Yaml_WithOutputFile(self) -> None:
@@ -152,13 +156,20 @@ class LocalEnvironment(TestCase):
 
 		outputFile = Path("tests/template.yaml")
 
-		stdout, stderr = self._run("yaml", outputFile.as_posix())
+		stdout, stderr = self._run("-d", "yaml", outputFile.as_posix())
 
 		yaml = YAML()
 		try:
 			yaml.load(outputFile.read_text())
 		except ReaderError as ex:
-			print("=" * 80)
-			print(ex)
-			print("=" * 80)
+			print(f"YAML: ReaderError")
+			print(f"  {ex}")
 			self.fail("Internal YAML error: ReaderError")
+		except FileNotFoundError as ex:
+			print(f"OS: FileNotFoundError")
+			print(f"  {ex}")
+			print(f"  cwd: {Path.cwd()}")
+			print(f"  tests/")
+			for item in (Path.cwd() / 'tests').glob("*.*"):
+				print(f"    {item}")
+			self.fail("Unittest error: FileNotFoundError")

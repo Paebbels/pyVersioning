@@ -44,39 +44,39 @@ class GitLab(CIService):
 
 	ENV_INCLUDE_FILTER = ("CI_", "GITLAB_")
 	ENV_EXCLUDE_FILTER = ("_TOKEN", )
-	ENV_INCLUDES =       ('CI', )
-	ENV_EXCLUDES =       ('CI_JOB_TOKEN', )
+	ENV_INCLUDES =       ("CI", )
+	ENV_EXCLUDES =       ("CI_JOB_TOKEN", )
 
 	def GetPlatform(self) -> Platform:
 		return Platform("gitlab")
 
 	def GetGitHash(self) -> str:
 		try:
-			return environ['CI_COMMIT_SHA']
+			return environ["CI_COMMIT_SHA"]
 		except KeyError as ex:
-			raise ServiceException from ex
+			raise ServiceException(f"Can't find GitLab-CI environment variable 'CI_COMMIT_SHA'.") from ex
 
 	def GetCommitDate(self) -> datetime:
 		try:
-			iso8601 = environ['CI_COMMIT_TIMESTAMP']
+			iso8601 = environ["CI_COMMIT_TIMESTAMP"]
 			return datetime.strptime(iso8601, "%Y-%m-%dT%H:%M:%S%z")
 		except KeyError as ex:
-			raise ServiceException from ex
+			raise ServiceException(f"Can't find GitLab-CI environment variable 'CI_COMMIT_TIMESTAMP'.") from ex
 
 	def GetGitBranch(self) -> Nullable[str]:
 		try:
-			return environ['CI_COMMIT_BRANCH']
+			return environ["CI_COMMIT_BRANCH"]
 		except KeyError:
 			return None
 
 	def GetGitTag(self) -> Nullable[str]:
 		try:
-			return environ['CI_COMMIT_TAG']
+			return environ["CI_COMMIT_TAG"]
 		except KeyError:
 			return None
 
 	def GetGitRepository(self) -> str:
 		try:
-			return environ['CI_REPOSITORY_URL']
+			return environ["CI_REPOSITORY_URL"]
 		except KeyError as ex:
-			raise ServiceException from ex
+			raise ServiceException(f"Can't find GitLab-CI environment variable 'CI_REPOSITORY_URL'.") from ex

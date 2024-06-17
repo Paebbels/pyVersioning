@@ -44,7 +44,7 @@ class GitHub(CIService):
 
 	ENV_INCLUDE_FILTER =  ("GITHUB_", )
 	ENV_EXCLUDE_FILTER =  ("_TOKEN", )
-	ENV_INCLUDES =        ('CI', )
+	ENV_INCLUDES =        ("CI", )
 	ENV_EXCLUDES =        ()
 
 	def GetPlatform(self) -> Platform:
@@ -52,15 +52,15 @@ class GitHub(CIService):
 
 	def GetGitHash(self) -> str:
 		try:
-			return environ['GITHUB_SHA']
+			return environ["GITHUB_SHA"]
 		except KeyError as ex:
-			raise ServiceException from ex
+			raise ServiceException(f"Can't find GitHub Action environment variable 'GITHUB_SHA'.") from ex
 
 	def GetGitBranch(self) -> Nullable[str]:
 		branchPrefix = "refs/heads/"
 
 		try:
-			ref = environ['GITHUB_REF']
+			ref = environ["GITHUB_REF"]
 			if ref.startswith(branchPrefix):
 				return ref[len(branchPrefix):]
 		except KeyError:
@@ -69,10 +69,10 @@ class GitHub(CIService):
 		return None
 
 	def GetGitTag(self) -> Nullable[str]:
-		tagPrefix    = "refs/tags/"
+		tagPrefix = "refs/tags/"
 
 		try:
-			ref = environ['GITHUB_REF']
+			ref = environ["GITHUB_REF"]
 			if ref.startswith(tagPrefix):
 				return ref[len(tagPrefix):]
 		except KeyError:
@@ -82,6 +82,6 @@ class GitHub(CIService):
 
 	def GetGitRepository(self) -> str:
 		try:
-			return environ['GITHUB_REPOSITORY']
+			return environ["GITHUB_REPOSITORY"]
 		except KeyError as ex:
-			raise ServiceException from ex
+			raise ServiceException(f"Can't find GitHub Action environment variable 'GITHUB_REPOSITORY'.") from ex

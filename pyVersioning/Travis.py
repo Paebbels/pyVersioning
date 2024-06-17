@@ -43,7 +43,7 @@ class Travis(CIService):
 
 	ENV_INCLUDE_FILTER = ("TRAVIS_", )
 	ENV_EXCLUDE_FILTER = ("_TOKEN", )
-	ENV_INCLUDES =       ('CI', 'CONTINUOUS_INTEGRATION', 'TRAVIS')
+	ENV_INCLUDES =       ("CI", "CONTINUOUS_INTEGRATION", "TRAVIS")
 	ENV_EXCLUDES =       ()
 
 	def GetPlatform(self) -> Platform:
@@ -54,24 +54,24 @@ class Travis(CIService):
 
 	def GetGitHash(self) -> str:
 		try:
-			return environ['TRAVIS_COMMIT']
+			return environ["TRAVIS_COMMIT"]
 		except KeyError as ex:
-			raise ServiceException from ex
+			raise ServiceException(f"Can't find Travis environment variable 'TRAVIS_COMMIT'.") from ex
 
 	def GetGitBranch(self) -> Nullable[str]:
 		try:
-			return environ['TRAVIS_BRANCH']
+			return environ["TRAVIS_BRANCH"]
 		except KeyError:
 			return None
 
 	def GetGitTag(self) -> Nullable[str]:
 		try:
-			return environ['TRAVIS_TAG']
+			return environ["TRAVIS_TAG"]
 		except KeyError:
 			return None
 
 	def GetGitRepository(self) -> str:
 		try:
-			return environ['TRAVIS_REPO_SLUG']
+			return environ["TRAVIS_REPO_SLUG"]
 		except KeyError as ex:
-			raise ServiceException from ex
+			raise ServiceException(f"Can't find Travis environment variable 'TRAVIS_REPO_SLUG'.") from ex

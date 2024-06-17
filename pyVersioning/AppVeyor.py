@@ -43,7 +43,7 @@ class AppVeyor(CIService):
 
 	ENV_INCLUDE_FILTER =  ("APPVEYOR_", )
 	ENV_EXCLUDE_FILTER =  ("_TOKEN", )
-	ENV_INCLUDES =        ('CI', 'APPVEYOR', 'PLATFORM', 'CONFIGURATION')
+	ENV_INCLUDES =        ("CI", "APPVEYOR", "PLATFORM", "CONFIGURATION")
 	ENV_EXCLUDES =        ()
 
 	def GetPlatform(self) -> Platform:
@@ -51,24 +51,24 @@ class AppVeyor(CIService):
 
 	def GetGitHash(self) -> str:
 		try:
-			return environ['APPVEYOR_REPO_COMMIT']
+			return environ["APPVEYOR_REPO_COMMIT"]
 		except KeyError as ex:
-			raise ServiceException from ex
+			raise ServiceException(f"Can't find AppVeyor environment variable 'APPVEYOR_REPO_COMMIT'.") from ex
 
 	def GetGitBranch(self) -> Nullable[str]:
 		try:
-			return environ['APPVEYOR_REPO_BRANCH']
+			return environ["APPVEYOR_REPO_BRANCH"]
 		except KeyError:
 			return None
 
 	def GetGitTag(self) -> Nullable[str]:
 		try:
-			return environ['APPVEYOR_REPO_TAG_NAME']
+			return environ["APPVEYOR_REPO_TAG_NAME"]
 		except KeyError:
 			return None
 
 	def GetGitRepository(self) -> str:
 		try:
-			return environ['APPVEYOR_PROJECT_SLUG']
+			return environ["APPVEYOR_PROJECT_SLUG"]
 		except KeyError as ex:
-			raise ServiceException from ex
+			raise ServiceException(f"Can't find AppVeyor environment variable 'APPVEYOR_PROJECT_SLUG'.") from ex

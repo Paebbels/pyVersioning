@@ -79,6 +79,44 @@ jobs:
       wheel: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}
       apptest_xml_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).apptesting_xml }}
 
+  C_Example:
+    runs-on: ubuntu-latest
+    needs:
+      - UnitTestingParams
+      - Package
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: ⏬ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📥 Download artifacts '${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}' from 'Package' job
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}
+          path: install
+
+      - name: 🔧 Install wheel from artifact
+        run: |
+          ls -l install
+          python -m pip install --disable-pip-version-check -U install/*.whl
+
+      - name: Generate versioning.c
+        run: |
+          cd example/C
+          pyVersioning fillout ../../templates/C/versioning.c.template versioning.c
+
+      - name: Compile example
+        run: |
+          cd example/C
+          gcc -o example.exe example.c versioning.c
+
+      - name: Execute example
+        run: |
+          cd example/C
+          ./example
+
   PublishCoverageResults:
     uses: pyTooling/Actions/.github/workflows/PublishCoverageResults.yml@r1
     needs:

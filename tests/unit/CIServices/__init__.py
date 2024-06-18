@@ -30,7 +30,7 @@
 #
 """Unit tests for GitLab CI."""
 from subprocess         import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
-from typing import Any, Optional as Nullable, Tuple, List
+from typing             import Any, Optional as Nullable, Tuple, List, Dict
 from unittest           import TestCase as ut_TestCase
 
 from pyTooling.Platform import CurrentPlatform
@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
 class TestCase(ut_TestCase):
 	@classmethod
-	def _getServiceEnvironment(cls, **kwargs: Any):
+	def _getServiceEnvironment(cls, **kwargs: Any) -> Dict[str, str]:
 		raise NotImplementedError()
 
 	@classmethod

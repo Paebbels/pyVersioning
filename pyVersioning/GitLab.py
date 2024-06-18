@@ -59,7 +59,7 @@ class GitLab(CIService):
 	def GetCommitDate(self) -> datetime:
 		try:
 			iso8601 = environ["CI_COMMIT_TIMESTAMP"]
-			return datetime.strptime(iso8601, "%Y-%m-%dT%H:%M:%S%z")
+			return datetime.fromisoformat(iso8601)
 		except KeyError as ex:
 			raise ServiceException(f"Can't find GitLab-CI environment variable 'CI_COMMIT_TIMESTAMP'.") from ex
 

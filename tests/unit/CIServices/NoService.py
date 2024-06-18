@@ -33,7 +33,7 @@ from json               import loads, JSONDecodeError
 from os                 import environ as os_environ
 from pathlib            import Path
 from re                 import compile as re_compile
-from typing             import Any
+from typing import Any, Dict
 
 from ruamel.yaml        import YAML
 from ruamel.yaml.reader import ReaderError
@@ -49,17 +49,18 @@ if __name__ == "__main__":
 
 class LocalEnvironment(TestCase):
 	@classmethod
-	def _getServiceEnvironment(cls, **kwargs: Any):
-		env = {k: v for k, v in os_environ.items()}
+	def _getServiceEnvironment(cls, **kwargs: Any) -> Dict[str, str]:
+		env: Dict[str, str] = {k: v for k, v in os_environ.items()}
 
-		if len(kwargs) == 0:
-			env["GITLAB_CI"] =          "YES"
-			env["CI_COMMIT_SHA"] =      "1234567890123456789012345678901234567890"
-			env["CI_COMMIT_BRANCH"] =   "dev"
-			env["CI_REPOSITORY_URL"] =  "gitlab.com/path/to/repo.git"
-		else:
-			for k, v in kwargs.items():
-				env[k] = v
+		# Remove GitHub variables
+		if "CI" in env:
+			env = {k: v for k, v in env.items() if not k.startswith("GITHUB_")}
+
+		# Remove GitLab variables
+		if "GITLAB_CI" in env:
+			env = {k: v for k, v in env.items() if not k.startswith("CI_")}
+
+		env.update(kwargs)
 
 		return env
 

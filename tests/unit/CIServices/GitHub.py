@@ -30,7 +30,7 @@
 #
 """Unit tests for GitLab CI."""
 from os     import environ as os_environ
-from typing import Any
+from typing import Any, Dict
 
 from .      import TestCase
 
@@ -43,8 +43,8 @@ if __name__ == "__main__":
 
 class GitHubEnvironment(TestCase):
 	@staticmethod
-	def _getServiceEnvironment(**kwargs: Any):
-		env = {k: v for k, v in os_environ.items()}
+	def _getServiceEnvironment(**kwargs: Any) -> Dict[str, str]:
+		env: Dict[str, str] = {k: v for k, v in os_environ.items()}
 
 		if len(kwargs) == 0:
 			env["CI"] =                "YES"
@@ -52,8 +52,7 @@ class GitHubEnvironment(TestCase):
 			env["GITHUB_REF"] =        "dev"
 			env["GITHUB_REPOSITORY"] = "gitlab.com/path/to/repo.git"
 		else:
-			for k, v in kwargs.items():
-				env[k] = v
+			env.update(kwargs)
 
 		return env
 

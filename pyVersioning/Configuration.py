@@ -39,7 +39,7 @@ from pyTooling.Versioning  import SemanticVersion
 
 
 @export
-class Base:
+class Base(metaclass=ExtendedType):
 	root:   'Base'
 	parent: Nullable['Base']
 
@@ -49,7 +49,7 @@ class Base:
 
 
 @export
-class Configuration(Base, metaclass=ExtendedType):
+class Configuration(Base):
 	class Project(Base):
 		name:    str
 		variant: Nullable[str]

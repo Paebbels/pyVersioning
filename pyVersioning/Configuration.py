@@ -110,6 +110,7 @@ class Configuration(Base):
 			self.load(configFile)
 
 	def load(self, configFile: Path):
+		# TODO: change to pyTooling.Configuration
 		yaml =   YAML()
 		config = yaml.load(configFile)
 

@@ -90,6 +90,12 @@ The main idea is to provide a unified tool to collect all necessary version info
 defined parameters, version control systems (e.g. Git) or environment variables. Especially the latter ones can be
 tricky in CI environments, as every CI service uses different environment variables.
 
+.. rubric:: Planned features
+
+* read template from ``STDIN``.
+* add C++ example
+* add VHDL example
+
 Use Cases
 *********
 
@@ -106,7 +112,7 @@ Supported CI Services
 *********************
 
 * `Appveyor <https://www.appveyor.com/>`__
-* `GitHub <https://github.com/>`__
+* `GitHub Actions <https://github.com/>`__
 * `GitLab <https://about.gitlab.com/>`__
 * `Travis-CI <https://www.travis-ci.com/>`__
 * more to come
@@ -165,18 +171,27 @@ License
    \part{Main Documentation}
 
 .. toctree::
-   :caption: Examples
-   :hidden:
-
-   example/ANSI-C
-   example/VHDL
-
-.. toctree::
    :caption: Details
    :hidden:
 
-   pyVersioning
+   Usage
+   VersionControlSystems
+   CIServices
+   Languages
 
+.. toctree::
+   :caption: Templates
+   :hidden:
+
+   templates/index
+   templates/ANSI-C
+
+.. toctree::
+   :caption: Examples
+   :hidden:
+
+   examples/ANSI-C
+   examples/VHDL
 
 .. raw:: latex
 
@@ -186,6 +201,7 @@ License
    :caption: References and Reports
    :hidden:
 
+   CommandLineInterface
    pyVersioning/pyVersioning
    unittests/index
    coverage/index

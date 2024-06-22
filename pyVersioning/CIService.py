@@ -42,7 +42,11 @@ from pyVersioning          import VersioningException, GitHelperMixin, SelfDescr
 
 @export
 class ServiceException(VersioningException):
-	""".. todo:: ServiceException needs documentation"""
+	"""
+	.. todo::
+		 ServiceException needs documentation
+
+	"""
 
 
 @export
@@ -55,7 +59,11 @@ class CIService(BaseService, GitHelperMixin):
 	ENV_EXCLUDES: Tuple[str, ...] =       ()
 
 	def GetEnvironment(self) -> Dict[str, str]:
-		""".. todo:: getEnvironment needs documentation"""
+		"""
+		.. todo::
+		   getEnvironment needs documentation
+
+		"""
 
 		filteredEnv = {key: value for (key, value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
 
@@ -93,26 +101,46 @@ class CIService(BaseService, GitHelperMixin):
 
 	@abstractmethod
 	def GetGitHash(self) -> str:  # type: ignore[empty-body]
-		""".. todo:: getGithash needs documentation"""
+		"""
+		.. todo::
+		   getGithash needs documentation
+
+		"""
 
 	# @abstractmethod
 	def GetCommitDate(self) -> datetime:
-		""".. todo:: getCommitDate needs documentation"""
+		"""
+		.. todo::
+		   getCommitDate needs documentation
+
+		"""
 
 		datetimeString = self.ExecuteGitShow(GitShowCommand.CommitDateTime, self.GetGitHash())
 		return datetime.fromtimestamp(int(datetimeString))
 
 	@abstractmethod
 	def GetGitBranch(self) -> Nullable[str]:  # type: ignore[empty-body]
-		""".. todo:: getGitBranch needs documentation"""
+		"""
+		.. todo::
+		   getGitBranch needs documentation
+
+		"""
 
 	@abstractmethod
 	def GetGitTag(self) -> Nullable[str]:  # type: ignore[empty-body]
-		""".. todo:: getGitTag needs documentation"""
+		"""
+		.. todo::
+		   getGitTag needs documentation
+
+		"""
 
 	@abstractmethod
 	def GetGitRepository(self) -> str:  # type: ignore[empty-body]
-		""".. todo:: getGitRepository needs documentation"""
+		"""
+		.. todo::
+		   getGitRepository needs documentation
+
+		"""
 
 
 @export

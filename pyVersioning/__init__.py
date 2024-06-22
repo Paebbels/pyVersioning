@@ -378,7 +378,11 @@ class BaseService(metaclass=ExtendedType):
 
 	# @abstractmethod
 	def GetPlatform(self) -> Platform:  # type: ignore[empty-body]
-		""".. todo:: getPlatform needs documentation"""
+		"""
+		.. todo::
+		   getPlatform needs documentation
+
+		"""
 
 
 @export

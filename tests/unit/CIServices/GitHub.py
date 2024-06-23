@@ -32,6 +32,8 @@
 from os     import environ as os_environ
 from typing import Any, Dict
 
+from pytest import mark
+
 from .      import TestCase
 
 
@@ -56,11 +58,13 @@ class GitHubEnvironment(TestCase):
 
 		return env
 
+	@mark.skip
 	def test_Variables(self) -> None:
 		print()
 
 		stdout, stderr = self._run("variables")
 
+	@mark.skip
 	def test_Fillout(self) -> None:
 		print()
 

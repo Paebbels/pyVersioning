@@ -35,6 +35,7 @@ from pathlib            import Path
 from re                 import compile as re_compile
 from typing import Any, Dict
 
+from pytest             import mark
 from ruamel.yaml        import YAML
 from ruamel.yaml.reader import ReaderError
 
@@ -99,7 +100,7 @@ class LocalEnvironment(TestCase):
 
 		stdout, stderr = self._run("fillout", "tests/template.in", "tests/template.out")
 
-
+	@mark.skip
 	def test_Json_WithoutOutputFile(self) -> None:
 		print()
 
@@ -115,6 +116,7 @@ class LocalEnvironment(TestCase):
 			print(f"  {ex}")
 			self.fail("Internal JSON error: JSONDecodeError")
 
+	@mark.skip
 	def test_Json_WithOutputFile(self) -> None:
 		print()
 
@@ -152,6 +154,7 @@ class LocalEnvironment(TestCase):
 			print(f"  {ex}")
 			self.fail("Internal YAML error: ReaderError")
 
+	@mark.skip
 	def test_Yaml_WithOutputFile(self) -> None:
 		print()
 

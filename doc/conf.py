@@ -176,7 +176,8 @@ extensions = [
 	"sphinx.ext.ifconfig",
 	"sphinx.ext.viewcode",
 # SphinxContrib extensions
-	"sphinxcontrib.mermaid",
+	'sphinxcontrib.autoprogram',
+	'sphinxcontrib.mermaid',
 # Other extensions
 	"sphinx_design",
 	"sphinx_copybutton",

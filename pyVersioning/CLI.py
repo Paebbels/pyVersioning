@@ -44,7 +44,6 @@ from pyTooling.TerminalUI                     import TerminalApplication, Severi
 
 from pyVersioning                             import __version__, __author__, __email__, __copyright__, __license__
 from pyVersioning                             import Versioning, Platforms, Project, SelfDescriptive
-from pyVersioning.CIService                   import ServiceException
 from pyVersioning.Configuration               import Configuration
 
 

@@ -53,6 +53,8 @@ from pyVersioning.Configuration import Configuration
 
 @export
 class VersioningException(Exception):
+	"""Base-exception for all exceptions thrown by pyVersioning."""
+
 	# WORKAROUND: for Python <3.11
 	# Implementing a dummy method for Python versions before
 	__notes__: List[str]
@@ -66,10 +68,18 @@ class VersioningException(Exception):
 
 @export
 class ToolException(VersioningException):
-	command:      str
-	errorMessage: str
+	"""Exception thrown when a data collection tools has an error."""
+
+	command:      str    #: Command that caused the exception.
+	errorMessage: str    #: Error message returned by the tool.
 
 	def __init__(self, command: str, errorMessage: str) -> None:
+		"""
+
+		:param command:      Command that caused the exception.
+		:param errorMessage: Error message returned by the tool.
+		"""
+		super().__init__(errorMessage)
 		self.command = command
 		self.errorMessage = errorMessage
 
@@ -350,11 +360,11 @@ class Build(SelfDescriptive):
 
 @export
 class Platforms(Enum):
-	Workstation = auto()
-	AppVeyor =    auto()
-	GitHub =      auto()
-	GitLab =      auto()
-	Travis =      auto()
+	Workstation = auto()    #: A local work station, server, PC or laptop.
+	AppVeyor =    auto()    #: A CI service operated by `AppVeyor <https://www.appveyor.com/>`__.
+	GitHub =      auto()    #: A CI service offered by `GitHub <https://github.com/>`__ called GitHub Actions.
+	GitLab =      auto()    #: A CI service offered by `GitLab <https://about.gitlab.com/>`__.
+	Travis =      auto()    #: A CI service operated by `Travis <https://www.travis-ci.com/>`__.
 
 
 @export

@@ -41,33 +41,57 @@ from pyVersioning.CIService import CIService, Platform, ServiceException
 class AppVeyor(CIService):
 	"""Collect Git and other platform and environment information from environment variables provided by AppVeyor."""
 
-	ENV_INCLUDE_FILTER =  ("APPVEYOR_", )
-	ENV_EXCLUDE_FILTER =  ("_TOKEN", )
-	ENV_INCLUDES =        ("CI", "APPVEYOR", "PLATFORM", "CONFIGURATION")
-	ENV_EXCLUDES =        ()
+	ENV_INCLUDE_FILTER =  ("APPVEYOR_", )                                    #: List of environment variable name pattern for inclusion.
+	ENV_EXCLUDE_FILTER =  ("_TOKEN", )                                       #: List of environment variable name pattern for exclusion.
+	ENV_INCLUDES =        ("CI", "APPVEYOR", "PLATFORM", "CONFIGURATION")    #: List of environment variable to include.
+	ENV_EXCLUDES =        ()                                                 #: List of environment variable to exclude.
 
 	def GetPlatform(self) -> Platform:
 		return Platform("appveyor")
 
 	def GetGitHash(self) -> str:
+		"""
+		Returns the Git hash (SHA1 - 160-bit) as a string.
+
+		:return:                  Git hash as a hex formated string (40 characters).
+		:raises ServiceException: If environment variable ``APPVEYOR_REPO_COMMIT`` was not found.
+		"""
 		try:
 			return environ["APPVEYOR_REPO_COMMIT"]
 		except KeyError as ex:
 			raise ServiceException(f"Can't find AppVeyor environment variable 'APPVEYOR_REPO_COMMIT'.") from ex
 
 	def GetGitBranch(self) -> Nullable[str]:
+		"""
+		Returns Git branch name or ``None`` is not checked out on a branch.
+
+		:return:                  Git branch name or ``None``.
+		:raises ServiceException: If environment variable ``APPVEYOR_REPO_BRANCH`` was not found.
+		"""
 		try:
 			return environ["APPVEYOR_REPO_BRANCH"]
 		except KeyError:
 			return None
 
 	def GetGitTag(self) -> Nullable[str]:
+		"""
+		Returns Git tag name or ``None`` is not checked out on a branch.
+
+		:return:                  Git tag name or ``None``.
+		:raises ServiceException: If environment variable ``APPVEYOR_REPO_TAG_NAME`` was not found.
+		"""
 		try:
 			return environ["APPVEYOR_REPO_TAG_NAME"]
 		except KeyError:
 			return None
 
 	def GetGitRepository(self) -> str:
+		"""
+		Returns the Git repository URL.
+
+		:return:                  Git repository URL.
+		:raises ServiceException: If environment variable ``APPVEYOR_PROJECT_SLUG`` was not found.
+		"""
 		try:
 			return environ["APPVEYOR_PROJECT_SLUG"]
 		except KeyError as ex:

@@ -68,7 +68,6 @@ class GitHub(CIService):
 		:return:                  Git branch name or ``None``.
 		:raises ServiceException: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with ``refs/heads/``.
 		"""
-
 		branchPrefix = "refs/heads/"
 
 		try:
@@ -87,7 +86,6 @@ class GitHub(CIService):
 		:return:                  Git tag name or ``None``.
 		:raises ServiceException: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with ``refs/tags/``.
 		"""
-
 		tagPrefix = "refs/tags/"
 
 		try:
@@ -106,7 +104,6 @@ class GitHub(CIService):
 		:return:                  Git repository URL.
 		:raises ServiceException: If environment variable ``GITHUB_REPOSITORY`` was not found.
 		"""
-
 		try:
 			return environ["GITHUB_REPOSITORY"]
 		except KeyError as ex:

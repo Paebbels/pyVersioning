@@ -64,9 +64,9 @@ class GitLab(CIService):
 
 	def GetCommitDate(self) -> datetime:
 		"""
-		Returns the commit date as a :cls:`~datetime.datetime`.
+		Returns the commit date as a :class:`~datetime.datetime`.
 
-		:return:                  Git commit date as :cls:`~datetime.datetime`.
+		:return:                  Git commit date as :class:`~datetime.datetime`.
 		:raises ServiceException: If environment variable ``CI_COMMIT_TIMESTAMP`` was not found.
 		"""
 		try:

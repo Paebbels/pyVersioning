@@ -83,7 +83,7 @@ class CIService(BaseService, GitHelperMixin):
 
 		def func(s):
 			for e in filteredEnv.keys():
-				yield (e, s.__getattribute__(e))
+				yield e, s.__getattribute__(e)
 
 		Environment = make_dataclass(
 			"Environment",
@@ -110,9 +110,9 @@ class CIService(BaseService, GitHelperMixin):
 	# @abstractmethod
 	def GetCommitDate(self) -> datetime:
 		"""
-		Returns the commit date as a :cls:`~datetime.datetime`.
+		Returns the commit date as a :class:`~datetime.datetime`.
 
-		:return:                  Git commit date as :cls:`~datetime.datetime`.
+		:return:                  Git commit date as :class:`~datetime.datetime`.
 		"""
 		datetimeString = self.ExecuteGitShow(GitShowCommand.CommitDateTime, self.GetGitHash())
 		return datetime.fromtimestamp(int(datetimeString))

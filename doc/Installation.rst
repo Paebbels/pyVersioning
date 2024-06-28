@@ -48,6 +48,9 @@ See :ref:`DEP` for more details.
                # Basic pyVersioning package
                pip3 install pyVersioning
 
+               # Alternatively
+               python -m pip install pyVersioning
+
          .. tab-item:: With Documentation Dependencies
            :sync: Doc
 
@@ -55,6 +58,9 @@ See :ref:`DEP` for more details.
 
                # Install with dependencies to generate documentation
                pip3 install pyVersioning[doc]
+
+               # Alternatively
+               python -m pip install pyVersioning[doc]
 
          .. tab-item:: With Unit Testing Dependencies
            :sync: Unit
@@ -64,6 +70,9 @@ See :ref:`DEP` for more details.
                # Install with dependencies to run unit tests
                pip3 install pyVersioning[test]
 
+               # Alternatively
+               python -m pip install pyVersioning[test]
+
          .. tab-item:: All Developer Dependencies
            :sync: All
 
@@ -71,6 +80,9 @@ See :ref:`DEP` for more details.
 
                # Install with all developer dependencies
                pip3 install pyVersioning[all]
+
+               # Alternatively
+               python -m pip install pyVersioning[all]
 
    .. tab-item:: Windows
       :sync: Windows
@@ -85,6 +97,9 @@ See :ref:`DEP` for more details.
                # Basic pyVersioning package
                pip install pyVersioning
 
+               # Alternatively
+               py -m pip install pyVersioning
+
          .. tab-item:: With Documentation Dependencies
            :sync: Doc
 
@@ -92,6 +107,9 @@ See :ref:`DEP` for more details.
 
                # Install with dependencies to generate documentation
                pip install pyVersioning[doc]
+
+               # Alternatively
+               py -m pip install pyVersioning[doc]
 
          .. tab-item:: With Unit Testing Dependencies
            :sync: Unit
@@ -101,6 +119,9 @@ See :ref:`DEP` for more details.
                # Install with dependencies to run unit tests
                pip install pyVersioning[test]
 
+               # Alternatively
+               py -m pip install pyVersioning[test]
+
          .. tab-item:: All Developer Dependencies
            :sync: All
 
@@ -108,6 +129,9 @@ See :ref:`DEP` for more details.
 
                # Install with all developer dependencies
                pip install pyVersioning[all]
+
+               # Alternatively
+               py -m pip install pyVersioning[all]
 
 
 .. _INSTALL/pip/requirements:
@@ -137,14 +161,22 @@ Updating from PyPI using PIP
 
       .. code-block:: bash
 
-         pip install -U pyVersioning
+         # Update pyVersioning
+         pip3 install -U pyVersioning
+
+         # Alternatively
+         python -m pip install -U pyVersioning
 
    .. tab-item:: Windows
       :sync: Windows
 
       .. code-block:: powershell
 
-         pip3 install -U pyVersioning
+         # Update pyVersioning
+         pip install -U pyVersioning
+
+         # Alternatively
+         py -m pip install -U pyVersioning
 
 
 .. _INSTALL/pip/uninstall:
@@ -159,14 +191,22 @@ Uninstallation using PIP
 
       .. code-block:: bash
 
-         pip uninstall pyVersioning
+         # Uninstall pyVersioning
+         pip3 uninstall pyVersioning
+
+         # Alternatively
+         python -m pip uninstall pyVersioning
 
    .. tab-item:: Windows
       :sync: Windows
 
       .. code-block:: powershell
 
-         pip3 uninstall pyVersioning
+         # Uninstall pyVersioning
+         pip uninstall pyVersioning
+
+         # Alternatively
+         py -m pip uninstall pyVersioning
 
 
 .. _INSTALL/testing:
@@ -416,13 +456,13 @@ Ensure :ref:`packaging requirements <DEP/packaging>` are installed.
          cd <pyVersioning>
 
          # Package the code in a wheel (*.whl)
-         python -m build --wheel
+         python3 -m build --wheel
 
          # Uninstall the old package
-         python -m pip uninstall -y pyVersioning
+         python3 -m pip uninstall -y pyVersioning
 
          # Install from wheel
-         python -m pip install ./dist/pyVersioning-0.15.0-py3-none-any.whl
+         python3 -m pip install ./dist/pyVersioning-0.15.0-py3-none-any.whl
 
    .. tab-item:: Windows
       :sync: Windows

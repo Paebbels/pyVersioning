@@ -32,24 +32,56 @@ __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
 __copyright__ = "2020-2024, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
-__version__ =   "0.14.1"
+__version__ =   "0.15.0"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
 from dataclasses  import make_dataclass
 from datetime     import date, time, datetime
 from enum         import Enum, auto
 from os           import environ
-from pathlib      import Path
 from subprocess   import run as subprocess_run, PIPE, CalledProcessError
-from typing       import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable
+from sys          import version_info
+from typing       import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable, List
 
 from pyTooling.Decorators       import export, readonly
 from pyTooling.MetaClasses      import ExtendedType
 from pyTooling.Versioning       import SemanticVersion
 from pyTooling.TerminalUI       import ILineTerminal
 
-from pyVersioning.Utils         import GitHelper, GitShowCommand
-from pyVersioning.Configuration import Configuration
+from pyVersioning.Configuration import Configuration, Project, Compiler, Build
+
+
+@export
+class VersioningException(Exception):
+	"""Base-exception for all exceptions thrown by pyVersioning."""
+
+	# WORKAROUND: for Python <3.11
+	# Implementing a dummy method for Python versions before
+	__notes__: List[str]
+	if version_info < (3, 11):  # pragma: no cover
+		def add_note(self, message: str) -> None:
+			try:
+				self.__notes__.append(message)
+			except AttributeError:
+				self.__notes__ = [message]
+
+
+@export
+class ToolException(VersioningException):
+	"""Exception thrown when a data collection tools has an error."""
+
+	command:      str    #: Command that caused the exception.
+	errorMessage: str    #: Error message returned by the tool.
+
+	def __init__(self, command: str, errorMessage: str) -> None:
+		"""
+
+		:param command:      Command that caused the exception.
+		:param errorMessage: Error message returned by the tool.
+		"""
+		super().__init__(errorMessage)
+		self.command = command
+		self.errorMessage = errorMessage
 
 
 @export
@@ -64,7 +96,7 @@ class SelfDescriptive(metaclass=ExtendedType, slots=True, mixin=True):
 	def KeyValuePairs(self) -> Generator[Tuple[str, Any], None, None]:
 		for element in self._public:
 			value = self.__getattribute__(element)
-			yield (element, value)
+			yield element, value
 
 
 @export
@@ -77,15 +109,31 @@ class Tool(SelfDescriptive):
 	_public:  ClassVar[Tuple[str, ...]] = ("name", "version")
 
 	def __init__(self, name: str, version: SemanticVersion) -> None:
+		"""
+		Initialize a tool with name and version.
+
+		:param name:    The tool's name.
+		:param version: The tool's version.
+		"""
 		self._name = name
 		self._version = version
 
 	@readonly
 	def name(self) -> str:
+		"""
+		Read-only property to return the name of the tool.
+
+		:return: Name of the tool.
+		"""
 		return self._name
 
 	@readonly
 	def version(self) -> SemanticVersion:
+		"""
+		Read-only property to return the version of the tool.
+
+		:return: Version of the tool as :class:`SemanticVersion`.
+		"""
 		return self._version
 
 	def __str__(self) -> str:
@@ -104,23 +152,43 @@ class Time(time, SelfDescriptive):
 
 @export
 class Person(SelfDescriptive):
-	"""This data structure class describes an author with name and email address."""
+	"""
+	This data structure class describes a person with name and email address.
 
-	_name:  str
-	_email: str
+	This class is used to describe an author or committer in a version control system.
+	"""
+
+	_name:  str    #: Name of the person.
+	_email: str    #: Email address of the person.
 
 	_public: ClassVar[Tuple[str, ...]] = ("name", "email")
 
 	def __init__(self, name: str, email: str) -> None:
+		"""
+		Initialize a person with name and email address.
+
+		:param name:  The person's name.
+		:param email: The person's email address.
+		"""
 		self._name = name
 		self._email = email
 
 	@readonly
 	def name(self) -> str:
+		"""
+		Read-only property to return the name of the person.
+
+		:return: Name of the person.
+		"""
 		return self._name
 
 	@readonly
 	def email(self) -> str:
+		"""
+		Read-only property to return the email address of the person.
+
+		:return: Email address of the person.
+		"""
 		return self._email
 
 	def __str__(self) -> str:
@@ -140,6 +208,16 @@ class Commit(SelfDescriptive):
 	_public: ClassVar[Tuple[str, ...]] = ("hash", "date", "time", "author", "committer", "comment", "oneline")
 
 	def __init__(self, hash: str, date: date, time: time, author: Person, committer: Person, comment: str) -> None:
+		"""
+		Initialize a commit.
+
+		:param hash:      The commit's hash.
+		:param date:      The commit's date.
+		:param time:      The commit's time.
+		:param author:    The commit's author.
+		:param committer: The commit's committer.
+		:param comment:   The commit's comment.
+		"""
 		self._hash = hash
 		self._date = date
 		self._time = time
@@ -152,26 +230,56 @@ class Commit(SelfDescriptive):
 
 	@readonly
 	def hash(self) -> str:
+		"""
+		Read-only property to return the hash of the commit.
+
+		:return: Hash of the commit as string.
+		"""
 		return self._hash
 
 	@readonly
 	def date(self) -> date:
+		"""
+		Read-only property to return the date of the commit.
+
+		:return: Date of the commit as :class:`date`.
+		"""
 		return self._date
 
 	@readonly
 	def time(self) -> time:
+		"""
+		Read-only property to return the time of the commit.
+
+		:return: Time of the commit as :class:`time`.
+		"""
 		return self._time
 
 	@readonly
 	def author(self) -> Person:
+		"""
+		Read-only property to return the author of the commit.
+
+		:return: Author of the commit as :class:`Person`.
+		"""
 		return self._author
 
 	@readonly
 	def committer(self) -> Person:
+		"""
+		Read-only property to return the committer of the commit.
+
+		:return: Committer of the commit as :class:`Person`.
+		"""
 		return self._committer
 
 	@readonly
 	def comment(self) -> str:
+		"""
+		Read-only property to return the comment of the commit.
+
+		:return: Author of the comment as string.
+		"""
 		return self._comment
 
 	@readonly
@@ -204,30 +312,59 @@ class Git(SelfDescriptive):
 
 	@readonly
 	def commit(self) -> Commit:
+		"""
+		Read-only property to return the Git commit.
+
+		:return: The commit information as :class:`Commit`.
+		"""
 		return self._commit
 
 	@readonly
 	def reference(self) -> str:
+		"""
+		Read-only property to return the Git reference.
+
+		A reference is either a branch or tag.
+
+		:return: The current Git reference as string.
+		"""
 		return self._reference
 
 	@readonly
 	def tag(self) -> str:
+		"""
+		Read-only property to return the Git tag.
+
+		:return: The current Git tag name as string.
+		"""
 		return self._tag
 
 	@readonly
 	def branch(self) -> str:
+		"""
+		Read-only property to return the Git branch.
+
+		:return: The current Git branch name as string.
+		"""
 		return self._branch
 
 	@readonly
 	def repository(self) -> str:
+		"""
+		Read-only property to return the Git repository URL.
+
+		:return: The current Git repository URL as string.
+		"""
 		return self._repository
 
 
 @export
 class Project(SelfDescriptive):
-	_name:     str
-	_variant:  str
-	_version:  SemanticVersion
+	"""This data structure class describes a project."""
+
+	_name:     str                #: Name of the project.
+	_variant:  str                #: Variant of the project.
+	_version:  SemanticVersion    #: Version of the project.
 
 	_public: ClassVar[Tuple[str, ...]] = ("name", "variant", "version")
 
@@ -246,14 +383,29 @@ class Project(SelfDescriptive):
 
 	@readonly
 	def name(self) -> str:
+		"""
+		Read-only property to return the name of the project.
+
+		:return: The project's name as string.
+		"""
 		return self._name
 
 	@readonly
 	def variant(self) -> str:
+		"""
+		Read-only property to return the variant name of the project.
+
+		:return: The project's variant as string.
+		"""
 		return self._variant
 
 	@readonly
 	def version(self) -> SemanticVersion:
+		"""
+		Read-only property to return the version of the project.
+
+		:return: The project's version.
+		"""
 		return self._version
 
 	def __str__(self) -> str:
@@ -285,18 +437,38 @@ class Compiler(SelfDescriptive):
 
 	@readonly
 	def name(self) -> str:
+		"""
+		Read-only property to return the name of the compiler.
+
+		:return: The compiler's name as string.
+		"""
 		return self._name
 
 	@readonly
 	def version(self) -> SemanticVersion:
+		"""
+		Read-only property to return the version of the compiler.
+
+		:return: The compiler's version.
+		"""
 		return self._version
 
 	@readonly
 	def configuration(self) -> str:
+		"""
+		Read-only property to return the configuration of the compiler.
+
+		:return: The compiler's configuration.
+		"""
 		return self._configuration
 
 	@readonly
 	def options(self) -> str:
+		"""
+		Read-only property to return the options of the compiler.
+
+		:return: The compiler's options.
+		"""
 		return self._options
 
 
@@ -315,10 +487,20 @@ class Build(SelfDescriptive):
 
 	@readonly
 	def date(self) -> date:
+		"""
+		Read-only property to return the date of the build.
+
+		:return: Date of the build as :class:`date`.
+		"""
 		return self._date
 
 	@readonly
 	def time(self) -> time:
+		"""
+		Read-only property to return the time of the build.
+
+		:return: Time of the build as :class:`date`.
+		"""
 		return self._time
 
 	@readonly
@@ -328,11 +510,12 @@ class Build(SelfDescriptive):
 
 @export
 class Platforms(Enum):
-	Workstation = auto()
-	AppVeyor =    auto()
-	GitHub =      auto()
-	GitLab =      auto()
-	Travis =      auto()
+	"""An enumeration of platforms supported by pyTooling."""
+	Workstation = auto()    #: A local work station, server, PC or laptop.
+	AppVeyor =    auto()    #: A CI service operated by `AppVeyor <https://www.appveyor.com/>`__.
+	GitHub =      auto()    #: A CI service offered by `GitHub <https://github.com/>`__ called GitHub Actions.
+	GitLab =      auto()    #: A CI service offered by `GitLab <https://about.gitlab.com/>`__.
+	Travis =      auto()    #: A CI service operated by `Travis <https://www.travis-ci.com/>`__.
 
 
 @export
@@ -356,11 +539,56 @@ class BaseService(metaclass=ExtendedType):
 
 	# @abstractmethod
 	def GetPlatform(self) -> Platform:  # type: ignore[empty-body]
-		""".. todo:: getPlatform needs documentation"""
+		"""
+		.. todo::
+		   getPlatform needs documentation
+
+		"""
 
 
 @export
-class Versioning(ILineTerminal, GitHelper):
+class GitShowCommand(Enum):
+	CommitDateTime =       auto()
+	CommitAuthorName =     auto()
+	CommitAuthorEmail =    auto()
+	CommitCommitterName =  auto()
+	CommitCommitterEmail = auto()
+	CommitHash =           auto()
+	CommitComment =        auto()
+
+
+@export
+class GitHelperMixin(metaclass=ExtendedType, mixin=True):
+	__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP = {
+		GitShowCommand.CommitHash:           "%H",
+		GitShowCommand.CommitDateTime:       "%ct",
+		GitShowCommand.CommitAuthorName:     "%an",
+		GitShowCommand.CommitAuthorEmail:    "%ae",
+		GitShowCommand.CommitCommitterName:  "%cn",
+		GitShowCommand.CommitCommitterEmail: "%ce",
+		GitShowCommand.CommitComment:        "%B",
+	}
+
+	def ExecuteGitShow(self, cmd: GitShowCommand, ref: str = "HEAD") -> str:
+		format = f"--format='{self.__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP[cmd]}'"
+
+		command = "git"
+		arguments = ("show", "-s", format, ref)
+		try:
+			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
+		except CalledProcessError as ex:
+			raise ToolException(f"{command} {' '.join(arguments)}", str(ex))
+
+		if completed.returncode == 0:
+			comment = completed.stdout.decode("utf-8")
+			return comment[1:-2]
+		else:
+			message = completed.stderr.decode("utf-8")
+			raise ToolException(f"{command} {' '.join(arguments)}", message)
+
+
+@export
+class Versioning(ILineTerminal, GitHelperMixin):
 	_variables: Dict[str, Any]
 	_platform:  Platforms = Platforms.Workstation
 	_service:   BaseService
@@ -431,7 +659,7 @@ class Versioning(ILineTerminal, GitHelper):
 		if self._variables["git"].tag != "":
 			pass
 
-	def GetVersion(self, config: Configuration.Project) -> SemanticVersion:
+	def GetVersion(self, config: Project) -> SemanticVersion:
 		if config.version is not None:
 			return config.version
 		else:
@@ -597,14 +825,14 @@ class Versioning(ILineTerminal, GitHelper):
 
 	# 		self.WriteFatal(f"Message from '{command}': {message}")
 
-	def GetProject(self, config: Configuration.Project) -> Project:
+	def GetProject(self, config: Project) -> Project:
 		return Project(
 			name=config.name,
 			version=config.version,
 			variant=config.variant
 		)
 
-	def GetBuild(self, config: Configuration.Build) -> Build:
+	def GetBuild(self, config: Build) -> Build:
 		dt = datetime.now()
 		return Build(
 			date=dt.date(),
@@ -612,7 +840,7 @@ class Versioning(ILineTerminal, GitHelper):
 			compiler=self.GetCompiler(config.compiler)
 		)
 
-	def GetCompiler(self, config: Configuration.Build.Compiler) -> Compiler:
+	def GetCompiler(self, config: Compiler) -> Compiler:
 		return Compiler(
 			name=config.name,
 			version=SemanticVersion.Parse(config.version),
@@ -633,7 +861,7 @@ class Versioning(ILineTerminal, GitHelper):
 
 		def func(s) -> Generator[Tuple[str, Any], None, None]:
 			for e in env.keys():
-				yield (e, s.__getattribute__(e))
+				yield e, s.__getattribute__(e)
 
 		Environment = make_dataclass(
 			"Environment",

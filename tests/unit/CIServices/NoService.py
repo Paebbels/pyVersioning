@@ -29,10 +29,17 @@
 # ==================================================================================================================== #
 #
 """Unit tests for GitLab CI."""
-from os     import environ as os_environ
-from typing import Any
+from json               import loads, JSONDecodeError
+from os                 import environ as os_environ
+from pathlib            import Path
+from re                 import compile as re_compile
+from typing import Any, Dict
 
-from .      import TestCase
+from pytest             import mark
+from ruamel.yaml        import YAML
+from ruamel.yaml.reader import ReaderError
+
+from . import TestCase
 
 
 if __name__ == "__main__":
@@ -41,28 +48,132 @@ if __name__ == "__main__":
 	exit(1)
 
 
-class GitHubEnvironment(TestCase):
-	@staticmethod
-	def _getServiceEnvironment(**kwargs: Any):
-		env = {k: v for k, v in os_environ.items()}
+class LocalEnvironment(TestCase):
+	@classmethod
+	def _getServiceEnvironment(cls, **kwargs: Any) -> Dict[str, str]:
+		env: Dict[str, str] = {k: v for k, v in os_environ.items()}
 
-		if len(kwargs) == 0:
-			env["CI"] =                "YES"
-			env["GITHUB_SHA"] =        "1234567890123456789012345678901234567890"
-			env["GITHUB_REF"] =        "dev"
-			env["GITHUB_REPOSITORY"] = "gitlab.com/path/to/repo.git"
-		else:
-			for k, v in kwargs.items():
-				env[k] = v
+		# Remove GitHub variables
+		if "CI" in env:
+			env = {k: v for k, v in env.items() if not k.startswith("GITHUB_")}
+
+		# Remove GitLab variables
+		if "GITLAB_CI" in env:
+			env = {k: v for k, v in env.items() if not k.startswith("CI_")}
+
+		env.update(kwargs)
 
 		return env
+
+	def test_NoArguments(self):
+		print()
+
+		stdout, stderr = self._run()
+
+	def test_Help(self) -> None:
+		print()
+
+		stdout, stderr = self._run("help")
 
 	def test_Variables(self) -> None:
 		print()
 
 		stdout, stderr = self._run("variables")
 
-	def test_Fillout(self) -> None:
+	def test_Field_Version(self) -> None:
 		print()
 
-		stdout, stderr = self._run("-v", "fillout", "tests/template.in", "tests/template.out")
+		stdout, stderr = self._run("field", "version")
+
+	def test_Field_GitCommitHash(self) -> None:
+		print()
+
+		stdout, stderr = self._run("field", "git.commit.hash")
+
+	def test_Fillout_WithoutOutputFile(self) -> None:
+		print()
+
+		stdout, stderr = self._run("fillout", "tests/template.in")
+
+	def test_Fillout_WithOutputFile(self) -> None:
+		print()
+
+		stdout, stderr = self._run("fillout", "tests/template.in", "tests/template.out")
+
+	@mark.skip
+	def test_Json_WithoutOutputFile(self) -> None:
+		print()
+
+		stdout, stderr = self._run("json")
+
+		try:
+			# WORKAROUND: removing color codes
+			ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+			jsonContent = ansiEscape.sub("", stdout)
+			json = loads(jsonContent)
+		except JSONDecodeError as ex:
+			print(f"JSON: JSONDecodeError")
+			print(f"  {ex}")
+			self.fail("Internal JSON error: JSONDecodeError")
+
+	@mark.skip
+	def test_Json_WithOutputFile(self) -> None:
+		print()
+
+		outputFile = Path("tests/template.json")
+		stdout, stderr = self._run("-d", "json", outputFile.as_posix())
+
+		try:
+			json = loads(outputFile.read_text())
+		except JSONDecodeError as ex:
+			print(f"JSON: JSONDecodeError")
+			print(f"  {ex}")
+			self.fail("Internal JSON error: JSONDecodeError")
+		except FileNotFoundError as ex:
+			print(f"OS: FileNotFoundError")
+			print(f"  {ex}")
+			print(f"  cwd: {Path.cwd()}")
+			print(f"  tests/")
+			for item in (Path.cwd() / 'tests').glob("*.*"):
+				print(f"    {item}")
+			self.fail("Unittest error: FileNotFoundError")
+
+	def test_Yaml_WithoutOutputFile(self) -> None:
+		print()
+
+		stdout, stderr = self._run("yaml")
+
+		yaml = YAML()
+		try:
+			# WORKAROUND: removing color codes
+			ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+			yamlContent = ansiEscape.sub("", stdout)
+			yaml.load(yamlContent)
+		except ReaderError as ex:
+			print(f"YAML: ReaderError")
+			print(f"  {ex}")
+			self.fail("Internal YAML error: ReaderError")
+
+	@mark.skip
+	def test_Yaml_WithOutputFile(self) -> None:
+		print()
+
+		outputFile = Path("tests/template.yaml")
+
+		stdout, stderr = self._run("-d", "yaml", outputFile.as_posix())
+
+		yaml = YAML()
+		try:
+			yaml.load(outputFile.read_text())
+		except ReaderError as ex:
+			print(f"YAML: ReaderError")
+			print(f"  {ex}")
+			self.fail("Internal YAML error: ReaderError")
+		except FileNotFoundError as ex:
+			print(f"OS: FileNotFoundError")
+			print(f"  {ex}")
+			print(f"  cwd: {Path.cwd()}")
+			print(f"  tests/")
+			for item in (Path.cwd() / 'tests').glob("*.*"):
+				print(f"    {item}")
+			self.fail("Unittest error: FileNotFoundError")

@@ -1,7 +1,16 @@
 .. _INSTALL:
 
+.. |PackageName| replace:: pyVersioning
+
 Installation/Updates
 ####################
+
+See the following instructions on how to install or update the package from common sources like PyPI. Developers can
+also install the packages with development dependencies. In case of local development, see the additional sections on
+how to run unit tests, type checks or how to build the documentation to create all the build artifacts.
+
+See the list of :ref:`necessary dependencies <DEP>`.
+
 
 .. _INSTALL/pip:
 
@@ -11,35 +20,18 @@ Using PIP to Install from PyPI
 The following instruction are using PIP (Package Installer for Python) as a package manager and PyPI (Python Package
 Index) as a source of Python packages.
 
+PIP might download further packages as listed in :ref:`package dependencies <DEP/package>`.
+
 
 .. _INSTALL/pip/install:
 
 Installing a Wheel Package from PyPI using PIP
 ==============================================
 
-Users of pyTooling can select if the want to install a basic variant of pyTooling. See :ref:`DEP` for more
-details.
+Developers can install the |PackageName| package itself or the package with further dependencies for documentation
+generation (``doc``), running unit tests (``test``) or just all (``all``) dependencies.
 
-.. tab-set::
-
-   .. tab-item:: Linux/MacOS
-      :sync: Linux
-
-      .. code-block:: bash
-
-         # Basic pyVersioning package
-         pip3 install pyVersioning
-
-   .. tab-item:: Windows
-      :sync: Windows
-
-      .. code-block:: powershell
-
-         # Basic pyVersioning package
-         pip install pyVersioning
-
-Developers can install further dependencies for documentation generation (``doc``) or running unit tests (``test``) or
-just all (``all``) dependencies.
+See :ref:`DEP` for more details.
 
 .. tab-set::
 
@@ -47,6 +39,17 @@ just all (``all``) dependencies.
       :sync: Linux
 
       .. tab-set::
+
+         .. tab-item:: Minimal installation
+           :sync: Minimal
+
+            .. code-block:: bash
+
+               # Basic pyVersioning package
+               pip3 install pyVersioning
+
+               # Alternatively
+               python -m pip install pyVersioning
 
          .. tab-item:: With Documentation Dependencies
            :sync: Doc
@@ -56,6 +59,9 @@ just all (``all``) dependencies.
                # Install with dependencies to generate documentation
                pip3 install pyVersioning[doc]
 
+               # Alternatively
+               python -m pip install pyVersioning[doc]
+
          .. tab-item:: With Unit Testing Dependencies
            :sync: Unit
 
@@ -64,18 +70,35 @@ just all (``all``) dependencies.
                # Install with dependencies to run unit tests
                pip3 install pyVersioning[test]
 
+               # Alternatively
+               python -m pip install pyVersioning[test]
+
          .. tab-item:: All Developer Dependencies
            :sync: All
 
             .. code-block:: bash
 
                # Install with all developer dependencies
-               pip install pyVersioning[all]
+               pip3 install pyVersioning[all]
+
+               # Alternatively
+               python -m pip install pyVersioning[all]
 
    .. tab-item:: Windows
       :sync: Windows
 
       .. tab-set::
+
+         .. tab-item:: Minimal installation
+           :sync: Minimal
+
+            .. code-block:: powershell
+
+               # Basic pyVersioning package
+               pip install pyVersioning
+
+               # Alternatively
+               py -m pip install pyVersioning
 
          .. tab-item:: With Documentation Dependencies
            :sync: Doc
@@ -85,6 +108,9 @@ just all (``all``) dependencies.
                # Install with dependencies to generate documentation
                pip install pyVersioning[doc]
 
+               # Alternatively
+               py -m pip install pyVersioning[doc]
+
          .. tab-item:: With Unit Testing Dependencies
            :sync: Unit
 
@@ -93,6 +119,9 @@ just all (``all``) dependencies.
                # Install with dependencies to run unit tests
                pip install pyVersioning[test]
 
+               # Alternatively
+               py -m pip install pyVersioning[test]
+
          .. tab-item:: All Developer Dependencies
            :sync: All
 
@@ -100,6 +129,24 @@ just all (``all``) dependencies.
 
                # Install with all developer dependencies
                pip install pyVersioning[all]
+
+               # Alternatively
+               py -m pip install pyVersioning[all]
+
+
+.. _INSTALL/pip/requirements:
+
+Referencing the package in ``requirements.txt``
+===============================================
+
+When |PackageName| is used by another Python package, it's recommended to list the dependency to the |PackageName|
+package in a ``requirements.txt`` file.
+
+.. admonition:: ``requirements.txt``
+
+   .. code-block:: text
+
+      pyVersioning ~= 0.15.0
 
 
 .. _INSTALL/pip/update:
@@ -114,14 +161,22 @@ Updating from PyPI using PIP
 
       .. code-block:: bash
 
-         pip install -U pyVersioning
+         # Update pyVersioning
+         pip3 install -U pyVersioning
+
+         # Alternatively
+         python -m pip install -U pyVersioning
 
    .. tab-item:: Windows
       :sync: Windows
 
       .. code-block:: powershell
 
-         pip3 install -U pyVersioning
+         # Update pyVersioning
+         pip install -U pyVersioning
+
+         # Alternatively
+         py -m pip install -U pyVersioning
 
 
 .. _INSTALL/pip/uninstall:
@@ -136,29 +191,246 @@ Uninstallation using PIP
 
       .. code-block:: bash
 
-         pip uninstall pyVersioning
+         # Uninstall pyVersioning
+         pip3 uninstall pyVersioning
+
+         # Alternatively
+         python -m pip uninstall pyVersioning
 
    .. tab-item:: Windows
       :sync: Windows
 
       .. code-block:: powershell
 
-         pip3 uninstall pyVersioning
+         # Uninstall pyVersioning
+         pip uninstall pyVersioning
+
+         # Alternatively
+         py -m pip uninstall pyVersioning
 
 
-.. _INSTALL/setup:
+.. _INSTALL/testing:
 
-Using ``setup.py`` (legacy)
-***************************
+Running unit tests
+******************
 
-See sections above on how to use PIP.
+This package is provided with unit tests for `pytest <https://docs.pytest.org/>`__. The provided testcases can be
+executed locally for testing or development purposes. In addition, code coverage including branch coverage can be
+collected using `Coverage.py <https://coverage.readthedocs.io/>`__. All steps provide appropriate artifacts as XML or
+HTML reports. The artifact output directories are specified in ``pyproject.toml``.
 
-Installation using ``setup.py``
-===============================
+Ensure :ref:`unit testing requirements <DEP/testing>` are installed.
 
-.. code-block:: bash
+.. tab-set::
 
-   setup.py install
+   .. tab-item:: Linux/MacOS
+      :sync: Linux
+
+      .. tab-set::
+
+         .. tab-item:: Unit Testing
+            :sync: UnitTesting
+
+            .. code-block:: bash
+
+               cd <pyVersioning>
+
+               # Running unit tests using pytest
+               pytest -raP --color=yes tests/unit
+
+         .. tab-item:: Unit Testing with Ant/JUnit XML Reports
+            :sync: UnitTestingXML
+
+            .. code-block:: bash
+
+               cd <pyVersioning>
+
+               # Running unit tests using pytest
+               pytest -raP --color=yes --junitxml=report/unit/unittest.xml --template=html1/index.html --report=report/unit/html/index.html --split-report tests/unit
+
+         .. tab-item:: Unit Testing with Code Coverage
+            :sync: Coverage
+
+            .. code-block:: bash
+
+               cd <pyVersioning>
+
+               # Running unit tests with code coverage using Coverage.py
+               coverage run --data-file=.coverage --rcfile=pyproject.toml -m pytest -ra --tb=line --color=yes tests/unit
+
+               # Write coverage report to console"
+               coverage report
+
+               # Convert coverage report to HTML
+               coverage html
+
+               # Convert coverage report to XML (Cobertura)
+               coverage xml
+
+   .. tab-item:: Windows
+      :sync: Windows
+
+      .. tab-set::
+
+         .. tab-item:: Unit Testing
+            :sync: UnitTesting
+
+            .. code-block:: powershell
+
+               cd <pyVersioning>
+
+               # Running unit tests using pytest
+               pytest -raP --color=yes tests\unit
+
+         .. tab-item:: Unit Testing with Ant/JUnit XML Reports
+            :sync: UnitTestingXML
+
+            .. code-block:: powershell
+
+               cd <pyVersioning>
+
+               # Running unit tests using pytest
+               pytest -raP --color=yes --junitxml=report\unit\unittest.xml --template=html1\index.html --report=report\unit\html\index.html --split-report tests\unit
+
+         .. tab-item:: Unit Testing with Code Coverage
+            :sync: Coverage
+
+            .. code-block:: powershell
+
+               cd <pyVersioning>
+
+               # Running unit tests with code coverage using Coverage.py
+               coverage run --data-file=.coverage --rcfile=pyproject.toml -m pytest -ra --tb=line --color=yes tests\unit
+
+               # Write coverage report to console"
+               coverage report
+
+               # Convert coverage report to HTML
+               coverage html
+
+               # Convert coverage report to XML (Cobertura)
+               coverage xml
+
+
+.. _INSTALL/typechecking:
+
+Running type checks
+*******************
+
+This package is provided with type checks. These can be executed locally for testing or development purposes using
+`mypy <https://mypy-lang.org/>`__. The artifact output directory is specified in ``pyproject.toml``.
+
+Ensure :ref:`unit testing requirements <DEP/testing>` are installed.
+
+.. tab-set::
+
+   .. tab-item:: Linux/MacOS
+      :sync: Linux
+
+      .. code-block:: bash
+
+         cd <pyVersioning>
+
+         # Running type checking using mypy
+         export MYPY_FORCE_COLOR=1
+         mypy -p pyversioning
+
+   .. tab-item:: Windows
+      :sync: Windows
+
+      .. code-block:: powershell
+
+         cd <pyVersioning>
+
+         # Running type checking using mypy
+         $env:MYPY_FORCE_COLOR = 1
+         mypy -p pyversioning
+
+
+.. _INSTALL/documentation:
+
+Building documentation
+**********************
+
+The documentation can be build locally using `Sphinx <https://www.sphinx-doc.org/>`__. It can generate HTML and LaTeX
+outputs. In an additional step, the LaTeX output can be translated to a PDF file using a LaTeX environment like
+`MiKTeX <https://miktex.org/>`__.
+
+Ensure :ref:`documentation requirements <DEP/documentation>` are installed.
+
+.. tab-set::
+
+   .. tab-item:: Linux/MacOS
+      :sync: Linux
+
+      .. tab-set::
+
+         .. tab-item:: Generating HTML
+            :sync: HTML
+
+            .. code-block:: bash
+
+               cd <pyVersioning>
+
+               # Adding package root to PYTHONPATH
+               export PYTHONPATH=$(pwd)
+               cd doc
+
+               # Building documentation using Sphinx
+               sphinx-build -v -n -b html -d _build/doctrees -j $(nproc) -w _build/html.log . _build/html
+
+         .. tab-item:: Generating LaTeX
+            :sync: LaTeX
+
+            .. code-block:: bash
+
+               cd <pyVersioning>
+
+               # Adding package root to PYTHONPATH
+               export PYTHONPATH=$(pwd)
+               cd doc
+
+               # Building documentation using Sphinx
+               sphinx-build -v -n -b latex -d _build/doctrees -j $(nproc) -w _build/latex.log . _build/latex
+
+         .. tab-item:: Generating PDF (from LaTeX)
+            :sync: PDF
+
+            .. todo:: Describe LaTeX to PDF conversion on Linux using Miktex.
+
+            .. hint:: A `Miktex installation <https://miktex.org/>`__ is required.
+
+   .. tab-item:: Windows
+      :sync: Windows
+
+      .. tab-set::
+
+         .. tab-item:: Generating HTML
+            :sync: HTML
+
+            .. code-block:: powershell
+
+               cd <pyVersioning>
+
+               # Building documentation using Sphinx
+               .\doc\make.bat html --verbose
+
+         .. tab-item:: Generating LaTeX
+            :sync: LaTeX
+
+            .. code-block:: powershell
+
+               cd <pyVersioning>
+
+               # Building documentation using Sphinx
+               .\doc\make.bat latex --verbose
+
+         .. tab-item:: Generating PDF (from LaTeX)
+            :sync: PDF
+
+            .. todo:: Describe LaTeX to PDF conversion on Windows using Miktex.
+
+            .. hint:: A `Miktex installation <https://miktex.org/>`__ is required.
 
 
 .. _INSTALL/building:
@@ -168,9 +440,9 @@ Local Packaging and Installation via PIP
 
 For development and bug fixing it might be handy to create a local wheel package and also install it locally on the
 development machine. The following instructions will create a local wheel package (``*.whl``) and then use PIP to
-install it. As a user might have a pyVersioning installation from PyPI, it's recommended to uninstall any previous
-pyVersioning packages. (This step is also needed if installing an updated local wheel file with same version number. PIP
-will not detect a new version and thus not overwrite/reinstall the updated package contents.)
+install it. As a user might have a |PackageName| installation from PyPI, it's recommended to uninstall any previous
+|PackageName| packages. (This step is also needed if installing an updated local wheel file with same version number.
+PIP will not detect a new version and thus not overwrite/reinstall the updated package contents.)
 
 Ensure :ref:`packaging requirements <DEP/packaging>` are installed.
 
@@ -184,13 +456,13 @@ Ensure :ref:`packaging requirements <DEP/packaging>` are installed.
          cd <pyVersioning>
 
          # Package the code in a wheel (*.whl)
-         python -m build --wheel
+         python3 -m build --wheel
 
          # Uninstall the old package
-         python -m pip uninstall -y pyVersioning
+         python3 -m pip uninstall -y pyVersioning
 
          # Install from wheel
-         python -m pip install ./dist/pyVersioning-4.1.0-py3-none-any.whl
+         python3 -m pip install ./dist/pyVersioning-0.15.0-py3-none-any.whl
 
    .. tab-item:: Windows
       :sync: Windows
@@ -206,4 +478,9 @@ Ensure :ref:`packaging requirements <DEP/packaging>` are installed.
          py -m pip uninstall -y pyVersioning
 
          # Install from wheel
-         py -m pip install .\dist\pyVersioning-4.1.0-py3-none-any.whl
+         py -m pip install .\dist\pyVersioning-0.15.0-py3-none-any.whl
+
+.. note::
+
+   The legacy ways of building a package using ``setup.py bdist_wheel`` and installation using ``setup.py install`` is
+   not recommended anymore.

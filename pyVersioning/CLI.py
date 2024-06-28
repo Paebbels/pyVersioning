@@ -49,6 +49,13 @@ from pyVersioning.Configuration               import Configuration
 
 @export
 class ProjectAttributeGroup(CommandGroupAttribute):
+	"""
+	This attribute group applies the following ArgParse attributes:
+
+	* ``--project-name``
+	* ``--project-variant``
+	* ``--project-version``
+	"""
 	def __call__(self, func: Entity) -> Entity:
 		self._AppendAttribute(func, LongValuedFlag("--project-name",    dest="ProjectName",    metaName="<Name>",    help="Name of the project."))
 		self._AppendAttribute(func, LongValuedFlag("--project-variant", dest="ProjectVariant", metaName="<Variant>", help="Variant of the project."))
@@ -58,6 +65,14 @@ class ProjectAttributeGroup(CommandGroupAttribute):
 
 @export
 class CompilerAttributeGroup(CommandGroupAttribute):
+	"""
+	This attribute group applies the following ArgParse attributes:
+
+	* ``--compiler-name``
+	* ``--compiler-version``
+	* ``--compiler-config``
+	* ``--compiler-options``
+	"""
 	def __call__(self, func: Entity) -> Entity:
 		self._AppendAttribute(func, LongValuedFlag("--compiler-name",    dest="CompilerName",    metaName="<Name>",    help="Used compiler."))
 		self._AppendAttribute(func, LongValuedFlag("--compiler-version", dest="CompilerVersion", metaName="<Version>", help="Used compiler version."))
@@ -71,6 +86,9 @@ ArgNames = namedtuple("ArgNames", ("Command", "Template", "Filename", "ProjectNa
 
 @export
 class Application(TerminalApplication, ArgParseHelperMixin):
+	"""
+	pyVersioning's command line interface application class.
+	"""
 	HeadLine:     str = "Version file generator."
 
 	__configFile: Path
@@ -125,12 +143,13 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 		self.Exit()
 
 	def _PrintHeadline(self) -> None:
+		"""Helper method to print the program headline."""
 		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.Foreground))
 		self.WriteNormal("{HEADLINE}{headline: ^80s}".format(headline=self.HeadLine, **TerminalApplication.Foreground))
 		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.Foreground))
 
 	def _PrintVersion(self) -> None:
-		"""Helper function to print the version information."""
+		"""Helper method to print the version information."""
 		self.WriteNormal(f"Author:    {__author__} ({__email__})")
 		self.WriteNormal(f"Copyright: {__copyright__}")
 		self.WriteNormal(f"License:   {__license__}")
@@ -178,6 +197,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 	@ProjectAttributeGroup("dummy")
 	@CompilerAttributeGroup("flummy")
 	def HandleVariables(self, args: Namespace) -> None:
+		"""Handle program calls for command ``variables``."""
 		self.Configure(verbose=args.Verbose, debug=args.Debug, quiet=True)
 		self._PrintHeadline()
 		self.Initialize(Path(args.ConfigFile) if args.ConfigFile is not None else None)
@@ -195,12 +215,33 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 		for key,value in self._versioning.Variables.items():
 			_print(key, value, 0)
 
+	@CommandHandler("field", help="Return a single pyVersioning field.")
+	@ProjectAttributeGroup("dummy")
+	@CompilerAttributeGroup("flummy")
+	@StringArgument(dest="Field", metaName="<Field name>", help="Field to return.")
+	@PathArgument(dest="Filename", metaName="<Output file>", optional=True, help="Output filename.")
+	def HandleField(self, args: Namespace) -> None:
+		"""Handle program calls for command ``field``."""
+		self.Configure(verbose=args.Verbose, debug=args.Debug, quiet=args.Filename is None)
+		self._PrintHeadline()
+		self.Initialize(None if args.ConfigFile is None else Path(args.ConfigFile))
+
+		query = f"{{{args.Field}}}"
+
+		content = self.FillOutTemplate(query)
+
+		self.WriteOutput(
+			None if args.Filename is None else Path(args.Filename),
+			content
+		)
+
 	@CommandHandler("fillout", help="Read a template and replace tokens with version information.")
 	@ProjectAttributeGroup("dummy")
 	@CompilerAttributeGroup("flummy")
 	@PathArgument(dest="Template", metaName="<Template file>", help="Template input filename.")
 	@PathArgument(dest="Filename", metaName="<Output file>",   optional=True, help="Output filename.")
 	def HandleFillOut(self, args: Namespace) -> None:
+		"""Handle program calls for command ``fillout``."""
 		self.Configure(verbose=args.Verbose, debug=args.Debug, quiet=args.Filename is None)
 		self._PrintHeadline()
 		self.Initialize(None if args.ConfigFile is None else Path(args.ConfigFile))
@@ -226,6 +267,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 	@CompilerAttributeGroup("flummy")
 	@PathArgument(dest="Filename", metaName="<Output file>", optional=True, help="Output filename.")
 	def HandleJSON(self, args: Namespace) -> None:
+		"""Handle program calls for command ``json``."""
 		self.Configure(verbose=args.Verbose, debug=args.Debug, quiet=args.Filename is None)
 		self.Initialize(Path(args.ConfigFile) if args.ConfigFile is not None else None)
 
@@ -257,6 +299,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 	@CompilerAttributeGroup("flummy")
 	@PathArgument(dest="Filename", metaName="<Output file>", optional=True, help="Output filename.")
 	def HandleYAML(self, args: Namespace) -> None:
+		"""Handle program calls for command ``yaml``."""
 		self.Configure(verbose=args.Verbose, debug=args.Debug, quiet=args.Filename is None)
 		self.Initialize(Path(args.ConfigFile) if args.ConfigFile is not None else None)
 
@@ -388,9 +431,15 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 
 
 def main() -> NoReturn:
+	"""Entrypoint for program execution."""
 	application = Application()
 	application.CheckPythonVersion((3, 8, 0))
-	application.Run()
+	try:
+		application.Run()
+	# except ServiceException as ex:
+	# 	application.PrintException(ex)
+	except Exception as ex:
+		application.PrintException(ex)
 
 
 if __name__ == "__main__":

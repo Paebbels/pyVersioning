@@ -1,11 +1,11 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-from importlib.util import find_spec
 from sys import path as sys_path
 from os.path import abspath
 from pathlib import Path
 from json import loads
+from typing import Dict
 
 from pyTooling.Packaging import extractVersionInformation
 
@@ -25,7 +25,8 @@ sys_path.insert(0, abspath("../pyVersioning"))
 # built documents.
 project = "pyVersioning"
 
-packageInformationFile = Path(f"../{project.replace('.', '/')}/__init__.py")
+projectDirectory = Path(f"../{project.replace('.', '/')}")
+packageInformationFile = projectDirectory / "__init__.py"
 versionInformation = extractVersionInformation(packageInformationFile)
 
 author =    versionInformation.Author
@@ -176,7 +177,8 @@ extensions = [
 	"sphinx.ext.ifconfig",
 	"sphinx.ext.viewcode",
 # SphinxContrib extensions
-	"sphinxcontrib.mermaid",
+	'sphinxcontrib.autoprogram',
+	'sphinxcontrib.mermaid',
 # Other extensions
 	"sphinx_design",
 	"sphinx_copybutton",
@@ -303,10 +305,33 @@ sd_fontawesome_latex = True
 # ==============================================================================
 # AutoAPI.Sphinx
 # ==============================================================================
+def recurse(directory: Path, moduleName: str, outputDirectory: Path, moduleDict: Dict):
+	for d in directory.iterdir():
+		if d.is_dir() and d.name != "__pycache__":
+			# print(f"Adding package rule for '{moduleName}.{d.name}'")
+			moduleDict[f"{moduleName}.{d.name}"] = {
+				"template": "package",
+				"output": str(outputDirectory),
+				"override": True
+			}
+			recurse(d, f"{moduleName}.{d.name}", outputDirectory, moduleDict)
+		elif d.is_file() and d.suffix == ".py" and d.stem != "__init__":
+			# print(f"Adding module rule for '{moduleName}.{d.stem}'")
+			moduleDict[f"{moduleName}.{d.stem}"] = {
+				"template": "module",
+				"output": str(outputDirectory),
+				"override": True
+			}
+		# else:
+		# 	print(f"unknown {d} {d.suffix}")
+
+outputDirectory = Path(project)
 autoapi_modules = {
-	"pyVersioning":  {
-		"template": "module",
-		"output": "pyVersioning",
+	f"{project}":  {
+		"template": "toppackage",
+		"output":   outputDirectory,
 		"override": True
 	}
 }
+
+recurse(projectDirectory, project, outputDirectory, autoapi_modules)

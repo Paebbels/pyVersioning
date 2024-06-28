@@ -29,10 +29,11 @@
 # ==================================================================================================================== #
 #
 """Unit tests for GitLab CI."""
-from os     import environ as os_environ
-from typing import Any
+from datetime import datetime
+from os       import environ as os_environ
+from typing   import Any, Dict
 
-from .      import TestCase
+from .        import TestCase
 
 
 if __name__ == "__main__":
@@ -43,17 +44,17 @@ if __name__ == "__main__":
 
 class GitLabEnvironment(TestCase):
 	@classmethod
-	def _getServiceEnvironment(cls, **kwargs: Any):
-		env = {k: v for k, v in os_environ.items()}
+	def _getServiceEnvironment(cls, **kwargs: Any) -> Dict[str, str]:
+		env: Dict[str, str] = {k: v for k, v in os_environ.items()}
 
 		if len(kwargs) == 0:
 			env["GITLAB_CI"] =          "YES"
 			env["CI_COMMIT_SHA"] =      "1234567890123456789012345678901234567890"
 			env["CI_COMMIT_BRANCH"] =   "dev"
+			env["CI_COMMIT_TIMESTAMP"] = datetime.now().astimezone().isoformat()
 			env["CI_REPOSITORY_URL"] =  "gitlab.com/path/to/repo.git"
 		else:
-			for k,v in kwargs.items():
-				env[k] = v
+			env.update(kwargs)
 
 		return env
 
@@ -65,4 +66,4 @@ class GitLabEnvironment(TestCase):
 	def test_Fillout(self) -> None:
 		print()
 
-		stdout, stderr = self._run("-d", "--config-file=tests/CIServices/.pyVersioning.yml", "fillout", "tests/template.in", "tests/template.out")
+		stdout, stderr = self._run("-d", "--config-file=tests/unit/CIServices/.pyVersioning.yml", "fillout", "tests/template.in", "tests/template.out")

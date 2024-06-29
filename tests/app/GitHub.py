@@ -61,14 +61,14 @@ class GitHubEnvironment(TestCase):
 		except CalledProcessError as ex:
 			print("-- CALLED PROCESS ERROR " + "-" * 56)
 			print(f"Return code: {ex.returncode}")
-			for line in ex.output.split("\n"):
-				print(f"  {line}")
-			print("-- STDOUT")
-			for line in ex.stdout.split("\n"):
-				print(f"  {line}")
-			print("-- STDERR")
-			for line in ex.stderr.split("\n"):
-				print(f"  {line}")
+			if ex.stdout is not None:
+				print("-- STDOUT")
+				for line in ex.stdout.split("\n"):
+					print(f"  {line}")
+			if ex.stderr is not None:
+				print("-- STDERR")
+				for line in ex.stderr.split("\n"):
+					print(f"  {line}")
 			print("-" * 80)
 			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:

@@ -32,7 +32,7 @@ __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
 __copyright__ = "2020-2024, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
-__version__ =   "0.16.0"
+__version__ =   "0.16.1"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
 from dataclasses  import make_dataclass
@@ -609,6 +609,8 @@ class Versioning(ILineTerminal, GitHelperMixin):
 		else:
 			self._platform = Platforms.Workstation
 
+		self.WriteDebug(f"Detected platform: {self._platform.name}")
+
 	@readonly
 	def Variables(self) -> Dict[str, Any]:
 		return self._variables
@@ -740,7 +742,7 @@ class Versioning(ILineTerminal, GitHelperMixin):
 			return completed.stdout.decode("utf-8").split("\n")[0]
 		else:
 			message = completed.stderr.decode("utf-8")
-			self.WriteFatal(f"Message from '{command}': {message}")
+			self.WriteFatal(f"Message from '{command} {' '.join(arguments)}': {message}")
 
 	def GetGitRemoteBranch(self, localBranch: Nullable[str] = None) -> str:
 		if self._platform is not Platforms.Workstation:
@@ -760,7 +762,7 @@ class Versioning(ILineTerminal, GitHelperMixin):
 			return completed.stdout.decode("utf-8").split("\n")[0]
 		else:
 			message = completed.stderr.decode("utf-8")
-			self.WriteFatal(f"Message from '{command}': {message}")
+			self.WriteFatal(f"Message from '{command} {' '.join(arguments)}': {message}")
 			raise Exception()  # XXX: needs error message
 
 	def GetGitRemote(self, localBranch: Nullable[str] = None) -> str:
@@ -781,7 +783,7 @@ class Versioning(ILineTerminal, GitHelperMixin):
 			return f"(local) {localBranch}"
 		else:
 			message = completed.stderr.decode("utf-8")
-			self.WriteFatal(f"Message from '{command}': {message}")
+			self.WriteFatal(f"Message from '{command} {' '.join(arguments)}': {message}")
 			raise Exception()  # XXX: needs error message
 
 	def GetGitTag(self) -> str:
@@ -799,7 +801,7 @@ class Versioning(ILineTerminal, GitHelperMixin):
 			return completed.stdout.decode("utf-8").split("\n")[0]
 		else:
 			message = completed.stderr.decode("utf-8")
-			self.WriteFatal(f"Message from '{command}': {message}")
+			self.WriteFatal(f"Message from '{command} {' '.join(arguments)}': {message}")
 			raise Exception()  # XXX: needs error message
 
 	def GetGitRemoteURL(self, remote: Nullable[str] = None) -> str:
@@ -820,7 +822,7 @@ class Versioning(ILineTerminal, GitHelperMixin):
 			return completed.stdout.decode("utf-8").split("\n")[0]
 		else:
 			message = completed.stderr.decode("utf-8")
-			self.WriteFatal(f"Message from '{command}': {message}")
+			self.WriteFatal(f"Message from '{command} {' '.join(arguments)}': {message}")
 			raise Exception()  # XXX: needs error message
 
 	# 		self.WriteFatal(f"Message from '{command}': {message}")

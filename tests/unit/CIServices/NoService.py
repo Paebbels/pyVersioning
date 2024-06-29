@@ -54,7 +54,7 @@ class LocalEnvironment(TestCase):
 		env: Dict[str, str] = {k: v for k, v in os_environ.items()}
 
 		# Remove GitHub variables
-		if "CI" in env:
+		if "GITHUB_ACTIONS" in env:
 			env = {k: v for k, v in env.items() if not k.startswith("GITHUB_")}
 
 		# Remove GitLab variables

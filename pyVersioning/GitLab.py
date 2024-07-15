@@ -33,7 +33,9 @@ from datetime import datetime
 from os       import environ
 from typing   import Optional as Nullable
 
-from pyTooling.Decorators   import export
+from pyTooling.Decorators      import export
+from pyTooling.Exceptions      import ToolingException
+from pyTooling.GenericPath.URL import URL
 
 from pyVersioning.CIService import CIService, Platform, ServiceException
 
@@ -105,8 +107,16 @@ class GitLab(CIService):
 
 		:return:                  Git repository URL.
 		:raises ServiceException: If environment variable ``CI_REPOSITORY_URL`` was not found.
+		:raises ServiceException: If repository URL from ``CI_REPOSITORY_URL`` couldn't be parsed.
 		"""
 		try:
-			return environ["CI_REPOSITORY_URL"]
+			repositoryURL = environ["CI_REPOSITORY_URL"]
 		except KeyError as ex:
 			raise ServiceException(f"Can't find GitLab-CI environment variable 'CI_REPOSITORY_URL'.") from ex
+
+		try:
+			url = URL(repositoryURL)
+		except ToolingException as ex:
+			raise ServiceException(f"Syntax error in repository URL '{repositoryURL}'.") from ex
+
+		return str(url.WithoutCredentials())

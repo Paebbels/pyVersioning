@@ -49,7 +49,7 @@ See :ref:`DEP` for more details.
                pip3 install pyVersioning
 
                # Alternatively
-               python -m pip install pyVersioning
+               python3 -m pip install pyVersioning
 
          .. tab-item:: With Documentation Dependencies
            :sync: Doc
@@ -60,7 +60,7 @@ See :ref:`DEP` for more details.
                pip3 install pyVersioning[doc]
 
                # Alternatively
-               python -m pip install pyVersioning[doc]
+               python3 -m pip install pyVersioning[doc]
 
          .. tab-item:: With Unit Testing Dependencies
            :sync: Unit
@@ -71,7 +71,7 @@ See :ref:`DEP` for more details.
                pip3 install pyVersioning[test]
 
                # Alternatively
-               python -m pip install pyVersioning[test]
+               python3 -m pip install pyVersioning[test]
 
          .. tab-item:: All Developer Dependencies
            :sync: All
@@ -82,7 +82,7 @@ See :ref:`DEP` for more details.
                pip3 install pyVersioning[all]
 
                # Alternatively
-               python -m pip install pyVersioning[all]
+               python3 -m pip install pyVersioning[all]
 
    .. tab-item:: Windows
       :sync: Windows
@@ -165,7 +165,7 @@ Updating from PyPI using PIP
          pip3 install -U pyVersioning
 
          # Alternatively
-         python -m pip install -U pyVersioning
+         python3 -m pip install -U pyVersioning
 
    .. tab-item:: Windows
       :sync: Windows
@@ -195,7 +195,7 @@ Uninstallation using PIP
          pip3 uninstall pyVersioning
 
          # Alternatively
-         python -m pip uninstall pyVersioning
+         python3 -m pip uninstall pyVersioning
 
    .. tab-item:: Windows
       :sync: Windows

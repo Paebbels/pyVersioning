@@ -32,7 +32,9 @@
 from os     import environ
 from typing import Optional as Nullable, Dict
 
-from pyTooling.Decorators import export
+from pyTooling.Decorators      import export
+from pyTooling.Exceptions      import ToolingException
+from pyTooling.GenericPath.URL import URL
 
 from pyVersioning.CIService import CIService, Platform, ServiceException
 
@@ -94,8 +96,16 @@ class Travis(CIService):
 
 		:return:                  Git repository URL.
 		:raises ServiceException: If environment variable ``TRAVIS_REPO_SLUG`` was not found.
+		:raises ServiceException: If repository URL from ``TRAVIS_REPO_SLUG`` couldn't be parsed.
 		"""
 		try:
-			return environ["TRAVIS_REPO_SLUG"]
+			repositoryURL = environ["TRAVIS_REPO_SLUG"]
 		except KeyError as ex:
 			raise ServiceException(f"Can't find Travis environment variable 'TRAVIS_REPO_SLUG'.") from ex
+
+		try:
+			url = URL.Parse(repositoryURL)
+		except ToolingException as ex:
+			raise ServiceException(f"Syntax error in repository URL '{repositoryURL}'.") from ex
+
+		return str(url.WithoutCredentials())

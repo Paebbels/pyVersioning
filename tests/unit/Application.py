@@ -28,17 +28,17 @@
 # SPDX-License-Identifier: Apache-2.0                                                                                  #
 # ==================================================================================================================== #
 #
-"""Unit tests for pyVersioning application."""
+"""Unit tests for pyVersioning application using mocking."""
 from io                   import StringIO
 from json                 import loads as json_loads
-from pathlib              import Path
 from re                   import compile as re_compile
+from typing               import Tuple
 from unittest             import TestCase
 from unittest.mock        import patch
 
 from ruamel.yaml          import YAML
 
-from pyVersioning.cli     import Application as pyV_Application
+from pyVersioning.CLI     import Application as pyV_Application
 
 
 if __name__ == "__main__":
@@ -48,51 +48,203 @@ if __name__ == "__main__":
 
 
 class Application(TestCase):
-	@patch("sys.argv", ["pyVersioning.py", "json"])
-	def test_JSON(self):
-		print()
+	@staticmethod
+	def _PrintToStdOutAndStdErr(out: StringIO, err: StringIO, stdoutEnd: str = "") -> Tuple[str, str]:
+		out.seek(0)
+		err.seek(0)
 
-		configFile = Path("CIServices/.pyVersioning.yml")
+		stdout = out.read()
+		stderr = err.read()
+
+		print("-- STDOUT " + "-" * 70)
+		print(stdout, end=stdoutEnd)
+		if len(stderr) > 0:
+			print("-- STDERR " + "-" * 70)
+			print(stderr, end="")
+		print("-" * 80)
+
+		return stdout, stderr
+
+	@staticmethod
+	def _RemoveColorCodes(content: str) -> str:
+		# WORKAROUND: removing color codes
+		ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+		return ansiEscape.sub("", content)
+
+	@patch("sys.argv", ["pyVersioning.py"])
+	def test_NoCommand(self):
+		print()
 
 		app = pyV_Application()
 		app._stdout, app._stderr = out, err = StringIO(), StringIO()
 		try:
-			app.Run(configFile)
+			app.Run()
 		except SystemExit as ex:
 			self.assertEqual(0, ex.code)
 
-		out.seek(0)
-		err.seek(0)
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
 
-		# WORKAROUND: removing color codes
-		ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
-		jsonContent = ansiEscape.sub("", out.read())
-		print("-" * 40)
-		print(jsonContent)
-		print("-" * 40)
+		# self.assertEqual("1.1", json["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "help"])
+	def test_Help(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+
+		# self.assertEqual("1.1", json["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "version"])
+	def test_Version(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+
+		# self.assertEqual("1.1", json["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "variables"])
+	def test_Variables(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+
+		# self.assertEqual("1.1", json["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "field", "version"])
+	def test_Field_Version(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err, "\n")
+
+		# self.assertEqual("1.1", json["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "field", "git.commit.hash"])
+	def test_Field_GitCommitHash(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err, "\n")
+
+		# self.assertEqual("1.1", json["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "fillout", "tests/template.in"])
+	def test_Fillout(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+
+		# self.assertEqual("1.1", json["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "--config-file=tests/unit/CIServices/.pyVersioning.yml", "json"])
+	def test_JSON_WithoutError(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+		jsonContent = self._RemoveColorCodes(stdout)
+
 		json = json_loads(jsonContent)
 
 		self.assertEqual("1.1", json["format"])
 
-	@patch("sys.argv", ["pyVersioning.py", "yaml"])
-	def test_YAML(self):
+	@patch("sys.argv", ["pyVersioning.py", "--config-file=CIServices/.pyVersioning.yml", "json"])
+	def test_JSON_WithError(self):
 		print()
-
-		configFile = Path("CIServices/.pyVersioning.yml")
 
 		app = pyV_Application()
 		app._stdout, app._stderr = out, err = StringIO(), StringIO()
 		try:
-			app.Run(configFile)
+			app.Run()
 		except SystemExit as ex:
 			self.assertEqual(0, ex.code)
 
-		out.seek(0)
-		err.seek(0)
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+		jsonContent = self._RemoveColorCodes(stdout)
 
-		# WORKAROUND: removing color codes
-		ansiEscape = re_compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
-		yamlContent = ansiEscape.sub("", out.read())
+		json = json_loads(jsonContent)
+
+		self.assertEqual("1.1", json["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "--config-file=tests/unit/CIServices/.pyVersioning.yml", "yaml"])
+	def test_YAML_WithoutError(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+		yamlContent = self._RemoveColorCodes(stdout)
+
+		yamlParser = YAML()
+		yaml = yamlParser.load(yamlContent)
+
+		self.assertEqual("1.1", yaml["format"])
+
+	@patch("sys.argv", ["pyVersioning.py", "--config-file=CIServices/.pyVersioning.yml", "yaml"])
+	def test_YAML_WithError(self):
+		print()
+
+		app = pyV_Application()
+		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		try:
+			app.Run()
+		except SystemExit as ex:
+			self.assertEqual(0, ex.code)
+
+		stdout, stderr = self._PrintToStdOutAndStdErr(out, err)
+		yamlContent = self._RemoveColorCodes(stdout)
+
 		yamlParser = YAML()
 		yaml = yamlParser.load(yamlContent)
 

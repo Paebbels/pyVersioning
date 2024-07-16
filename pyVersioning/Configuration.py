@@ -39,50 +39,69 @@ from pyTooling.Versioning  import SemanticVersion
 
 
 @export
-class Base:
-	root:   'Base'
-	parent: Nullable['Base']
+class Base(metaclass=ExtendedType):
+	"""Base-class for all configuration items."""
+
+	root:   'Base'              #: Reference to configuration root node (document node).
+	parent: Nullable['Base']    #: Reference to parent configuration node.
 
 	def __init__(self, root: 'Base', parent: Nullable['Base']) -> None:
+		"""
+		Initialize base-class fields.
+
+		:param root:   Reference to configuration root node (document node).
+		:param parent: Reference to parent configuration node.
+		"""
 		self.root = root
 		self.parent = parent
 
 
+class Project(Base):
+	"""Configuration class describing a *project*."""
+
+	name:    str
+	variant: Nullable[str]
+	version: Nullable[SemanticVersion]
+
+	def __init__(self, root: 'Base', parent: 'Base', settings: Dict) -> None:
+		super().__init__(root, parent)
+
+		self.name =    settings["name"]
+		self.variant = settings["variant"] if "variant" in settings else None
+		self.version = SemanticVersion.Parse(settings["version"]) if "version" in settings else None
+
+
+class Compiler(Base):
+	"""Configuration class describing a *compiler*."""
+
+	name:          str
+	version:       str
+	configuration: str
+	options:       str
+
+	def __init__(self, root: 'Base', parent: 'Base', settings: Dict) -> None:
+		super().__init__(root, parent)
+
+		self.name =          settings["name"]
+		self.version =       settings["version"]
+		self.configuration = settings["configuration"]
+		self.options =       settings["options"]
+
+
+class Build(Base):
+	"""Configuration class describing a *build*."""
+
+	compiler: Nullable[Compiler]
+
+	def __init__(self, root: 'Base', parent: 'Base', settings: Dict) -> None:
+		super().__init__(root, parent)
+
+		self.compiler = Compiler(root, self, settings["compiler"]) if "compiler" in settings else None
+
+
 @export
-class Configuration(Base, metaclass=ExtendedType):
-	class Project(Base):
-		name:    str
-		variant: Nullable[str]
-		version: Nullable[SemanticVersion]
-
-		def __init__(self, root: 'Base', parent: 'Base', settings: Dict) -> None:
-			super().__init__(root, parent)
-
-			self.name =    settings["name"]
-			self.variant = settings["variant"] if "variant" in settings else None
-			self.version = SemanticVersion.Parse(settings["version"]) if "version" in settings else None
-
-	class Build(Base):
-		class Compiler(Base):
-			name:          str
-			version:       str
-			configuration: str
-			options:       str
-
-			def __init__(self, root: 'Base', parent: 'Base', settings: Dict) -> None:
-				super().__init__(root, parent)
-
-				self.name =          settings["name"]
-				self.version =       settings["version"]
-				self.configuration = settings["configuration"]
-				self.options =       settings["options"]
-
-		compiler: Nullable[Compiler]
-
-		def __init__(self, root: 'Base', parent: 'Base', settings: Dict) -> None:
-			super().__init__(root, parent)
-
-			self.compiler = self.Compiler(root, self, settings["compiler"]) if "compiler" in settings else None
+class Configuration(Base):
+	"""Configuration root node (document node)."""
 
 	version: int
 	project: Nullable[Project]
@@ -93,12 +112,12 @@ class Configuration(Base, metaclass=ExtendedType):
 
 		if configFile is None:
 			self.version = 1
-			self.project = self.Project(self, self, {
+			self.project = Project(self, self, {
 				"name":    "",
 				"variant": "",
 				"version": "v0.0.0"
 			})
-			self.build = self.Build(self, self, {
+			self.build = Build(self, self, {
 				"compiler": {
 					"name": "",
 					"version": "v0.0.0",
@@ -110,6 +129,7 @@ class Configuration(Base, metaclass=ExtendedType):
 			self.load(configFile)
 
 	def load(self, configFile: Path):
+		# TODO: change to pyTooling.Configuration
 		yaml =   YAML()
 		config = yaml.load(configFile)
 
@@ -119,5 +139,5 @@ class Configuration(Base, metaclass=ExtendedType):
 			self.loadVersion1(config)
 
 	def loadVersion1(self, config):
-		self.project = self.Project(self, self, config["project"]) if "project" in config else None
-		self.build =   self.Build(self, self, config["build"])     if "build" in config   else None
+		self.project = Project(self, self, config["project"]) if "project" in config else None
+		self.build =   Build(self, self, config["build"])     if "build" in config   else None

@@ -29,13 +29,11 @@
 # ==================================================================================================================== #
 #
 """Unit tests for GitLab CI."""
-from os               import environ as os_environ
-from subprocess       import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
-from typing           import Tuple, Any, Dict
+from datetime import datetime
+from os       import environ as os_environ
+from typing   import Any, Dict
 
-from pyTooling.Common import CurrentPlatform
-
-from unittest         import TestCase
+from .        import TestCase
 
 
 if __name__ == "__main__":
@@ -44,89 +42,28 @@ if __name__ == "__main__":
 	exit(1)
 
 
-class GitHubEnvironment(TestCase):
-	@staticmethod
-	def __getExecutable(command: str, *args: Any):
-		if CurrentPlatform.IsNativeWindows:
-			callArgs = ["py", f"-{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
-		else:
-			callArgs = [f"python{CurrentPlatform.PythonVersion.Major}.{CurrentPlatform.PythonVersion.Minor}"]
-
-		callArgs.extend([
-			"pyVersioning/cli.py",
-			command
-		])
-
-		if len(args) > 0:
-			callArgs.extend(args)
-
-		return callArgs
-
-	@staticmethod
-	def __getServiceEnvironment(**kwargs: Any):
-		env = {k: v for k, v in os_environ.items()}
+class GitLabEnvironment(TestCase):
+	@classmethod
+	def _getServiceEnvironment(cls, **kwargs: Any) -> Dict[str, str]:
+		env: Dict[str, str] = {k: v for k, v in os_environ.items()}
 
 		if len(kwargs) == 0:
-			env["CI"] =                "YES"
-			env["GITHUB_SHA"] =        "1234567890123456789012345678901234567890"
-			env["GITHUB_REF"] =        "dev"
-			env["GITHUB_REPOSITORY"] = "gitlab.com/path/to/repo.git"
+			env["GITLAB_CI"] =          "YES"
+			env["CI_COMMIT_SHA"] =      "1234567890123456789012345678901234567890"
+			env["CI_COMMIT_BRANCH"] =   "dev"
+			env["CI_COMMIT_TIMESTAMP"] = datetime.now().astimezone().isoformat()
+			env["CI_REPOSITORY_URL"] =  "gitlab.com/path/to/repo.git"
 		else:
-			for k,v in kwargs.items():
-				env[k] = v
+			env.update(kwargs)
 
 		return env
 
 	def test_Variables(self) -> None:
 		print()
 
-		try:
-			prog = subprocess_run(
-				args=self.__getExecutable("variables"),
-				stdout=subprocess_PIPE,
-				stderr=subprocess_STDOUT,
-				shell=True,
-				env=self.__getServiceEnvironment(),
-				check=True,
-				encoding="utf-8"
-			)
-		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
-			print(ex.output)
-			raise Exception(f"Error when executing the process: {ex}") from ex
-		except Exception as ex:
-			print("EXCEPTION")
-			print(ex)
-			raise Exception(f"Unknown error: {ex}") from ex
-
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
+		stdout, stderr = self._run("variables")
 
 	def test_Fillout(self) -> None:
 		print()
 
-		try:
-			prog = subprocess_run(
-				args=self.__getExecutable("fillout", "tests/template.in", "tests/template.out"),
-				stdout=subprocess_PIPE,
-				stderr=subprocess_STDOUT,
-				shell=True,
-				env=self.__getServiceEnvironment(),
-				check=True,
-				encoding="utf-8"
-			)
-		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
-			print(ex.output)
-			raise Exception(f"Error when executing the process: {ex}") from ex
-		except Exception as ex:
-			print("EXCEPTION")
-			print(ex)
-			raise Exception(f"Unknown error: {ex}") from ex
-
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
+		stdout, stderr = self._run("-d", "--config-file=tests/unit/CIServices/.pyVersioning.yml", "fillout", "tests/template.in", "tests/template.out")

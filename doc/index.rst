@@ -83,15 +83,39 @@
 pyVersioning Documentation
 ##########################
 
-The Python package `pyVersioning` offers a template tool to write version
-information for any programming language as a source file that can be included
-into the normal build flow.
+The Python package `pyVersioning` offers a template tool to write version information for any programming language as a
+source file that can be included into the normal build flow.
 
+The main idea is to provide a unified tool to collect all necessary version information from a configuration file, user
+defined parameters, version control systems (e.g. Git) or environment variables. Especially the latter ones can be
+tricky in CI environments, as every CI service uses different environment variables.
+
+.. rubric:: Planned features
+
+* read template from ``STDIN``.
+* add C++ example
+* add VHDL example
 
 Use Cases
 *********
 
 * Integrate version information from e.g. Git into current builds
+
+Supported Version Control Systems
+*********************************
+
+* `Git <https://git-scm.com/>`__
+* `Subversion (SVN) <https://subversion.apache.org/>`__ (planned)
+* more to come
+
+Supported CI Services
+*********************
+
+* `Appveyor <https://www.appveyor.com/>`__
+* `GitHub Actions <https://github.com/>`__
+* `GitLab <https://about.gitlab.com/>`__
+* `Travis-CI <https://www.travis-ci.com/>`__
+* more to come
 
 
 Supported Languages
@@ -147,18 +171,27 @@ License
    \part{Main Documentation}
 
 .. toctree::
-   :caption: Examples
-   :hidden:
-
-   example/ANSI-C
-   example/VHDL
-
-.. toctree::
    :caption: Details
    :hidden:
 
-   pyVersioning
+   Usage
+   VersionControlSystems
+   CIServices
+   Languages
 
+.. toctree::
+   :caption: Templates
+   :hidden:
+
+   templates/index
+   templates/ANSI-C
+
+.. toctree::
+   :caption: Examples
+   :hidden:
+
+   examples/ANSI-C
+   examples/VHDL
 
 .. raw:: latex
 
@@ -168,6 +201,7 @@ License
    :caption: References and Reports
    :hidden:
 
+   CommandLineInterface
    pyVersioning/pyVersioning
    unittests/index
    coverage/index

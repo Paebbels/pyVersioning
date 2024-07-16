@@ -29,11 +29,8 @@
 # ==================================================================================================================== #
 #
 """Unit tests for GitLab CI."""
-from os               import environ as os_environ
 from subprocess       import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
-from typing           import Tuple, Any
-
-from pyTooling.Common import CurrentPlatform
+from typing           import Any, Optional as Nullable
 
 from unittest         import TestCase
 
@@ -45,176 +42,73 @@ if __name__ == "__main__":
 
 
 class GitHubEnvironment(TestCase):
-	@staticmethod
-	def __getExecutable(command: str, *args: Any):
-		callArgs = [
-			"pyVersioning",
-			command
-		]
-
+	@classmethod
+	def _run(cls, command: Nullable[str] = None, *args: Any):
+		callArgs = ["pyVersioning"]
+		if command is not None:
+			callArgs.append(command)
 		if len(args) > 0:
 			callArgs.extend(args)
 
-		return callArgs
+		try:
+			prog = subprocess_run(
+				args=callArgs,
+				stdout=subprocess_PIPE,
+				stderr=subprocess_STDOUT,
+				check=True,
+				encoding="utf-8"
+			)
+		except CalledProcessError as ex:
+			print("-- CALLED PROCESS ERROR " + "-" * 56)
+			print(f"Return code: {ex.returncode}")
+			print(ex.output)
+			print("-" * 80)
+			raise Exception(f"Error when executing the process: {ex}") from ex
+		except Exception as ex:
+			print("-- EXCEPTION " + "-" * 67)
+			print(ex)
+			raise Exception(f"Unknown error: {ex}") from ex
+
+		stdout = prog.stdout
+		stderr = prog.stderr
+
+		print("-- STDOUT " + "-" * 70)
+		for line in stdout.split("\n"):
+			print(line)
+		if stderr is not None:
+			print("-- STDERR " + "-" * 70)
+			for line in stderr.split("\n"):
+				print(line)
+		print("-" * 80)
+
+		return stdout, stderr
 
 	def test_NoCommand(self) -> None:
 		print()
 
-		callArgs = ["pyVersioning"]
-
-		try:
-			prog = subprocess_run(
-				args=callArgs,
-				stdout=subprocess_PIPE,
-				stderr=subprocess_STDOUT,
-				check=True,
-				encoding="utf-8"
-			)
-		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
-			print(ex.output)
-			raise Exception(f"Error when executing the process: {ex}") from ex
-		except Exception as ex:
-			print("EXCEPTION")
-			print(ex)
-			raise Exception(f"Unknown error: {ex}") from ex
-
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
+		stdout, stderr = self._run()
 
 	def test_HelpCommand(self) -> None:
 		print()
 
-		callArgs = self.__getExecutable("help")
-
-		try:
-			prog = subprocess_run(
-				args=callArgs,
-				stdout=subprocess_PIPE,
-				stderr=subprocess_STDOUT,
-				check=True,
-				encoding="utf-8"
-			)
-		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
-			print(ex.output)
-			raise Exception(f"Error when executing the process: {ex}") from ex
-		except Exception as ex:
-			print("EXCEPTION")
-			print(ex)
-			raise Exception(f"Unknown error: {ex}") from ex
-
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
+		stdout, stderr = self._run("help")
 
 	def test_VariablesCommand(self) -> None:
 		print()
 
-		callArgs = self.__getExecutable("variables")
-
-		try:
-			prog = subprocess_run(
-				args=callArgs,
-				stdout=subprocess_PIPE,
-				stderr=subprocess_STDOUT,
-				check=True,
-				encoding="utf-8"
-			)
-		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
-			print(ex.output)
-			raise Exception(f"Error when executing the process: {ex}") from ex
-		except Exception as ex:
-			print("EXCEPTION")
-			print(ex)
-			raise Exception(f"Unknown error: {ex}") from ex
-
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
+		stdout, stderr = self._run("variables")
 
 	def test_YAMLCommand(self) -> None:
 		print()
 
-		callArgs = self.__getExecutable("yaml")
-
-		try:
-			prog = subprocess_run(
-				args=callArgs,
-				stdout=subprocess_PIPE,
-				stderr=subprocess_STDOUT,
-				check=True,
-				encoding="utf-8"
-			)
-		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
-			print(ex.output)
-			raise Exception(f"Error when executing the process: {ex}") from ex
-		except Exception as ex:
-			print("EXCEPTION")
-			print(ex)
-			raise Exception(f"Unknown error: {ex}") from ex
-
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
+		stdout, stderr = self._run("yaml")
 
 	def test_JSONCommand(self) -> None:
 		print()
 
-		callArgs = self.__getExecutable("json")
-
-		try:
-			prog = subprocess_run(
-				args=callArgs,
-				stdout=subprocess_PIPE,
-				stderr=subprocess_STDOUT,
-				check=True,
-				encoding="utf-8"
-			)
-		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
-			print(ex.output)
-			raise Exception(f"Error when executing the process: {ex}") from ex
-		except Exception as ex:
-			print("EXCEPTION")
-			print(ex)
-			raise Exception(f"Unknown error: {ex}") from ex
-
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
+		stdout, stderr = self._run("json")
 
 	def test_Fillout(self) -> None:
 		print()
 
-		callArgs = self.__getExecutable("fillout", "tests/template.in", "tests/template.out")
-
-		try:
-			prog = subprocess_run(
-				args=callArgs,
-				stdout=subprocess_PIPE,
-				stderr=subprocess_STDOUT,
-				check=True,
-				encoding="utf-8"
-			)
-		except CalledProcessError as ex:
-			print("CALLED PROCESS ERROR")
-			print(ex.returncode)
-			print(ex.output)
-			raise Exception(f"Error when executing the process: {ex}") from ex
-		except Exception as ex:
-			print("EXCEPTION")
-			print(ex)
-			raise Exception(f"Unknown error: {ex}") from ex
-
-		output = prog.stdout
-		for line in output.split("\n"):
-			print(line)
+		stdout, stderr = self._run("fillout", "tests/template.in", "tests/template.out")

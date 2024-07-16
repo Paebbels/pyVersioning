@@ -32,21 +32,25 @@
 from dataclasses  import make_dataclass
 from datetime     import datetime
 from os           import environ
-from typing import Dict, Optional as Nullable, Tuple, List
+from typing       import Dict, Optional as Nullable, Tuple
 
 from pyTooling.Decorators  import export
-from pyTooling.MetaClasses import ExtendedType, abstractmethod
+from pyTooling.MetaClasses import abstractmethod
 
-from pyVersioning          import SelfDescriptive, GitHelper, GitShowCommand, BaseService, Platform
-
-
-@export
-class ServiceException(Exception):
-	""".. todo:: ServiceException needs documentation"""
+from pyVersioning          import VersioningException, GitHelperMixin, SelfDescriptive, GitShowCommand, BaseService, Platform
 
 
 @export
-class CIService(BaseService, GitHelper):
+class ServiceException(VersioningException):
+	"""
+	.. todo::
+		 ServiceException needs documentation
+
+	"""
+
+
+@export
+class CIService(BaseService, GitHelperMixin):
 	"""Base-class to collect Git and other platform and environment information from CI service environment variables."""
 
 	ENV_INCLUDE_FILTER: Tuple[str, ...] = ()
@@ -55,7 +59,11 @@ class CIService(BaseService, GitHelper):
 	ENV_EXCLUDES: Tuple[str, ...] =       ()
 
 	def GetEnvironment(self) -> Dict[str, str]:
-		""".. todo:: getEnvironment needs documentation"""
+		"""
+		.. todo::
+		   getEnvironment needs documentation
+
+		"""
 
 		filteredEnv = {key: value for (key, value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
 
@@ -75,7 +83,7 @@ class CIService(BaseService, GitHelper):
 
 		def func(s):
 			for e in filteredEnv.keys():
-				yield (e, s.__getattribute__(e))
+				yield e, s.__getattribute__(e)
 
 		Environment = make_dataclass(
 			"Environment",
@@ -93,26 +101,45 @@ class CIService(BaseService, GitHelper):
 
 	@abstractmethod
 	def GetGitHash(self) -> str:  # type: ignore[empty-body]
-		""".. todo:: getGithash needs documentation"""
+		"""
+		Returns the Git hash (SHA1 - 160-bit) as a string.
+
+		:return:                  Git hash as a hex formated string (40 characters).
+		"""
 
 	# @abstractmethod
 	def GetCommitDate(self) -> datetime:
-		""".. todo:: getCommitDate needs documentation"""
+		"""
+		Returns the commit date as a :class:`~datetime.datetime`.
 
+		:return:                  Git commit date as :class:`~datetime.datetime`.
+		"""
 		datetimeString = self.ExecuteGitShow(GitShowCommand.CommitDateTime, self.GetGitHash())
 		return datetime.fromtimestamp(int(datetimeString))
 
 	@abstractmethod
 	def GetGitBranch(self) -> Nullable[str]:  # type: ignore[empty-body]
-		""".. todo:: getGitBranch needs documentation"""
+		"""
+		Returns Git branch name or ``None`` is not checked out on a branch.
+
+		:return:                  Git branch name or ``None``.
+		"""
 
 	@abstractmethod
 	def GetGitTag(self) -> Nullable[str]:  # type: ignore[empty-body]
-		""".. todo:: getGitTag needs documentation"""
+		"""
+		Returns Git tag name or ``None`` is not checked out on a branch.
+
+		:return:                  Git tag name or ``None``.
+		"""
 
 	@abstractmethod
 	def GetGitRepository(self) -> str:  # type: ignore[empty-body]
-		""".. todo:: getGitRepository needs documentation"""
+		"""
+		Returns the Git repository URL.
+
+		:return:                  Git repository URL.
+		"""
 
 
 @export

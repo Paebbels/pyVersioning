@@ -64,24 +64,23 @@ class TestCase(ut_TestCase):
 		return callArgs
 
 	@classmethod
-	def _run(self, command: Nullable[str] = None, *args: Any) -> Tuple[str, str]:
+	def _run(cls, command: Nullable[str] = None, *args: Any) -> Tuple[str, str]:
 		try:
 			prog = subprocess_run(
-				args=self._getExecutable(command, *args),
+				args=cls._getExecutable(command, *args),
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
 				shell=True,
-				env=self._getServiceEnvironment(),
+				env=cls._getServiceEnvironment(),
 				check=True,
 				encoding="utf-8"
 			)
 		except CalledProcessError as ex:
 			print("-- CALLED PROCESS ERROR " + "-" * 56)
 			print(f"Return code: {ex.returncode}")
-			if ex.stdout is not None:
-				print("-- STDOUT")
-				for line in ex.stdout.split("\n"):
-					print(f"  {line}")
+			print("-- STDOUT")
+			for line in ex.stdout.split("\n"):
+				print(f"  {line}")
 			if ex.stderr is not None:
 				print("-- STDERR")
 				for line in ex.stderr.split("\n"):

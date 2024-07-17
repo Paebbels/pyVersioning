@@ -64,14 +64,14 @@ class TestCase(ut_TestCase):
 		return callArgs
 
 	@classmethod
-	def _run(self, command: Nullable[str] = None, *args: Any) -> Tuple[str, str]:
+	def _run(cls, command: Nullable[str] = None, *args: Any) -> Tuple[str, str]:
 		try:
 			prog = subprocess_run(
-				args=self._getExecutable(command, *args),
+				args=cls._getExecutable(command, *args),
 				stdout=subprocess_PIPE,
 				stderr=subprocess_STDOUT,
 				shell=True,
-				env=self._getServiceEnvironment(),
+				env=cls._getServiceEnvironment(),
 				check=True,
 				encoding="utf-8"
 			)

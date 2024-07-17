@@ -84,8 +84,9 @@ class TestCase(ut_TestCase):
 			for line in ex.stdout.split("\n"):
 				print(f"  {line}")
 			print("-- STDERR")
-			for line in ex.stderr.split("\n"):
-				print(f"  {line}")
+			if ex.stderr is not None:
+				for line in ex.stderr.split("\n"):
+					print(f"  {line}")
 			print("-" * 80)
 			raise Exception(f"Error when executing the process: {ex}") from ex
 		except Exception as ex:

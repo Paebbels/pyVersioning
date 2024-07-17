@@ -78,13 +78,11 @@ class TestCase(ut_TestCase):
 		except CalledProcessError as ex:
 			print("-- CALLED PROCESS ERROR " + "-" * 56)
 			print(f"Return code: {ex.returncode}")
-			for line in ex.output.split("\n"):
-				print(f"  {line}")
 			print("-- STDOUT")
 			for line in ex.stdout.split("\n"):
 				print(f"  {line}")
-			print("-- STDERR")
 			if ex.stderr is not None:
+				print("-- STDERR")
 				for line in ex.stderr.split("\n"):
 					print(f"  {line}")
 			print("-" * 80)

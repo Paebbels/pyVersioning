@@ -222,7 +222,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 	@PathArgument(dest="Filename", metaName="<Output file>", optional=True, help="Output filename.")
 	def HandleField(self, args: Namespace) -> None:
 		"""Handle program calls for command ``field``."""
-		self.Configure(verbose=args.Verbose, debug=args.Debug, quiet=args.Filename is None)
+		self.Configure(verbose=args.Verbose, debug=args.Debug)  #, quiet=args.Filename is None)
 		self._PrintHeadline()
 		self.Initialize(None if args.ConfigFile is None else Path(args.ConfigFile))
 

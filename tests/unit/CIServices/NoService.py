@@ -35,6 +35,7 @@ from pathlib            import Path
 from re                 import compile as re_compile
 from typing import Any, Dict
 
+from pyTooling.Platform import CurrentPlatform, Platforms
 from pytest             import mark
 from ruamel.yaml        import YAML
 from ruamel.yaml.reader import ReaderError
@@ -65,36 +66,43 @@ class LocalEnvironment(TestCase):
 
 		return env
 
+	@mark.skipif(Platforms.OS_Windows in CurrentPlatform._platform, reason="Skipped, if current platform is on Windows.")
 	def test_NoArguments(self):
 		print()
 
 		stdout, stderr = self._run()
 
+	@mark.skipif(Platforms.OS_Windows in CurrentPlatform._platform, reason="Skipped, if current platform is on Windows.")
 	def test_Help(self) -> None:
 		print()
 
 		stdout, stderr = self._run("help")
 
+	@mark.skipif(Platforms.OS_Windows in CurrentPlatform._platform, reason="Skipped, if current platform is on Windows.")
 	def test_Variables(self) -> None:
 		print()
 
 		stdout, stderr = self._run("variables")
 
+	@mark.skipif(Platforms.OS_Windows in CurrentPlatform._platform, reason="Skipped, if current platform is on Windows.")
 	def test_Field_Version(self) -> None:
 		print()
 
 		stdout, stderr = self._run("field", "version")
 
+	@mark.skipif(Platforms.OS_Windows in CurrentPlatform._platform, reason="Skipped, if current platform is on Windows.")
 	def test_Field_GitCommitHash(self) -> None:
 		print()
 
 		stdout, stderr = self._run("field", "git.commit.hash")
 
+	@mark.skipif(Platforms.OS_Windows in CurrentPlatform._platform, reason="Skipped, if current platform is on Windows.")
 	def test_Fillout_WithoutOutputFile(self) -> None:
 		print()
 
 		stdout, stderr = self._run("fillout", "tests/template.in")
 
+	@mark.skipif(Platforms.OS_Windows in CurrentPlatform._platform, reason="Skipped, if current platform is on Windows.")
 	def test_Fillout_WithOutputFile(self) -> None:
 		print()
 
@@ -138,6 +146,7 @@ class LocalEnvironment(TestCase):
 				print(f"    {item}")
 			self.fail("Unittest error: FileNotFoundError")
 
+	@mark.skipif(Platforms.OS_Windows in CurrentPlatform._platform, reason="Skipped, if current platform is on Windows.")
 	def test_Yaml_WithoutOutputFile(self) -> None:
 		print()
 

@@ -88,7 +88,7 @@ class LocalEnvironment(TestCase):
 	def test_Field_Version(self) -> None:
 		print()
 
-		stdout, stderr = self._run("field", "version")
+		stdout, stderr = self._run("field", "-d", "version")
 
 	@mark.skipif(Platforms.OS_Windows in CurrentPlatform._platform, reason="Skipped, if current platform is on Windows.")
 	def test_Field_GitCommitHash(self) -> None:

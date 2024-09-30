@@ -1,6 +1,6 @@
-.. _INSTALL:
-
 .. |PackageName| replace:: pyVersioning
+
+.. _INSTALL:
 
 Installation/Updates
 ####################
@@ -35,13 +35,13 @@ See :ref:`DEP` for more details.
 
 .. tab-set::
 
-   .. tab-item:: Linux/MacOS
+   .. tab-item:: Linux/macOS
       :sync: Linux
 
       .. tab-set::
 
          .. tab-item:: Minimal installation
-           :sync: Minimal
+            :sync: Minimal
 
             .. code-block:: bash
 
@@ -52,7 +52,7 @@ See :ref:`DEP` for more details.
                python3 -m pip install pyVersioning
 
          .. tab-item:: With Documentation Dependencies
-           :sync: Doc
+            :sync: Doc
 
             .. code-block:: bash
 
@@ -63,7 +63,7 @@ See :ref:`DEP` for more details.
                python3 -m pip install pyVersioning[doc]
 
          .. tab-item:: With Unit Testing Dependencies
-           :sync: Unit
+            :sync: Unit
 
             .. code-block:: bash
 
@@ -74,7 +74,7 @@ See :ref:`DEP` for more details.
                python3 -m pip install pyVersioning[test]
 
          .. tab-item:: All Developer Dependencies
-           :sync: All
+            :sync: All
 
             .. code-block:: bash
 
@@ -90,7 +90,7 @@ See :ref:`DEP` for more details.
       .. tab-set::
 
          .. tab-item:: Minimal installation
-           :sync: Minimal
+            :sync: Minimal
 
             .. code-block:: powershell
 
@@ -101,7 +101,7 @@ See :ref:`DEP` for more details.
                py -m pip install pyVersioning
 
          .. tab-item:: With Documentation Dependencies
-           :sync: Doc
+            :sync: Doc
 
             .. code-block:: powershell
 
@@ -112,7 +112,7 @@ See :ref:`DEP` for more details.
                py -m pip install pyVersioning[doc]
 
          .. tab-item:: With Unit Testing Dependencies
-           :sync: Unit
+            :sync: Unit
 
             .. code-block:: powershell
 
@@ -123,7 +123,7 @@ See :ref:`DEP` for more details.
                py -m pip install pyVersioning[test]
 
          .. tab-item:: All Developer Dependencies
-           :sync: All
+            :sync: All
 
             .. code-block:: powershell
 
@@ -156,7 +156,7 @@ Updating from PyPI using PIP
 
 .. tab-set::
 
-   .. tab-item:: Linux/MacOS
+   .. tab-item:: Linux/macOS
       :sync: Linux
 
       .. code-block:: bash
@@ -186,7 +186,7 @@ Uninstallation using PIP
 
 .. tab-set::
 
-   .. tab-item:: Linux/MacOS
+   .. tab-item:: Linux/macOS
       :sync: Linux
 
       .. code-block:: bash
@@ -223,7 +223,7 @@ Ensure :ref:`unit testing requirements <DEP/testing>` are installed.
 
 .. tab-set::
 
-   .. tab-item:: Linux/MacOS
+   .. tab-item:: Linux/macOS
       :sync: Linux
 
       .. tab-set::
@@ -324,7 +324,7 @@ Ensure :ref:`unit testing requirements <DEP/testing>` are installed.
 
 .. tab-set::
 
-   .. tab-item:: Linux/MacOS
+   .. tab-item:: Linux/macOS
       :sync: Linux
 
       .. code-block:: bash
@@ -360,7 +360,7 @@ Ensure :ref:`documentation requirements <DEP/documentation>` are installed.
 
 .. tab-set::
 
-   .. tab-item:: Linux/MacOS
+   .. tab-item:: Linux/macOS
       :sync: Linux
 
       .. tab-set::
@@ -448,7 +448,7 @@ Ensure :ref:`packaging requirements <DEP/packaging>` are installed.
 
 .. tab-set::
 
-   .. tab-item:: Linux/MacOS
+   .. tab-item:: Linux/macOS
       :sync: Linux
 
       .. code-block:: bash

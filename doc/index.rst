@@ -90,11 +90,11 @@ The main idea is to provide a unified tool to collect all necessary version info
 defined parameters, version control systems (e.g. Git) or environment variables. Especially the latter ones can be
 tricky in CI environments, as every CI service uses different environment variables.
 
-.. rubric:: Planned features
+.. topic:: Planned features
 
-* read template from ``STDIN``.
-* add C++ example
-* add VHDL example
+   * read template from ``STDIN``.
+   * add C++ example
+   * add VHDL example
 
 Use Cases
 *********
@@ -138,12 +138,16 @@ Examples
 * VHDL Example
 
 
+.. _CONTRIBUTORS:
+
 Contributors
 ************
 
 * `Patrick Lehmann <https://GitHub.com/Paebbels>`__ (Maintainer)
 * `and more... <https://GitHub.com/Paebbels/pyVersioning/graphs/contributors>`__
 
+
+.. _LICENSE:
 
 License
 *******

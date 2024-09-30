@@ -9,7 +9,7 @@ on:
 
 jobs:
   UnitTestingParams:
-    uses: pyTooling/Actions/.github/workflows/Parameters.yml@r1
+    uses: pyTooling/Actions/.github/workflows/Parameters.yml@dev
     with:
       name: pyVersioning
 #      python_version_list: "3.9 3.10 3.11 3.12 pypy-3.9 pypy-3.10"
@@ -19,11 +19,11 @@ jobs:
 #      disable_list: "windows:pypy-3.8 windows:pypy-3.9 windows:pypy-3.10"
 
   AppTestingParams:
-    uses: pyTooling/Actions/.github/workflows/Parameters.yml@r1
+    uses: pyTooling/Actions/.github/workflows/Parameters.yml@dev
     with:
       name: pyVersioning
 #      python_version_list: "3.9 3.10 3.11 3.12 pypy-3.9 pypy-3.10"
-      system_list: "ubuntu macos"
+      system_list: "ubuntu macos macos-arm"
 #      include_list:
 #      exclude_list:
 #      disable_list: "windows:pypy-3.8 windows:pypy-3.9 windows:pypy-3.10"
@@ -80,7 +80,7 @@ jobs:
       apptest_xml_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).apptesting_xml }}
 
   C_Example:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs:
       - UnitTestingParams
       - Package
@@ -100,7 +100,7 @@ jobs:
       - name: 🔧 Install wheel from artifact
         run: |
           ls -l install
-          python -m pip install --disable-pip-version-check -U install/*.whl
+          python -m pip install -U --disable-pip-version-check --break-system-packages install/*.whl
 
       - name: Generate versioning.c
         run: |

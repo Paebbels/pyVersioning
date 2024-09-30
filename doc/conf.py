@@ -61,10 +61,10 @@ pygments_style = "manni"
 # ==============================================================================
 # Restructured Text settings
 # ==============================================================================
-prologPath = "prolog.inc"
+prologPath = Path("prolog.inc")
 try:
-	with open(prologPath, "r") as prologFile:
-		rst_prolog = prologFile.read()
+	with prologPath.open("r", encoding="utf-8") as fileHandle:
+		rst_prolog = fileHandle.read()
 except Exception as ex:
 	print(f"[ERROR:] While reading '{prologPath}'.")
 	print(ex)
@@ -193,7 +193,8 @@ extensions = [
 # Sphinx.Ext.InterSphinx
 # ==============================================================================
 intersphinx_mapping = {
-	"python":   ("https://docs.python.org/3", None),
+	"python": ("https://docs.python.org/3", None),
+	"pyTool": ("https://pyTooling.github.io/pyTooling/", None),
 }
 
 
@@ -299,7 +300,7 @@ report_doccov_packages = {
 # ==============================================================================
 # Sphinx_Design
 # ==============================================================================
-sd_fontawesome_latex = True
+# sd_fontawesome_latex = True
 
 
 # ==============================================================================

@@ -80,7 +80,7 @@ jobs:
       apptest_xml_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).apptesting_xml }}
 
   C_Example:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs:
       - UnitTestingParams
       - Package

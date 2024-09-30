@@ -100,7 +100,7 @@ jobs:
       - name: 🔧 Install wheel from artifact
         run: |
           ls -l install
-          python -m pip install --disable-pip-version-check -U install/*.whl
+          python -m pip install -U --disable-pip-version-check --break-system-packages install/*.whl
 
       - name: Generate versioning.c
         run: |

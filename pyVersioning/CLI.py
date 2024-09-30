@@ -57,9 +57,9 @@ class ProjectAttributeGroup(CommandGroupAttribute):
 	* ``--project-version``
 	"""
 	def __call__(self, func: Entity) -> Entity:
-		self._AppendAttribute(func, LongValuedFlag("--project-name",    dest="ProjectName",    metaName="<Name>",    help="Name of the project."))
-		self._AppendAttribute(func, LongValuedFlag("--project-variant", dest="ProjectVariant", metaName="<Variant>", help="Variant of the project."))
-		self._AppendAttribute(func, LongValuedFlag("--project-version", dest="ProjectVersion", metaName="<Version>", help="Version of the project."))
+		self._AppendAttribute(func, LongValuedFlag("--project-name",    dest="ProjectName",    metaName="<Name>",    optional=True, help="Name of the project."))
+		self._AppendAttribute(func, LongValuedFlag("--project-variant", dest="ProjectVariant", metaName="<Variant>", optional=True, help="Variant of the project."))
+		self._AppendAttribute(func, LongValuedFlag("--project-version", dest="ProjectVersion", metaName="<Version>", optional=True, help="Version of the project."))
 		return func
 
 
@@ -74,10 +74,10 @@ class CompilerAttributeGroup(CommandGroupAttribute):
 	* ``--compiler-options``
 	"""
 	def __call__(self, func: Entity) -> Entity:
-		self._AppendAttribute(func, LongValuedFlag("--compiler-name",    dest="CompilerName",    metaName="<Name>",    help="Used compiler."))
-		self._AppendAttribute(func, LongValuedFlag("--compiler-version", dest="CompilerVersion", metaName="<Version>", help="Used compiler version."))
-		self._AppendAttribute(func, LongValuedFlag("--compiler-config",  dest="CompilerConfig",  metaName="<Config>",  help="Used compiler configuration."))
-		self._AppendAttribute(func, LongValuedFlag("--compiler-options", dest="CompilerOptions", metaName="<Options>", help="Used compiler options."))
+		self._AppendAttribute(func, LongValuedFlag("--compiler-name",    dest="CompilerName",    metaName="<Name>",    optional=True, help="Used compiler."))
+		self._AppendAttribute(func, LongValuedFlag("--compiler-version", dest="CompilerVersion", metaName="<Version>", optional=True, help="Used compiler version."))
+		self._AppendAttribute(func, LongValuedFlag("--compiler-config",  dest="CompilerConfig",  metaName="<Config>",  optional=True, help="Used compiler configuration."))
+		self._AppendAttribute(func, LongValuedFlag("--compiler-options", dest="CompilerOptions", metaName="<Options>", optional=True, help="Used compiler options."))
 		return func
 
 
@@ -158,7 +158,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 	@DefaultHandler()
 	@FlagArgument(short="-v", long="--verbose", dest="Verbose", help="Print verbose messages.")
 	@FlagArgument(short="-d", long="--debug", dest="Debug", help="Print debug messages.")
-	@LongValuedFlag("--config-file", dest="ConfigFile", metaName="<pyVersioning.yaml>", help="Path to pyVersioning.yaml .")
+	@LongValuedFlag("--config-file", dest="ConfigFile", metaName="<pyVersioning.yaml>", optional=True, help="Path to pyVersioning.yaml .")
 	def HandleDefault(self, args: Namespace) -> None:
 		"""Handle program calls for no given command."""
 		self.Configure(verbose=args.Verbose, debug=args.Debug)

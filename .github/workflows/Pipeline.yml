@@ -9,7 +9,7 @@ on:
 
 jobs:
   UnitTestingParams:
-    uses: pyTooling/Actions/.github/workflows/Parameters.yml@r1
+    uses: pyTooling/Actions/.github/workflows/Parameters.yml@dev
     with:
       name: pyVersioning
 #      python_version_list: "3.9 3.10 3.11 3.12 pypy-3.9 pypy-3.10"
@@ -19,11 +19,11 @@ jobs:
 #      disable_list: "windows:pypy-3.8 windows:pypy-3.9 windows:pypy-3.10"
 
   AppTestingParams:
-    uses: pyTooling/Actions/.github/workflows/Parameters.yml@r1
+    uses: pyTooling/Actions/.github/workflows/Parameters.yml@dev
     with:
       name: pyVersioning
 #      python_version_list: "3.9 3.10 3.11 3.12 pypy-3.9 pypy-3.10"
-      system_list: "ubuntu macos"
+      system_list: "ubuntu macos macos-arm"
 #      include_list:
 #      exclude_list:
 #      disable_list: "windows:pypy-3.8 windows:pypy-3.9 windows:pypy-3.10"

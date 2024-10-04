@@ -1,0 +1,38 @@
+.. # Template modified by Patrick Lehmann
+     * removed automodule on top, because private members are activated for autodoc (no doubled documentation).
+     * Made sections like 'submodules' bold text, but no headlines to reduce number of ToC levels.
+
+===================
+pyVersioning.Travis
+===================
+
+.. automodule:: pyVersioning.Travis
+
+
+.. currentmodule:: pyVersioning.Travis
+
+
+**Classes**
+
+- :py:class:`Travis`:
+  Collect Git and other platform and environment information from environment variables provided by Travis-CI.
+
+
+
+---------------------
+
+**Classes**
+
+
+
+
+.. autoclass:: Travis
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Travis
+      :parts: 1

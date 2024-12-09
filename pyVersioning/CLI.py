@@ -282,7 +282,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 		    "major": {version.Major},
 		    "minor": {version.Minor},
 		    "patch": {version.Patch},
-		   "flags": {version.Flags}
+		    "flags": {version.Flags.value}
 		  }}
 		}}
 		""")

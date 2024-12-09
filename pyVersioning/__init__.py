@@ -32,7 +32,7 @@ __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
 __copyright__ = "2020-2024, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
-__version__ =   "0.16.4"
+__version__ =   "0.17.0"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
 from dataclasses  import make_dataclass
@@ -57,8 +57,9 @@ class VersioningException(Exception):
 
 	# WORKAROUND: for Python <3.11
 	# Implementing a dummy method for Python versions before
-	__notes__: List[str]
 	if version_info < (3, 11):  # pragma: no cover
+		__notes__: List[str]
+
 		def add_note(self, message: str) -> None:
 			try:
 				self.__notes__.append(message)

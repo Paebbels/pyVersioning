@@ -8,6 +8,11 @@ on:
     - cron: '0 22 * * 5'
 
 jobs:
+  ConfigParams:
+    uses: pyTooling/Actions/.github/workflows/ExtractConfiguration.yml@dev
+    with:
+      package_name: pyVersioning
+
   UnitTestingParams:
     uses: pyTooling/Actions/.github/workflows/Parameters.yml@dev
     with:
@@ -40,7 +45,7 @@ jobs:
       coverage_sqlite_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).codecoverage_sqlite }}
 
   StaticTypeCheck:
-    uses: pyTooling/Actions/.github/workflows/StaticTypeCheck.yml@r1
+    uses: pyTooling/Actions/.github/workflows/StaticTypeCheck.yml@r3
     needs:
       - UnitTestingParams
     with:
@@ -51,15 +56,16 @@ jobs:
       html_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).statictyping_html }}
 
   DocCoverage:
-    uses: pyTooling/Actions/.github/workflows/CheckDocumentation.yml@r1
+    uses: pyTooling/Actions/.github/workflows/CheckDocumentation.yml@r3
     needs:
+      - ConfigParams
       - UnitTestingParams
     with:
       python_version: ${{ needs.UnitTestingParams.outputs.python_version }}
-      directory: pyVersioning
+      directory: ${{ needs.ConfigParams.outputs.package_directors }}
 
   Package:
-    uses: pyTooling/Actions/.github/workflows/Package.yml@r1
+    uses: pyTooling/Actions/.github/workflows/Package.yml@r3
     needs:
       - UnitTestingParams
       - UnitTesting
@@ -68,7 +74,7 @@ jobs:
       artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}
 
   AppTesting:
-    uses: pyTooling/Actions/.github/workflows/ApplicationTesting.yml@r1
+    uses: pyTooling/Actions/.github/workflows/ApplicationTesting.yml@r3
     needs:
       - UnitTestingParams
       - AppTestingParams
@@ -92,7 +98,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 📥 Download artifacts '${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}' from 'Package' job
-        uses: actions/download-artifact@v4
+        uses: pyTooling/download-artifact@v4
         with:
           name: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}
           path: install
@@ -118,7 +124,7 @@ jobs:
           ./example
 
   PublishCoverageResults:
-    uses: pyTooling/Actions/.github/workflows/PublishCoverageResults.yml@r1
+    uses: pyTooling/Actions/.github/workflows/PublishCoverageResults.yml@r3
     needs:
       - UnitTestingParams
       - UnitTesting
@@ -139,52 +145,54 @@ jobs:
       merged_junit_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).unittesting_xml }}
 
   IntermediateCleanUp:
-    uses: pyTooling/Actions/.github/workflows/IntermediateCleanUp.yml@r1
+    uses: pyTooling/Actions/.github/workflows/IntermediateCleanUp.yml@r3
     needs:
       - UnitTestingParams
       - PublishCoverageResults
       - PublishTestResults
-      - HTMLDocumentation
+      - Documentation
     with:
       sqlite_coverage_artifacts_prefix: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).codecoverage_sqlite }}-
       xml_unittest_artifacts_prefix: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).unittesting_xml }}-
 
 #  VerifyDocs:
-#    uses: pyTooling/Actions/.github/workflows/VerifyDocs.yml@r1
+#    uses: pyTooling/Actions/.github/workflows/VerifyDocs.yml@r3
 #    needs:
 #      - UnitTestingParams
 #    with:
 #      python_version: ${{ needs.UnitTestingParams.outputs.python_version }}
 
-  HTMLDocumentation:
-    uses: pyTooling/Actions/.github/workflows/SphinxDocumentation.yml@r1
+  Documentation:
+    uses: pyTooling/Actions/.github/workflows/SphinxDocumentation.yml@r3
     needs:
+      - ConfigParams
       - UnitTestingParams
       - PublishTestResults
       - PublishCoverageResults
 #      - VerifyDocs
     with:
       python_version: ${{ needs.UnitTestingParams.outputs.python_version }}
+      coverage_report_json_directory: ${{ needs.ConfigParams.outputs.coverage_report_json_directory }}
       unittest_xml_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).unittesting_xml }}
       coverage_json_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).codecoverage_json }}
       html_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).documentation_html }}
       latex_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).documentation_latex }}
 
   PDFDocumentation:
-    uses: pyTooling/Actions/.github/workflows/LaTeXDocumentation.yml@r1
+    uses: pyTooling/Actions/.github/workflows/LaTeXDocumentation.yml@r3
     needs:
       - UnitTestingParams
-      - HTMLDocumentation
+      - Documentation
     with:
       document: pyVersioning
       latex_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).documentation_latex }}
       pdf_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).documentation_pdf }}
 
   PublishToGitHubPages:
-    uses: pyTooling/Actions/.github/workflows/PublishToGitHubPages.yml@r1
+    uses: pyTooling/Actions/.github/workflows/PublishToGitHubPages.yml@r3
     needs:
       - UnitTestingParams
-      - HTMLDocumentation
+      - Documentation
 #      - PDFDocumentation
       - PublishCoverageResults
       - StaticTypeCheck
@@ -194,7 +202,7 @@ jobs:
       typing: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).statictyping_html }}
 
   ReleasePage:
-    uses: pyTooling/Actions/.github/workflows/Release.yml@r1
+    uses: pyTooling/Actions/.github/workflows/Release.yml@r3
     if: startsWith(github.ref, 'refs/tags')
     needs:
       - AppTesting
@@ -202,7 +210,7 @@ jobs:
       - PublishToGitHubPages
 
   PublishOnPyPI:
-    uses: pyTooling/Actions/.github/workflows/PublishOnPyPI.yml@r1
+    uses: pyTooling/Actions/.github/workflows/PublishOnPyPI.yml@r3
     if: startsWith(github.ref, 'refs/tags')
     needs:
       - UnitTestingParams
@@ -215,12 +223,12 @@ jobs:
       PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
 
   ArtifactCleanUp:
-    uses: pyTooling/Actions/.github/workflows/ArtifactCleanUp.yml@r1
+    uses: pyTooling/Actions/.github/workflows/ArtifactCleanUp.yml@r3
     needs:
       - UnitTestingParams
       - UnitTesting
       - StaticTypeCheck
-      - HTMLDocumentation
+      - Documentation
 #      - PDFDocumentation
       - PublishTestResults
       - PublishCoverageResults

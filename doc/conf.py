@@ -77,7 +77,7 @@ except Exception as ex:
 html_context = {}
 ctx = ROOT / "context.json"
 if ctx.is_file():
-	html_context.update(loads(ctx.open('r').read()))
+	html_context.update(loads(ctx.open("r", encoding="utf-8").read()))
 
 # ==============================================================================
 # Options for HTML output
@@ -264,15 +264,6 @@ todo_link_only = True
 # ==============================================================================
 # sphinx-reports
 # ==============================================================================
-_coverageLevels = {
-	30:      {"class": "report-cov-below30",  "desc": "almost undocumented"},
-	50:      {"class": "report-cov-below50",  "desc": "poorly documented"},
-	80:      {"class": "report-cov-below80",  "desc": "roughly documented"},
-	90:      {"class": "report-cov-below90",  "desc": "well documented"},
-	100:     {"class": "report-cov-below100", "desc": "excellent documented"},
-	"error": {"class": "report-cov-error",    "desc": "internal error"},
-}
-
 report_unittest_testsuites = {
 	"src": {
 		"name":        "pyVersioning",
@@ -284,7 +275,7 @@ report_codecov_packages = {
 		"name":        "pyVersioning",
 		"json_report": "../report/coverage/coverage.json",
 		"fail_below":  80,
-		"levels":      _coverageLevels
+		"levels":      "default"
 	}
 }
 report_doccov_packages = {
@@ -292,7 +283,7 @@ report_doccov_packages = {
 		"name":       "pyVersioning",
 		"directory":  "../pyVersioning",
 		"fail_below": 80,
-		"levels":     _coverageLevels
+		"levels":     "default"
 	}
 }
 

@@ -206,7 +206,7 @@ License
    :hidden:
 
    CommandLineInterface
-   pyVersioning/pyVersioning
+   Python Class Reference <pyVersioning/pyVersioning>
    unittests/index
    coverage/index
    Doc. Coverage Report <DocCoverage>

@@ -236,9 +236,9 @@ jobs:
     with:
       package: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}
       remaining: |
-        ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).unittesting_xml }}-*
+        ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).unittesting_xml }}
         ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).unittesting_html }}-*
-        ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).codecoverage_sqlite }}-*
+        ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).codecoverage_sqlite }}
         ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).codecoverage_xml }}-*
         ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).codecoverage_json }}-*
         ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).codecoverage_html }}-*

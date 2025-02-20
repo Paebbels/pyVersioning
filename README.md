@@ -3,7 +3,7 @@
 [![GitHub tag (latest SemVer incl. pre-release)](https://img.shields.io/github/v/tag/Paebbels/pyVersioning?logo=GitHub&include_prereleases)](https://github.com/Paebbels/pyVersioning/tags)
 [![GitHub release (latest SemVer incl. including pre-releases)](https://img.shields.io/github/v/release/Paebbels/pyVersioning?logo=GitHub&include_prereleases)](https://github.com/Paebbels/pyVersioning/releases/latest)
 [![GitHub release date](https://img.shields.io/github/release-date/Paebbels/pyVersioning?logo=GitHub&)](https://github.com/Paebbels/pyVersioning/releases)  
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Paebbels/pyVersioning/Test,%20Coverage%20and%20Release?label=Workflow&logo=GitHub)](https://github.com/Paebbels/pyVersioning/actions?query=workflow%3A%22Test%2C+Coverage+and+Release%22)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Paebbels/pyVersioning/Pipeline.ymllabel=Workflow&logo=GitHub)](https://github.com/Paebbels/pyVersioning/actions?query=workflow%3A%22Test%2C+Coverage+and+Release%22)
 [![PyPI](https://img.shields.io/pypi/v/pyVersioning?logo=PyPI)](https://pypi.org/project/pyVersioning/)
 ![PyPI - Status](https://img.shields.io/pypi/status/pyVersioning?logo=PyPI)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyVersioning?logo=PyPI)

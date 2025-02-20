@@ -2,7 +2,7 @@
    :alt: Sourcecode on GitHub
    :height: 22
    :target: https://github.com/Paebbels/pyVersioning
-.. |img-pyVersioning-license| image:: https://img.shields.io/badge/Apache%20License,%202.0-bd0000.svg?longCache=true&label=license&logo=Apache&logoColor=D22128
+.. |img-pyVersioning-license| image:: https://img.shields.io/badge/Apache%20License,%202.0-bd0000?longCache=true&label=license&logo=Apache&logoColor=D22128
    :alt: License
    :height: 22
 .. |img-pyVersioning-tag| image:: https://img.shields.io/github/v/tag/Paebbels/pyVersioning?logo=GitHub&include_prereleases

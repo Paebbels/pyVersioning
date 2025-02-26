@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2025 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -30,7 +30,7 @@
 #
 __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
-__copyright__ = "2020-2024, Patrick Lehmann"
+__copyright__ = "2020-2025, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
 __version__ =   "0.17.0"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]

@@ -68,7 +68,7 @@ void printVersion(void) {
 	);
 }
 
-int main() {
+int main(void) {
 	printf(
 		"========================================\n"
 		"pyVersioning Example C\n"

@@ -1,0 +1,13 @@
+version: 1
+
+project:
+  name:     Test Project
+  variant:  A2
+  version:  v2.1.6
+
+build:
+  compiler:
+    name:           g++
+    version:        10.2.0
+    configuration:  Release
+    options:        -g -O3

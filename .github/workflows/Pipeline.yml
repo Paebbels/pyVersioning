@@ -112,16 +112,23 @@ jobs:
         run: |
           cd example/C
           pyVersioning fillout ../../templates/C/versioning.c.template versioning.c
+          cd ../CXX
+          pyVersioning fillout ../../templates/C/versioning.c.template versioning.c
 
       - name: Compile example
         run: |
           cd example/C
           gcc -o example example.c versioning.c
+          cd ../CXX
+          gcc -c versioning.c
+          g++ -o example example.cpp versioning.o
 
       - name: Execute example
         run: |
           cd example/C
           ./example
+           cd ../CXX
+        ./example
 
   PublishCoverageResults:
     uses: pyTooling/Actions/.github/workflows/PublishCoverageResults.yml@r3

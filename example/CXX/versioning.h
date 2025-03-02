@@ -8,7 +8,7 @@
 /***********************************************************************************************************************
 /* @author    Patrick Lehmann                                                                                          *
 /*                                                                                                                     *
-/* @brief     Code example in C                                                                                        *
+/* @brief     C Structure definitions for pyVersioning                                                                 *
 /*                                                                                                                     *
 /* @copyright Copyright 2020-2024 Patrick Lehmann - Boetzingen, Germany                                                *
 /*                                                                                                                     *
@@ -26,56 +26,71 @@
 /*                                                                                                                     *
 /* SPDX-License-Identifier: Apache-2.0                                                                                 *
 /**********************************************************************************************************************/
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdint.h>
 
-#include "versioning.h"
+#ifndef VERSIONING_H
+#define VERSIONING_H
 
-void printVersion(void) {
-	printf("Project:  %s - %s\n",
-		versioningInformation.project.name,
-		versioningInformation.project.variant
-	);
-	printf("Version:  v%d.%d.%d\n",
-		versioningInformation.version.major,
-		versioningInformation.version.minor,
-		versioningInformation.version.patch
-	);
-	printf("Git:      %s - %02d.%02d.%02d-%02d:%02d:%02d\n",
-		versioningInformation.git.reference,
-		versioningInformation.git.commit.datetime.date.day,
-		versioningInformation.git.commit.datetime.date.month,
-		versioningInformation.git.commit.datetime.date.year,
-		versioningInformation.git.commit.datetime.time.hour,
-		versioningInformation.git.commit.datetime.time.minute,
-		versioningInformation.git.commit.datetime.time.second
-	);
-	printf("          %s\n", versioningInformation.git.commit.hash);
-	printf("          %s\n", versioningInformation.git.repository);
-	printf("Build on: %02d.%02d.%02d-%02d:%02d:%02d\n",
-		versioningInformation.build.datetime.date.day,
-		versioningInformation.build.datetime.date.month,
-		versioningInformation.build.datetime.date.year,
-		versioningInformation.build.datetime.time.hour,
-		versioningInformation.build.datetime.time.minute,
-		versioningInformation.build.datetime.time.second
-	);
-	printf("Compiler: %s (%d.%d.%d)\n",
-		versioningInformation.build.compiler.name,
-		versioningInformation.build.compiler.version.major,
-		versioningInformation.build.compiler.version.minor,
-		versioningInformation.build.compiler.version.patch
-	);
-}
+typedef struct {
+	uint8_t day;
+	uint8_t month;
+	uint16_t year;
+} Date;
 
-int main() {
-	printf(
-		"========================================\n"
-		"pyVersioning Example C\n"
-		"========================================\n"
-	);
+typedef struct {
+	uint8_t hour;
+	uint8_t minute;
+	uint8_t second;
+} Time;
 
-	printVersion();
+typedef struct {
+	Date date;
+	Time time;
+} DateTime;
 
-	return EXIT_SUCCESS;
-}
+typedef struct {
+	uint8_t flags;
+	uint16_t major;
+	uint16_t minor;
+	uint16_t patch;
+} Version;
+
+typedef struct {
+	char       hash[41];    // hex-value as string (160-bit => 40 characters + \0)
+	DateTime   datetime;
+} Commit;
+
+typedef struct {
+	Commit      commit;
+	const char* reference;
+	const char* repository;
+} Git;
+
+typedef struct {
+	const char* name;
+	const char* variant;
+} Project;
+
+typedef struct {
+	const char* name;
+	Version     version;
+	const char* configuration;
+	const char* options;
+} Compiler;
+
+typedef struct {
+	DateTime    datetime;
+	Compiler    compiler;
+} Build;
+
+typedef struct {
+	Version    version;
+	Git        git;
+	Project    project;
+	Build      build;
+} VersioningInformation;
+
+
+extern const VersioningInformation versioningInformation;
+
+#endif /* VERSIONING_H */

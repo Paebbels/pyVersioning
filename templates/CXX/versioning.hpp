@@ -37,13 +37,8 @@
 #if __has_include(<string_view>)
 #include <string_view>
 #define PYVERSIONING_HAS_STRING_VIEW
-#else
-#define PYVERSIONING_HAS_STRING_VIEW
-#endif
-#else
-// Without __has_include, assume it's not available.
-#define PYVERSIONING_HAS_STRING_VIEW
-#endif
+#endif // #if __has_include(<string_view>)
+#endif // #if defined(__has_include)
 
 namespace pyVersioning 
 {
@@ -56,16 +51,7 @@ using FixedString_t = char const *;
 typedef char const * FixedString_t;
 #endif
 
-// hex-value as string (160-bit => 40 characters + \0)
-#ifdef PYVERSIONING_HAS_STRING_VIEW
-using HashString_t = std::string_view const;
-#elif __cplusplus >= 201103L
-using FixedString_t = char const [41];
-#else
-typedef char const [41] FixedString_t;
-#endif
-
-struct Date{
+struct Date {
 	uint8_t  day;
 	uint8_t  month;
 	uint16_t year;
@@ -90,7 +76,7 @@ struct Version {
 };
 
 struct Commit {
-	pyVersioning::HashString_t hash;
+	pyVersioning::FixedString_t hash;
 	DateTime                   datetime;
 };
 

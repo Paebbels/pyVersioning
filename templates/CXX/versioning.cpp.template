@@ -47,7 +47,7 @@ PYVERSIONING_CONSTEXPR VersioningInformation versioningInformation = {{
 	}},
 	{{
 		{{
-			"{git.commit.hash}\0",
+			"{git.commit.hash}",
 			{{
 				{{
 					{git.commit.date.day},
@@ -61,12 +61,12 @@ PYVERSIONING_CONSTEXPR VersioningInformation versioningInformation = {{
 				}}
 			}}
 		}},
-		"{git.reference}\0",
-		"{git.repository}\0"
+		"{git.reference}",
+		"{git.repository}"
 	}},
 	{{
-		"{project.name}\0",
-		"{project.variant}\0",
+		"{project.name}",
+		"{project.variant}",
 	}},
 	{{
 		{{
@@ -82,15 +82,15 @@ PYVERSIONING_CONSTEXPR VersioningInformation versioningInformation = {{
 			}}
 		}},
 		{{
-			"{build.compiler.name}\0",
+			"{build.compiler.name}",
 			{{
 				0x0/*{{build.compiler.version.Flags:02X}}*/,
 				/*0x*/ {build.compiler.version.Major} /*:02X}}*/,
 				0x{build.compiler.version.Minor} /*:02X}}*/,
 				0x{build.compiler.version.Patch} /*:02X}}*/
 			}},
-			"{build.compiler.configuration}\0",
-			"{build.compiler.options}\0"
+			"{build.compiler.configuration}",
+			"{build.compiler.options}"
 		}}
 	}}
 }};

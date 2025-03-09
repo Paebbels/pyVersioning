@@ -36,188 +36,60 @@
 #define PYVERSIONING_CONSTEXPR const
 #endif
 
-// Define PYVERSIONING_HAS_DESIGNATED_INIT to indicate if C++ 20 designated initializers available.
-#if __cpp_designated_initializers >= 201304
-#define PYVERSIONING_HAS_DESIGNATED_INIT
-#endif
-
 using namespace pyVersioning;
 
 PYVERSIONING_CONSTEXPR VersioningInformation versioningInformation = {{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-	.version = 
-#endif
 	{{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-		.flags = 
-#endif
 		0x0/*{{version.Flags:02X}}*/,
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-		.major = 
-#endif
 		0x{version.Major} /*:02X}}*/,
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-		.minor = 
-#endif
 		0x{version.Minor} /*:02X}}*/,
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-		.patch = 
-#endif
 		0x{version.Patch} /*:02X}}*/
 	}},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-	.git = 
-#endif
 	{{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-		.commit = 
-#endif
 		{{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-			.hash =
-#endif
 			"{git.commit.hash}\0",
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-			.datetime = 
-#endif
 			{{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-				.date =
-#endif
 				{{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-					.day =
-#endif
 					{git.commit.date.day},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-					.month = 
-#endif
 					{git.commit.date.month},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-					.year =  
-#endif
 					{git.commit.date.year}
 				}},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-				.time = 
-#endif
 				{{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-					.hour =   
-#endif
 					{git.commit.time.hour},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-					.minute = 
-#endif
 					{git.commit.time.minute},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-					.second = 
-#endif
 					{git.commit.time.second}
 				}}
 			}}
 		}},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-		.reference =  
-#endif
 		"{git.reference}\0",
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-		.repository = 
-#endif
 		"{git.repository}\0"
 	}},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-	.project = 
-#endif
 	{{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-		.name =         
-#endif
 		"{project.name}\0",
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-		.variant =      
-#endif
 		"{project.variant}\0",
 	}},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-	.build = 
-#endif
 	{{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-		.datetime = 
-#endif
 		{{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-			.date = 
-#endif
 			{{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-				.day =      
-#endif
 				{build.date.day},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-				.month =    
-#endif
 				{build.date.month},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-				.year =     
-#endif
 				{build.date.year}
 			}},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-			.time = 
-#endif
 			{{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-				.hour =     
-#endif
 				{build.time.hour},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-				.minute =   
-#endif
 				{build.time.minute},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-				.second =   
-#endif
 				{build.time.second}
 			}}
 		}},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-		.compiler = 
-#endif
 		{{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-			.name =       
-#endif
 			"{build.compiler.name}\0",
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-			.version = 
-#endif
 			{{
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-				.flags =    
-#endif
 				0x0/*{{build.compiler.version.Flags:02X}}*/,
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-				.major =    
-#endif
 				/*0x*/ {build.compiler.version.Major} /*:02X}}*/,
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-				.minor =    
-#endif
 				0x{build.compiler.version.Minor} /*:02X}}*/,
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-				.patch =    
-#endif
 				0x{build.compiler.version.Patch} /*:02X}}*/
 			}},
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-			.configuration =  
-#endif
 			"{build.compiler.configuration}\0",
-#ifdef PYVERSIONING_HAS_DESIGNATED_INIT
-			.options =        
-#endif
 			"{build.compiler.options}\0"
 		}}
 	}}

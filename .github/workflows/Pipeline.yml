@@ -89,11 +89,15 @@ jobs:
       wheel: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}
       apptest_xml_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).apptesting_xml }}
 
-  C_Example:
+  Examples:
     runs-on: ubuntu-24.04
     needs:
       - UnitTestingParams
       - Package
+    strategy:
+      fail-fast: false
+      matrix:
+        example: ["C", "CXX"]
     defaults:
       run:
         shell: bash
@@ -112,26 +116,20 @@ jobs:
           ls -l install
           python -m pip install -U --disable-pip-version-check --break-system-packages install/*.whl
 
-      - name: Generate versioning.c
+      - name: Generate versioning.${{ matrix.fileext }}
         run: |
-          cd example/C
-          pyVersioning fillout ../../templates/C/versioning.c.template versioning.c
-          cd ../CXX
-          pyVersioning fillout ../../templates/CXX/versioning.cpp.template versioning.cpp
+          cd example
+          ./fillout.sh ${{ matrix.example }}
 
       - name: Compile example
         run: |
-          cd example/C
-          gcc -o example example.c versioning.c
-          cd ../CXX
-          g++ -o example example.cpp versioning.cpp
+          cd example
+          ./build.sh ${{ matrix.example }}
 
       - name: Execute example
         run: |
-          cd example/C
-          ./example
-          cd ../CXX
-          ./example
+          cd example
+          ./check.sh ${{ matrix.example }}
 
   PublishCoverageResults:
     uses: pyTooling/Actions/.github/workflows/PublishCoverageResults.yml@r4
@@ -216,7 +214,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags')
     needs:
       - AppTesting
-      - C_Example
+      - Examples
       - PublishToGitHubPages
 
   PublishOnPyPI:

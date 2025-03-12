@@ -8,7 +8,7 @@
 /***********************************************************************************************************************
 /* @author    Patrick Lehmann                                                                                          *
 /*                                                                                                                     *
-/* @brief     Code example in C                                                                                        *
+/* @brief     C++ Structure definitions for pyVersioning                                                               *
 /*                                                                                                                     *
 /* @copyright Copyright 2020-2024 Patrick Lehmann - Boetzingen, Germany                                                *
 /*                                                                                                                     *
@@ -26,56 +26,92 @@
 /*                                                                                                                     *
 /* SPDX-License-Identifier: Apache-2.0                                                                                 *
 /**********************************************************************************************************************/
-#include <stdio.h>
-#include <stdlib.h>
 
-#include "versioning.h"
+#ifndef VERSIONING_H
+#define VERSIONING_H
 
-void printVersion(void) {
-	printf("Project:  %s - %s\n",
-		versioningInformation.project.name,
-		versioningInformation.project.variant
-	);
-	printf("Version:  v%d.%d.%d\n",
-		versioningInformation.version.major,
-		versioningInformation.version.minor,
-		versioningInformation.version.patch
-	);
-	printf("Git:      %s - %02d.%02d.%02d-%02d:%02d:%02d\n",
-		versioningInformation.git.reference,
-		versioningInformation.git.commit.datetime.date.day,
-		versioningInformation.git.commit.datetime.date.month,
-		versioningInformation.git.commit.datetime.date.year,
-		versioningInformation.git.commit.datetime.time.hour,
-		versioningInformation.git.commit.datetime.time.minute,
-		versioningInformation.git.commit.datetime.time.second
-	);
-	printf("          %s\n", versioningInformation.git.commit.hash);
-	printf("          %s\n", versioningInformation.git.repository);
-	printf("Build on: %02d.%02d.%02d-%02d:%02d:%02d\n",
-		versioningInformation.build.datetime.date.day,
-		versioningInformation.build.datetime.date.month,
-		versioningInformation.build.datetime.date.year,
-		versioningInformation.build.datetime.time.hour,
-		versioningInformation.build.datetime.time.minute,
-		versioningInformation.build.datetime.time.second
-	);
-	printf("Compiler: %s (%d.%d.%d)\n",
-		versioningInformation.build.compiler.name,
-		versioningInformation.build.compiler.version.major,
-		versioningInformation.build.compiler.version.minor,
-		versioningInformation.build.compiler.version.patch
-	);
-}
+#include <cstdint>
 
-int main(void) {
-	printf(
-		"========================================\n"
-		"pyVersioning Example C\n"
-		"========================================\n"
-	);
+// Check if <string_view> is available using __has_include.
+#if defined(__has_include)
+#if __has_include(<string_view>)
+#include <string_view>
+#define PYVERSIONING_HAS_STRING_VIEW
+#endif // #if __has_include(<string_view>)
+#endif // #if defined(__has_include)
 
-	printVersion();
+namespace pyVersioning 
+{
 
-	return EXIT_SUCCESS;
-}
+#ifdef PYVERSIONING_HAS_STRING_VIEW
+using FixedString_t = std::string_view;
+#elif __cplusplus >= 201103L
+using FixedString_t = char const *;
+#else
+typedef char const * FixedString_t;
+#endif
+
+struct Date {
+	uint8_t  day;
+	uint8_t  month;
+	uint16_t year;
+};
+
+struct Time {
+	uint8_t hour;
+	uint8_t minute;
+	uint8_t second;
+};
+
+struct DateTime {
+	Date date;
+	Time time;
+};
+
+struct Version {
+	uint8_t  flags;
+	uint16_t major;
+	uint16_t minor;
+	uint16_t patch;
+};
+
+struct Commit {
+	pyVersioning::FixedString_t hash;
+	DateTime                   datetime;
+};
+
+struct Git {
+	Commit                      commit;
+	pyVersioning::FixedString_t reference;
+	pyVersioning::FixedString_t repository;
+};
+
+struct Project {
+	pyVersioning::FixedString_t name;
+	pyVersioning::FixedString_t variant;
+};
+
+struct Compiler {
+	pyVersioning::FixedString_t name;
+	Version                     version;
+	pyVersioning::FixedString_t configuration;
+	pyVersioning::FixedString_t options;
+};
+
+struct Build {
+	DateTime    datetime;
+	Compiler    compiler;
+};
+
+struct VersioningInformation {
+	Version    version;
+	Git        git;
+	Project    project;
+	Build      build;
+};
+
+} // namespace pyVersioning 
+
+extern const pyVersioning::VersioningInformation versioningInformation;
+
+#endif /* VERSIONING_H */

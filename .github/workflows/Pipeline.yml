@@ -116,15 +116,21 @@ jobs:
         run: |
           cd example/C
           pyVersioning fillout ../../templates/C/versioning.c.template versioning.c
+          cd ../CXX
+          pyVersioning fillout ../../templates/CXX/versioning.cpp.template versioning.cpp
 
       - name: Compile example
         run: |
           cd example/C
           gcc -o example example.c versioning.c
+          cd ../CXX
+          g++ -o example example.cpp versioning.cpp
 
       - name: Execute example
         run: |
           cd example/C
+          ./example
+          cd ../CXX
           ./example
 
   PublishCoverageResults:

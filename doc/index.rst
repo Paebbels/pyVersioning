@@ -1,74 +1,8 @@
-.. |img-pyVersioning-github| image:: https://img.shields.io/badge/Paebbels-pyVersioning-323131.svg?logo=github&longCache=true
-   :alt: Sourcecode on GitHub
-   :height: 22
-   :target: https://github.com/Paebbels/pyVersioning
-.. |img-pyVersioning-license| image:: https://img.shields.io/badge/Apache%20License,%202.0-bd0000?longCache=true&label=license&logo=Apache&logoColor=D22128
-   :alt: License
-   :height: 22
-.. |img-pyVersioning-tag| image:: https://img.shields.io/github/v/tag/Paebbels/pyVersioning?logo=GitHub&include_prereleases
-   :alt: GitHub tag (latest SemVer incl. pre-release
-   :height: 22
-   :target: https://github.com/Paebbels/pyVersioning/tags
-.. |img-pyVersioning-release| image:: https://img.shields.io/github/v/release/Paebbels/pyVersioning?logo=GitHub&include_prereleases
-   :alt: GitHub release (latest SemVer incl. including pre-releases
-   :height: 22
-   :target: https://github.com/Paebbels/pyVersioning/releases/latest
-.. |img-pyVersioning-date| image:: https://img.shields.io/github/release-date/Paebbels/pyVersioning?logo=GitHub
-   :alt: GitHub release date
-   :height: 22
-   :target: https://github.com/Paebbels/pyVersioning/releases
-.. |img-pyVersioning-lib-status| image:: https://img.shields.io/librariesio/release/pypi/pyVersioning
-   :alt: Libraries.io status for latest release
-   :height: 22
-   :target: https://libraries.io/github/Paebbels/pyVersioning
-.. |img-pyVersioning-req-status| image:: https://img.shields.io/requires/github/Paebbels/pyVersioning
-   :alt: Requires.io
-   :height: 22
-   :target: https://requires.io/github/Paebbels/pyVersioning/requirements/?branch=master
-.. |img-pyVersioning-travis| image:: https://img.shields.io/travis/com/Paebbels/pyVersioning?logo=Travis
-   :alt: Travis - Build on 'master'
-   :height: 22
-   :target: https://travis-ci.com/Paebbels/pyVersioning
-.. |img-pyVersioning-pypi-tag| image:: https://img.shields.io/pypi/v/pyVersioning?logo=PyPI
-   :alt: PyPI - Tag
-   :height: 22
-   :target: https://pypi.org/project/pyVersioning/
-.. |img-pyVersioning-pypi-status| image:: https://img.shields.io/pypi/status/pyVersioning?logo=PyPI
-   :alt: PyPI - Status
-   :height: 22
-.. |img-pyVersioning-pypi-python| image:: https://img.shields.io/pypi/pyversions/pyVersioning?logo=PyPI
-   :alt: PyPI - Python Version
-   :height: 22
-.. |img-pyVersioning-lib-dep| image:: https://img.shields.io/librariesio/dependent-repos/pypi/pyVersioning
-   :alt: Dependent repos (via libraries.io)
-   :height: 22
-   :target: https://github.com/Paebbels/pyVersioning/network/dependents
-.. |img-pyVersioning-codacy-quality| image:: https://img.shields.io/codacy/grade/b63aac7ef7e34baf829f11a61574bbaf?logo=codacy
-   :alt: Codacy - Quality
-   :height: 22
-   :target: https://www.codacy.com/manual/Paebbels/pyVersioning
-.. |img-pyVersioning-codacy-coverage| image:: https://img.shields.io/codacy/coverage/b63aac7ef7e34baf829f11a61574bbaf?logo=codacy
-   :alt: Codacy - Line Coverage
-   :height: 22
-   :target: https://www.codacy.com/manual/Paebbels/pyVersioning
-.. |img-pyVersioning-codecov-coverage| image:: https://codecov.io/gh/Paebbels/pyVersioning/branch/master/graph/badge.svg
-   :alt: Codecov - Branch Coverage
-   :height: 22
-   :target: https://codecov.io/gh/Paebbels/pyVersioning
-.. |img-pyVersioning-lib-rank| image:: https://img.shields.io/librariesio/sourcerank/pypi/pyVersioning
-   :alt: Libraries.io SourceRank
-   :height: 22
-   :target: https://libraries.io/github/Paebbels/pyVersioning/sourcerank
-.. |img-pyVersioning-rtd| image:: https://img.shields.io/readthedocs/pyversioning
-   :alt: Read the Docs
-   :height: 22
-   :target: https://pyVersioning.readthedocs.io/en/latest/
+.. include:: shields.inc
 
-|img-pyVersioning-github| |img-pyVersioning-tag| |img-pyVersioning-release| |img-pyVersioning-date| |br|
-|img-pyVersioning-lib-status| |img-pyVersioning-req-status| |img-pyVersioning-lib-dep| |br|
-|img-pyVersioning-travis| |img-pyVersioning-pypi-tag| |img-pyVersioning-pypi-status| |img-pyVersioning-pypi-python| |br|
-|img-pyVersioning-codacy-quality| |img-pyVersioning-codacy-coverage| |img-pyVersioning-codecov-coverage| |img-pyVersioning-lib-rank| |br|
-|img-pyVersioning-rtd| |img-pyVersioning-license|
+.. raw:: latex
+
+   \part{Introduction}
 
 .. code-block:: text
 
@@ -80,11 +14,29 @@
    |_|    |___/                                          |___/
 
 
+.. only:: html
+
+   |  |SHIELD:svg:pyVersioning-github| |SHIELD:svg:pyVersioning-src-license| |SHIELD:svg:pyVersioning-ghp-doc| |SHIELD:svg:pyVersioning-doc-license|
+   |  |SHIELD:svg:pyVersioning-pypi-tag| |SHIELD:svg:pyVersioning-pypi-status| |SHIELD:svg:pyVersioning-pypi-python|
+   |  |SHIELD:svg:pyVersioning-gha-test| |SHIELD:svg:pyVersioning-lib-status| |SHIELD:svg:pyVersioning-codacy-quality| |SHIELD:svg:pyVersioning-codacy-coverage| |SHIELD:svg:pyVersioning-codecov-coverage|
+
+.. Disabled shields: |SHIELD:svg:pyVersioning-gitter| |SHIELD:svg:pyVersioning-lib-dep| |SHIELD:svg:pyVersioning-lib-rank|
+
+.. only:: latex
+
+   |SHIELD:png:pyVersioning-github| |SHIELD:png:pyVersioning-src-license| |SHIELD:png:pyVersioning-ghp-doc| |SHIELD:png:pyVersioning-doc-license|
+   |SHIELD:png:pyVersioning-pypi-tag| |SHIELD:png:pyVersioning-pypi-status| |SHIELD:png:pyVersioning-pypi-python|
+   |SHIELD:png:pyVersioning-gha-test| |SHIELD:png:pyVersioning-lib-status| |SHIELD:png:pyVersioning-codacy-quality| |SHIELD:png:pyVersioning-codacy-coverage| |SHIELD:png:pyVersioning-codecov-coverage|
+
+.. Disabled shields: |SHIELD:svg:pyVersioning-gitter| |SHIELD:png:pyVersioning-lib-dep| |SHIELD:png:pyVersioning-lib-rank|
+
+--------------------------------------------------------------------------------
+
 pyVersioning Documentation
 ##########################
 
-The Python package `pyVersioning` offers a template tool to write version information for any programming language as a
-source file that can be included into the normal build flow.
+The Python package ``pyVersioning`` offers a template tool to write version information for any programming language as
+a source file that can be included into the normal build flow.
 
 The main idea is to provide a unified tool to collect all necessary version information from a configuration file, user
 defined parameters, version control systems (e.g. Git) or environment variables. Especially the latter ones can be
@@ -93,13 +45,12 @@ tricky in CI environments, as every CI service uses different environment variab
 .. topic:: Planned features
 
    * read template from ``STDIN``.
-   * add C++ example
    * add VHDL example
 
 Use Cases
 *********
 
-* Integrate version information from e.g. Git into current builds
+* Integrate version information from e.g. Git, GitHub, GitLab, ... into current software builds.
 
 Supported Version Control Systems
 *********************************
@@ -128,6 +79,7 @@ Tested with ...
 ***************
 
 * ANSI C
+* C++
 * VHDL
 
 
@@ -135,6 +87,7 @@ Examples
 ********
 
 * ANSI C Example
+* C++ Example
 * VHDL Example
 
 
@@ -144,6 +97,7 @@ Contributors
 ************
 
 * `Patrick Lehmann <https://GitHub.com/Paebbels>`__ (Maintainer)
+* `Navid Jalali <https://GitHub.com/navidcity>`__
 * `and more... <https://GitHub.com/Paebbels/pyVersioning/graphs/contributors>`__
 
 
@@ -188,13 +142,15 @@ License
    :hidden:
 
    templates/index
-   templates/ANSI-C
+   templates/C
+   templates/CXX
 
 .. toctree::
    :caption: Examples
    :hidden:
 
-   examples/ANSI-C
+   examples/C
+   examples/CXX
    examples/VHDL
 
 .. raw:: latex
@@ -209,7 +165,8 @@ License
    Python Class Reference <pyVersioning/pyVersioning>
    unittests/index
    coverage/index
-   Doc. Coverage Report <DocCoverage>
+   CodeCoverage
+   DocCoverage
    Static Type Check Report ➚ <typing/index>
 
 .. raw:: latex

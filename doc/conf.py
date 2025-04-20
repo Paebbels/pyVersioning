@@ -267,7 +267,7 @@ todo_link_only = True
 report_unittest_testsuites = {
 	"src": {
 		"name":        "pyVersioning",
-		"xml_report":  "../report/unit/Unittesting.xml",
+		"xml_report":  "../report/unit/unittest.xml",
 	}
 }
 report_codecov_packages = {

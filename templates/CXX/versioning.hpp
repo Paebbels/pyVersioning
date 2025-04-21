@@ -8,7 +8,7 @@
  ***********************************************************************************************************************
  * @author    Patrick Lehmann                                                                                          *
  *                                                                                                                     *
- * @brief     C Structure definitions for pyVersioning                                                                 *
+ * @brief     C++ Structure definitions for pyVersioning                                                               *
  *                                                                                                                     *
  * @copyright Copyright 2020-2024 Patrick Lehmann - Boetzingen, Germany                                                *
  *                                                                                                                     *
@@ -27,71 +27,91 @@
  * SPDX-License-Identifier: Apache-2.0                                                                                 *
  **********************************************************************************************************************/
 
-#include <stdint.h>
-
 #ifndef VERSIONING_H
 #define VERSIONING_H
 
-typedef struct {
-	uint8_t day;
-	uint8_t month;
-	uint16_t year;
-} Date;
+#include <cstdint>
 
-typedef struct {
+// Check if <string_view> is available using __has_include.
+#if defined(__has_include)
+#if __has_include(<string_view>)
+#include <string_view>
+#define PYVERSIONING_HAS_STRING_VIEW
+#endif // #if __has_include(<string_view>)
+#endif // #if defined(__has_include)
+
+namespace pyVersioning
+{
+
+#ifdef PYVERSIONING_HAS_STRING_VIEW
+using FixedString_t = std::string_view;
+#elif __cplusplus >= 201103L
+using FixedString_t = char const *;
+#else
+typedef char const * FixedString_t;
+#endif
+
+struct Date {
+	uint8_t  day;
+	uint8_t  month;
+	uint16_t year;
+};
+
+struct Time {
 	uint8_t hour;
 	uint8_t minute;
 	uint8_t second;
-} Time;
+};
 
-typedef struct {
+struct DateTime {
 	Date date;
 	Time time;
-} DateTime;
+};
 
-typedef struct {
-	uint8_t flags;
+struct Version {
+	uint8_t  flags;
 	uint16_t major;
 	uint16_t minor;
 	uint16_t patch;
-} Version;
+};
 
-typedef struct {
-	char       hash[41];    // hex-value as string (160-bit => 40 characters + \0)
-	DateTime   datetime;
-} Commit;
+struct Commit {
+	pyVersioning::FixedString_t hash;
+	DateTime                   datetime;
+};
 
-typedef struct {
-	Commit      commit;
-	const char* reference;
-	const char* repository;
-} Git;
+struct Git {
+	Commit                      commit;
+	pyVersioning::FixedString_t reference;
+	pyVersioning::FixedString_t repository;
+};
 
-typedef struct {
-	const char* name;
-	const char* variant;
-} Project;
+struct Project {
+	pyVersioning::FixedString_t name;
+	pyVersioning::FixedString_t variant;
+};
 
-typedef struct {
-	const char* name;
-	Version     version;
-	const char* configuration;
-	const char* options;
-} Compiler;
+struct Compiler {
+	pyVersioning::FixedString_t name;
+	Version                     version;
+	pyVersioning::FixedString_t configuration;
+	pyVersioning::FixedString_t options;
+};
 
-typedef struct {
+struct Build {
 	DateTime    datetime;
 	Compiler    compiler;
-} Build;
+};
 
-typedef struct {
+struct VersioningInformation {
 	Version    version;
 	Git        git;
 	Project    project;
 	Build      build;
-} VersioningInformation;
+};
 
+} // namespace pyVersioning
 
-extern const VersioningInformation versioningInformation;
+extern const pyVersioning::VersioningInformation versioningInformation;
 
 #endif /* VERSIONING_H */

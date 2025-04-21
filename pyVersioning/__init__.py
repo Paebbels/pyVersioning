@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2024 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2025 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -30,9 +30,9 @@
 #
 __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
-__copyright__ = "2020-2024, Patrick Lehmann"
+__copyright__ = "2020-2025, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
-__version__ =   "0.17.0"
+__version__ =   "0.18.0"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
 
 from dataclasses  import make_dataclass
@@ -104,8 +104,8 @@ class SelfDescriptive(metaclass=ExtendedType, slots=True, mixin=True):
 class Tool(SelfDescriptive):
 	"""This data structure class describes the tool name and version of pyVersioning."""
 
-	_name:    str
-	_version: SemanticVersion
+	_name:    str              #: Name of pyVersioning
+	_version: SemanticVersion  #: Version of the pyVersioning
 
 	_public:  ClassVar[Tuple[str, ...]] = ("name", "version")
 
@@ -138,16 +138,29 @@ class Tool(SelfDescriptive):
 		return self._version
 
 	def __str__(self) -> str:
-		return f"{self._name} {self._version}"
+		"""
+		Return a string representation of this tool description.
+
+		:returns: The tool's name and version.
+		"""
+		return f"{self._name} - {self._version}"
 
 
 @export
 class Date(date, SelfDescriptive):
+	"""
+	This data structure class describes a date (dd.mm.yyyy).
+	"""
+
 	_public: ClassVar[Tuple[str, ...]] = ("day", "month", "year")
 
 
 @export
 class Time(time, SelfDescriptive):
+	"""
+	This data structure class describes a time (hh:mm:ss).
+	"""
+
 	_public: ClassVar[Tuple[str, ...]] = ("hour", "minute", "second")
 
 
@@ -193,11 +206,20 @@ class Person(SelfDescriptive):
 		return self._email
 
 	def __str__(self) -> str:
+		"""
+		Return a string representation of a person (committer, author, ...).
+
+		:returns: The persons name and email address.
+		"""
 		return f"{self._name} <{self._email}>"
 
 
 @export
 class Commit(SelfDescriptive):
+	"""
+	This data structure class describes a Git commit with Hash, commit date and time, committer, author and commit description.
+	"""
+
 	_hash:      str
 	_date:      date
 	_time:      time
@@ -210,7 +232,7 @@ class Commit(SelfDescriptive):
 
 	def __init__(self, hash: str, date: date, time: time, author: Person, committer: Person, comment: str) -> None:
 		"""
-		Initialize a commit.
+		Initialize a Git commit.
 
 		:param hash:      The commit's hash.
 		:param date:      The commit's date.
@@ -287,14 +309,25 @@ class Commit(SelfDescriptive):
 	def oneline(self) -> Union[str,  bool]:
 		return self._oneline
 
+	def __str__(self) -> str:
+		"""
+		Return a string representation of a commit.
+
+		:returns: The date, time, committer, hash and one-liner description.
+		"""
+		return f"{self._date} {self._time} - {self._committer} - {self._hash} - {self._oneline}"
+
 
 @export
 class Git(SelfDescriptive):
-	_commit:     Commit
-	_reference:  str = ""
-	_tag:        str = ""
-	_branch:     str = ""
-	_repository: str = ""
+	"""
+	This data structure class describes all collected data from Git.
+	"""
+	_commit:     Commit  #: Git commit information
+	_reference:  str     #: Git reference (branch or tag)
+	_tag:        str     #: Git tag
+	_branch:     str     #: Git branch
+	_repository: str     #: Git repository URL
 
 	_public: ClassVar[Tuple[str, ...]] = ("commit", "reference", "tag", "branch", "repository")
 
@@ -358,6 +391,14 @@ class Git(SelfDescriptive):
 		"""
 		return self._repository
 
+	def __str__(self) -> str:
+		"""
+		Return a string representation of a repository.
+
+		:returns: The date, time, committer, hash and one-liner description.
+		"""
+		return f"{self._repository}:{self._reference} - {self._commit._hash} - {self._commit._oneline}"
+
 
 @export
 class Project(SelfDescriptive):
@@ -410,15 +451,20 @@ class Project(SelfDescriptive):
 		return self._version
 
 	def __str__(self) -> str:
+		"""
+		Return a string representation of a project.
+
+		:returns: The project name, project variant and project version.
+		"""
 		return f"{self._name} - {self._variant} {self._version}"
 
 
 @export
 class Compiler(SelfDescriptive):
-	_name:          str
-	_version:       SemanticVersion
-	_configuration: str
-	_options:       str
+	_name:          str              #: Name of the compiler.
+	_version:       SemanticVersion  #: Version of the compiler.
+	_configuration: str              #: Compiler configuration.
+	_options:       str              #: Compiler options (compiler flags).
 
 	_public: ClassVar[Tuple[str, ...]] = ("name", "version", "configuration", "options")
 
@@ -472,12 +518,20 @@ class Compiler(SelfDescriptive):
 		"""
 		return self._options
 
+	def __str__(self) -> str:
+		"""
+		Return a string representation of a compiler.
+
+		:returns: The compiler name and compiler version.
+		"""
+		return f"{self._name} - {self._version}"
+
 
 @export
 class Build(SelfDescriptive):
-	_date:     date
-	_time:     time
-	_compiler: Compiler
+	_date:     date      #: Build date.
+	_time:     time      #: Build time.
+	_compiler: Compiler  #: Use compiler (and options) for the build.
 
 	_public: ClassVar[Tuple[str, ...]] = ("date", "time", "compiler")
 
@@ -597,7 +651,9 @@ class Versioning(ILineTerminal, GitHelperMixin):
 	def __init__(self, terminal: ILineTerminal) -> None:
 		super().__init__(terminal)
 
-		self._variables = {}
+		self._variables = {
+			"tool": Tool("pyVersioning", SemanticVersion.Parse(f"v{__version__}"))
+		}
 
 		if "APPVEYOR" in environ:
 			self._platform = Platforms.AppVeyor
@@ -621,11 +677,11 @@ class Versioning(ILineTerminal, GitHelperMixin):
 		return self._platform
 
 	def LoadDataFromConfiguration(self, config: Configuration) -> None:
-		"""Preload versioning information from configuration file."""
+		"""Preload versioning information from a configuration file."""
 
+		self._variables["version"] = self.GetVersion(config.project)
 		self._variables["project"] = self.GetProject(config.project)
 		self._variables["build"]   = self.GetBuild(config.build)
-		self._variables["version"] = self.GetVersion(config.project)
 
 	def CollectData(self) -> None:
 		"""Collect versioning information from environment including CI services (if available)."""
@@ -651,10 +707,9 @@ class Versioning(ILineTerminal, GitHelperMixin):
 		else:
 			self._service                = WorkStation()
 
-		self._variables["tool"]     = Tool("pyVersioning", SemanticVersion.Parse(__version__))
 		self._variables["git"]      = self.GetGitInformation()
-		self._variables["env"]      = self.GetEnvironment()
 		self._variables["platform"] = self._service.GetPlatform()
+		self._variables["env"]      = self.GetEnvironment()
 
 		self.CalculateData()
 

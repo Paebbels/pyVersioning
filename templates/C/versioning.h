@@ -26,10 +26,11 @@
 /*                                                                                                                     *
 /* SPDX-License-Identifier: Apache-2.0                                                                                 *
 /**********************************************************************************************************************/
-#include <stdint.h>
 
 #ifndef VERSIONING_H
 #define VERSIONING_H
+
+#include <stdint.h>
 
 typedef struct {
 	uint8_t day;

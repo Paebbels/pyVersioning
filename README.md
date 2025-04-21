@@ -1,32 +1,35 @@
 [![Sourcecode on GitHub](https://img.shields.io/badge/Paebbels-pyVersioning-323131.svg?logo=github&longCache=true)](https://github.com/Paebbels/pyVersioning)
-[![License](https://img.shields.io/badge/code%20license-Apache%20License%2C%202.0-lightgrey?logo=GitHub)](LICENSE.md)
-[![GitHub tag (latest SemVer incl. pre-release)](https://img.shields.io/github/v/tag/Paebbels/pyVersioning?logo=GitHub&include_prereleases)](https://github.com/Paebbels/pyVersioning/tags)
-[![GitHub release (latest SemVer incl. including pre-releases)](https://img.shields.io/github/v/release/Paebbels/pyVersioning?logo=GitHub&include_prereleases)](https://github.com/Paebbels/pyVersioning/releases/latest)
-[![GitHub release date](https://img.shields.io/github/release-date/Paebbels/pyVersioning?logo=GitHub&)](https://github.com/Paebbels/pyVersioning/releases)  
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Paebbels/pyVersioning/Test,%20Coverage%20and%20Release?label=Workflow&logo=GitHub)](https://github.com/Paebbels/pyVersioning/actions?query=workflow%3A%22Test%2C+Coverage+and+Release%22)
-[![PyPI](https://img.shields.io/pypi/v/pyVersioning?logo=PyPI)](https://pypi.org/project/pyVersioning/)
-![PyPI - Status](https://img.shields.io/pypi/status/pyVersioning?logo=PyPI)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyVersioning?logo=PyPI)
-[![Dependent repos (via libraries.io)](https://img.shields.io/librariesio/dependent-repos/pypi/pyVersioning)](https://github.com/Paebbels/pyVersioning/network/dependents)  
-[![Libraries.io status for latest release](https://img.shields.io/librariesio/release/pypi/pyVersioning)](https://libraries.io/github/Paebbels/pyVersioning)
-[![Requires.io](https://img.shields.io/requires/github/Paebbels/pyVersioning)](https://requires.io/github/Paebbels/pyVersioning/requirements/?branch=master)  
-[![Codacy - Quality](https://img.shields.io/codacy/grade/b63aac7ef7e34baf829f11a61574bbaf?logo=Codacy)](https://www.codacy.com/manual/Paebbels/pyVersioning)
-[![Codacy - Coverage](https://img.shields.io/codacy/coverage/b63aac7ef7e34baf829f11a61574bbaf?logo=Codacy)](https://www.codacy.com/manual/Paebbels/pyVersioning)
-[![Codecov - Branch Coverage](https://img.shields.io/codecov/c/github/Paebbels/pyVersioning?logo=Codecov)](https://codecov.io/gh/Paebbels/pyVersioning)
-[![Libraries.io SourceRank](https://img.shields.io/librariesio/sourcerank/pypi/pyVersioning)](https://libraries.io/github/Paebbels/pyVersioning/sourcerank)  
-[![Read the Docs](https://img.shields.io/readthedocs/pyversioning)](https://pyVersioning.readthedocs.io/en/latest/)
+[![Sourcecode License](https://img.shields.io/pypi/l/pyVersioning?longCache=true&style=flat-square&logo=Apache&label=code)](LICENSE.md)
+[![Documentation](https://img.shields.io/website?longCache=true&style=flat-square&label=Paebbels.github.io%2FpyVersioning&logo=GitHub&logoColor=fff&up_color=blueviolet&up_message=Read%20now%20%E2%9E%9A&url=https%3A%2F%2FPaebbels.github.io%2FpyVersioning%2Findex.html)](https://Paebbels.github.io/pyVersioning/)
+[![Documentation License](https://img.shields.io/badge/doc-CC--BY%204.0-green?longCache=true&style=flat-square&logo=CreativeCommons&logoColor=fff)](LICENSE.md)  
+[![PyPI](https://img.shields.io/pypi/v/pyVersioning?longCache=true&style=flat-square&logo=PyPI&logoColor=FBE072)](https://pypi.org/project/pyVersioning/)
+![PyPI - Status](https://img.shields.io/pypi/status/pyVersioning?longCache=true&style=flat-square&logo=PyPI&logoColor=FBE072)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyVersioning?longCache=true&style=flat-square&logo=PyPI&logoColor=FBE072)  
+[![GitHub Workflow - Build and Test Status](https://img.shields.io/github/actions/workflow/status/Paebbels/pyVersioning/Pipeline.yml?branch=main&longCache=true&style=flat-square&label=build%20and%20test&logo=GitHub%20Actions&logoColor=FFFFFF)](https://GitHub.com/Paebbels/pyVersioning/actions/workflows/Pipeline.yml)
+[![Libraries.io status for latest release](https://img.shields.io/librariesio/release/pypi/pyVersioning?longCache=true&style=flat-square&logo=Libraries.io&logoColor=fff)](https://libraries.io/github/Paebbels/pyVersioning)
+[![Codacy - Quality](https://img.shields.io/codacy/grade/fda25870e76849f48bbf7415fb6e9ccf?longCache=true&style=flat-square&logo=Codacy)](https://www.codacy.com/gh/Paebbels/pyVersioning)
+[![Codacy - Coverage](https://img.shields.io/codacy/coverage/fda25870e76849f48bbf7415fb6e9ccf?longCache=true&style=flat-square&logo=Codacy)](https://www.codacy.com/gh/Paebbels/pyVersioning)
+[![Codecov - Branch Coverage](https://img.shields.io/codecov/c/github/Paebbels/pyVersioning?longCache=true&style=flat-square&logo=Codecov)](https://codecov.io/gh/Paebbels/pyVersioning)
 
+
+<!--
+[![GitHub release date](https://img.shields.io/github/release-date/Paebbels/pyVersioning?logo=GitHub&)](https://github.com/Paebbels/pyVersioning/releases)  
+[![Dependent repos (via libraries.io)](https://img.shields.io/librariesio/dependent-repos/pypi/pyVersioning)](https://github.com/Paebbels/pyVersioning/network/dependents)  
+-->
 
 # pyVersioning
 
-The Python package `pyVersioning` offers a template tool to write version
-information for any programming language as a source file that can be included
-into the normal build flow.
+The Python package `pyVersioning` offers a template tool to write version information for any programming language as a
+source file that can be included into the normal application build flow.
+
+The main idea is to provide a unified tool to collect all necessary version information from a configuration file, user
+defined parameters, version control systems (e.g. Git) or environment variables. Especially the latter ones can be
+tricky in CI environments, as every CI service uses different environment variables.
 
 
 ## Use Cases
 
-* Integrate version information from e.g. Git into current builds
+* Integrate version information from e.g. Git, GitHub, GitLab, ... into current software builds.
 
 
 ## Supported Languages
@@ -37,18 +40,21 @@ into the normal build flow.
 ## Tested with...
 
 * ANSI C
+* C++
 * VHDL
 
 
 ## Examples
 
 * ANSI C Example
+* C++ Example
 * VHDL Example
 
 
 ## Contributors
 
 * [Patrick Lehmann](https://github.com/Paebbels) (Maintainer)
+* [Navid Jalali](https://github.com/navidcity)
 * [and more...](https://GitHub.com/Paebbels/pyVersioning/graphs/contributors)
 
 

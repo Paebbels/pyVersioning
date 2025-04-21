@@ -8,7 +8,7 @@
  ***********************************************************************************************************************
  * @author    Patrick Lehmann                                                                                          *
  *                                                                                                                     *
- * @brief     C Structure definitions for pyVersioning                                                                 *
+ * @brief     Code example in C++                                                                                      *
  *                                                                                                                     *
  * @copyright Copyright 2020-2024 Patrick Lehmann - Boetzingen, Germany                                                *
  *                                                                                                                     *
@@ -27,71 +27,83 @@
  * SPDX-License-Identifier: Apache-2.0                                                                                 *
  **********************************************************************************************************************/
 
-#include <stdint.h>
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
 
-#ifndef VERSIONING_H
-#define VERSIONING_H
+#include "versioning.hpp"
 
-typedef struct {
-	uint8_t day;
-	uint8_t month;
-	uint16_t year;
-} Date;
+void printVersion()
+{
+	using namespace pyVersioning;
 
-typedef struct {
-	uint8_t hour;
-	uint8_t minute;
-	uint8_t second;
-} Time;
+	std::cout << "Project:  "
+			  << versioningInformation.project.name
+			  << " - "
+			  << versioningInformation.project.variant
+			  << "\n";
 
-typedef struct {
-	Date date;
-	Time time;
-} DateTime;
+	std::cout << "Version:  v"
+			  << std::to_string(versioningInformation.version.major)
+			  << "."
+			  << std::to_string(versioningInformation.version.minor)
+			  << "."
+			  << std::to_string(versioningInformation.version.patch)
+			  << "\n";
 
-typedef struct {
-	uint8_t flags;
-	uint16_t major;
-	uint16_t minor;
-	uint16_t patch;
-} Version;
+	std::cout << "Git:      "
+			  << versioningInformation.git.reference
+			  << " - "
+			  << std::setw(2) << std::setfill('0') << std::to_string(versioningInformation.git.commit.datetime.date.day)
+			  << "."
+			  << std::setw(2) << std::setfill('0') << std::to_string(versioningInformation.git.commit.datetime.date.month)
+			  << "."
+			  << std::setw(2) << std::setfill('0') << std::to_string(versioningInformation.git.commit.datetime.date.year)
+			  << "-"
+			  << std::setw(2) << std::setfill('0') << std::to_string(versioningInformation.git.commit.datetime.time.hour)
+			  << ":"
+			  << std::setw(2) << std::setfill('0') << std::to_string(versioningInformation.git.commit.datetime.time.minute)
+			  << ":"
+			  << std::setw(2) << std::setfill('0') << std::to_string(versioningInformation.git.commit.datetime.time.second)
+			  << "\n";
 
-typedef struct {
-	char       hash[41];    // hex-value as string (160-bit => 40 characters + \0)
-	DateTime   datetime;
-} Commit;
+	std::cout << "          " << versioningInformation.git.commit.hash << "\n";
+	std::cout << "          " << versioningInformation.git.repository << "\n";
+	std::cout << "Build on: "
+			  << versioningInformation.git.reference
+			  << " - "
+			  << std::setw(2) << std::setfill('0') << std::to_string(versioningInformation.build.datetime.date.day)
+			  << "."
+			  << std::setw(2) << std::setfill('0') << std::to_string(versioningInformation.build.datetime.date.month)
+			  << "."
+			  << std::setw(2) << std::setfill('0') << std::to_string(versioningInformation.build.datetime.date.year)
+			  << "-"
+			  << std::setw(2) << std::setfill('0') << std::to_string(versioningInformation.build.datetime.time.hour)
+			  << ":"
+			  << std::setw(2) << std::setfill('0') << std::to_string(versioningInformation.build.datetime.time.minute)
+			  << ":"
+			  << std::setw(2) << std::setfill('0') << std::to_string(versioningInformation.build.datetime.time.second)
+			  << "\n";
 
-typedef struct {
-	Commit      commit;
-	const char* reference;
-	const char* repository;
-} Git;
+	std::cout << "Compiler: "
+			  << versioningInformation.build.compiler.name
+			  << " ("
+			  << std::to_string(versioningInformation.build.compiler.version.major)
+			  << "."
+			  << std::to_string(versioningInformation.build.compiler.version.minor)
+			  << "."
+			  << std::to_string(versioningInformation.build.compiler.version.patch)
+			  << ")" << std::endl;
+}
 
-typedef struct {
-	const char* name;
-	const char* variant;
-} Project;
+int main()
+{
+	std::cout << "========================================\n"
+			  << "pyVersioning Example C++\n"
+			  << "========================================"
+			  << std::endl;
 
-typedef struct {
-	const char* name;
-	Version     version;
-	const char* configuration;
-	const char* options;
-} Compiler;
+	printVersion();
 
-typedef struct {
-	DateTime    datetime;
-	Compiler    compiler;
-} Build;
-
-typedef struct {
-	Version    version;
-	Git        git;
-	Project    project;
-	Build      build;
-} VersioningInformation;
-
-
-extern const VersioningInformation versioningInformation;
-
-#endif /* VERSIONING_H */
+	return EXIT_SUCCESS;
+}

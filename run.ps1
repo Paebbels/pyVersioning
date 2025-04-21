@@ -97,7 +97,7 @@ if ($install)
   { Write-Host -ForegroundColor Cyan     "[ADMIN][UNINSTALL] Uninstalling $PackageName ..."
     py -3.13 -m pip uninstall -y $PackageName
     Write-Host -ForegroundColor Cyan     "[ADMIN][INSTALL]   Installing $PackageName from wheel ..."
-    py -3.13 -m pip install .\dist\$PackageName-0.8.0-py3-none-any.whl
+    py -3.13 -m pip install .\dist\$PackageName-0.18.0-py3-none-any.whl
 
     Write-Host -ForegroundColor Cyan     "[ADMIN][INSTALL]   Closing window in 5 seconds ..."
     Start-Sleep -Seconds 5

@@ -136,22 +136,23 @@ License
    VersionControlSystems
    CIServices
    Languages
+   ConfigurationFile
 
 .. toctree::
    :caption: Templates
    :hidden:
 
-   templates/index
-   templates/C
-   templates/CXX
+   Templates/index
+   Templates/C
+   Templates/CXX
 
 .. toctree::
    :caption: Examples
    :hidden:
 
-   examples/C
-   examples/CXX
-   examples/VHDL
+   Examples/C
+   Examples/CXX
+   Examples/VHDL
 
 .. raw:: latex
 
@@ -166,7 +167,7 @@ License
    unittests/index
    coverage/index
    CodeCoverage
-   DocCoverage
+   Doc. Coverage Report <DocCoverage>
    Static Type Check Report ➚ <typing/index>
 
 .. raw:: latex

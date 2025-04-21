@@ -1,6 +1,6 @@
 [![Sourcecode on GitHub](https://img.shields.io/badge/Paebbels-pyVersioning-323131.svg?logo=github&longCache=true)](https://github.com/Paebbels/pyVersioning)
 [![Sourcecode License](https://img.shields.io/pypi/l/pyVersioning?longCache=true&style=flat-square&logo=Apache&label=code)](LICENSE.md)
-[![Documentation](https://img.shields.io/website?longCache=true&style=flat-square&label=Paebbels.github.io%2FpyVersioning&logo=GitHub&logoColor=fff&up_color=blueviolet&up_message=Read%20now%20%E2%9E%9A&url=https%3A%2F%2FPaebbels.github.io%2Fsphinx%2Dreports%2Findex.html)](https://Paebbels.github.io/pyVersioning/)
+[![Documentation](https://img.shields.io/website?longCache=true&style=flat-square&label=Paebbels.github.io%2FpyVersioning&logo=GitHub&logoColor=fff&up_color=blueviolet&up_message=Read%20now%20%E2%9E%9A&url=https%3A%2F%2FPaebbels.github.io%2FpyVersioning%2Findex.html)](https://Paebbels.github.io/pyVersioning/)
 [![Documentation License](https://img.shields.io/badge/doc-CC--BY%204.0-green?longCache=true&style=flat-square&logo=CreativeCommons&logoColor=fff)](LICENSE.md)  
 [![PyPI](https://img.shields.io/pypi/v/pyVersioning?longCache=true&style=flat-square&logo=PyPI&logoColor=FBE072)](https://pypi.org/project/pyVersioning/)
 ![PyPI - Status](https://img.shields.io/pypi/status/pyVersioning?longCache=true&style=flat-square&logo=PyPI&logoColor=FBE072)
@@ -20,7 +20,7 @@
 # pyVersioning
 
 The Python package `pyVersioning` offers a template tool to write version information for any programming language as a
-source file that can be included into the normal build flow.
+source file that can be included into the normal application build flow.
 
 The main idea is to provide a unified tool to collect all necessary version information from a configuration file, user
 defined parameters, version control systems (e.g. Git) or environment variables. Especially the latter ones can be

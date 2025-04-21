@@ -150,11 +150,11 @@
    :target: https://GitHub.com/Paebbels/pyVersioning/blob/main/doc/License.rst
 
 .. # GHPages - read now
-.. |SHIELD:svg:pyVersioning-ghp-doc| image:: https://img.shields.io/website?longCache=true&style=flat-square&label=Paebbels.github.io%2Fsphinx%2Dreports&logo=GitHub&logoColor=fff&up_color=blueviolet&up_message=Read%20now%20%E2%9E%9A&url=https%3A%2F%2FPaebbels.github.io%2Fsphinx%2Dreports%2Findex.html
+.. |SHIELD:svg:pyVersioning-ghp-doc| image:: https://img.shields.io/website?longCache=true&style=flat-square&label=Paebbels.github.io%2FpyVersioning&logo=GitHub&logoColor=fff&up_color=blueviolet&up_message=Read%20now%20%E2%9E%9A&url=https%3A%2F%2FPaebbels.github.io%2FpyVersioning%2Findex.html
    :alt: Documentation - Read Now!
    :height: 22
    :target: https://Paebbels.github.io/pyVersioning/
-.. |SHIELD:png:pyVersioning-ghp-doc| image:: https://raster.shields.io/website?longCache=true&style=flat-square&label=Paebbels.github.io%2Fsphinx%2Dreports&logo=GitHub&logoColor=fff&up_color=blueviolet&up_message=Read%20now%20%E2%9E%9A&url=https%3A%2F%2FPaebbels.github.io%2Fsphinx%2Dreports%2Findex.html
+.. |SHIELD:png:pyVersioning-ghp-doc| image:: https://raster.shields.io/website?longCache=true&style=flat-square&label=Paebbels.github.io%2FpyVersioning&logo=GitHub&logoColor=fff&up_color=blueviolet&up_message=Read%20now%20%E2%9E%9A&url=https%3A%2F%2FPaebbels.github.io%2FpyVersioning%2Findex.html
    :alt: Documentation - Read Now!
    :height: 22
    :target: https://Paebbels.github.io/pyVersioning/

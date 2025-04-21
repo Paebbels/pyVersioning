@@ -131,6 +131,11 @@ jobs:
       - name: Execute example
         run: |
           cd example
+          ./run.sh ${{ matrix.example }}
+
+      - name: Check example
+        run: |
+          cd example
           ./check.sh ${{ matrix.example }}
 
   PublishCoverageResults:

@@ -2,7 +2,7 @@
 
 exampleName="$1"
 
-cd ${exampleName} || exit 1
+cd "${exampleName}" || exit 1
 
 case "${exampleName}" in
 	C)

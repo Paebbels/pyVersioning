@@ -36,7 +36,7 @@ pyVersioning Documentation
 ##########################
 
 The Python package ``pyVersioning`` offers a template tool to write version information for any programming language as
-a source file that can be included into the normal build flow.
+a source file that can be included into the normal application build flow.
 
 The main idea is to provide a unified tool to collect all necessary version information from a configuration file, user
 defined parameters, version control systems (e.g. Git) or environment variables. Especially the latter ones can be

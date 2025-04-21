@@ -6,10 +6,10 @@ cd "${exampleName}" || exit 1
 
 case "${exampleName}" in
 	C)
-		pyVersioning fillout ../../templates/C/versioning.c.template versioning.c
+		./example
 		;;
 	CXX)
-		pyVersioning fillout ../../templates/CXX/versioning.cpp.template versioning.cpp
+		./example
 		;;
 	*)
 		printf "Unknown example '%s'\n" "${exampleName}"

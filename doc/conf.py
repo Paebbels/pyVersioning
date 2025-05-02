@@ -24,6 +24,7 @@ sys_path.insert(0, abspath("../pyVersioning"))
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 project = "pyVersioning"
+directoryName = project.replace('.', '/')
 
 projectDirectory = Path(f"../{project.replace('.', '/')}")
 packageInformationFile = projectDirectory / "__init__.py"
@@ -266,13 +267,13 @@ todo_link_only = True
 # ==============================================================================
 report_unittest_testsuites = {
 	"src": {
-		"name":        "pyVersioning",
+		"name":        f"{project}",
 		"xml_report":  "../report/unit/unittest.xml",
 	}
 }
 report_codecov_packages = {
 	"src": {
-		"name":        "pyVersioning",
+		"name":        f"{project}",
 		"json_report": "../report/coverage/coverage.json",
 		"fail_below":  80,
 		"levels":      "default"
@@ -280,8 +281,8 @@ report_codecov_packages = {
 }
 report_doccov_packages = {
 	"src": {
-		"name":       "pyVersioning",
-		"directory":  "../pyVersioning",
+		"name":       f"{project}",
+		"directory":  f"../{directoryName}",
 		"fail_below": 80,
 		"levels":     "default"
 	}

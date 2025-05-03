@@ -2,6 +2,7 @@ name: Pipeline
 
 on:
   push:
+  create:
   workflow_dispatch:
   schedule:
 # Every Friday at 22:00 - rerun pipeline to check for dependency-based issues
@@ -153,9 +154,11 @@ jobs:
       coverage_report_json_filename:  ${{ needs.ConfigParams.outputs.coverage_report_json_filename }}
       coverage_html_artifact:         ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).codecoverage_html }}
       coverage_report_html_directory: ${{ needs.ConfigParams.outputs.coverage_report_html_directory }}
-      codecov:                        false
-      codacy:                         false
-    secrets: inherit
+      codecov:                        true
+      codacy:                         true
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      CODACY_TOKEN:  ${{ secrets.CODACY_TOKEN }}
 
   PublishTestResults:
     uses: pyTooling/Actions/.github/workflows/PublishTestResults.yml@dev
@@ -170,8 +173,9 @@ jobs:
       merged_junit_filename:  ${{ needs.ConfigParams.outputs.unittest_merged_report_xml_filename }}
       merged_junit_artifact:  ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).unittesting_xml }}
       dorny:                  true
-      codecov:                false
-    secrets: inherit
+      codecov:                true
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   IntermediateCleanUp:
     uses: pyTooling/Actions/.github/workflows/IntermediateCleanUp.yml@r4
@@ -247,7 +251,6 @@ jobs:
     with:
       version:  ${{ needs.Prepare.outputs.version }}
       auto_tag: ${{ needs.Prepare.outputs.is_release_commit }}
-    secrets: inherit
 
   ReleasePage:
     uses: pyTooling/Actions/.github/workflows/PublishReleaseNotes.yml@dev
@@ -261,7 +264,6 @@ jobs:
       - PublishToGitHubPages
     with:
       tag: ${{ needs.Prepare.outputs.version }}
-    secrets: inherit
 
   PublishOnPyPI:
     uses: pyTooling/Actions/.github/workflows/PublishOnPyPI.yml@r4
@@ -273,7 +275,8 @@ jobs:
       python_version: ${{ needs.UnitTestingParams.outputs.python_version }}
       requirements:   '-r dist/requirements.txt'
       artifact:       ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}
-    secrets: inherit
+    secrets:
+      PYPI_TOKEN:    ${{ secrets.PYPI_TOKEN }}
 
   ArtifactCleanUp:
     uses: pyTooling/Actions/.github/workflows/ArtifactCleanUp.yml@r4

@@ -1,0 +1,44 @@
+<ns0:svg xmlns:ns0="http://www.w3.org/2000/svg" xmlns:ns1="http://www.w3.org/1999/xlink" width="189pt" height="64pt" viewBox="0.00 0.00 189.00 64.00">
+<ns0:g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 60)">
+<ns0:title>inheritancebe0613e3ad</ns0:title>
+
+<ns0:g id="node1" class="node">
+<ns0:title>Date</ns0:title>
+<ns0:g id="a_node1"><ns0:a ns1:href="../pyVersioning/pyVersioning.html#pyVersioning.Date" ns1:title="This data structure class describes a date (dd.mm.yyyy)." target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="181,-37 127,-37 127,-18 181,-18 181,-37" />
+<ns0:text text-anchor="middle" x="154" y="-25" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">Date</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="node2" class="node">
+<ns0:title>date</ns0:title>
+<ns0:g id="a_node2"><ns0:a ns1:href="https://docs.python.org/3/library/datetime.html#datetime.date" ns1:title="date(year, month, day) --&gt; date object" target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="72.5,-56 18.5,-56 18.5,-37 72.5,-37 72.5,-56" />
+<ns0:text text-anchor="middle" x="45.5" y="-44" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">date</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="edge1" class="edge">
+<ns0:title>date-&gt;Date</ns0:title>
+<ns0:path fill="none" stroke="black" stroke-width="0.5" d="M72.55,-41.85C87.38,-39.21 106.05,-35.88 121.68,-33.09" />
+<ns0:polygon fill="black" stroke="black" stroke-width="0.5" points="122.23,-34.77 126.85,-32.17 121.62,-31.32 122.23,-34.77" />
+</ns0:g>
+
+<ns0:g id="node3" class="node">
+<ns0:title>SelfDescriptive</ns0:title>
+<ns0:g id="a_node3"><ns0:a ns1:href="../pyVersioning/pyVersioning.html#pyVersioning.SelfDescriptive" ns1:title="SelfDescriptive" target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="91,-19 0,-19 0,0 91,0 91,-19" />
+<ns0:text text-anchor="middle" x="45.5" y="-7" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">SelfDescriptive</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="edge2" class="edge">
+<ns0:title>SelfDescriptive-&gt;Date</ns0:title>
+<ns0:path fill="none" stroke="black" stroke-width="0.5" d="M91.05,-17.03C101.44,-18.78 112.28,-20.62 121.93,-22.25" />
+<ns0:polygon fill="black" stroke="black" stroke-width="0.5" points="121.64,-23.98 126.87,-23.08 122.23,-20.52 121.64,-23.98" />
+</ns0:g>
+</ns0:g>
+</ns0:svg>

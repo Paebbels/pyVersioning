@@ -112,7 +112,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 📥 Download artifacts '${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}' from 'Package' job
-        uses: pyTooling/download-artifact@v4
+        uses: pyTooling/download-artifact@v5
         with:
           name: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}
           path: install

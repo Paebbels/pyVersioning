@@ -50,20 +50,27 @@ jobs:
       html_report:    ${{ needs.ConfigParams.outputs.typing_report_html }}
       html_artifact:  ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).statictyping_html }}
 
+  CodeQuality:
+    uses: pyTooling/Actions/.github/workflows/CheckCodeQuality.yml@r6
+    needs:
+      - UnitTestingParams
+    with:
+      python_version:    ${{ needs.UnitTestingParams.outputs.python_version }}
+      package_directory: ${{ needs.UnitTestingParams.outputs.package_directory }}
+      artifact:          CodeQuality
+
   DocCoverage:
     uses: pyTooling/Actions/.github/workflows/CheckDocumentation.yml@r6
     needs:
-      - ConfigParams
       - UnitTestingParams
     with:
       python_version: ${{ needs.UnitTestingParams.outputs.python_version }}
-      directory:      ${{ needs.ConfigParams.outputs.package_directory }}
+      directory:      ${{ needs.UnitTestingParams.outputs.package_directory }}
 
   Package:
     uses: pyTooling/Actions/.github/workflows/Package.yml@r6
     needs:
       - UnitTestingParams
-      - UnitTesting
     with:
       python_version: ${{ needs.UnitTestingParams.outputs.python_version }}
       artifact:       ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}
@@ -101,7 +108,7 @@ jobs:
           name: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}
           path: install
 
-      - name: 🔧 Install wheel from artifact
+      - name: 🔧 Install wheel from artifact (Ubuntu/macOS)
         run: |
           ls -l install
           python -m pip install -U --disable-pip-version-check --break-system-packages install/*.whl
@@ -132,6 +139,7 @@ jobs:
       - ConfigParams
       - UnitTestingParams
       - UnitTesting
+    if: success() || failure()
     with:
       coverage_report_json:   ${{ needs.ConfigParams.outputs.coverage_report_json }}
       coverage_report_html:   ${{ needs.ConfigParams.outputs.coverage_report_html }}
@@ -150,25 +158,16 @@ jobs:
       - UnitTestingParams
       - UnitTesting
       - AppTesting
+    if: success() || failure()
     with:
       additional_merge_args: '"--pytest=rewrite-dunder-init;reduce-depth:pytest.tests.unit;reduce-depth:pytest.tests.app" --render=tree'
-      testsuite-summary-name: ${{ needs.ConfigParams.outputs.package_fullname }}
-      merged_junit_filename:  ${{ needs.ConfigParams.outputs.unittest_merged_report_xml_filename }}
+      testsuite-summary-name: ${{ needs.UnitTestingParams.outputs.package_fullname }}
+      merged_junit_filename:  ${{ fromJson(needs.ConfigParams.outputs.unittest_merged_report_xml).filename }}
       merged_junit_artifact:  ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).unittesting_xml }}
       dorny:                  true
       codecov:                true
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-  IntermediateCleanUp:
-    uses: pyTooling/Actions/.github/workflows/IntermediateCleanUp.yml@r6
-    needs:
-      - UnitTestingParams
-      - PublishCoverageResults
-      - PublishTestResults
-    with:
-      sqlite_coverage_artifacts_prefix: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).codecoverage_sqlite }}-
-      xml_unittest_artifacts_prefix:    ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).unittesting_xml }}-
 
 #  VerifyDocs:
 #    uses: pyTooling/Actions/.github/workflows/VerifyDocs.yml@r6
@@ -193,16 +192,26 @@ jobs:
       html_artifact:          ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).documentation_html }}
       latex_artifact:         ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).documentation_latex }}
 
-#  PDFDocumentation:
-#    uses: pyTooling/Actions/.github/workflows/LaTeXDocumentation.yml@r6
-#    needs:
-#      - ConfigParams
-#      - UnitTestingParams
-#      - Documentation
-#    with:
-#      document:       ${{ needs.ConfigParams.outputs.package_fullname }}
-#      latex_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).documentation_latex }}
-#      pdf_artifact:   ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).documentation_pdf }}
+  IntermediateCleanUp:
+    uses: pyTooling/Actions/.github/workflows/IntermediateCleanUp.yml@r6
+    needs:
+      - UnitTestingParams
+      - PublishCoverageResults
+      - PublishTestResults
+    with:
+      sqlite_coverage_artifacts_prefix: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).codecoverage_sqlite }}-
+      xml_unittest_artifacts_prefix:    ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).unittesting_xml }}-
+
+  PDFDocumentation:
+    uses: pyTooling/Actions/.github/workflows/LaTeXDocumentation.yml@dev
+    needs:
+      - UnitTestingParams
+      - Documentation
+    with:
+      document:       ${{ needs.UnitTestingParams.outputs.package_fullname }}
+      latex_artifact: ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).documentation_latex }}
+      pdf_artifact:   ${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).documentation_pdf }}
+      can-fail:       'true'
 
   PublishToGitHubPages:
     uses: pyTooling/Actions/.github/workflows/PublishToGitHubPages.yml@r6
@@ -227,17 +236,17 @@ jobs:
 #      - StaticTypeCheck
       - Package
       - PublishToGitHubPages
-    if: needs.Prepare.outputs.is_release_commit
+    if: needs.Prepare.outputs.is_release_commit == 'true' && github.event_name != 'schedule'
     permissions:
       contents: write  # required for create tag
       actions:  write  # required for trigger workflow
     with:
       version:  ${{ needs.Prepare.outputs.version }}
       auto_tag: ${{ needs.Prepare.outputs.is_release_commit }}
+    secrets: inherit
 
   ReleasePage:
     uses: pyTooling/Actions/.github/workflows/PublishReleaseNotes.yml@r6
-    if: needs.Prepare.outputs.is_release_tag == 'true'
     needs:
       - Prepare
       - AppTesting
@@ -245,15 +254,22 @@ jobs:
 #      - StaticTypeCheck
       - Package
       - PublishToGitHubPages
+    if: needs.Prepare.outputs.is_release_tag == 'true'
+    permissions:
+      contents: write
+      actions:  write
     with:
       tag: ${{ needs.Prepare.outputs.version }}
+    secrets: inherit
 
   PublishOnPyPI:
     uses: pyTooling/Actions/.github/workflows/PublishOnPyPI.yml@r6
-    if: startsWith(github.ref, 'refs/tags')
     needs:
+      - Prepare
       - UnitTestingParams
+      - Package
       - ReleasePage
+    if: needs.Prepare.outputs.is_release_tag == 'true'
     with:
       python_version: ${{ needs.UnitTestingParams.outputs.python_version }}
       requirements:   '-r dist/requirements.txt'

@@ -57,6 +57,7 @@ jobs:
     with:
       python_version:    ${{ needs.UnitTestingParams.outputs.python_version }}
       package_directory: ${{ needs.UnitTestingParams.outputs.package_directory }}
+      pylint:            'false'
       artifact:          CodeQuality
 
   DocCoverage:

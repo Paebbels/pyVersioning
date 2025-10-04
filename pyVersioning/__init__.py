@@ -217,7 +217,8 @@ class Person(SelfDescriptive):
 @export
 class Commit(SelfDescriptive):
 	"""
-	This data structure class describes a Git commit with Hash, commit date and time, committer, author and commit description.
+	This data structure class describes a Git commit with Hash, commit date and time, committer, author and commit
+	description.
 	"""
 
 	_hash:      str
@@ -410,7 +411,12 @@ class Project(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("name", "variant", "version")
 
-	def __init__(self, name: str, version: Union[str, SemanticVersion, None] = None, variant: Nullable[str] = None) -> None:
+	def __init__(
+		self,
+		name: str,
+		version: Union[str, SemanticVersion, None] = None,
+		variant: Nullable[str] = None
+	) -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self._name    = name    if name    is not None else ""
@@ -468,7 +474,13 @@ class Compiler(SelfDescriptive):
 
 	_public: ClassVar[Tuple[str, ...]] = ("name", "version", "configuration", "options")
 
-	def __init__(self, name: str, version: Union[str, SemanticVersion] = "", configuration: str = "", options: str = "") -> None:
+	def __init__(
+		self,
+		name: str,
+		version: Union[str, SemanticVersion] = "",
+		configuration: str = "",
+		options: str = ""
+	) -> None:
 		"""Assign fields and convert version string to a `Version` object."""
 
 		self._name          = name          if name          is not None else ""

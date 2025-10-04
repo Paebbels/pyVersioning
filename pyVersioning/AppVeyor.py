@@ -62,7 +62,7 @@ class AppVeyor(CIService):
 		try:
 			return environ["APPVEYOR_REPO_COMMIT"]
 		except KeyError as ex:
-			raise ServiceException(f"Can't find AppVeyor environment variable 'APPVEYOR_REPO_COMMIT'.") from ex
+			raise ServiceException("Can't find AppVeyor environment variable 'APPVEYOR_REPO_COMMIT'.") from ex
 
 	def GetGitBranch(self) -> Nullable[str]:
 		"""
@@ -99,7 +99,7 @@ class AppVeyor(CIService):
 		try:
 			repositoryURL = environ["APPVEYOR_PROJECT_SLUG"]
 		except KeyError as ex:
-			raise ServiceException(f"Can't find AppVeyor environment variable 'APPVEYOR_PROJECT_SLUG'.") from ex
+			raise ServiceException("Can't find AppVeyor environment variable 'APPVEYOR_PROJECT_SLUG'.") from ex
 
 		try:
 			url = URL.Parse(repositoryURL)

@@ -41,7 +41,9 @@ from pyVersioning.CIService import CIService, Platform, ServiceException
 
 @export
 class GitHub(CIService):
-	"""Collect Git and other platform and environment information from environment variables provided by GitHub Actions."""
+	"""
+	Collect Git and other platform and environment information from environment variables provided by GitHub Actions.
+	"""
 
 	ENV_INCLUDE_FILTER = ("GITHUB_", )    #: List of environment variable name pattern for inclusion.
 	ENV_EXCLUDE_FILTER = ("_TOKEN", )     #: List of environment variable name pattern for exclusion.
@@ -61,14 +63,15 @@ class GitHub(CIService):
 		try:
 			return environ["GITHUB_SHA"]
 		except KeyError as ex:
-			raise ServiceException(f"Can't find GitHub Action environment variable 'GITHUB_SHA'.") from ex
+			raise ServiceException("Can't find GitHub Action environment variable 'GITHUB_SHA'.") from ex
 
 	def GetGitBranch(self) -> Nullable[str]:
 		"""
 		Returns Git branch name or ``None`` is not checked out on a branch.
 
 		:return:                  Git branch name or ``None``.
-		:raises ServiceException: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with ``refs/heads/``.
+		:raises ServiceException: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with
+		                          ``refs/heads/``.
 		"""
 		branchPrefix = "refs/heads/"
 
@@ -86,7 +89,8 @@ class GitHub(CIService):
 		Returns Git tag name or ``None`` is not checked out on a tag.
 
 		:return:                  Git tag name or ``None``.
-		:raises ServiceException: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with ``refs/tags/``.
+		:raises ServiceException: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with
+		                          ``refs/tags/``.
 		"""
 		tagPrefix = "refs/tags/"
 
@@ -110,7 +114,7 @@ class GitHub(CIService):
 		try:
 			repositoryURL = environ["GITHUB_REPOSITORY"]
 		except KeyError as ex:
-			raise ServiceException(f"Can't find GitHub Action environment variable 'GITHUB_REPOSITORY'.") from ex
+			raise ServiceException("Can't find GitHub Action environment variable 'GITHUB_REPOSITORY'.") from ex
 
 		try:
 			url = URL.Parse(repositoryURL)

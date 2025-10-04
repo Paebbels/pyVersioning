@@ -37,7 +37,8 @@ from typing       import Dict, Optional as Nullable, Tuple
 from pyTooling.Decorators  import export
 from pyTooling.MetaClasses import abstractmethod
 
-from pyVersioning          import VersioningException, GitHelperMixin, SelfDescriptive, GitShowCommand, BaseService, Platform
+from pyVersioning          import VersioningException, GitHelperMixin, SelfDescriptive
+from pyVersioning          import GitShowCommand, BaseService, Platform
 
 
 @export
@@ -65,7 +66,7 @@ class CIService(BaseService, GitHelperMixin):
 
 		"""
 
-		filteredEnv = {key: value for (key, value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}
+		filteredEnv = {key: value for (key, value) in environ.items() if key.startswith(self.ENV_INCLUDE_FILTER) and not key.endswith(self.ENV_EXCLUDE_FILTER)}  # pylint: disable=line-too-long
 
 		# manually add some variables
 		for key in self.ENV_INCLUDES:

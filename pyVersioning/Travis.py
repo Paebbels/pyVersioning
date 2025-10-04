@@ -64,7 +64,7 @@ class Travis(CIService):
 		try:
 			return environ["TRAVIS_COMMIT"]
 		except KeyError as ex:
-			raise ServiceException(f"Can't find Travis environment variable 'TRAVIS_COMMIT'.") from ex
+			raise ServiceException("Can't find Travis environment variable 'TRAVIS_COMMIT'.") from ex
 
 	def GetGitBranch(self) -> Nullable[str]:
 		"""
@@ -101,7 +101,7 @@ class Travis(CIService):
 		try:
 			repositoryURL = environ["TRAVIS_REPO_SLUG"]
 		except KeyError as ex:
-			raise ServiceException(f"Can't find Travis environment variable 'TRAVIS_REPO_SLUG'.") from ex
+			raise ServiceException("Can't find Travis environment variable 'TRAVIS_REPO_SLUG'.") from ex
 
 		try:
 			url = URL.Parse(repositoryURL)

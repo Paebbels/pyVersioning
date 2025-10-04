@@ -9,6 +9,7 @@ build-backend = "setuptools.build_meta"
 [tool.pylint.format]
 indent-string="\t"
 max-line-length = 120
+ignore-long-lines = "^.{0,110}#: .*"
 
 [tool.pylint.basic]
 argument-naming-style = "camelCase"

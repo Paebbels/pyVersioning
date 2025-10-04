@@ -62,7 +62,7 @@ class GitLab(CIService):
 		try:
 			return environ["CI_COMMIT_SHA"]
 		except KeyError as ex:
-			raise ServiceException(f"Can't find GitLab-CI environment variable 'CI_COMMIT_SHA'.") from ex
+			raise ServiceException("Can't find GitLab-CI environment variable 'CI_COMMIT_SHA'.") from ex
 
 	def GetCommitDate(self) -> datetime:
 		"""
@@ -75,7 +75,7 @@ class GitLab(CIService):
 			iso8601 = environ["CI_COMMIT_TIMESTAMP"]
 			return datetime.fromisoformat(iso8601)
 		except KeyError as ex:
-			raise ServiceException(f"Can't find GitLab-CI environment variable 'CI_COMMIT_TIMESTAMP'.") from ex
+			raise ServiceException("Can't find GitLab-CI environment variable 'CI_COMMIT_TIMESTAMP'.") from ex
 
 	def GetGitBranch(self) -> Nullable[str]:
 		"""
@@ -112,7 +112,7 @@ class GitLab(CIService):
 		try:
 			repositoryURL = environ["CI_REPOSITORY_URL"]
 		except KeyError as ex:
-			raise ServiceException(f"Can't find GitLab-CI environment variable 'CI_REPOSITORY_URL'.") from ex
+			raise ServiceException("Can't find GitLab-CI environment variable 'CI_REPOSITORY_URL'.") from ex
 
 		try:
 			url = URL.Parse(repositoryURL)

@@ -28,7 +28,7 @@
 # SPDX-License-Identifier: Apache-2.0                                                                                  #
 # ==================================================================================================================== #
 #
-from argparse    import RawDescriptionHelpFormatter, Namespace
+from argparse    import RawDescriptionHelpFormatter, Namespace, ArgumentError
 from collections import namedtuple
 from pathlib     import Path
 from textwrap    import dedent
@@ -36,7 +36,8 @@ from typing      import NoReturn, Optional as Nullable
 
 from pyTooling.Attributes                     import Entity
 from pyTooling.Decorators                     import export
-from pyTooling.Attributes.ArgParse            import ArgParseHelperMixin, DefaultHandler, CommandHandler, CommandGroupAttribute
+from pyTooling.Attributes.ArgParse            import ArgParseHelperMixin, CommandGroupAttribute
+from pyTooling.Attributes.ArgParse            import DefaultHandler, CommandHandler
 from pyTooling.Attributes.ArgParse.Argument   import StringArgument, PathArgument
 from pyTooling.Attributes.ArgParse.Flag       import FlagArgument
 from pyTooling.Attributes.ArgParse.ValuedFlag import LongValuedFlag
@@ -57,9 +58,9 @@ class ProjectAttributeGroup(CommandGroupAttribute):
 	* ``--project-version``
 	"""
 	def __call__(self, func: Entity) -> Entity:
-		self._AppendAttribute(func, LongValuedFlag("--project-name",    dest="ProjectName",    metaName="<Name>",    optional=True, help="Name of the project."))
-		self._AppendAttribute(func, LongValuedFlag("--project-variant", dest="ProjectVariant", metaName="<Variant>", optional=True, help="Variant of the project."))
-		self._AppendAttribute(func, LongValuedFlag("--project-version", dest="ProjectVersion", metaName="<Version>", optional=True, help="Version of the project."))
+		self._AppendAttribute(func, LongValuedFlag("--project-name",    dest="ProjectName",    metaName="<Name>",    optional=True, help="Name of the project."))     # pylint: disable=line-too-long
+		self._AppendAttribute(func, LongValuedFlag("--project-variant", dest="ProjectVariant", metaName="<Variant>", optional=True, help="Variant of the project."))  # pylint: disable=line-too-long
+		self._AppendAttribute(func, LongValuedFlag("--project-version", dest="ProjectVersion", metaName="<Version>", optional=True, help="Version of the project."))  # pylint: disable=line-too-long
 		return func
 
 
@@ -74,14 +75,25 @@ class CompilerAttributeGroup(CommandGroupAttribute):
 	* ``--compiler-options``
 	"""
 	def __call__(self, func: Entity) -> Entity:
-		self._AppendAttribute(func, LongValuedFlag("--compiler-name",    dest="CompilerName",    metaName="<Name>",    optional=True, help="Used compiler."))
-		self._AppendAttribute(func, LongValuedFlag("--compiler-version", dest="CompilerVersion", metaName="<Version>", optional=True, help="Used compiler version."))
-		self._AppendAttribute(func, LongValuedFlag("--compiler-config",  dest="CompilerConfig",  metaName="<Config>",  optional=True, help="Used compiler configuration."))
-		self._AppendAttribute(func, LongValuedFlag("--compiler-options", dest="CompilerOptions", metaName="<Options>", optional=True, help="Used compiler options."))
+		self._AppendAttribute(func, LongValuedFlag("--compiler-name",    dest="CompilerName",    metaName="<Name>",    optional=True, help="Used compiler."))                # pylint: disable=line-too-long
+		self._AppendAttribute(func, LongValuedFlag("--compiler-version", dest="CompilerVersion", metaName="<Version>", optional=True, help="Used compiler version."))        # pylint: disable=line-too-long
+		self._AppendAttribute(func, LongValuedFlag("--compiler-config",  dest="CompilerConfig",  metaName="<Config>",  optional=True, help="Used compiler configuration."))  # pylint: disable=line-too-long
+		self._AppendAttribute(func, LongValuedFlag("--compiler-options", dest="CompilerOptions", metaName="<Options>", optional=True, help="Used compiler options."))        # pylint: disable=line-too-long
 		return func
 
 
-ArgNames = namedtuple("ArgNames", ("Command", "Template", "Filename", "ProjectName", "ProjectVariant", "ProjectVersion", "CompilerName", "CompilerVersion", "CompilerConfig", "CompilerOptions"))
+ArgNames = namedtuple("ArgNames", (
+	"Command",
+	"Template",
+	"Filename",
+	"ProjectName",
+	"ProjectVariant",
+	"ProjectVersion",
+	"CompilerName",
+	"CompilerVersion",
+	"CompilerConfig",
+	"CompilerOptions"
+))
 
 
 @export
@@ -89,7 +101,8 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 	"""
 	pyVersioning's command line interface application class.
 	"""
-	HeadLine:     str = "Version file generator."
+	# TODO: First: fix bug in pyTooling
+	# HeadLine:     ClassVar[str] = "Version file generator."
 
 	__configFile: Path
 	_config:      Nullable[Configuration]
@@ -98,7 +111,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 	def __init__(self) -> None:
 		super().__init__(Mode.TextToStdOut_ErrorsToStdErr)
 
-		self.HeadLine = "Version file generator."
+		self.__class__.HeadLine = "Version file generator."
 
 		self.__configFile = Path(".pyVersioning.yml")
 		self._config = None
@@ -108,7 +121,8 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 			self,
 			description=self.HeadLine,
 			formatter_class=RawDescriptionHelpFormatter,
-			add_help=False
+			add_help=False,
+			exit_on_error=False
 		)
 
 		self._LOG_MESSAGE_FORMAT__[Severity.Fatal] =   "{DARK_RED}[FATAL] {message}{NOCOLOR}"
@@ -131,15 +145,21 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 			self.WriteError(f"Configuration file '{configFile}' does not exist.")
 			self._config = Configuration()
 
-		self.WriteVerbose(f"Creating internal data model ...")
+		self.WriteVerbose( "Creating internal data model ...")
 		self._versioning = Versioning(self)
-		self.WriteDebug(f"  Loading information from configuration file ...")
+		self.WriteDebug( "  Loading information from configuration file ...")
 		self._versioning.LoadDataFromConfiguration(self._config)
-		self.WriteDebug(f"  Collecting information from environment ...")
+		self.WriteDebug( "  Collecting information from environment ...")
 		self._versioning.CollectData()
 
 	def Run(self) -> NoReturn:
-		super().Run()  # todo: enableAutoComplete ??
+		try:
+			super().Run()  # todo: enableAutoComplete ??
+		except ArgumentError as ex:
+			self._PrintHeadline()
+			self.WriteError(ex)
+			self.Exit(2)
+
 		self.Exit()
 
 	def _PrintHeadline(self) -> None:
@@ -408,7 +428,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 			self._versioning.Variables["build"]._compiler._options = args.CompilerOptions
 
 	def FillOutTemplate(self, template: str, **kwargs) -> str:
-		self.WriteVerbose(f"Applying variables to template ...")
+		self.WriteVerbose("Applying variables to template ...")
 		return self._versioning.FillOutTemplate(template, **kwargs)
 
 	def WriteOutput(self, outputFile: Nullable[Path], content: str):

@@ -120,7 +120,7 @@ class LocalEnvironment(TestCase):
 			jsonContent = ansiEscape.sub("", stdout)
 			json = loads(jsonContent)
 		except JSONDecodeError as ex:
-			print(f"JSON: JSONDecodeError")
+			print( "JSON: JSONDecodeError")
 			print(f"  {ex}")
 			self.fail("Internal JSON error: JSONDecodeError")
 
@@ -134,14 +134,14 @@ class LocalEnvironment(TestCase):
 		try:
 			json = loads(outputFile.read_text())
 		except JSONDecodeError as ex:
-			print(f"JSON: JSONDecodeError")
+			print( "JSON: JSONDecodeError")
 			print(f"  {ex}")
 			self.fail("Internal JSON error: JSONDecodeError")
 		except FileNotFoundError as ex:
-			print(f"OS: FileNotFoundError")
+			print( "OS: FileNotFoundError")
 			print(f"  {ex}")
 			print(f"  cwd: {Path.cwd()}")
-			print(f"  tests/")
+			print( "  tests/")
 			for item in (Path.cwd() / 'tests').glob("*.*"):
 				print(f"    {item}")
 			self.fail("Unittest error: FileNotFoundError")
@@ -159,7 +159,7 @@ class LocalEnvironment(TestCase):
 			yamlContent = ansiEscape.sub("", stdout)
 			yaml.load(yamlContent)
 		except ReaderError as ex:
-			print(f"YAML: ReaderError")
+			print( "YAML: ReaderError")
 			print(f"  {ex}")
 			self.fail("Internal YAML error: ReaderError")
 
@@ -175,14 +175,14 @@ class LocalEnvironment(TestCase):
 		try:
 			yaml.load(outputFile.read_text())
 		except ReaderError as ex:
-			print(f"YAML: ReaderError")
+			print( "YAML: ReaderError")
 			print(f"  {ex}")
 			self.fail("Internal YAML error: ReaderError")
 		except FileNotFoundError as ex:
-			print(f"OS: FileNotFoundError")
+			print( "OS: FileNotFoundError")
 			print(f"  {ex}")
 			print(f"  cwd: {Path.cwd()}")
-			print(f"  tests/")
+			print( "  tests/")
 			for item in (Path.cwd() / 'tests').glob("*.*"):
 				print(f"    {item}")
 			self.fail("Unittest error: FileNotFoundError")

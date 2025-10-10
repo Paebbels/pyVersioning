@@ -1,0 +1,29 @@
+<ns0:svg xmlns:ns0="http://www.w3.org/2000/svg" xmlns:ns1="http://www.w3.org/1999/xlink" width="191pt" height="27pt" viewBox="0.00 0.00 191.00 27.00">
+<ns0:g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 23)">
+<ns0:title>inheritance68173101ee</ns0:title>
+
+<ns0:g id="node1" class="node">
+<ns0:title>Commit</ns0:title>
+<ns0:g id="a_node1"><ns0:a ns1:href="../pyVersioning/pyVersioning.html#pyVersioning.Commit" ns1:title="This data structure class describes a Git commit with Hash, commit date and time, committer, author and commit" target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="183,-19 127,-19 127,0 183,0 183,-19" />
+<ns0:text text-anchor="middle" x="155" y="-7" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">Commit</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="node2" class="node">
+<ns0:title>SelfDescriptive</ns0:title>
+<ns0:g id="a_node2"><ns0:a ns1:href="../pyVersioning/pyVersioning.html#pyVersioning.SelfDescriptive" ns1:title="SelfDescriptive" target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="91,-19 0,-19 0,0 91,0 91,-19" />
+<ns0:text text-anchor="middle" x="45.5" y="-7" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">SelfDescriptive</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="edge1" class="edge">
+<ns0:title>SelfDescriptive-&gt;Commit</ns0:title>
+<ns0:path fill="none" stroke="black" stroke-width="0.5" d="M91.16,-9.5C101.38,-9.5 112.05,-9.5 121.64,-9.5" />
+<ns0:polygon fill="black" stroke="black" stroke-width="0.5" points="121.84,-11.25 126.84,-9.5 121.84,-7.75 121.84,-11.25" />
+</ns0:g>
+</ns0:g>
+</ns0:svg>

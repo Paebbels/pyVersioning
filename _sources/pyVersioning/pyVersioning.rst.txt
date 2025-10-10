@@ -1,0 +1,293 @@
+.. # Template modified by Patrick Lehmann
+     * removed automodule on top, because private members are activated for autodoc (no doubled documentation).
+     * Made sections like 'submodules' bold text, but no headlines to reduce number of ToC levels.
+
+Python Class Reference
+######################
+
+Reference of all packages and modules:
+
+.. automodule:: pyVersioning
+
+
+
+**Submodules**
+
+.. toctree::
+   :maxdepth: 1
+
+   pyVersioning.AppVeyor
+   pyVersioning.CIService
+   pyVersioning.CLI
+   pyVersioning.Configuration
+   pyVersioning.GitHub
+   pyVersioning.GitLab
+   pyVersioning.Travis
+
+.. currentmodule:: pyVersioning
+
+
+**Exceptions**
+
+- :py:exc:`VersioningException`:
+  Base-exception for all exceptions thrown by pyVersioning.
+
+- :py:exc:`ToolException`:
+  Exception thrown when a data collection tools has an error.
+
+
+
+**Classes**
+
+- :py:class:`SelfDescriptive`:
+  Undocumented.
+
+- :py:class:`Tool`:
+  This data structure class describes the tool name and version of pyVersioning.
+
+- :py:class:`Date`:
+  This data structure class describes a date (dd.mm.yyyy).
+
+- :py:class:`Time`:
+  This data structure class describes a time (hh:mm:ss).
+
+- :py:class:`Person`:
+  This data structure class describes a person with name and email address.
+
+- :py:class:`Commit`:
+  This data structure class describes a Git commit with Hash, commit date and time, committer, author and commit
+
+- :py:class:`Git`:
+  This data structure class describes all collected data from Git.
+
+- :py:class:`Project`:
+  This data structure class describes a project.
+
+- :py:class:`Compiler`:
+  Undocumented.
+
+- :py:class:`Build`:
+  Undocumented.
+
+- :py:class:`Platforms`:
+  An enumeration of platforms supported by pyTooling.
+
+- :py:class:`Platform`:
+  .. todo:: Platform needs documentation
+
+- :py:class:`BaseService`:
+  Base-class to collect platform and environment information from e.g. environment variables.
+
+- :py:class:`GitShowCommand`:
+  Create a collection of name/value pairs.
+
+- :py:class:`GitHelperMixin`:
+  Undocumented.
+
+- :py:class:`Versioning`:
+  A mixin class (interface) to provide class-local terminal writing methods.
+
+
+
+---------------------
+
+**Exceptions**
+
+
+
+
+.. autoexception:: VersioningException
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: VersioningException
+      :parts: 1
+
+.. autoexception:: ToolException
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: ToolException
+      :parts: 1
+
+
+---------------------
+
+**Classes**
+
+
+
+
+.. autoclass:: SelfDescriptive
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: SelfDescriptive
+      :parts: 1
+
+.. autoclass:: Tool
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Tool
+      :parts: 1
+
+.. autoclass:: Date
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Date
+      :parts: 1
+
+.. autoclass:: Time
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Time
+      :parts: 1
+
+.. autoclass:: Person
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Person
+      :parts: 1
+
+.. autoclass:: Commit
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Commit
+      :parts: 1
+
+.. autoclass:: Git
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Git
+      :parts: 1
+
+.. autoclass:: Project
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Project
+      :parts: 1
+
+.. autoclass:: Compiler
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Compiler
+      :parts: 1
+
+.. autoclass:: Build
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Build
+      :parts: 1
+
+.. autoclass:: Platforms
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Platforms
+      :parts: 1
+
+.. autoclass:: Platform
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Platform
+      :parts: 1
+
+.. autoclass:: BaseService
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: BaseService
+      :parts: 1
+
+.. autoclass:: GitShowCommand
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: GitShowCommand
+      :parts: 1
+
+.. autoclass:: GitHelperMixin
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: GitHelperMixin
+      :parts: 1
+
+.. autoclass:: Versioning
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: Versioning
+      :parts: 1

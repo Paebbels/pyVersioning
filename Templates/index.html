@@ -1,0 +1,409 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Writing Templates &mdash; pyVersioning 0.18.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=55b73dce" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-reports.089ed2e62f89368aa21ac7591d90c12a.css?v=83177741" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=aed75351" />
+
+  
+    <link rel="shortcut icon" href="../_static/icon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8dd6f163"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ANSI-C" href="C.html" />
+    <link rel="prev" title="Configuration File" href="../ConfigurationFile.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation/Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Dependency.html">Dependencies</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Details</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../VersionControlSystems.html">Supported Version Control Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CIServices.html">Supported CI Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Languages.html">Supported Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ConfigurationFile.html">Configuration File</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Templates</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Writing Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#syntax">Syntax</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#member-access">Member Access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#method-access">Method Access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#functioncall">FunctionCall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#formatting">Formatting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#predefined-variables">Predefined Variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-file-variables">Configuration File Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#git-variables">Git Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#local-workstation">Local Workstation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#appvayor">AppVayor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#github">GitHub</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gitlab">GitLab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#travis-ci">Travis-CI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="C.html">ANSI-C</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CXX.html">C++</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/C.html">ANSI-C</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/CXX.html">C++</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/VHDL.html">VHDL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References and Reports</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CommandLineInterface.html">Command Line Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyVersioning/pyVersioning.html">Python Class Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unittests/index.html">Unittest Summary Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage/index.html">Code Coverage Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CodeCoverage.html">Code Coverage Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DocCoverage.html">Doc. Coverage Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typing/index.html">Static Type Check Report ➚</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../License.html">Apache License 2.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Doc-License.html">Creative Commons Attribution 4.0 International</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../py-modindex.html">Python Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODOs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyVersioning</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Writing Templates</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Templates/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <style type="text/css">
+  span.bolditalic {font-weight: bold; font-style: italic; }
+  span.underline {text-decoration: underline; }
+  span.strike {text-decoration: line-through; }
+  span.xlarge {font-size: x-large; }
+  span.colorred {color: #CC0000; }
+  span.colorgreen {color: #009933; }
+  span.colorblue {color: #0066FF; }
+  span.colorpurple {color: #9900CC; }
+</style><section id="writing-templates">
+<span id="templates"></span><h1>Writing Templates<a class="headerlink" href="#writing-templates" title="Link to this heading"></a></h1>
+<section id="syntax">
+<span id="templates-syntax"></span><h2>Syntax<a class="headerlink" href="#syntax" title="Link to this heading"></a></h2>
+<p>The used template format is based on Python’s <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.format" title="(in Python v3.14)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.format()</span></code></a> method. Thus a list of predefined variables can be
+embedded into a text using <code class="docutils literal notranslate"><span class="pre">{myVariable}</span></code> syntax. As curley braces are used to denote variables, double curley
+braces will translate to curley braces in the output text, e.g. needed in C-like languages: <code class="docutils literal notranslate"><span class="pre">{{</span></code> → <code class="docutils literal notranslate"><span class="pre">{</span></code> or
+<code class="docutils literal notranslate"><span class="pre">}}</span></code> → <code class="docutils literal notranslate"><span class="pre">}</span></code>.</p>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+myTemplate.c.template</div>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{{</span>
+<span class="w">  </span><span class="p">.</span><span class="n">field</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{myVariable}&quot;</span>
+<span class="p">}}</span><span class="w"> </span><span class="n">myExample</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="member-access">
+<span id="templates-syntax-member"></span><h3>Member Access<a class="headerlink" href="#member-access" title="Link to this heading"></a></h3>
+<p>A variable’s member (property or field) can be accessed using the dot-notation.</p>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+myTemplate.c.template</div>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{{</span>
+<span class="w">  </span><span class="p">.</span><span class="n">field</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{myVariable.myProperty}&quot;</span>
+<span class="p">}}</span><span class="w"> </span><span class="n">myExample</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="method-access">
+<span id="templates-syntax-method"></span><h3>Method Access<a class="headerlink" href="#method-access" title="Link to this heading"></a></h3>
+<p>A variable’s method can be accessed using the dot-notation.</p>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+myTemplate.c.template</div>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{{</span>
+<span class="w">  </span><span class="p">.</span><span class="n">field</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{myVariable.myMethod()}&quot;</span>
+<span class="p">}}</span><span class="w"> </span><span class="n">myExample</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A typical usecase might be concatenating list elements to a comma separated string</p>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+myTemplate.c.template</div>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{{</span>
+<span class="w">  </span><span class="p">.</span><span class="n">field</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{&#39;, &#39;.join(myVariable)}&quot;</span>
+<span class="p">}}</span><span class="w"> </span><span class="n">myExample</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="functioncall">
+<span id="templates-syntax-functioncall"></span><h3>FunctionCall<a class="headerlink" href="#functioncall" title="Link to this heading"></a></h3>
+<p>A function can be called inside <code class="docutils literal notranslate"><span class="pre">{.....}</span></code></p>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+myTemplate.c.template</div>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{{</span>
+<span class="w">  </span><span class="p">.</span><span class="n">field</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{len(myArray)}&quot;</span>
+<span class="p">}}</span><span class="w"> </span><span class="n">myExample</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="formatting">
+<span id="templates-syntax-formatting"></span><h3>Formatting<a class="headerlink" href="#formatting" title="Link to this heading"></a></h3>
+<p>The <a class="reference external" href="https://docs.python.org/3/library/string.html#string-formatting" title="(in Python v3.14)"><span class="xref std std-ref">Pyton string formating</span></a> syntax allows for further <a class="reference external" href="https://docs.python.org/3/library/string.html#formatspec" title="(in Python v3.14)"><span class="xref std std-ref">customizations</span></a> like left, middle or
+right justification as well as number formating e.g. as hex-values.</p>
+<p class="rubric">Examples</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">{myVariable:\0&lt;16}</span></code></dt><dd><p>Left justified 16-character string padded with <code class="docutils literal notranslate"><span class="pre">\0</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">0x{myVariable:02X}</span></code></dt><dd><p>Zero-padded 2-character hexadecimal number, with <code class="docutils literal notranslate"><span class="pre">0x</span></code> prefix and uppercase (<code class="docutils literal notranslate"><span class="pre">X</span></code>) hex-letters.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">{myVariable!s}</span></code>/<code class="docutils literal notranslate"><span class="pre">{myVariable!r}</span></code></dt><dd><p>Call <code class="xref py py-func docutils literal notranslate"><span class="pre">str()</span></code> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#repr" title="(in Python v3.14)"><code class="xref py py-func docutils literal notranslate"><span class="pre">repr()</span></code></a> on a variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="predefined-variables">
+<span id="templates-variables"></span><h2>Predefined Variables<a class="headerlink" href="#predefined-variables" title="Link to this heading"></a></h2>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 docutils">
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<p><em>pyVersioning</em> offers lots of predefined variables. A full list of variables and there actual values can be
+printed using the <code class="code docutils literal notranslate"><span class="pre">pyVersioning</span> <span class="pre">variables</span></code> command in the command line interface.</p>
+<p>The following root-level variables are defined:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">version</span></code></dt><dd><p>Version information.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">git</span></code></dt><dd><p>Information collected from version control system Git like branch name, tag name, commit date, commit hash, …</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">project</span></code></dt><dd><p>Project information mainly provided by the <code class="file docutils literal notranslate"><span class="pre">.pyVersioning.yaml</span></code> configuration file.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">build</span></code></dt><dd><p>Build information mainly provided by the <code class="file docutils literal notranslate"><span class="pre">.pyVersioning.yaml</span></code> configuration file.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">tool</span></code></dt><dd><p>Tool information about pyVersioning.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">platform</span></code></dt><dd><p>Platform information.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../Usage.html#usage-variables"><span class="std std-ref">List all variables</span></a></p>
+</div>
+</div>
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Variables</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$&gt; pyVersioning.exe variables
+version                 : v0.0.0
+tool                    : pyVersioning 0.17.0
+  name                  : pyVersioning
+  version               : 0.17.0
+project                 :  -  v0.0.0
+  name                  :
+  variant               :
+  version               : v0.0.0
+build                   : &lt;pyVersioning.Build object at 0x000001F3FF7F46C0&gt;
+  date                  : 2025-04-21
+  time                  : 10:43:02.882194
+  compiler              : &lt;pyVersioning.Compiler object at 0x000001F3819B63E0&gt;
+    name                :
+    version             : v0.0.0
+    configuration       :
+    options             :
+git                     : &lt;pyVersioning.Git object at 0x000001F3819F5260&gt;
+  commit                : &lt;pyVersioning.Commit object at 0x000001F3819DA920&gt;
+    hash                : 4f5b03b202887cab53ad27d80b0ed5bde028d705
+    date                : 2025-04-21
+    time                : 07:50:48
+    author              : Patrick Lehmann &lt;Paebbels@gmail.com&gt;
+      name              : Patrick Lehmann
+      email             : Paebbels@gmail.com
+    committer           : Patrick Lehmann &lt;Paebbels@gmail.com&gt;
+      name              : Patrick Lehmann
+      email             : Paebbels@gmail.com
+    comment             : Fixed binary output check.
+
+    oneline             : Fixed binary output check.
+  reference             : dev
+  tag                   :
+  branch                : dev
+  repository            : git@github.com:Paebbels/pyVersioning.git
+platform                : &lt;pyVersioning.Platform object at 0x000001F3FF441510&gt;
+  ci_service            : NO-CI
+env                     : Environment(..........................)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="configuration-file-variables">
+<span id="templates-configurationfile"></span><h3>Configuration File Variables<a class="headerlink" href="#configuration-file-variables" title="Link to this heading"></a></h3>
+<p><em>pyVersioning</em> reads a <code class="file docutils literal notranslate"><span class="pre">.pyVersioning.yaml</span></code> file for static (per project) settings. These are also exposed as
+variables.</p>
+</section>
+<section id="environment-variables">
+<span id="templates-environment"></span><h3>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h3>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>List environment variables.</p>
+</div>
+</section>
+<section id="git-variables">
+<span id="templates-git"></span><h3>Git Variables<a class="headerlink" href="#git-variables" title="Link to this heading"></a></h3>
+<section id="local-workstation">
+<span id="templates-git-local"></span><h4>Local Workstation<a class="headerlink" href="#local-workstation" title="Link to this heading"></a></h4>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>List Git variables.</p>
+</div>
+</section>
+<section id="appvayor">
+<span id="templates-git-appveyor"></span><h4>AppVayor<a class="headerlink" href="#appvayor" title="Link to this heading"></a></h4>
+<div class="admonition-todo admonition" id="id3">
+<p class="admonition-title">Todo</p>
+<p>List AppVayor variables.</p>
+</div>
+</section>
+<section id="github">
+<span id="templates-git-github"></span><h4>GitHub<a class="headerlink" href="#github" title="Link to this heading"></a></h4>
+<div class="admonition-todo admonition" id="id4">
+<p class="admonition-title">Todo</p>
+<p>List GitHub variables.</p>
+</div>
+</section>
+<section id="gitlab">
+<span id="templates-git-gitlab"></span><h4>GitLab<a class="headerlink" href="#gitlab" title="Link to this heading"></a></h4>
+<div class="admonition-todo admonition" id="id5">
+<p class="admonition-title">Todo</p>
+<p>List GitLab variables.</p>
+</div>
+</section>
+<section id="travis-ci">
+<span id="templates-git-travisci"></span><h4>Travis-CI<a class="headerlink" href="#travis-ci" title="Link to this heading"></a></h4>
+<div class="admonition-todo admonition" id="id6">
+<p class="admonition-title">Todo</p>
+<p>List Travis-CI variables.</p>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../ConfigurationFile.html" class="btn btn-neutral float-left" title="Configuration File" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="C.html" class="btn btn-neutral float-right" title="ANSI-C" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020-2025, Patrick Lehmann.
+      <span class="lastupdated">Last updated on 17.10.2025.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,1224 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyVersioning &mdash; pyVersioning 0.18.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=55b73dce" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-reports.089ed2e62f89368aa21ac7591d90c12a.css?v=83177741" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=aed75351" />
+
+  
+    <link rel="shortcut icon" href="../_static/icon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8dd6f163"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation/Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Dependency.html">Dependencies</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Details</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../VersionControlSystems.html">Supported Version Control Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CIServices.html">Supported CI Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Languages.html">Supported Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ConfigurationFile.html">Configuration File</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Templates</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Templates/index.html">Writing Templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Templates/C.html">ANSI-C</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Templates/CXX.html">C++</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/C.html">ANSI-C</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/CXX.html">C++</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/VHDL.html">VHDL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References and Reports</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CommandLineInterface.html">Command Line Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyVersioning/pyVersioning.html">Python Class Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unittests/index.html">Unittest Summary Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage/index.html">Code Coverage Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CodeCoverage.html">Code Coverage Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DocCoverage.html">Doc. Coverage Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typing/index.html">Static Type Check Report ➚</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../License.html">Apache License 2.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Doc-License.html">Creative Commons Attribution 4.0 International</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../py-modindex.html">Python Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODOs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyVersioning</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pyVersioning</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyVersioning</h1><div class="highlight"><pre>
+<span></span><span class="c1"># ==================================================================================================================== #</span>
+<span class="c1">#            __     __            _             _                                                                      #</span>
+<span class="c1">#  _ __  _   \ \   / /__ _ __ ___(_) ___  _ __ (_)_ __   __ _                                                          #</span>
+<span class="c1"># | &#39;_ \| | | \ \ / / _ \ &#39;__/ __| |/ _ \| &#39;_ \| | &#39;_ \ / _` |                                                         #</span>
+<span class="c1"># | |_) | |_| |\ V /  __/ |  \__ \ | (_) | | | | | | | | (_| |                                                         #</span>
+<span class="c1"># | .__/ \__, | \_/ \___|_|  |___/_|\___/|_| |_|_|_| |_|\__, |                                                         #</span>
+<span class="c1"># |_|    |___/                                          |___/                                                          #</span>
+<span class="c1"># ==================================================================================================================== #</span>
+<span class="c1"># Authors:                                                                                                             #</span>
+<span class="c1">#   Patrick Lehmann                                                                                                    #</span>
+<span class="c1">#                                                                                                                      #</span>
+<span class="c1"># License:                                                                                                             #</span>
+<span class="c1"># ==================================================================================================================== #</span>
+<span class="c1"># Copyright 2020-2025 Patrick Lehmann - Bötzingen, Germany                                                             #</span>
+<span class="c1">#                                                                                                                      #</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);                                                      #</span>
+<span class="c1"># you may not use this file except in compliance with the License.                                                     #</span>
+<span class="c1"># You may obtain a copy of the License at                                                                              #</span>
+<span class="c1">#                                                                                                                      #</span>
+<span class="c1">#   http://www.apache.org/licenses/LICENSE-2.0                                                                         #</span>
+<span class="c1">#                                                                                                                      #</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software                                                  #</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,                                                    #</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.                                             #</span>
+<span class="c1"># See the License for the specific language governing permissions and                                                  #</span>
+<span class="c1"># limitations under the License.                                                                                       #</span>
+<span class="c1">#                                                                                                                      #</span>
+<span class="c1"># SPDX-License-Identifier: Apache-2.0                                                                                  #</span>
+<span class="c1"># ==================================================================================================================== #</span>
+<span class="c1">#</span>
+<span class="n">__author__</span> <span class="o">=</span>    <span class="s2">&quot;Patrick Lehmann&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span>     <span class="s2">&quot;Paebbels@gmail.com&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;2020-2025, Patrick Lehmann&quot;</span>
+<span class="n">__license__</span> <span class="o">=</span>   <span class="s2">&quot;Apache License, Version 2.0&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span>   <span class="s2">&quot;0.18.3&quot;</span>
+<span class="n">__keywords__</span> <span class="o">=</span>  <span class="p">[</span><span class="s2">&quot;Python3&quot;</span><span class="p">,</span> <span class="s2">&quot;Template&quot;</span><span class="p">,</span> <span class="s2">&quot;Versioning&quot;</span><span class="p">,</span> <span class="s2">&quot;Git&quot;</span><span class="p">]</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w">  </span><span class="kn">import</span> <span class="n">make_dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w">     </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w">         </span><span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w">           </span><span class="kn">import</span> <span class="n">environ</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">subprocess</span><span class="w">   </span><span class="kn">import</span> <span class="n">run</span> <span class="k">as</span> <span class="n">subprocess_run</span><span class="p">,</span> <span class="n">PIPE</span><span class="p">,</span> <span class="n">CalledProcessError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sys</span><span class="w">          </span><span class="kn">import</span> <span class="n">version_info</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w">       </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Optional</span> <span class="k">as</span> <span class="n">Nullable</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyTooling.Decorators</span><span class="w">       </span><span class="kn">import</span> <span class="n">export</span><span class="p">,</span> <span class="n">readonly</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyTooling.MetaClasses</span><span class="w">      </span><span class="kn">import</span> <span class="n">ExtendedType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyTooling.Versioning</span><span class="w">       </span><span class="kn">import</span> <span class="n">SemanticVersion</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyTooling.TerminalUI</span><span class="w">       </span><span class="kn">import</span> <span class="n">ILineTerminal</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyVersioning.Configuration</span><span class="w"> </span><span class="kn">import</span> <span class="n">Configuration</span><span class="p">,</span> <span class="n">Project</span><span class="p">,</span> <span class="n">Compiler</span><span class="p">,</span> <span class="n">Build</span>
+
+
+<div class="viewcode-block" id="VersioningException">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.VersioningException">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">VersioningException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;Base-exception for all exceptions thrown by pyVersioning.&quot;&quot;&quot;</span>
+
+	<span class="c1"># WORKAROUND: for Python &lt;3.11</span>
+	<span class="c1"># Implementing a dummy method for Python versions before</span>
+	<span class="k">if</span> <span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+		<span class="n">__notes__</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+		<span class="k">def</span><span class="w"> </span><span class="nf">add_note</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="k">try</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">__notes__</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+			<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">__notes__</span> <span class="o">=</span> <span class="p">[</span><span class="n">message</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="ToolException">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.ToolException">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ToolException</span><span class="p">(</span><span class="n">VersioningException</span><span class="p">):</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;Exception thrown when a data collection tools has an error.&quot;&quot;&quot;</span>
+
+	<span class="n">command</span><span class="p">:</span>      <span class="nb">str</span>    <span class="c1">#: Command that caused the exception.</span>
+	<span class="n">errorMessage</span><span class="p">:</span> <span class="nb">str</span>    <span class="c1">#: Error message returned by the tool.</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">errorMessage</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">		:param command:      Command that caused the exception.</span>
+<span class="sd">		:param errorMessage: Error message returned by the tool.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">errorMessage</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">command</span> <span class="o">=</span> <span class="n">command</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">errorMessage</span> <span class="o">=</span> <span class="n">errorMessage</span></div>
+
+
+
+<div class="viewcode-block" id="SelfDescriptive">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.SelfDescriptive">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SelfDescriptive</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ExtendedType</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mixin</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+	<span class="c1"># TODO: could this be filled with a decorator?</span>
+	<span class="n">_public</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">Keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+		<span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_public</span><span class="p">:</span>
+			<span class="k">yield</span> <span class="n">element</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">KeyValuePairs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+		<span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_public</span><span class="p">:</span>
+			<span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+			<span class="k">yield</span> <span class="n">element</span><span class="p">,</span> <span class="n">value</span></div>
+
+
+
+<div class="viewcode-block" id="Tool">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Tool">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Tool</span><span class="p">(</span><span class="n">SelfDescriptive</span><span class="p">):</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;This data structure class describes the tool name and version of pyVersioning.&quot;&quot;&quot;</span>
+
+	<span class="n">_name</span><span class="p">:</span>    <span class="nb">str</span>              <span class="c1">#: Name of pyVersioning</span>
+	<span class="n">_version</span><span class="p">:</span> <span class="n">SemanticVersion</span>  <span class="c1">#: Version of the pyVersioning</span>
+
+	<span class="n">_public</span><span class="p">:</span>  <span class="n">ClassVar</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Tool.__init__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Tool.__init__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="n">SemanticVersion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Initialize a tool with name and version.</span>
+
+<span class="sd">		:param name:    The tool&#39;s name.</span>
+<span class="sd">		:param version: The tool&#39;s version.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">version</span></div>
+
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the name of the tool.</span>
+
+<span class="sd">		:return: Name of the tool.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the version of the tool.</span>
+
+<span class="sd">		:return: Version of the tool as :class:`SemanticVersion`.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+
+<div class="viewcode-block" id="Tool.__str__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Tool.__str__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Return a string representation of this tool description.</span>
+
+<span class="sd">		:returns: The tool&#39;s name and version.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="si">}</span><span class="s2">&quot;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Date">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Date">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Date</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">SelfDescriptive</span><span class="p">):</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	This data structure class describes a date (dd.mm.yyyy).</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="n">_public</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;day&quot;</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="s2">&quot;year&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Time">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Time">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Time</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">SelfDescriptive</span><span class="p">):</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	This data structure class describes a time (hh:mm:ss).</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="n">_public</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;hour&quot;</span><span class="p">,</span> <span class="s2">&quot;minute&quot;</span><span class="p">,</span> <span class="s2">&quot;second&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Person">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Person">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Person</span><span class="p">(</span><span class="n">SelfDescriptive</span><span class="p">):</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	This data structure class describes a person with name and email address.</span>
+
+<span class="sd">	This class is used to describe an author or committer in a version control system.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="n">_name</span><span class="p">:</span>  <span class="nb">str</span>    <span class="c1">#: Name of the person.</span>
+	<span class="n">_email</span><span class="p">:</span> <span class="nb">str</span>    <span class="c1">#: Email address of the person.</span>
+
+	<span class="n">_public</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Person.__init__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Person.__init__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Initialize a person with name and email address.</span>
+
+<span class="sd">		:param name:  The person&#39;s name.</span>
+<span class="sd">		:param email: The person&#39;s email address.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_email</span> <span class="o">=</span> <span class="n">email</span></div>
+
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the name of the person.</span>
+
+<span class="sd">		:return: Name of the person.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">email</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the email address of the person.</span>
+
+<span class="sd">		:return: Email address of the person.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_email</span>
+
+<div class="viewcode-block" id="Person.__str__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Person.__str__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Return a string representation of a person (committer, author, ...).</span>
+
+<span class="sd">		:returns: The persons name and email address.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2"> &lt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_email</span><span class="si">}</span><span class="s2">&gt;&quot;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Commit">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Commit">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Commit</span><span class="p">(</span><span class="n">SelfDescriptive</span><span class="p">):</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	This data structure class describes a Git commit with Hash, commit date and time, committer, author and commit</span>
+<span class="sd">	description.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="n">_hash</span><span class="p">:</span>      <span class="nb">str</span>
+	<span class="n">_date</span><span class="p">:</span>      <span class="n">date</span>
+	<span class="n">_time</span><span class="p">:</span>      <span class="n">time</span>
+	<span class="n">_author</span><span class="p">:</span>    <span class="n">Person</span>
+	<span class="n">_committer</span><span class="p">:</span> <span class="n">Person</span>
+	<span class="n">_comment</span><span class="p">:</span>   <span class="nb">str</span>
+	<span class="n">_oneline</span><span class="p">:</span>   <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>  <span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+	<span class="n">_public</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;hash&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;author&quot;</span><span class="p">,</span> <span class="s2">&quot;committer&quot;</span><span class="p">,</span> <span class="s2">&quot;comment&quot;</span><span class="p">,</span> <span class="s2">&quot;oneline&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Commit.__init__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Commit.__init__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">hash</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="n">time</span><span class="p">,</span> <span class="n">author</span><span class="p">:</span> <span class="n">Person</span><span class="p">,</span> <span class="n">committer</span><span class="p">:</span> <span class="n">Person</span><span class="p">,</span> <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Initialize a Git commit.</span>
+
+<span class="sd">		:param hash:      The commit&#39;s hash.</span>
+<span class="sd">		:param date:      The commit&#39;s date.</span>
+<span class="sd">		:param time:      The commit&#39;s time.</span>
+<span class="sd">		:param author:    The commit&#39;s author.</span>
+<span class="sd">		:param committer: The commit&#39;s committer.</span>
+<span class="sd">		:param comment:   The commit&#39;s comment.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_hash</span> <span class="o">=</span> <span class="nb">hash</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_date</span> <span class="o">=</span> <span class="n">date</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_time</span> <span class="o">=</span> <span class="n">time</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_author</span> <span class="o">=</span> <span class="n">author</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_committer</span> <span class="o">=</span> <span class="n">committer</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_comment</span> <span class="o">=</span> <span class="n">comment</span>
+
+		<span class="k">if</span> <span class="n">comment</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_oneline</span> <span class="o">=</span> <span class="n">comment</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the hash of the commit.</span>
+
+<span class="sd">		:return: Hash of the commit as string.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hash</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">date</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">date</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the date of the commit.</span>
+
+<span class="sd">		:return: Date of the commit as :class:`date`.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_date</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">time</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the time of the commit.</span>
+
+<span class="sd">		:return: Time of the commit as :class:`time`.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">author</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Person</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the author of the commit.</span>
+
+<span class="sd">		:return: Author of the commit as :class:`Person`.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_author</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">committer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Person</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the committer of the commit.</span>
+
+<span class="sd">		:return: Committer of the commit as :class:`Person`.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_committer</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">comment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the comment of the commit.</span>
+
+<span class="sd">		:return: Author of the comment as string.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_comment</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">oneline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>  <span class="nb">bool</span><span class="p">]:</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_oneline</span>
+
+<div class="viewcode-block" id="Commit.__str__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Commit.__str__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Return a string representation of a commit.</span>
+
+<span class="sd">		:returns: The date, time, committer, hash and one-liner description.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_date</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_committer</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_hash</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_oneline</span><span class="si">}</span><span class="s2">&quot;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Git">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Git">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Git</span><span class="p">(</span><span class="n">SelfDescriptive</span><span class="p">):</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	This data structure class describes all collected data from Git.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">_commit</span><span class="p">:</span>     <span class="n">Commit</span>  <span class="c1">#: Git commit information</span>
+	<span class="n">_reference</span><span class="p">:</span>  <span class="nb">str</span>     <span class="c1">#: Git reference (branch or tag)</span>
+	<span class="n">_tag</span><span class="p">:</span>        <span class="nb">str</span>     <span class="c1">#: Git tag</span>
+	<span class="n">_branch</span><span class="p">:</span>     <span class="nb">str</span>     <span class="c1">#: Git branch</span>
+	<span class="n">_repository</span><span class="p">:</span> <span class="nb">str</span>     <span class="c1">#: Git repository URL</span>
+
+	<span class="n">_public</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;commit&quot;</span><span class="p">,</span> <span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="s2">&quot;tag&quot;</span><span class="p">,</span> <span class="s2">&quot;branch&quot;</span><span class="p">,</span> <span class="s2">&quot;repository&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Git.__init__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Git.__init__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commit</span><span class="p">:</span> <span class="n">Commit</span><span class="p">,</span> <span class="n">repository</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_commit</span> <span class="o">=</span> <span class="n">commit</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_tag</span> <span class="o">=</span> <span class="n">tag</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_branch</span> <span class="o">=</span> <span class="n">branch</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_repository</span> <span class="o">=</span> <span class="n">repository</span>
+
+		<span class="k">if</span> <span class="n">tag</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_reference</span> <span class="o">=</span> <span class="n">tag</span>
+		<span class="k">elif</span> <span class="n">branch</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_reference</span> <span class="o">=</span> <span class="n">branch</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_reference</span> <span class="o">=</span> <span class="s2">&quot;[Detached HEAD]&quot;</span></div>
+
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Commit</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the Git commit.</span>
+
+<span class="sd">		:return: The commit information as :class:`Commit`.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commit</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">reference</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the Git reference.</span>
+
+<span class="sd">		A reference is either a branch or tag.</span>
+
+<span class="sd">		:return: The current Git reference as string.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">tag</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the Git tag.</span>
+
+<span class="sd">		:return: The current Git tag name as string.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tag</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">branch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the Git branch.</span>
+
+<span class="sd">		:return: The current Git branch name as string.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">repository</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the Git repository URL.</span>
+
+<span class="sd">		:return: The current Git repository URL as string.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_repository</span>
+
+<div class="viewcode-block" id="Git.__str__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Git.__str__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Return a string representation of a repository.</span>
+
+<span class="sd">		:returns: The date, time, committer, hash and one-liner description.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_repository</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_reference</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_commit</span><span class="o">.</span><span class="n">_hash</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_commit</span><span class="o">.</span><span class="n">_oneline</span><span class="si">}</span><span class="s2">&quot;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Project">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Project">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Project</span><span class="p">(</span><span class="n">SelfDescriptive</span><span class="p">):</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;This data structure class describes a project.&quot;&quot;&quot;</span>
+
+	<span class="n">_name</span><span class="p">:</span>     <span class="nb">str</span>                <span class="c1">#: Name of the project.</span>
+	<span class="n">_variant</span><span class="p">:</span>  <span class="nb">str</span>                <span class="c1">#: Variant of the project.</span>
+	<span class="n">_version</span><span class="p">:</span>  <span class="n">SemanticVersion</span>    <span class="c1">#: Version of the project.</span>
+
+	<span class="n">_public</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;variant&quot;</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Project.__init__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Project.__init__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+		<span class="bp">self</span><span class="p">,</span>
+		<span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+		<span class="n">version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SemanticVersion</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+		<span class="n">variant</span><span class="p">:</span> <span class="n">Nullable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+	<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;Assign fields and convert version string to a `Version` object.&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_name</span>    <span class="o">=</span> <span class="n">name</span>    <span class="k">if</span> <span class="n">name</span>    <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_variant</span> <span class="o">=</span> <span class="n">variant</span> <span class="k">if</span> <span class="n">variant</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">SemanticVersion</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">version</span>
+		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">SemanticVersion</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="n">version</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">SemanticVersion</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="s2">&quot;v0.0.0&quot;</span><span class="p">)</span></div>
+
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the name of the project.</span>
+
+<span class="sd">		:return: The project&#39;s name as string.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">variant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the variant name of the project.</span>
+
+<span class="sd">		:return: The project&#39;s variant as string.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variant</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the version of the project.</span>
+
+<span class="sd">		:return: The project&#39;s version.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+
+<div class="viewcode-block" id="Project.__str__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Project.__str__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Return a string representation of a project.</span>
+
+<span class="sd">		:returns: The project name, project variant and project version.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_variant</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="si">}</span><span class="s2">&quot;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Compiler">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Compiler">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Compiler</span><span class="p">(</span><span class="n">SelfDescriptive</span><span class="p">):</span>
+	<span class="n">_name</span><span class="p">:</span>          <span class="nb">str</span>              <span class="c1">#: Name of the compiler.</span>
+	<span class="n">_version</span><span class="p">:</span>       <span class="n">SemanticVersion</span>  <span class="c1">#: Version of the compiler.</span>
+	<span class="n">_configuration</span><span class="p">:</span> <span class="nb">str</span>              <span class="c1">#: Compiler configuration.</span>
+	<span class="n">_options</span><span class="p">:</span>       <span class="nb">str</span>              <span class="c1">#: Compiler options (compiler flags).</span>
+
+	<span class="n">_public</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="s2">&quot;configuration&quot;</span><span class="p">,</span> <span class="s2">&quot;options&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Compiler.__init__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Compiler.__init__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+		<span class="bp">self</span><span class="p">,</span>
+		<span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+		<span class="n">version</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SemanticVersion</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+		<span class="n">configuration</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+		<span class="n">options</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+	<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;Assign fields and convert version string to a `Version` object.&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_name</span>          <span class="o">=</span> <span class="n">name</span>          <span class="k">if</span> <span class="n">name</span>          <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span> <span class="o">=</span> <span class="n">configuration</span> <span class="k">if</span> <span class="n">configuration</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_options</span>       <span class="o">=</span> <span class="n">options</span>       <span class="k">if</span> <span class="n">options</span>       <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">SemanticVersion</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">version</span>
+		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">SemanticVersion</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="n">version</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">SemanticVersion</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="s2">&quot;v0.0.0&quot;</span><span class="p">)</span></div>
+
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the name of the compiler.</span>
+
+<span class="sd">		:return: The compiler&#39;s name as string.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the version of the compiler.</span>
+
+<span class="sd">		:return: The compiler&#39;s version.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the configuration of the compiler.</span>
+
+<span class="sd">		:return: The compiler&#39;s configuration.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">options</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the options of the compiler.</span>
+
+<span class="sd">		:return: The compiler&#39;s options.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options</span>
+
+<div class="viewcode-block" id="Compiler.__str__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Compiler.__str__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Return a string representation of a compiler.</span>
+
+<span class="sd">		:returns: The compiler name and compiler version.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="si">}</span><span class="s2">&quot;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Build">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Build">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Build</span><span class="p">(</span><span class="n">SelfDescriptive</span><span class="p">):</span>
+	<span class="n">_date</span><span class="p">:</span>     <span class="n">date</span>      <span class="c1">#: Build date.</span>
+	<span class="n">_time</span><span class="p">:</span>     <span class="n">time</span>      <span class="c1">#: Build time.</span>
+	<span class="n">_compiler</span><span class="p">:</span> <span class="n">Compiler</span>  <span class="c1">#: Use compiler (and options) for the build.</span>
+
+	<span class="n">_public</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;compiler&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Build.__init__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Build.__init__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="n">time</span><span class="p">,</span> <span class="n">compiler</span><span class="p">:</span> <span class="n">Compiler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_date</span> <span class="o">=</span> <span class="n">date</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_time</span> <span class="o">=</span> <span class="n">time</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span> <span class="o">=</span> <span class="n">compiler</span></div>
+
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">date</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">date</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the date of the build.</span>
+
+<span class="sd">		:return: Date of the build as :class:`date`.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_date</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">time</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read-only property to return the time of the build.</span>
+
+<span class="sd">		:return: Time of the build as :class:`date`.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">compiler</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Compiler</span><span class="p">:</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span></div>
+
+
+
+<div class="viewcode-block" id="Platforms">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Platforms">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Platforms</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;An enumeration of platforms supported by pyTooling.&quot;&quot;&quot;</span>
+	<span class="n">Workstation</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>    <span class="c1">#: A local work station, server, PC or laptop.</span>
+	<span class="n">AppVeyor</span> <span class="o">=</span>    <span class="n">auto</span><span class="p">()</span>    <span class="c1">#: A CI service operated by `AppVeyor &lt;https://www.appveyor.com/&gt;`__.</span>
+	<span class="n">GitHub</span> <span class="o">=</span>      <span class="n">auto</span><span class="p">()</span>    <span class="c1">#: A CI service offered by `GitHub &lt;https://github.com/&gt;`__ called GitHub Actions.</span>
+	<span class="n">GitLab</span> <span class="o">=</span>      <span class="n">auto</span><span class="p">()</span>    <span class="c1">#: A CI service offered by `GitLab &lt;https://about.gitlab.com/&gt;`__.</span>
+	<span class="n">Travis</span> <span class="o">=</span>      <span class="n">auto</span><span class="p">()</span>    <span class="c1">#: A CI service operated by `Travis &lt;https://www.travis-ci.com/&gt;`__.</span></div>
+
+
+
+<div class="viewcode-block" id="Platform">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Platform">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Platform</span><span class="p">(</span><span class="n">SelfDescriptive</span><span class="p">):</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;.. todo:: Platform needs documentation&quot;&quot;&quot;</span>
+
+	<span class="n">_ciService</span><span class="p">:</span> <span class="nb">str</span>
+	<span class="n">_public</span><span class="p">:</span>  <span class="n">ClassVar</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ci_service&#39;</span><span class="p">,</span> <span class="p">)</span>
+
+<div class="viewcode-block" id="Platform.__init__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Platform.__init__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ciService</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_ciService</span> <span class="o">=</span> <span class="n">ciService</span></div>
+
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">ci_service</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ciService</span></div>
+
+
+
+<div class="viewcode-block" id="BaseService">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.BaseService">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseService</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ExtendedType</span><span class="p">):</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;Base-class to collect platform and environment information from e.g. environment variables.&quot;&quot;&quot;</span>
+
+	<span class="c1"># @abstractmethod</span>
+<div class="viewcode-block" id="BaseService.GetPlatform">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.BaseService.GetPlatform">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetPlatform</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Platform</span><span class="p">:</span>  <span class="c1"># type: ignore[empty-body]</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		.. todo::</span>
+<span class="sd">		   getPlatform needs documentation</span>
+
+<span class="sd">		&quot;&quot;&quot;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="GitShowCommand">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.GitShowCommand">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GitShowCommand</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+	<span class="n">CommitDateTime</span> <span class="o">=</span>       <span class="n">auto</span><span class="p">()</span>
+	<span class="n">CommitAuthorName</span> <span class="o">=</span>     <span class="n">auto</span><span class="p">()</span>
+	<span class="n">CommitAuthorEmail</span> <span class="o">=</span>    <span class="n">auto</span><span class="p">()</span>
+	<span class="n">CommitCommitterName</span> <span class="o">=</span>  <span class="n">auto</span><span class="p">()</span>
+	<span class="n">CommitCommitterEmail</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+	<span class="n">CommitHash</span> <span class="o">=</span>           <span class="n">auto</span><span class="p">()</span>
+	<span class="n">CommitComment</span> <span class="o">=</span>        <span class="n">auto</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="GitHelperMixin">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.GitHelperMixin">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GitHelperMixin</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ExtendedType</span><span class="p">,</span> <span class="n">mixin</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+	<span class="n">__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitHash</span><span class="p">:</span>           <span class="s2">&quot;%H&quot;</span><span class="p">,</span>
+		<span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitDateTime</span><span class="p">:</span>       <span class="s2">&quot;</span><span class="si">%c</span><span class="s2">t&quot;</span><span class="p">,</span>
+		<span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitAuthorName</span><span class="p">:</span>     <span class="s2">&quot;</span><span class="si">%a</span><span class="s2">n&quot;</span><span class="p">,</span>
+		<span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitAuthorEmail</span><span class="p">:</span>    <span class="s2">&quot;</span><span class="si">%a</span><span class="s2">e&quot;</span><span class="p">,</span>
+		<span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitCommitterName</span><span class="p">:</span>  <span class="s2">&quot;</span><span class="si">%c</span><span class="s2">n&quot;</span><span class="p">,</span>
+		<span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitCommitterEmail</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%c</span><span class="s2">e&quot;</span><span class="p">,</span>
+		<span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitComment</span><span class="p">:</span>        <span class="s2">&quot;%B&quot;</span><span class="p">,</span>
+	<span class="p">}</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">ExecuteGitShow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">:</span> <span class="n">GitShowCommand</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;HEAD&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="nb">format</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;--format=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__GIT_SHOW_COMMAND_TO_FORMAT_LOOKUP</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+
+		<span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;git&quot;</span>
+		<span class="n">arguments</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;show&quot;</span><span class="p">,</span> <span class="s2">&quot;-s&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">completed</span> <span class="o">=</span> <span class="n">subprocess_run</span><span class="p">((</span><span class="n">command</span><span class="p">,</span> <span class="o">*</span><span class="n">arguments</span><span class="p">),</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span>
+		<span class="k">except</span> <span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="n">ToolException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">ex</span><span class="p">))</span>
+
+		<span class="k">if</span> <span class="n">completed</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">comment</span> <span class="o">=</span> <span class="n">completed</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+			<span class="k">return</span> <span class="n">comment</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">message</span> <span class="o">=</span> <span class="n">completed</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="n">ToolException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Versioning">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Versioning">[docs]</a>
+<span class="nd">@export</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Versioning</span><span class="p">(</span><span class="n">ILineTerminal</span><span class="p">,</span> <span class="n">GitHelperMixin</span><span class="p">):</span>
+	<span class="n">_variables</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+	<span class="n">_platform</span><span class="p">:</span>  <span class="n">Platforms</span> <span class="o">=</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">Workstation</span>
+	<span class="n">_service</span><span class="p">:</span>   <span class="n">BaseService</span>
+
+<div class="viewcode-block" id="Versioning.__init__">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Versioning.__init__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">terminal</span><span class="p">:</span> <span class="n">ILineTerminal</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">terminal</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_variables</span> <span class="o">=</span> <span class="p">{</span>
+			<span class="s2">&quot;tool&quot;</span><span class="p">:</span> <span class="n">Tool</span><span class="p">(</span><span class="s2">&quot;pyVersioning&quot;</span><span class="p">,</span> <span class="n">SemanticVersion</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;v</span><span class="si">{</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+		<span class="p">}</span>
+
+		<span class="k">if</span> <span class="s2">&quot;APPVEYOR&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="o">=</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">AppVeyor</span>
+		<span class="k">elif</span> <span class="s2">&quot;GITHUB_ACTIONS&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="o">=</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">GitHub</span>
+		<span class="k">elif</span> <span class="s2">&quot;GITLAB_CI&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="o">=</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">GitLab</span>
+		<span class="k">elif</span> <span class="s2">&quot;TRAVIS&quot;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="o">=</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">Travis</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="o">=</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">Workstation</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">WriteDebug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Detected platform: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_platform</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">Variables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span>
+
+	<span class="nd">@readonly</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">Platform</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Platforms</span><span class="p">:</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_platform</span>
+
+<div class="viewcode-block" id="Versioning.LoadDataFromConfiguration">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Versioning.LoadDataFromConfiguration">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">LoadDataFromConfiguration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Configuration</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;Preload versioning information from a configuration file.&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetVersion</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">project</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="s2">&quot;project&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetProject</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">project</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="s2">&quot;build&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetBuild</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">build</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Versioning.CollectData">
+<a class="viewcode-back" href="../pyVersioning/pyVersioning.html#pyVersioning.Versioning.CollectData">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">CollectData</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;Collect versioning information from environment including CI services (if available).&quot;&quot;&quot;</span>
+
+		<span class="kn">from</span><span class="w"> </span><span class="nn">pyVersioning.AppVeyor</span><span class="w">      </span><span class="kn">import</span> <span class="n">AppVeyor</span>
+		<span class="kn">from</span><span class="w"> </span><span class="nn">pyVersioning.CIService</span><span class="w">     </span><span class="kn">import</span> <span class="n">WorkStation</span>
+		<span class="kn">from</span><span class="w"> </span><span class="nn">pyVersioning.GitLab</span><span class="w">        </span><span class="kn">import</span> <span class="n">GitLab</span>
+		<span class="kn">from</span><span class="w"> </span><span class="nn">pyVersioning.GitHub</span><span class="w">        </span><span class="kn">import</span> <span class="n">GitHub</span>
+		<span class="kn">from</span><span class="w"> </span><span class="nn">pyVersioning.Travis</span><span class="w">        </span><span class="kn">import</span> <span class="n">Travis</span>
+
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="ow">is</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">AppVeyor</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_service</span>                <span class="o">=</span> <span class="n">AppVeyor</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="s2">&quot;appveyor&quot;</span><span class="p">]</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">GetEnvironment</span><span class="p">()</span>
+		<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="ow">is</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">GitHub</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_service</span>                <span class="o">=</span> <span class="n">GitHub</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="s2">&quot;github&quot;</span><span class="p">]</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">GetEnvironment</span><span class="p">()</span>
+		<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="ow">is</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">GitLab</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_service</span>                <span class="o">=</span> <span class="n">GitLab</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="s2">&quot;gitlab&quot;</span><span class="p">]</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">GetEnvironment</span><span class="p">()</span>
+		<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="ow">is</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">Travis</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_service</span>                <span class="o">=</span> <span class="n">Travis</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="s2">&quot;travis&quot;</span><span class="p">]</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">GetEnvironment</span><span class="p">()</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_service</span>                <span class="o">=</span> <span class="n">WorkStation</span><span class="p">()</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="s2">&quot;git&quot;</span><span class="p">]</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetGitInformation</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="s2">&quot;platform&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">GetPlatform</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="s2">&quot;env&quot;</span><span class="p">]</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetEnvironment</span><span class="p">()</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">CalculateData</span><span class="p">()</span></div>
+
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">CalculateData</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="s2">&quot;git&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tag</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+			<span class="k">pass</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetVersion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Project</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">config</span><span class="o">.</span><span class="n">version</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">SemanticVersion</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="s2">&quot;0.0.0&quot;</span><span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetGitInformation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Git</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">Git</span><span class="p">(</span>
+			<span class="n">commit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetLastCommit</span><span class="p">(),</span>
+			<span class="n">tag</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetGitTag</span><span class="p">(),</span>
+			<span class="n">branch</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetGitLocalBranch</span><span class="p">(),</span>
+			<span class="n">repository</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetGitRemoteURL</span><span class="p">()</span>
+		<span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetLastCommit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Commit</span><span class="p">:</span>
+		<span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetCommitDate</span><span class="p">()</span>
+
+		<span class="k">return</span> <span class="n">Commit</span><span class="p">(</span>
+			<span class="nb">hash</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetGitHash</span><span class="p">(),</span>
+			<span class="n">date</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span>
+			<span class="n">time</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
+			<span class="n">author</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetCommitAuthor</span><span class="p">(),</span>
+			<span class="n">committer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetCommitCommitter</span><span class="p">(),</span>
+			<span class="n">comment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetCommitComment</span><span class="p">()</span>
+		<span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetGitHash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">Workstation</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">GetGitHash</span><span class="p">()</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExecuteGitShow</span><span class="p">(</span><span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitHash</span><span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetCommitDate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">Workstation</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">GetCommitDate</span><span class="p">()</span>
+
+		<span class="n">datetimeString</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExecuteGitShow</span><span class="p">(</span><span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitDateTime</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">datetimeString</span><span class="p">))</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetCommitAuthor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Person</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">Person</span><span class="p">(</span>
+			<span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetCommitAuthorName</span><span class="p">(),</span>
+			<span class="n">email</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetCommitAuthorEmail</span><span class="p">()</span>
+		<span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetCommitAuthorName</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExecuteGitShow</span><span class="p">(</span><span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitAuthorName</span><span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetCommitAuthorEmail</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExecuteGitShow</span><span class="p">(</span><span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitAuthorEmail</span><span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetCommitCommitter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Person</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">Person</span><span class="p">(</span>
+			<span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetCommitCommitterName</span><span class="p">(),</span>
+			<span class="n">email</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetCommitCommitterEmail</span><span class="p">()</span>
+		<span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetCommitCommitterName</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExecuteGitShow</span><span class="p">(</span><span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitCommitterName</span><span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetCommitCommitterEmail</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExecuteGitShow</span><span class="p">(</span><span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitCommitterEmail</span><span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetCommitComment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExecuteGitShow</span><span class="p">(</span><span class="n">GitShowCommand</span><span class="o">.</span><span class="n">CommitComment</span><span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetGitLocalBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">Workstation</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">GetGitBranch</span><span class="p">()</span>
+
+		<span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;git&quot;</span>
+		<span class="n">arguments</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;branch&quot;</span><span class="p">,</span> <span class="s2">&quot;--show-current&quot;</span><span class="p">)</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">completed</span> <span class="o">=</span> <span class="n">subprocess_run</span><span class="p">((</span><span class="n">command</span><span class="p">,</span> <span class="o">*</span><span class="n">arguments</span><span class="p">),</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span>
+		<span class="k">except</span> <span class="n">CalledProcessError</span><span class="p">:</span>
+			<span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="n">completed</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">completed</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">message</span> <span class="o">=</span> <span class="n">completed</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">WriteFatal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Message from &#39;</span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetGitRemoteBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">localBranch</span><span class="p">:</span> <span class="n">Nullable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">Workstation</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">GetGitBranch</span><span class="p">()</span>
+
+		<span class="k">if</span> <span class="n">localBranch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">localBranch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetGitLocalBranch</span><span class="p">()</span>
+
+		<span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;git&quot;</span>
+		<span class="n">arguments</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;branch.</span><span class="si">{</span><span class="n">localBranch</span><span class="si">}</span><span class="s2">.merge&quot;</span><span class="p">)</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">completed</span> <span class="o">=</span> <span class="n">subprocess_run</span><span class="p">((</span><span class="n">command</span><span class="p">,</span> <span class="o">*</span><span class="n">arguments</span><span class="p">),</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span>
+		<span class="k">except</span> <span class="n">CalledProcessError</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>  <span class="c1"># XXX: needs error message</span>
+
+		<span class="k">if</span> <span class="n">completed</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">completed</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">message</span> <span class="o">=</span> <span class="n">completed</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">WriteFatal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Message from &#39;</span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>  <span class="c1"># XXX: needs error message</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetGitRemote</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">localBranch</span><span class="p">:</span> <span class="n">Nullable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">localBranch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">localBranch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetGitLocalBranch</span><span class="p">()</span>
+
+		<span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;git&quot;</span>
+		<span class="n">arguments</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;branch.</span><span class="si">{</span><span class="n">localBranch</span><span class="si">}</span><span class="s2">.remote&quot;</span><span class="p">)</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">completed</span> <span class="o">=</span> <span class="n">subprocess_run</span><span class="p">((</span><span class="n">command</span><span class="p">,</span> <span class="o">*</span><span class="n">arguments</span><span class="p">),</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span>
+		<span class="k">except</span> <span class="n">CalledProcessError</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>  <span class="c1"># XXX: needs error message</span>
+
+		<span class="k">if</span> <span class="n">completed</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">completed</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+		<span class="k">elif</span> <span class="n">completed</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">WriteWarning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Branch &#39;</span><span class="si">{</span><span class="n">localBranch</span><span class="si">}</span><span class="s2">&#39; is not pushed to a remote.&quot;</span><span class="p">)</span>
+			<span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(local) </span><span class="si">{</span><span class="n">localBranch</span><span class="si">}</span><span class="s2">&quot;</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">message</span> <span class="o">=</span> <span class="n">completed</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">WriteFatal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Message from &#39;</span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>  <span class="c1"># XXX: needs error message</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetGitTag</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">Workstation</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">GetGitTag</span><span class="p">()</span>
+
+		<span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;git&quot;</span>
+		<span class="n">arguments</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;tag&quot;</span><span class="p">,</span> <span class="s2">&quot;--points-at&quot;</span><span class="p">,</span> <span class="s2">&quot;HEAD&quot;</span><span class="p">)</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">completed</span> <span class="o">=</span> <span class="n">subprocess_run</span><span class="p">((</span><span class="n">command</span><span class="p">,</span> <span class="o">*</span><span class="n">arguments</span><span class="p">),</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span>
+		<span class="k">except</span> <span class="n">CalledProcessError</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>  <span class="c1"># XXX: needs error message</span>
+
+		<span class="k">if</span> <span class="n">completed</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">completed</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">message</span> <span class="o">=</span> <span class="n">completed</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">WriteFatal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Message from &#39;</span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>  <span class="c1"># XXX: needs error message</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetGitRemoteURL</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote</span><span class="p">:</span> <span class="n">Nullable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_platform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Platforms</span><span class="o">.</span><span class="n">Workstation</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">GetGitRepository</span><span class="p">()</span>
+
+		<span class="k">if</span> <span class="n">remote</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">remote</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetGitRemote</span><span class="p">()</span>
+
+		<span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;git&quot;</span>
+		<span class="n">arguments</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;remote.</span><span class="si">{</span><span class="n">remote</span><span class="si">}</span><span class="s2">.url&quot;</span><span class="p">)</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">completed</span> <span class="o">=</span> <span class="n">subprocess_run</span><span class="p">((</span><span class="n">command</span><span class="p">,</span> <span class="o">*</span><span class="n">arguments</span><span class="p">),</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span>
+		<span class="k">except</span> <span class="n">CalledProcessError</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>  <span class="c1"># XXX: needs error message</span>
+
+		<span class="k">if</span> <span class="n">completed</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">completed</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">message</span> <span class="o">=</span> <span class="n">completed</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">WriteFatal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Message from &#39;</span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>  <span class="c1"># XXX: needs error message</span>
+
+	<span class="c1"># 		self.WriteFatal(f&quot;Message from &#39;{command}&#39;: {message}&quot;)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetProject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Project</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Project</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">Project</span><span class="p">(</span>
+			<span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+			<span class="n">version</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+			<span class="n">variant</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">variant</span>
+		<span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetBuild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Build</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Build</span><span class="p">:</span>
+		<span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+		<span class="k">return</span> <span class="n">Build</span><span class="p">(</span>
+			<span class="n">date</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span>
+			<span class="n">time</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
+			<span class="n">compiler</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetCompiler</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">compiler</span><span class="p">)</span>
+		<span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetCompiler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Compiler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Compiler</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">Compiler</span><span class="p">(</span>
+			<span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+			<span class="n">version</span><span class="o">=</span><span class="n">SemanticVersion</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">version</span><span class="p">),</span>
+			<span class="n">configuration</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">configuration</span><span class="p">,</span>
+			<span class="n">options</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">options</span>
+		<span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">GetEnvironment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+		<span class="n">env</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">environ</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="o">.</span><span class="n">isidentifier</span><span class="p">():</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">WriteWarning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping environment variable &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;, because it&#39;s not a valid Python identifier.&quot;</span><span class="p">)</span>
+				<span class="k">continue</span>
+			<span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+			<span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+			<span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+			<span class="n">env</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+		<span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+			<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">env</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+				<span class="k">yield</span> <span class="n">e</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+		<span class="n">Environment</span> <span class="o">=</span> <span class="n">make_dataclass</span><span class="p">(</span>
+			<span class="s2">&quot;Environment&quot;</span><span class="p">,</span>
+			<span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">env</span><span class="o">.</span><span class="n">keys</span><span class="p">()],</span>
+<span class="c1">#			bases=(SelfDescriptive,),</span>
+			<span class="n">namespace</span><span class="o">=</span><span class="p">{</span>
+				<span class="s2">&quot;as_dict&quot;</span><span class="p">:</span>       <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">env</span><span class="p">,</span>
+				<span class="s2">&quot;Keys&quot;</span><span class="p">:</span>          <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">env</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+				<span class="s2">&quot;KeyValuePairs&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+			<span class="p">},</span>
+			<span class="nb">repr</span><span class="o">=</span><span class="kc">True</span>
+		<span class="p">)</span>
+
+		<span class="k">return</span> <span class="n">Environment</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">)</span>
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">FillOutTemplate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="c1"># apply variables</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+		<span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">WriteFatal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Syntax error in template. Accessing field &#39;</span><span class="si">{</span><span class="n">ex</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; of &#39;</span><span class="si">{</span><span class="n">ex</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020-2025, Patrick Lehmann.
+      <span class="lastupdated">Last updated on 17.10.2025.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

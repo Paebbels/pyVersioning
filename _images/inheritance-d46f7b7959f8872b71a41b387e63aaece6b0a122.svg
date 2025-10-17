@@ -1,0 +1,59 @@
+<ns0:svg xmlns:ns0="http://www.w3.org/2000/svg" xmlns:ns1="http://www.w3.org/1999/xlink" width="295pt" height="64pt" viewBox="0.00 0.00 295.00 64.00">
+<ns0:g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 60)">
+<ns0:title>inheritancec499d40169</ns0:title>
+
+<ns0:g id="node1" class="node">
+<ns0:title>AppVeyor</ns0:title>
+<ns0:g id="a_node1"><ns0:a ns1:href="../pyVersioning/pyVersioning.AppVeyor.html#pyVersioning.AppVeyor.AppVeyor" ns1:title="Collect Git and other platform and environment information from environment variables provided by AppVeyor." target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="287,-37 224,-37 224,-18 287,-18 287,-37" />
+<ns0:text text-anchor="middle" x="255.5" y="-25" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">AppVeyor</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="node2" class="node">
+<ns0:title>CIService</ns0:title>
+<ns0:g id="a_node2"><ns0:a ns1:href="../pyVersioning/pyVersioning.CIService.html#pyVersioning.CIService.CIService" ns1:title="Base-class to collect Git and other platform and environment information from CI service environment variables." target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="188,-37 126,-37 126,-18 188,-18 188,-37" />
+<ns0:text text-anchor="middle" x="157" y="-25" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">CIService</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="edge1" class="edge">
+<ns0:title>CIService-&gt;AppVeyor</ns0:title>
+<ns0:path fill="none" stroke="black" stroke-width="0.5" d="M188,-27.5C197.71,-27.5 208.57,-27.5 218.66,-27.5" />
+<ns0:polygon fill="black" stroke="black" stroke-width="0.5" points="218.85,-29.25 223.85,-27.5 218.85,-25.75 218.85,-29.25" />
+</ns0:g>
+
+<ns0:g id="node3" class="node">
+<ns0:title>BaseService</ns0:title>
+<ns0:g id="a_node3"><ns0:a ns1:href="../pyVersioning/pyVersioning.html#pyVersioning.BaseService" ns1:title="Base-class to collect platform and environment information from e.g. environment variables." target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="83.5,-56 6.5,-56 6.5,-37 83.5,-37 83.5,-56" />
+<ns0:text text-anchor="middle" x="45" y="-44" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">BaseService</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="edge2" class="edge">
+<ns0:title>BaseService-&gt;CIService</ns0:title>
+<ns0:path fill="none" stroke="black" stroke-width="0.5" d="M83.55,-40.01C95.64,-37.93 108.98,-35.62 120.89,-33.56" />
+<ns0:polygon fill="black" stroke="black" stroke-width="0.5" points="121.27,-35.28 125.9,-32.7 120.67,-31.83 121.27,-35.28" />
+</ns0:g>
+
+<ns0:g id="node4" class="node">
+<ns0:title>GitHelperMixin</ns0:title>
+<ns0:g id="a_node4"><ns0:a ns1:href="../pyVersioning/pyVersioning.html#pyVersioning.GitHelperMixin" ns1:title="GitHelperMixin" target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="90,-19 0,-19 0,0 90,0 90,-19" />
+<ns0:text text-anchor="middle" x="45" y="-7" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">GitHelperMixin</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="edge3" class="edge">
+<ns0:title>GitHelperMixin-&gt;CIService</ns0:title>
+<ns0:path fill="none" stroke="black" stroke-width="0.5" d="M90.11,-16.72C100.29,-18.38 110.99,-20.13 120.73,-21.73" />
+<ns0:polygon fill="black" stroke="black" stroke-width="0.5" points="120.52,-23.47 125.73,-22.55 121.08,-20.01 120.52,-23.47" />
+</ns0:g>
+</ns0:g>
+</ns0:svg>

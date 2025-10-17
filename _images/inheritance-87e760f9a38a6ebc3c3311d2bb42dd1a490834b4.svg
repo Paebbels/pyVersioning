@@ -1,0 +1,44 @@
+<ns0:svg xmlns:ns0="http://www.w3.org/2000/svg" xmlns:ns1="http://www.w3.org/1999/xlink" width="189pt" height="64pt" viewBox="0.00 0.00 189.00 64.00">
+<ns0:g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 60)">
+<ns0:title>inheritancec613f1d7ec</ns0:title>
+
+<ns0:g id="node1" class="node">
+<ns0:title>SelfDescriptive</ns0:title>
+<ns0:g id="a_node1"><ns0:a ns1:href="../pyVersioning/pyVersioning.html#pyVersioning.SelfDescriptive" ns1:title="SelfDescriptive" target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="91,-56 0,-56 0,-37 91,-37 91,-56" />
+<ns0:text text-anchor="middle" x="45.5" y="-44" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">SelfDescriptive</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="node2" class="node">
+<ns0:title>Time</ns0:title>
+<ns0:g id="a_node2"><ns0:a ns1:href="../pyVersioning/pyVersioning.html#pyVersioning.Time" ns1:title="This data structure class describes a time (hh:mm:ss)." target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="181,-37 127,-37 127,-18 181,-18 181,-37" />
+<ns0:text text-anchor="middle" x="154" y="-25" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">Time</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="edge2" class="edge">
+<ns0:title>SelfDescriptive-&gt;Time</ns0:title>
+<ns0:path fill="none" stroke="black" stroke-width="0.5" d="M91.05,-38.55C101.44,-36.7 112.28,-34.77 121.93,-33.04" />
+<ns0:polygon fill="black" stroke="black" stroke-width="0.5" points="122.25,-34.76 126.87,-32.16 121.64,-31.32 122.25,-34.76" />
+</ns0:g>
+
+<ns0:g id="node3" class="node">
+<ns0:title>time</ns0:title>
+<ns0:g id="a_node3"><ns0:a ns1:href="https://docs.python.org/3/library/datetime.html#datetime.time" ns1:title="time([hour[, minute[, second[, microsecond[, tzinfo]]]]]) --&gt; a time object" target="_top">
+<ns0:polygon fill="white" stroke="#1e90ff" points="72.5,-19 18.5,-19 18.5,0 72.5,0 72.5,-19" />
+<ns0:text text-anchor="middle" x="45.5" y="-7" font-family="Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans" font-size="10.00">time</ns0:text>
+</ns0:a>
+</ns0:g>
+</ns0:g>
+
+<ns0:g id="edge1" class="edge">
+<ns0:title>time-&gt;Time</ns0:title>
+<ns0:path fill="none" stroke="black" stroke-width="0.5" d="M72.55,-13.9C87.38,-16.41 106.05,-19.57 121.68,-22.21" />
+<ns0:polygon fill="black" stroke="black" stroke-width="0.5" points="121.63,-23.97 126.85,-23.08 122.21,-20.52 121.63,-23.97" />
+</ns0:g>
+</ns0:g>
+</ns0:svg>

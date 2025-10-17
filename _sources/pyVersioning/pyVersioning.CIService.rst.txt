@@ -1,0 +1,73 @@
+.. # Template modified by Patrick Lehmann
+     * removed automodule on top, because private members are activated for autodoc (no doubled documentation).
+     * Made sections like 'submodules' bold text, but no headlines to reduce number of ToC levels.
+
+======================
+pyVersioning.CIService
+======================
+
+.. automodule:: pyVersioning.CIService
+
+
+.. currentmodule:: pyVersioning.CIService
+
+
+**Exceptions**
+
+- :py:exc:`ServiceException`:
+  .. todo::
+
+
+
+**Classes**
+
+- :py:class:`CIService`:
+  Base-class to collect Git and other platform and environment information from CI service environment variables.
+
+- :py:class:`WorkStation`:
+  Base-class to collect platform and environment information from e.g. environment variables.
+
+
+
+---------------------
+
+**Exceptions**
+
+
+
+
+.. autoexception:: ServiceException
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: ServiceException
+      :parts: 1
+
+
+---------------------
+
+**Classes**
+
+
+
+
+.. autoclass:: CIService
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: CIService
+      :parts: 1
+
+.. autoclass:: WorkStation
+   :members:
+   :private-members:
+   :special-members:
+   :inherited-members:
+   :exclude-members: __weakref__
+
+   .. rubric:: Inheritance
+   .. inheritance-diagram:: WorkStation
+      :parts: 1

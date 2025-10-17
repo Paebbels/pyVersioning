@@ -1,0 +1,1930 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Class Reference &mdash; pyVersioning 0.18.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=55b73dce" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-reports.089ed2e62f89368aa21ac7591d90c12a.css?v=83177741" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=aed75351" />
+
+  
+    <link rel="shortcut icon" href="../_static/icon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8dd6f163"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pyVersioning.AppVeyor" href="pyVersioning.AppVeyor.html" />
+    <link rel="prev" title="Command Line Interfaces" href="../CommandLineInterface.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation/Updates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Dependency.html">Dependencies</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Details</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../VersionControlSystems.html">Supported Version Control Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CIServices.html">Supported CI Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Languages.html">Supported Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ConfigurationFile.html">Configuration File</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Templates</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Templates/index.html">Writing Templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Templates/C.html">ANSI-C</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Templates/CXX.html">C++</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/C.html">ANSI-C</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/CXX.html">C++</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/VHDL.html">VHDL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References and Reports</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../CommandLineInterface.html">Command Line Interfaces</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python Class Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.AppVeyor.html">pyVersioning.AppVeyor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.CIService.html">pyVersioning.CIService</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.CLI.html">pyVersioning.CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.Configuration.html">pyVersioning.Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.GitHub.html">pyVersioning.GitHub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.GitLab.html">pyVersioning.GitLab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyVersioning.Travis.html">pyVersioning.Travis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.VersioningException"><code class="docutils literal notranslate"><span class="pre">VersioningException</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.ToolException"><code class="docutils literal notranslate"><span class="pre">ToolException</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.SelfDescriptive"><code class="docutils literal notranslate"><span class="pre">SelfDescriptive</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.Tool"><code class="docutils literal notranslate"><span class="pre">Tool</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Tool.__init__"><code class="docutils literal notranslate"><span class="pre">Tool.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Tool._name"><code class="docutils literal notranslate"><span class="pre">Tool._name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Tool._version"><code class="docutils literal notranslate"><span class="pre">Tool._version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Tool.name"><code class="docutils literal notranslate"><span class="pre">Tool.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Tool.version"><code class="docutils literal notranslate"><span class="pre">Tool.version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Tool.__str__"><code class="docutils literal notranslate"><span class="pre">Tool.__str__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.Date"><code class="docutils literal notranslate"><span class="pre">Date</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__add__"><code class="docutils literal notranslate"><span class="pre">Date.__add__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__eq__"><code class="docutils literal notranslate"><span class="pre">Date.__eq__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__format__"><code class="docutils literal notranslate"><span class="pre">Date.__format__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__ge__"><code class="docutils literal notranslate"><span class="pre">Date.__ge__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__gt__"><code class="docutils literal notranslate"><span class="pre">Date.__gt__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__hash__"><code class="docutils literal notranslate"><span class="pre">Date.__hash__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__le__"><code class="docutils literal notranslate"><span class="pre">Date.__le__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__lt__"><code class="docutils literal notranslate"><span class="pre">Date.__lt__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__ne__"><code class="docutils literal notranslate"><span class="pre">Date.__ne__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__new__"><code class="docutils literal notranslate"><span class="pre">Date.__new__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__radd__"><code class="docutils literal notranslate"><span class="pre">Date.__radd__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__reduce__"><code class="docutils literal notranslate"><span class="pre">Date.__reduce__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__replace__"><code class="docutils literal notranslate"><span class="pre">Date.__replace__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__repr__"><code class="docutils literal notranslate"><span class="pre">Date.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__rsub__"><code class="docutils literal notranslate"><span class="pre">Date.__rsub__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__str__"><code class="docutils literal notranslate"><span class="pre">Date.__str__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.__sub__"><code class="docutils literal notranslate"><span class="pre">Date.__sub__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.ctime"><code class="docutils literal notranslate"><span class="pre">Date.ctime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.fromisocalendar"><code class="docutils literal notranslate"><span class="pre">Date.fromisocalendar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.fromisoformat"><code class="docutils literal notranslate"><span class="pre">Date.fromisoformat()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.fromordinal"><code class="docutils literal notranslate"><span class="pre">Date.fromordinal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.fromtimestamp"><code class="docutils literal notranslate"><span class="pre">Date.fromtimestamp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.isocalendar"><code class="docutils literal notranslate"><span class="pre">Date.isocalendar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.isoformat"><code class="docutils literal notranslate"><span class="pre">Date.isoformat()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.isoweekday"><code class="docutils literal notranslate"><span class="pre">Date.isoweekday()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.replace"><code class="docutils literal notranslate"><span class="pre">Date.replace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.strftime"><code class="docutils literal notranslate"><span class="pre">Date.strftime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.timetuple"><code class="docutils literal notranslate"><span class="pre">Date.timetuple()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.today"><code class="docutils literal notranslate"><span class="pre">Date.today()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.toordinal"><code class="docutils literal notranslate"><span class="pre">Date.toordinal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Date.weekday"><code class="docutils literal notranslate"><span class="pre">Date.weekday()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.Time"><code class="docutils literal notranslate"><span class="pre">Time</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__eq__"><code class="docutils literal notranslate"><span class="pre">Time.__eq__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__format__"><code class="docutils literal notranslate"><span class="pre">Time.__format__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__ge__"><code class="docutils literal notranslate"><span class="pre">Time.__ge__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__gt__"><code class="docutils literal notranslate"><span class="pre">Time.__gt__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__hash__"><code class="docutils literal notranslate"><span class="pre">Time.__hash__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__le__"><code class="docutils literal notranslate"><span class="pre">Time.__le__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__lt__"><code class="docutils literal notranslate"><span class="pre">Time.__lt__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__ne__"><code class="docutils literal notranslate"><span class="pre">Time.__ne__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__new__"><code class="docutils literal notranslate"><span class="pre">Time.__new__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__reduce__"><code class="docutils literal notranslate"><span class="pre">Time.__reduce__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__reduce_ex__"><code class="docutils literal notranslate"><span class="pre">Time.__reduce_ex__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__replace__"><code class="docutils literal notranslate"><span class="pre">Time.__replace__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__repr__"><code class="docutils literal notranslate"><span class="pre">Time.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.__str__"><code class="docutils literal notranslate"><span class="pre">Time.__str__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.dst"><code class="docutils literal notranslate"><span class="pre">Time.dst()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.fromisoformat"><code class="docutils literal notranslate"><span class="pre">Time.fromisoformat()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.isoformat"><code class="docutils literal notranslate"><span class="pre">Time.isoformat()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.replace"><code class="docutils literal notranslate"><span class="pre">Time.replace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.strftime"><code class="docutils literal notranslate"><span class="pre">Time.strftime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.tzname"><code class="docutils literal notranslate"><span class="pre">Time.tzname()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Time.utcoffset"><code class="docutils literal notranslate"><span class="pre">Time.utcoffset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.Person"><code class="docutils literal notranslate"><span class="pre">Person</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Person.__init__"><code class="docutils literal notranslate"><span class="pre">Person.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Person._name"><code class="docutils literal notranslate"><span class="pre">Person._name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Person._email"><code class="docutils literal notranslate"><span class="pre">Person._email</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Person.name"><code class="docutils literal notranslate"><span class="pre">Person.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Person.email"><code class="docutils literal notranslate"><span class="pre">Person.email</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Person.__str__"><code class="docutils literal notranslate"><span class="pre">Person.__str__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.Commit"><code class="docutils literal notranslate"><span class="pre">Commit</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Commit.__init__"><code class="docutils literal notranslate"><span class="pre">Commit.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Commit.hash"><code class="docutils literal notranslate"><span class="pre">Commit.hash</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Commit.date"><code class="docutils literal notranslate"><span class="pre">Commit.date</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Commit.time"><code class="docutils literal notranslate"><span class="pre">Commit.time</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Commit.author"><code class="docutils literal notranslate"><span class="pre">Commit.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Commit.committer"><code class="docutils literal notranslate"><span class="pre">Commit.committer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Commit.comment"><code class="docutils literal notranslate"><span class="pre">Commit.comment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Commit.__str__"><code class="docutils literal notranslate"><span class="pre">Commit.__str__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.Git"><code class="docutils literal notranslate"><span class="pre">Git</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Git.__init__"><code class="docutils literal notranslate"><span class="pre">Git.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Git._commit"><code class="docutils literal notranslate"><span class="pre">Git._commit</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Git._tag"><code class="docutils literal notranslate"><span class="pre">Git._tag</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Git._branch"><code class="docutils literal notranslate"><span class="pre">Git._branch</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Git._repository"><code class="docutils literal notranslate"><span class="pre">Git._repository</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Git._reference"><code class="docutils literal notranslate"><span class="pre">Git._reference</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Git.commit"><code class="docutils literal notranslate"><span class="pre">Git.commit</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Git.reference"><code class="docutils literal notranslate"><span class="pre">Git.reference</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Git.tag"><code class="docutils literal notranslate"><span class="pre">Git.tag</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Git.branch"><code class="docutils literal notranslate"><span class="pre">Git.branch</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Git.repository"><code class="docutils literal notranslate"><span class="pre">Git.repository</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Git.__str__"><code class="docutils literal notranslate"><span class="pre">Git.__str__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.Project"><code class="docutils literal notranslate"><span class="pre">Project</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Project.__init__"><code class="docutils literal notranslate"><span class="pre">Project.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Project._name"><code class="docutils literal notranslate"><span class="pre">Project._name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Project._variant"><code class="docutils literal notranslate"><span class="pre">Project._variant</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Project._version"><code class="docutils literal notranslate"><span class="pre">Project._version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Project.name"><code class="docutils literal notranslate"><span class="pre">Project.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Project.variant"><code class="docutils literal notranslate"><span class="pre">Project.variant</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Project.version"><code class="docutils literal notranslate"><span class="pre">Project.version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Project.__str__"><code class="docutils literal notranslate"><span class="pre">Project.__str__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.Compiler"><code class="docutils literal notranslate"><span class="pre">Compiler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Compiler.__init__"><code class="docutils literal notranslate"><span class="pre">Compiler.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Compiler._name"><code class="docutils literal notranslate"><span class="pre">Compiler._name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Compiler._configuration"><code class="docutils literal notranslate"><span class="pre">Compiler._configuration</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Compiler._options"><code class="docutils literal notranslate"><span class="pre">Compiler._options</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Compiler._version"><code class="docutils literal notranslate"><span class="pre">Compiler._version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Compiler.name"><code class="docutils literal notranslate"><span class="pre">Compiler.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Compiler.version"><code class="docutils literal notranslate"><span class="pre">Compiler.version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Compiler.configuration"><code class="docutils literal notranslate"><span class="pre">Compiler.configuration</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Compiler.options"><code class="docutils literal notranslate"><span class="pre">Compiler.options</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Compiler.__str__"><code class="docutils literal notranslate"><span class="pre">Compiler.__str__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.Build"><code class="docutils literal notranslate"><span class="pre">Build</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Build.__init__"><code class="docutils literal notranslate"><span class="pre">Build.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Build._date"><code class="docutils literal notranslate"><span class="pre">Build._date</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Build._time"><code class="docutils literal notranslate"><span class="pre">Build._time</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Build._compiler"><code class="docutils literal notranslate"><span class="pre">Build._compiler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Build.date"><code class="docutils literal notranslate"><span class="pre">Build.date</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Build.time"><code class="docutils literal notranslate"><span class="pre">Build.time</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.Platforms"><code class="docutils literal notranslate"><span class="pre">Platforms</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Platforms.Workstation"><code class="docutils literal notranslate"><span class="pre">Platforms.Workstation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Platforms.AppVeyor"><code class="docutils literal notranslate"><span class="pre">Platforms.AppVeyor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Platforms.GitHub"><code class="docutils literal notranslate"><span class="pre">Platforms.GitHub</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Platforms.GitLab"><code class="docutils literal notranslate"><span class="pre">Platforms.GitLab</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Platforms.Travis"><code class="docutils literal notranslate"><span class="pre">Platforms.Travis</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Platforms.__contains__"><code class="docutils literal notranslate"><span class="pre">Platforms.__contains__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Platforms.__getitem__"><code class="docutils literal notranslate"><span class="pre">Platforms.__getitem__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Platforms.__iter__"><code class="docutils literal notranslate"><span class="pre">Platforms.__iter__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Platforms.__len__"><code class="docutils literal notranslate"><span class="pre">Platforms.__len__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.Platform"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Platform.__init__"><code class="docutils literal notranslate"><span class="pre">Platform.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.BaseService"><code class="docutils literal notranslate"><span class="pre">BaseService</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.BaseService.GetPlatform"><code class="docutils literal notranslate"><span class="pre">BaseService.GetPlatform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.GitShowCommand"><code class="docutils literal notranslate"><span class="pre">GitShowCommand</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.GitShowCommand.__contains__"><code class="docutils literal notranslate"><span class="pre">GitShowCommand.__contains__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.GitShowCommand.__getitem__"><code class="docutils literal notranslate"><span class="pre">GitShowCommand.__getitem__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.GitShowCommand.__iter__"><code class="docutils literal notranslate"><span class="pre">GitShowCommand.__iter__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.GitShowCommand.__len__"><code class="docutils literal notranslate"><span class="pre">GitShowCommand.__len__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.GitHelperMixin"><code class="docutils literal notranslate"><span class="pre">GitHelperMixin</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyVersioning.Versioning"><code class="docutils literal notranslate"><span class="pre">Versioning</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.Terminal"><code class="docutils literal notranslate"><span class="pre">Versioning.Terminal</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.WriteCritical"><code class="docutils literal notranslate"><span class="pre">Versioning.WriteCritical()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.WriteDebug"><code class="docutils literal notranslate"><span class="pre">Versioning.WriteDebug()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.WriteDryRun"><code class="docutils literal notranslate"><span class="pre">Versioning.WriteDryRun()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.WriteError"><code class="docutils literal notranslate"><span class="pre">Versioning.WriteError()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.WriteFatal"><code class="docutils literal notranslate"><span class="pre">Versioning.WriteFatal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.WriteInfo"><code class="docutils literal notranslate"><span class="pre">Versioning.WriteInfo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.WriteLine"><code class="docutils literal notranslate"><span class="pre">Versioning.WriteLine()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.WriteNormal"><code class="docutils literal notranslate"><span class="pre">Versioning.WriteNormal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.WriteQuiet"><code class="docutils literal notranslate"><span class="pre">Versioning.WriteQuiet()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.WriteVerbose"><code class="docutils literal notranslate"><span class="pre">Versioning.WriteVerbose()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.WriteWarning"><code class="docutils literal notranslate"><span class="pre">Versioning.WriteWarning()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.__init__"><code class="docutils literal notranslate"><span class="pre">Versioning.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.LoadDataFromConfiguration"><code class="docutils literal notranslate"><span class="pre">Versioning.LoadDataFromConfiguration()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyVersioning.Versioning.CollectData"><code class="docutils literal notranslate"><span class="pre">Versioning.CollectData()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../unittests/index.html">Unittest Summary Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coverage/index.html">Code Coverage Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CodeCoverage.html">Code Coverage Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DocCoverage.html">Doc. Coverage Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../typing/index.html">Static Type Check Report ➚</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../License.html">Apache License 2.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Doc-License.html">Creative Commons Attribution 4.0 International</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../py-modindex.html">Python Module Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TODO.html">TODOs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyVersioning</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Python Class Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/pyVersioning/pyVersioning.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <style type="text/css">
+  span.bolditalic {font-weight: bold; font-style: italic; }
+  span.underline {text-decoration: underline; }
+  span.strike {text-decoration: line-through; }
+  span.xlarge {font-size: x-large; }
+  span.colorred {color: #CC0000; }
+  span.colorgreen {color: #009933; }
+  span.colorblue {color: #0066FF; }
+  span.colorpurple {color: #9900CC; }
+</style><section id="python-class-reference">
+<h1>Python Class Reference<a class="headerlink" href="#python-class-reference" title="Link to this heading"></a></h1>
+<p>Reference of all packages and modules:</p>
+<p id="module-pyVersioning"><strong>Submodules</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyVersioning.AppVeyor.html">pyVersioning.AppVeyor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyVersioning.CIService.html">pyVersioning.CIService</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyVersioning.CLI.html">pyVersioning.CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyVersioning.Configuration.html">pyVersioning.Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyVersioning.GitHub.html">pyVersioning.GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyVersioning.GitLab.html">pyVersioning.GitLab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyVersioning.Travis.html">pyVersioning.Travis</a></li>
+</ul>
+</div>
+<p><strong>Exceptions</strong></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#pyVersioning.VersioningException" title="pyVersioning.VersioningException"><code class="xref py py-exc docutils literal notranslate"><span class="pre">VersioningException</span></code></a>:
+Base-exception for all exceptions thrown by pyVersioning.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.ToolException" title="pyVersioning.ToolException"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ToolException</span></code></a>:
+Exception thrown when a data collection tools has an error.</p></li>
+</ul>
+<p><strong>Classes</strong></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#pyVersioning.SelfDescriptive" title="pyVersioning.SelfDescriptive"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelfDescriptive</span></code></a>:
+Undocumented.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.Tool" title="pyVersioning.Tool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tool</span></code></a>:
+This data structure class describes the tool name and version of pyVersioning.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.Date" title="pyVersioning.Date"><code class="xref py py-class docutils literal notranslate"><span class="pre">Date</span></code></a>:
+This data structure class describes a date (dd.mm.yyyy).</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.Time" title="pyVersioning.Time"><code class="xref py py-class docutils literal notranslate"><span class="pre">Time</span></code></a>:
+This data structure class describes a time (hh:mm:ss).</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.Person" title="pyVersioning.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">Person</span></code></a>:
+This data structure class describes a person with name and email address.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.Commit" title="pyVersioning.Commit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Commit</span></code></a>:
+This data structure class describes a Git commit with Hash, commit date and time, committer, author and commit</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.Git" title="pyVersioning.Git"><code class="xref py py-class docutils literal notranslate"><span class="pre">Git</span></code></a>:
+This data structure class describes all collected data from Git.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.Project" title="pyVersioning.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">Project</span></code></a>:
+This data structure class describes a project.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.Compiler" title="pyVersioning.Compiler"><code class="xref py py-class docutils literal notranslate"><span class="pre">Compiler</span></code></a>:
+Undocumented.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.Build" title="pyVersioning.Build"><code class="xref py py-class docutils literal notranslate"><span class="pre">Build</span></code></a>:
+Undocumented.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.Platforms" title="pyVersioning.Platforms"><code class="xref py py-class docutils literal notranslate"><span class="pre">Platforms</span></code></a>:
+An enumeration of platforms supported by pyTooling.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.Platform" title="pyVersioning.Platform"><code class="xref py py-class docutils literal notranslate"><span class="pre">Platform</span></code></a>:
+.. todo:: Platform needs documentation</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.BaseService" title="pyVersioning.BaseService"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseService</span></code></a>:
+Base-class to collect platform and environment information from e.g. environment variables.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.GitShowCommand" title="pyVersioning.GitShowCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GitShowCommand</span></code></a>:
+Create a collection of name/value pairs.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.GitHelperMixin" title="pyVersioning.GitHelperMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">GitHelperMixin</span></code></a>:
+Undocumented.</p></li>
+<li><p><a class="reference internal" href="#pyVersioning.Versioning" title="pyVersioning.Versioning"><code class="xref py py-class docutils literal notranslate"><span class="pre">Versioning</span></code></a>:
+A mixin class (interface) to provide class-local terminal writing methods.</p></li>
+</ul>
+<hr class="docutils" />
+<p><strong>Exceptions</strong></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="pyVersioning.VersioningException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">VersioningException</span></span><a class="reference internal" href="../_modules/pyVersioning.html#VersioningException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.VersioningException" title="Link to this definition"></a></dt>
+<dd><p>Base-exception for all exceptions thrown by pyVersioning.</p>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-2a2fc46c74e4c720891350983eaad460acbae930.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of VersioningException</p></object></div>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="pyVersioning.ToolException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">ToolException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errorMessage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#ToolException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.ToolException" title="Link to this definition"></a></dt>
+<dd><p>Exception thrown when a data collection tools has an error.</p>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-413e128f866dd2eef6ae82573c0271e83c66350f.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of ToolException</p></object></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>errorMessage</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<p><strong>Classes</strong></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.SelfDescriptive">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">SelfDescriptive</span></span><a class="reference internal" href="../_modules/pyVersioning.html#SelfDescriptive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.SelfDescriptive" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-fbbeda7e5ad2e3d54d9da91a059168c7bb798498.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of SelfDescriptive</p></object></div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.Tool">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">Tool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Tool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Tool" title="Link to this definition"></a></dt>
+<dd><p>This data structure class describes the tool name and version of pyVersioning.</p>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-80153df4e87e3050868fda6a738af4f9edcd6968.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of Tool</p></object></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>version</strong> (<a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.Versioning.html#pyTooling.Versioning.SemanticVersion" title="(in pyTooling v8.7)"><em>SemanticVersion</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Tool.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Tool.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Tool.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize a tool with name and version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The tool’s name.</p></li>
+<li><p><strong>version</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.Versioning.html#pyTooling.Versioning.SemanticVersion" title="(in pyTooling v8.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SemanticVersion</span></code></a></span>) – The tool’s version.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Tool._name">
+<span class="sig-name descname"><span class="pre">_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pyVersioning.Tool._name" title="Link to this definition"></a></dt>
+<dd><p>Name of pyVersioning</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Tool._version">
+<span class="sig-name descname"><span class="pre">_version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.Versioning.html#pyTooling.Versioning.SemanticVersion" title="(in pyTooling v8.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SemanticVersion</span></code></a></em><a class="headerlink" href="#pyVersioning.Tool._version" title="Link to this definition"></a></dt>
+<dd><p>Version of the pyVersioning</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Tool.name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Tool.name" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the name of the tool.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Name of the tool.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Tool.version">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.Versioning.html#pyTooling.Versioning.SemanticVersion" title="(in pyTooling v8.7)"><span class="pre">SemanticVersion</span></a></em><a class="headerlink" href="#pyVersioning.Tool.version" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the version of the tool.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Version of the tool as <code class="xref py py-class docutils literal notranslate"><span class="pre">SemanticVersion</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Tool.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Tool.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Tool.__str__" title="Link to this definition"></a></dt>
+<dd><p>Return a string representation of this tool description.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The tool’s name and version.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.Date">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">Date</span></span><a class="reference internal" href="../_modules/pyVersioning.html#Date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Date" title="Link to this definition"></a></dt>
+<dd><p>This data structure class describes a date (dd.mm.yyyy).</p>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-d3d498ccd6546e6c484960e54a3923c91ad7ff0c.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of Date</p></object></div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__add__" title="Link to this definition"></a></dt>
+<dd><p>Return self+value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__eq__" title="Link to this definition"></a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__format__">
+<span class="sig-name descname"><span class="pre">__format__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__format__" title="Link to this definition"></a></dt>
+<dd><p>Formats self with strftime.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__ge__">
+<span class="sig-name descname"><span class="pre">__ge__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__ge__" title="Link to this definition"></a></dt>
+<dd><p>Return self&gt;=value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__gt__">
+<span class="sig-name descname"><span class="pre">__gt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__gt__" title="Link to this definition"></a></dt>
+<dd><p>Return self&gt;value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__hash__" title="Link to this definition"></a></dt>
+<dd><p>Return hash(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__le__">
+<span class="sig-name descname"><span class="pre">__le__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__le__" title="Link to this definition"></a></dt>
+<dd><p>Return self&lt;=value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__lt__">
+<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__lt__" title="Link to this definition"></a></dt>
+<dd><p>Return self&lt;value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__ne__">
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__ne__" title="Link to this definition"></a></dt>
+<dd><p>Return self!=value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__new__">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__new__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__radd__">
+<span class="sig-name descname"><span class="pre">__radd__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__radd__" title="Link to this definition"></a></dt>
+<dd><p>Return value+self.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__reduce__">
+<span class="sig-name descname"><span class="pre">__reduce__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__reduce__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__replace__">
+<span class="sig-name descname"><span class="pre">__replace__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">changes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__replace__" title="Link to this definition"></a></dt>
+<dd><p>The same as replace().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__repr__" title="Link to this definition"></a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__rsub__">
+<span class="sig-name descname"><span class="pre">__rsub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__rsub__" title="Link to this definition"></a></dt>
+<dd><p>Return value-self.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__str__" title="Link to this definition"></a></dt>
+<dd><p>Return str(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.__sub__">
+<span class="sig-name descname"><span class="pre">__sub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.__sub__" title="Link to this definition"></a></dt>
+<dd><p>Return self-value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.ctime">
+<span class="sig-name descname"><span class="pre">ctime</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.ctime" title="Link to this definition"></a></dt>
+<dd><p>Return ctime() style string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.fromisocalendar">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromisocalendar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.fromisocalendar" title="Link to this definition"></a></dt>
+<dd><p>int, int, int -&gt; Construct a date from the ISO year, week number and weekday.</p>
+<p>This is the inverse of the date.isocalendar() function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.fromisoformat">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromisoformat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.fromisoformat" title="Link to this definition"></a></dt>
+<dd><p>str -&gt; Construct a date from a string in ISO 8601 format.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.fromordinal">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromordinal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.fromordinal" title="Link to this definition"></a></dt>
+<dd><p>int -&gt; date corresponding to a proleptic Gregorian ordinal.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.fromtimestamp">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromtimestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.fromtimestamp" title="Link to this definition"></a></dt>
+<dd><p>Create a date from a POSIX timestamp.</p>
+<p>The timestamp is a number, e.g. created via time.time(), that is interpreted
+as local time.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.isocalendar">
+<span class="sig-name descname"><span class="pre">isocalendar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.isocalendar" title="Link to this definition"></a></dt>
+<dd><p>Return a named tuple containing ISO year, week number, and weekday.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.isoformat">
+<span class="sig-name descname"><span class="pre">isoformat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.isoformat" title="Link to this definition"></a></dt>
+<dd><p>Return string in ISO 8601 format, YYYY-MM-DD.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.isoweekday">
+<span class="sig-name descname"><span class="pre">isoweekday</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.isoweekday" title="Link to this definition"></a></dt>
+<dd><p>Return the day of the week represented by the date.
+Monday == 1 … Sunday == 7</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.replace" title="Link to this definition"></a></dt>
+<dd><p>Return date with new specified fields.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.strftime">
+<span class="sig-name descname"><span class="pre">strftime</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.strftime" title="Link to this definition"></a></dt>
+<dd><p>format -&gt; strftime() style string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.timetuple">
+<span class="sig-name descname"><span class="pre">timetuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.timetuple" title="Link to this definition"></a></dt>
+<dd><p>Return time tuple, compatible with time.localtime().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.today">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">today</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.today" title="Link to this definition"></a></dt>
+<dd><p>Current date or datetime:  same as self.__class__.fromtimestamp(time.time()).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.toordinal">
+<span class="sig-name descname"><span class="pre">toordinal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.toordinal" title="Link to this definition"></a></dt>
+<dd><p>Return proleptic Gregorian ordinal.  January 1 of year 1 is day 1.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Date.weekday">
+<span class="sig-name descname"><span class="pre">weekday</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Date.weekday" title="Link to this definition"></a></dt>
+<dd><p>Return the day of the week represented by the date.
+Monday == 0 … Sunday == 6</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.Time">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">Time</span></span><a class="reference internal" href="../_modules/pyVersioning.html#Time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Time" title="Link to this definition"></a></dt>
+<dd><p>This data structure class describes a time (hh:mm:ss).</p>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-87e760f9a38a6ebc3c3311d2bb42dd1a490834b4.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of Time</p></object></div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__eq__" title="Link to this definition"></a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__format__">
+<span class="sig-name descname"><span class="pre">__format__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__format__" title="Link to this definition"></a></dt>
+<dd><p>Formats self with strftime.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__ge__">
+<span class="sig-name descname"><span class="pre">__ge__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__ge__" title="Link to this definition"></a></dt>
+<dd><p>Return self&gt;=value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__gt__">
+<span class="sig-name descname"><span class="pre">__gt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__gt__" title="Link to this definition"></a></dt>
+<dd><p>Return self&gt;value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__hash__" title="Link to this definition"></a></dt>
+<dd><p>Return hash(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__le__">
+<span class="sig-name descname"><span class="pre">__le__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__le__" title="Link to this definition"></a></dt>
+<dd><p>Return self&lt;=value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__lt__">
+<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__lt__" title="Link to this definition"></a></dt>
+<dd><p>Return self&lt;value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__ne__">
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__ne__" title="Link to this definition"></a></dt>
+<dd><p>Return self!=value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__new__">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__new__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__reduce__">
+<span class="sig-name descname"><span class="pre">__reduce__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__reduce__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__reduce_ex__">
+<span class="sig-name descname"><span class="pre">__reduce_ex__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proto</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__reduce_ex__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__replace__">
+<span class="sig-name descname"><span class="pre">__replace__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">changes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__replace__" title="Link to this definition"></a></dt>
+<dd><p>The same as replace().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__repr__" title="Link to this definition"></a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.__str__" title="Link to this definition"></a></dt>
+<dd><p>Return str(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.dst">
+<span class="sig-name descname"><span class="pre">dst</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.dst" title="Link to this definition"></a></dt>
+<dd><p>Return self.tzinfo.dst(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.fromisoformat">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromisoformat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.fromisoformat" title="Link to this definition"></a></dt>
+<dd><p>string -&gt; time from a string in ISO 8601 format</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.isoformat">
+<span class="sig-name descname"><span class="pre">isoformat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.isoformat" title="Link to this definition"></a></dt>
+<dd><p>Return string in ISO 8601 format, [HH[:MM[:SS[.mmm[uuu]]]]][+HH:MM].</p>
+<p>The optional argument timespec specifies the number of additional terms
+of the time to include. Valid options are ‘auto’, ‘hours’, ‘minutes’,
+‘seconds’, ‘milliseconds’ and ‘microseconds’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.replace" title="Link to this definition"></a></dt>
+<dd><p>Return time with new specified fields.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.strftime">
+<span class="sig-name descname"><span class="pre">strftime</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.strftime" title="Link to this definition"></a></dt>
+<dd><p>format -&gt; strftime() style string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.tzname">
+<span class="sig-name descname"><span class="pre">tzname</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.tzname" title="Link to this definition"></a></dt>
+<dd><p>Return self.tzinfo.tzname(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Time.utcoffset">
+<span class="sig-name descname"><span class="pre">utcoffset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Time.utcoffset" title="Link to this definition"></a></dt>
+<dd><p>Return self.tzinfo.utcoffset(self).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.Person">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">Person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Person" title="Link to this definition"></a></dt>
+<dd><p>This data structure class describes a person with name and email address.</p>
+<p>This class is used to describe an author or committer in a version control system.</p>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-18900b23bcd26cd604f9ecd95eb3b3294c895e86.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of Person</p></object></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>email</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Person.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Person.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Person.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize a person with name and email address.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The person’s name.</p></li>
+<li><p><strong>email</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The person’s email address.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Person._name">
+<span class="sig-name descname"><span class="pre">_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pyVersioning.Person._name" title="Link to this definition"></a></dt>
+<dd><p>Name of the person.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Person._email">
+<span class="sig-name descname"><span class="pre">_email</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pyVersioning.Person._email" title="Link to this definition"></a></dt>
+<dd><p>Email address of the person.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Person.name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Person.name" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the name of the person.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Name of the person.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Person.email">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">email</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Person.email" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the email address of the person.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Email address of the person.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Person.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Person.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Person.__str__" title="Link to this definition"></a></dt>
+<dd><p>Return a string representation of a person (committer, author, …).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The persons name and email address.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.Commit">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">Commit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hash</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">author</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">committer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Commit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Commit" title="Link to this definition"></a></dt>
+<dd><p>This data structure class describes a Git commit with Hash, commit date and time, committer, author and commit
+description.</p>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-4b199430b4bad62a3db783ab25ff7e8809386495.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of Commit</p></object></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hash</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>date</strong> (<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.14)"><em>date</em></a>)</p></li>
+<li><p><strong>time</strong> (<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.time" title="(in Python v3.14)"><em>time</em></a>)</p></li>
+<li><p><strong>author</strong> (<a class="reference internal" href="#pyVersioning.Person" title="pyVersioning.Person"><em>Person</em></a>)</p></li>
+<li><p><strong>committer</strong> (<a class="reference internal" href="#pyVersioning.Person" title="pyVersioning.Person"><em>Person</em></a>)</p></li>
+<li><p><strong>comment</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Commit.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hash</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">author</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">committer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Commit.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Commit.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize a Git commit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hash</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The commit’s hash.</p></li>
+<li><p><strong>date</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">date</span></code></a></span>) – The commit’s date.</p></li>
+<li><p><strong>time</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.time" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">time</span></code></a></span>) – The commit’s time.</p></li>
+<li><p><strong>author</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pyVersioning.Person" title="pyVersioning.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">Person</span></code></a></span>) – The commit’s author.</p></li>
+<li><p><strong>committer</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pyVersioning.Person" title="pyVersioning.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">Person</span></code></a></span>) – The commit’s committer.</p></li>
+<li><p><strong>comment</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The commit’s comment.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Commit.hash">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hash</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Commit.hash" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the hash of the commit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Hash of the commit as string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Commit.date">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.14)"><span class="pre">date</span></a></em><a class="headerlink" href="#pyVersioning.Commit.date" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the date of the commit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Date of the commit as <a class="reference internal" href="#pyVersioning.Commit.date" title="pyVersioning.Commit.date"><code class="xref py py-class docutils literal notranslate"><span class="pre">date</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Commit.time">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.time" title="(in Python v3.14)"><span class="pre">time</span></a></em><a class="headerlink" href="#pyVersioning.Commit.time" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the time of the commit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Time of the commit as <a class="reference internal" href="#pyVersioning.Commit.time" title="pyVersioning.Commit.time"><code class="xref py py-class docutils literal notranslate"><span class="pre">time</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Commit.author">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">author</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pyVersioning.Person" title="pyVersioning.Person"><span class="pre">Person</span></a></em><a class="headerlink" href="#pyVersioning.Commit.author" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the author of the commit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Author of the commit as <a class="reference internal" href="#pyVersioning.Person" title="pyVersioning.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">Person</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Commit.committer">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">committer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pyVersioning.Person" title="pyVersioning.Person"><span class="pre">Person</span></a></em><a class="headerlink" href="#pyVersioning.Commit.committer" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the committer of the commit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Committer of the commit as <a class="reference internal" href="#pyVersioning.Person" title="pyVersioning.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">Person</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Commit.comment">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">comment</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Commit.comment" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the comment of the commit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Author of the comment as string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Commit.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Commit.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Commit.__str__" title="Link to this definition"></a></dt>
+<dd><p>Return a string representation of a commit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The date, time, committer, hash and one-liner description.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.Git">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">Git</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repository</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Git"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Git" title="Link to this definition"></a></dt>
+<dd><p>This data structure class describes all collected data from Git.</p>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-ba88887de90f1dc3fb2e07c1998ff75fb0b9bc87.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of Git</p></object></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>commit</strong> (<a class="reference internal" href="#pyVersioning.Commit" title="pyVersioning.Commit"><em>Commit</em></a>)</p></li>
+<li><p><strong>repository</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>branch</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Git.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repository</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Git.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Git.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>commit</strong> (<a class="reference internal" href="#pyVersioning.Commit" title="pyVersioning.Commit"><em>Commit</em></a>)</p></li>
+<li><p><strong>repository</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>branch</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Git._commit">
+<span class="sig-name descname"><span class="pre">_commit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pyVersioning.Commit" title="pyVersioning.Commit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Commit</span></code></a></em><a class="headerlink" href="#pyVersioning.Git._commit" title="Link to this definition"></a></dt>
+<dd><p>Git commit information</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Git._tag">
+<span class="sig-name descname"><span class="pre">_tag</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pyVersioning.Git._tag" title="Link to this definition"></a></dt>
+<dd><p>Git tag</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Git._branch">
+<span class="sig-name descname"><span class="pre">_branch</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pyVersioning.Git._branch" title="Link to this definition"></a></dt>
+<dd><p>Git branch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Git._repository">
+<span class="sig-name descname"><span class="pre">_repository</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pyVersioning.Git._repository" title="Link to this definition"></a></dt>
+<dd><p>Git repository URL</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Git._reference">
+<span class="sig-name descname"><span class="pre">_reference</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pyVersioning.Git._reference" title="Link to this definition"></a></dt>
+<dd><p>Git reference (branch or tag)</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Git.commit">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">commit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pyVersioning.Commit" title="pyVersioning.Commit"><span class="pre">Commit</span></a></em><a class="headerlink" href="#pyVersioning.Git.commit" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the Git commit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The commit information as <a class="reference internal" href="#pyVersioning.Commit" title="pyVersioning.Commit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Commit</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Git.reference">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reference</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Git.reference" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the Git reference.</p>
+<p>A reference is either a branch or tag.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current Git reference as string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Git.tag">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tag</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Git.tag" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the Git tag.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current Git tag name as string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Git.branch">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">branch</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Git.branch" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the Git branch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current Git branch name as string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Git.repository">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repository</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Git.repository" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the Git repository URL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current Git repository URL as string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Git.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Git.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Git.__str__" title="Link to this definition"></a></dt>
+<dd><p>Return a string representation of a repository.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The date, time, committer, hash and one-liner description.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.Project">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">Project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Project" title="Link to this definition"></a></dt>
+<dd><p>This data structure class describes a project.</p>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-0d864a7408b153706a4c1d1670f07691178c6364.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of Project</p></object></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.Versioning.html#pyTooling.Versioning.SemanticVersion" title="(in pyTooling v8.7)"><em>SemanticVersion</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>variant</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Project.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Project.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Project.__init__" title="Link to this definition"></a></dt>
+<dd><p>Assign fields and convert version string to a <cite>Version</cite> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.Versioning.html#pyTooling.Versioning.SemanticVersion" title="(in pyTooling v8.7)"><em>SemanticVersion</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>variant</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Project._name">
+<span class="sig-name descname"><span class="pre">_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pyVersioning.Project._name" title="Link to this definition"></a></dt>
+<dd><p>Name of the project.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Project._variant">
+<span class="sig-name descname"><span class="pre">_variant</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pyVersioning.Project._variant" title="Link to this definition"></a></dt>
+<dd><p>Variant of the project.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Project._version">
+<span class="sig-name descname"><span class="pre">_version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.Versioning.html#pyTooling.Versioning.SemanticVersion" title="(in pyTooling v8.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SemanticVersion</span></code></a></em><a class="headerlink" href="#pyVersioning.Project._version" title="Link to this definition"></a></dt>
+<dd><p>Version of the project.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Project.name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Project.name" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the name of the project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The project’s name as string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Project.variant">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variant</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Project.variant" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the variant name of the project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The project’s variant as string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Project.version">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.Versioning.html#pyTooling.Versioning.SemanticVersion" title="(in pyTooling v8.7)"><span class="pre">SemanticVersion</span></a></em><a class="headerlink" href="#pyVersioning.Project.version" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the version of the project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The project’s version.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Project.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Project.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Project.__str__" title="Link to this definition"></a></dt>
+<dd><p>Return a string representation of a project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The project name, project variant and project version.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.Compiler">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">Compiler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Compiler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Compiler" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-9cc52701e0d05677897208b4d44a6c6d7c9189c5.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of Compiler</p></object></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.Versioning.html#pyTooling.Versioning.SemanticVersion" title="(in pyTooling v8.7)"><em>SemanticVersion</em></a>)</p></li>
+<li><p><strong>configuration</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Compiler.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Compiler.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Compiler.__init__" title="Link to this definition"></a></dt>
+<dd><p>Assign fields and convert version string to a <cite>Version</cite> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.Versioning.html#pyTooling.Versioning.SemanticVersion" title="(in pyTooling v8.7)"><em>SemanticVersion</em></a>)</p></li>
+<li><p><strong>configuration</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Compiler._name">
+<span class="sig-name descname"><span class="pre">_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pyVersioning.Compiler._name" title="Link to this definition"></a></dt>
+<dd><p>Name of the compiler.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Compiler._configuration">
+<span class="sig-name descname"><span class="pre">_configuration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pyVersioning.Compiler._configuration" title="Link to this definition"></a></dt>
+<dd><p>Compiler configuration.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Compiler._options">
+<span class="sig-name descname"><span class="pre">_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#pyVersioning.Compiler._options" title="Link to this definition"></a></dt>
+<dd><p>Compiler options (compiler flags).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Compiler._version">
+<span class="sig-name descname"><span class="pre">_version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.Versioning.html#pyTooling.Versioning.SemanticVersion" title="(in pyTooling v8.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SemanticVersion</span></code></a></em><a class="headerlink" href="#pyVersioning.Compiler._version" title="Link to this definition"></a></dt>
+<dd><p>Version of the compiler.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Compiler.name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Compiler.name" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the name of the compiler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The compiler’s name as string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Compiler.version">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.Versioning.html#pyTooling.Versioning.SemanticVersion" title="(in pyTooling v8.7)"><span class="pre">SemanticVersion</span></a></em><a class="headerlink" href="#pyVersioning.Compiler.version" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the version of the compiler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The compiler’s version.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Compiler.configuration">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">configuration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Compiler.configuration" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the configuration of the compiler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The compiler’s configuration.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Compiler.options">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#pyVersioning.Compiler.options" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the options of the compiler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The compiler’s options.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Compiler.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Compiler.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Compiler.__str__" title="Link to this definition"></a></dt>
+<dd><p>Return a string representation of a compiler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The compiler name and compiler version.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.Build">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">Build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compiler</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Build" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-4da4f8851dc164db295ea04cefcd6e0eb7505f8b.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of Build</p></object></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date</strong> (<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.14)"><em>date</em></a>)</p></li>
+<li><p><strong>time</strong> (<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.time" title="(in Python v3.14)"><em>time</em></a>)</p></li>
+<li><p><strong>compiler</strong> (<a class="reference internal" href="#pyVersioning.Compiler" title="pyVersioning.Compiler"><em>Compiler</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Build.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compiler</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Build.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Build.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date</strong> (<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.14)"><em>date</em></a>)</p></li>
+<li><p><strong>time</strong> (<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.time" title="(in Python v3.14)"><em>time</em></a>)</p></li>
+<li><p><strong>compiler</strong> (<a class="reference internal" href="#pyVersioning.Compiler" title="pyVersioning.Compiler"><em>Compiler</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Build._date">
+<span class="sig-name descname"><span class="pre">_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">date</span></code></a></em><a class="headerlink" href="#pyVersioning.Build._date" title="Link to this definition"></a></dt>
+<dd><p>Build date.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Build._time">
+<span class="sig-name descname"><span class="pre">_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.time" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">time</span></code></a></em><a class="headerlink" href="#pyVersioning.Build._time" title="Link to this definition"></a></dt>
+<dd><p>Build time.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Build._compiler">
+<span class="sig-name descname"><span class="pre">_compiler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pyVersioning.Compiler" title="pyVersioning.Compiler"><code class="xref py py-class docutils literal notranslate"><span class="pre">Compiler</span></code></a></em><a class="headerlink" href="#pyVersioning.Build._compiler" title="Link to this definition"></a></dt>
+<dd><p>Use compiler (and options) for the build.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Build.date">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.14)"><span class="pre">date</span></a></em><a class="headerlink" href="#pyVersioning.Build.date" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the date of the build.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Date of the build as <a class="reference internal" href="#pyVersioning.Build.date" title="pyVersioning.Build.date"><code class="xref py py-class docutils literal notranslate"><span class="pre">date</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Build.time">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.time" title="(in Python v3.14)"><span class="pre">time</span></a></em><a class="headerlink" href="#pyVersioning.Build.time" title="Link to this definition"></a></dt>
+<dd><p>Read-only property to return the time of the build.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Time of the build as <a class="reference internal" href="#pyVersioning.Build.date" title="pyVersioning.Build.date"><code class="xref py py-class docutils literal notranslate"><span class="pre">date</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.Platforms">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">Platforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Platforms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Platforms" title="Link to this definition"></a></dt>
+<dd><p>An enumeration of platforms supported by pyTooling.</p>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-28503833bedea1c8e3d6ba5d2b33cec6c33fa3cc.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of Platforms</p></object></div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Platforms.Workstation">
+<span class="sig-name descname"><span class="pre">Workstation</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#pyVersioning.Platforms.Workstation" title="Link to this definition"></a></dt>
+<dd><p>A local work station, server, PC or laptop.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Platforms.AppVeyor">
+<span class="sig-name descname"><span class="pre">AppVeyor</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#pyVersioning.Platforms.AppVeyor" title="Link to this definition"></a></dt>
+<dd><p>A CI service operated by <a class="reference external" href="https://www.appveyor.com/">AppVeyor</a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Platforms.GitHub">
+<span class="sig-name descname"><span class="pre">GitHub</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#pyVersioning.Platforms.GitHub" title="Link to this definition"></a></dt>
+<dd><p>A CI service offered by <a class="reference external" href="https://github.com/">GitHub</a> called GitHub Actions.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Platforms.GitLab">
+<span class="sig-name descname"><span class="pre">GitLab</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#pyVersioning.Platforms.GitLab" title="Link to this definition"></a></dt>
+<dd><p>A CI service offered by <a class="reference external" href="https://about.gitlab.com/">GitLab</a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyVersioning.Platforms.Travis">
+<span class="sig-name descname"><span class="pre">Travis</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#pyVersioning.Platforms.Travis" title="Link to this definition"></a></dt>
+<dd><p>A CI service operated by <a class="reference external" href="https://www.travis-ci.com/">Travis</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Platforms.__contains__">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__contains__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Platforms.__contains__" title="Link to this definition"></a></dt>
+<dd><p>Return True if <cite>value</cite> is in <cite>cls</cite>.</p>
+<p><cite>value</cite> is in <cite>cls</cite> if:
+1) <cite>value</cite> is a member of <cite>cls</cite>, or
+2) <cite>value</cite> is the value of one of the <cite>cls</cite>’s members.
+3) <cite>value</cite> is a pseudo-member (flags)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Platforms.__getitem__">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Platforms.__getitem__" title="Link to this definition"></a></dt>
+<dd><p>Return the member matching <cite>name</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Platforms.__iter__">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Platforms.__iter__" title="Link to this definition"></a></dt>
+<dd><p>Return members in definition order.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Platforms.__len__">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Platforms.__len__" title="Link to this definition"></a></dt>
+<dd><p>Return the number of members (no aliases)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.Platform">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">Platform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ciService</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Platform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Platform" title="Link to this definition"></a></dt>
+<dd><div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>Platform needs documentation</p>
+</div>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-1918a0f83af3edab46cfafc826d824055e0b1c88.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of Platform</p></object></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ciService</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Platform.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ciService</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Platform.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Platform.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ciService</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.BaseService">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">BaseService</span></span><a class="reference internal" href="../_modules/pyVersioning.html#BaseService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.BaseService" title="Link to this definition"></a></dt>
+<dd><p>Base-class to collect platform and environment information from e.g. environment variables.</p>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-ea3e4f8e78abd18ac8f64c53e61688994d277ce3.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of BaseService</p></object></div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.BaseService.GetPlatform">
+<span class="sig-name descname"><span class="pre">GetPlatform</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#BaseService.GetPlatform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.BaseService.GetPlatform" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#pyVersioning.Platform" title="pyVersioning.Platform"><code class="xref py py-class docutils literal notranslate"><span class="pre">Platform</span></code></a></span></p>
+</dd>
+</dl>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>getPlatform needs documentation</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.GitShowCommand">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">GitShowCommand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#GitShowCommand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.GitShowCommand" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-a01f554a4ed84d1f3fd23fe36af96082f615592c.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of GitShowCommand</p></object></div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.GitShowCommand.__contains__">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__contains__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.GitShowCommand.__contains__" title="Link to this definition"></a></dt>
+<dd><p>Return True if <cite>value</cite> is in <cite>cls</cite>.</p>
+<p><cite>value</cite> is in <cite>cls</cite> if:
+1) <cite>value</cite> is a member of <cite>cls</cite>, or
+2) <cite>value</cite> is the value of one of the <cite>cls</cite>’s members.
+3) <cite>value</cite> is a pseudo-member (flags)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.GitShowCommand.__getitem__">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.GitShowCommand.__getitem__" title="Link to this definition"></a></dt>
+<dd><p>Return the member matching <cite>name</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.GitShowCommand.__iter__">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.GitShowCommand.__iter__" title="Link to this definition"></a></dt>
+<dd><p>Return members in definition order.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.GitShowCommand.__len__">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.GitShowCommand.__len__" title="Link to this definition"></a></dt>
+<dd><p>Return the number of members (no aliases)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.GitHelperMixin">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">GitHelperMixin</span></span><a class="reference internal" href="../_modules/pyVersioning.html#GitHelperMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.GitHelperMixin" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-77d709b463e9dd901c3541955dd34d4c9d7d1e5e.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of GitHelperMixin</p></object></div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyVersioning.Versioning">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyVersioning.</span></span><span class="sig-name descname"><span class="pre">Versioning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">terminal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Versioning"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Versioning" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Inheritance</p>
+<div class="graphviz"><object data="../_images/inheritance-a8723bdd585bec9cf84d4e040534163a077b8743.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of Versioning</p></object></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>terminal</strong> (<a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.TerminalUI.html#pyTooling.TerminalUI.ILineTerminal" title="(in pyTooling v8.7)"><em>ILineTerminal</em></a>)</p>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.Terminal">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Terminal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.TerminalUI.html#pyTooling.TerminalUI.TerminalBaseApplication" title="(in pyTooling v8.7)"><span class="pre">TerminalBaseApplication</span></a></em><a class="headerlink" href="#pyVersioning.Versioning.Terminal" title="Link to this definition"></a></dt>
+<dd><p>Return the local terminal instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.WriteCritical">
+<span class="sig-name descname"><span class="pre">WriteCritical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Versioning.WriteCritical" title="Link to this definition"></a></dt>
+<dd><p>Write a warning message if <code class="docutils literal notranslate"><span class="pre">condition</span></code> is true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>condition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.WriteDebug">
+<span class="sig-name descname"><span class="pre">WriteDebug</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Versioning.WriteDebug" title="Link to this definition"></a></dt>
+<dd><p>Write a debug message if <code class="docutils literal notranslate"><span class="pre">condition</span></code> is true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>condition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.WriteDryRun">
+<span class="sig-name descname"><span class="pre">WriteDryRun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Versioning.WriteDryRun" title="Link to this definition"></a></dt>
+<dd><p>Write a dry-run message if <code class="docutils literal notranslate"><span class="pre">condition</span></code> is true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>condition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.WriteError">
+<span class="sig-name descname"><span class="pre">WriteError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Versioning.WriteError" title="Link to this definition"></a></dt>
+<dd><p>Write an error message if <code class="docutils literal notranslate"><span class="pre">condition</span></code> is true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>condition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.WriteFatal">
+<span class="sig-name descname"><span class="pre">WriteFatal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Versioning.WriteFatal" title="Link to this definition"></a></dt>
+<dd><p>Write a fatal message if <code class="docutils literal notranslate"><span class="pre">condition</span></code> is true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>condition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.WriteInfo">
+<span class="sig-name descname"><span class="pre">WriteInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Versioning.WriteInfo" title="Link to this definition"></a></dt>
+<dd><p>Write an info message if <code class="docutils literal notranslate"><span class="pre">condition</span></code> is true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>condition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.WriteLine">
+<span class="sig-name descname"><span class="pre">WriteLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Versioning.WriteLine" title="Link to this definition"></a></dt>
+<dd><p>Write an entry to the local terminal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>line</strong> (<a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.TerminalUI.html#pyTooling.TerminalUI.Line" title="(in pyTooling v8.7)"><em>Line</em></a>)</p></li>
+<li><p><strong>condition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.WriteNormal">
+<span class="sig-name descname"><span class="pre">WriteNormal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Versioning.WriteNormal" title="Link to this definition"></a></dt>
+<dd><p>Write a <em>normal</em> message if <code class="docutils literal notranslate"><span class="pre">condition</span></code> is true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>condition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.WriteQuiet">
+<span class="sig-name descname"><span class="pre">WriteQuiet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Versioning.WriteQuiet" title="Link to this definition"></a></dt>
+<dd><p>Write a message even in quiet mode if <code class="docutils literal notranslate"><span class="pre">condition</span></code> is true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>condition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.WriteVerbose">
+<span class="sig-name descname"><span class="pre">WriteVerbose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Versioning.WriteVerbose" title="Link to this definition"></a></dt>
+<dd><p>Write a verbose message if <code class="docutils literal notranslate"><span class="pre">condition</span></code> is true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>condition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.WriteWarning">
+<span class="sig-name descname"><span class="pre">WriteWarning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyVersioning.Versioning.WriteWarning" title="Link to this definition"></a></dt>
+<dd><p>Write a warning message if <code class="docutils literal notranslate"><span class="pre">condition</span></code> is true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>condition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">terminal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Versioning.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Versioning.__init__" title="Link to this definition"></a></dt>
+<dd><p>MixIn initializer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>terminal</strong> (<a class="reference external" href="https://pytooling.github.io/pyTooling/pyTooling/pyTooling.TerminalUI.html#pyTooling.TerminalUI.ILineTerminal" title="(in pyTooling v8.7)"><em>ILineTerminal</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.LoadDataFromConfiguration">
+<span class="sig-name descname"><span class="pre">LoadDataFromConfiguration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Versioning.LoadDataFromConfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Versioning.LoadDataFromConfiguration" title="Link to this definition"></a></dt>
+<dd><p>Preload versioning information from a configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>config</strong> (<a class="reference internal" href="pyVersioning.Configuration.html#pyVersioning.Configuration.Configuration" title="pyVersioning.Configuration.Configuration"><em>Configuration</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyVersioning.Versioning.CollectData">
+<span class="sig-name descname"><span class="pre">CollectData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyVersioning.html#Versioning.CollectData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyVersioning.Versioning.CollectData" title="Link to this definition"></a></dt>
+<dd><p>Collect versioning information from environment including CI services (if available).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../CommandLineInterface.html" class="btn btn-neutral float-left" title="Command Line Interfaces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pyVersioning.AppVeyor.html" class="btn btn-neutral float-right" title="pyVersioning.AppVeyor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020-2025, Patrick Lehmann.
+      <span class="lastupdated">Last updated on 17.10.2025.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

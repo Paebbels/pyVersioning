@@ -101,7 +101,7 @@ jobs:
         shell: bash
     steps:
       - name: ⏬ Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: 📥 Download artifacts '${{ fromJson(needs.UnitTestingParams.outputs.artifact_names).package_all }}' from 'Package' job
         uses: pyTooling/download-artifact@v6

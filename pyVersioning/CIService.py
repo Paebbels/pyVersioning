@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2025 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2026 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -89,12 +89,13 @@ class CIService(BaseService, GitHelperMixin):
 		Environment = make_dataclass(
 			"Environment",
 			[(name, str) for name in filteredEnv.keys()],
-			bases=(SelfDescriptive,),
+			# bases=(SelfDescriptive,),
 			namespace={
 				'as_dict':       lambda self: filteredEnv,
 				'Keys':          lambda self: filteredEnv.keys(),
 				'KeyValuePairs': lambda self: func(self)
 			},
+			# slots=True,
 			repr=True
 		)
 

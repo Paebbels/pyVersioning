@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2025 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2026 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -431,7 +431,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 		self.WriteVerbose("Applying variables to template ...")
 		return self._versioning.FillOutTemplate(template, **kwargs)
 
-	def WriteOutput(self, outputFile: Nullable[Path], content: str):
+	def WriteOutput(self, outputFile: Nullable[Path], content: str) -> None:
 		if outputFile is not None:
 			self.WriteVerbose(f"Writing output to '{outputFile}' ...")
 			if not outputFile.parent.exists():

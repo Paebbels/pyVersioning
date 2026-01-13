@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2025 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2026 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -45,6 +45,7 @@ setup(
 		description="Write version information collected from (CI) environment for any programming language as source file.",
 		gitHubNamespace=gitHubNamespace,
 		sourceFileWithVersion=packageInformationFile,
+		pythonVersions=("3.11", "3.12", "3.13", "3.14"),
 		consoleScripts={
 			"pyVersioning": "pyVersioning.CLI:main",
 		}

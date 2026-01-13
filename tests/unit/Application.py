@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2025 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2026 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -72,7 +72,7 @@ class Application(TestCase):
 		return ansiEscape.sub("", content)
 
 	@patch("sys.argv", ["pyVersioning.py"])
-	def test_NoCommand(self):
+	def test_NoCommand(self) -> None:
 		print()
 
 		app = pyV_Application()
@@ -87,7 +87,7 @@ class Application(TestCase):
 		# self.assertEqual("1.1", json["format"])
 
 	@patch("sys.argv", ["pyVersioning.py", "help"])
-	def test_Help(self):
+	def test_Help(self) -> None:
 		print()
 
 		app = pyV_Application()
@@ -102,7 +102,7 @@ class Application(TestCase):
 		# self.assertEqual("1.1", json["format"])
 
 	@patch("sys.argv", ["pyVersioning.py", "version"])
-	def test_Version(self):
+	def test_Version(self) -> None:
 		print()
 
 		app = pyV_Application()
@@ -117,7 +117,7 @@ class Application(TestCase):
 		# self.assertEqual("1.1", json["format"])
 
 	@patch("sys.argv", ["pyVersioning.py", "variables"])
-	def test_Variables(self):
+	def test_Variables(self) -> None:
 		print()
 
 		app = pyV_Application()
@@ -132,7 +132,7 @@ class Application(TestCase):
 		# self.assertEqual("1.1", json["format"])
 
 	@patch("sys.argv", ["pyVersioning.py", "field", "version"])
-	def test_Field_Version(self):
+	def test_Field_Version(self) -> None:
 		print()
 
 		app = pyV_Application()
@@ -147,7 +147,7 @@ class Application(TestCase):
 		# self.assertEqual("1.1", json["format"])
 
 	@patch("sys.argv", ["pyVersioning.py", "field", "git.commit.hash"])
-	def test_Field_GitCommitHash(self):
+	def test_Field_GitCommitHash(self) -> None:
 		print()
 
 		app = pyV_Application()
@@ -162,7 +162,7 @@ class Application(TestCase):
 		# self.assertEqual("1.1", json["format"])
 
 	@patch("sys.argv", ["pyVersioning.py", "fillout", "tests/template.in"])
-	def test_Fillout(self):
+	def test_Fillout(self) -> None:
 		print()
 
 		app = pyV_Application()
@@ -177,7 +177,7 @@ class Application(TestCase):
 		# self.assertEqual("1.1", json["format"])
 
 	@patch("sys.argv", ["pyVersioning.py", "--config-file=tests/unit/CIServices/.pyVersioning.yml", "json"])
-	def test_JSON_WithoutError(self):
+	def test_JSON_WithoutError(self) -> None:
 		print()
 
 		app = pyV_Application()
@@ -195,7 +195,7 @@ class Application(TestCase):
 		self.assertEqual("1.1", json["format"])
 
 	@patch("sys.argv", ["pyVersioning.py", "--config-file=CIServices/.pyVersioning.yml", "json"])
-	def test_JSON_WithError(self):
+	def test_JSON_WithError(self) -> None:
 		print()
 
 		app = pyV_Application()
@@ -213,7 +213,7 @@ class Application(TestCase):
 		self.assertEqual("1.1", json["format"])
 
 	@patch("sys.argv", ["pyVersioning.py", "--config-file=tests/unit/CIServices/.pyVersioning.yml", "yaml"])
-	def test_YAML_WithoutError(self):
+	def test_YAML_WithoutError(self) -> None:
 		print()
 
 		app = pyV_Application()
@@ -232,7 +232,7 @@ class Application(TestCase):
 		self.assertEqual("1.1", yaml["format"])
 
 	@patch("sys.argv", ["pyVersioning.py", "--config-file=CIServices/.pyVersioning.yml", "yaml"])
-	def test_YAML_WithError(self):
+	def test_YAML_WithError(self) -> None:
 		print()
 
 		app = pyV_Application()

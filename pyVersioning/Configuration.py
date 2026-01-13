@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2025 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2026 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -128,7 +128,7 @@ class Configuration(Base):
 		else:
 			self.load(configFile)
 
-	def load(self, configFile: Path):
+	def load(self, configFile: Path) -> None:
 		# TODO: change to pyTooling.Configuration
 		yaml =   YAML()
 		config = yaml.load(configFile)
@@ -138,6 +138,6 @@ class Configuration(Base):
 		if self.version == 1:
 			self.loadVersion1(config)
 
-	def loadVersion1(self, config):
+	def loadVersion1(self, config) -> None:
 		self.project = Project(self, self, config["project"]) if "project" in config else None
 		self.build =   Build(self, self, config["build"])     if "build" in config   else None

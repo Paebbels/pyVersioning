@@ -10,7 +10,7 @@
 /*                                                                                                                     *
 /* @brief     C Structure definitions for pyVersioning                                                                 *
 /*                                                                                                                     *
-/* @copyright Copyright 2020-2024 Patrick Lehmann - Boetzingen, Germany                                                *
+/* @copyright Copyright 2020-2026 Patrick Lehmann - Boetzingen, Germany                                                *
 /*                                                                                                                     *
 /* Licensed under the Apache License, Version 2.0 (the "License");                                                     *
 /* you may not use this file except in compliance with the License.                                                    *
@@ -57,8 +57,8 @@ typedef struct {
 } Version;
 
 typedef struct {
-	char       hash[41];    // hex-value as string (160-bit => 40 characters + \0)
-	DateTime   datetime;
+	const char* hash;    // hex-value as string (160-bit => 40 characters + \0)
+	DateTime    datetime;
 } Commit;
 
 typedef struct {

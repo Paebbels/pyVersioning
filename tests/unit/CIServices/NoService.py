@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2025 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2026 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -67,7 +67,7 @@ class LocalEnvironment(TestCase):
 		return env
 
 	@mark.skipif(Platforms.OS_Windows in CurrentPlatform._platform, reason="Skipped, if current platform is on Windows.")
-	def test_NoArguments(self):
+	def test_NoArguments(self) -> None:
 		print()
 
 		stdout, stderr = self._run()

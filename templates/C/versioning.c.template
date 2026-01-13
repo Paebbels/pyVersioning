@@ -38,7 +38,7 @@ const VersioningInformation versioningInformation = {{
 	}},
 	.git = {{
 		.commit = {{
-			.hash =      "{git.commit.hash}\0",
+			.hash =      "{git.commit.hash}",
 			.datetime = {{
 				.date = {{
 					.day =   {git.commit.date.day},

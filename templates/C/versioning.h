@@ -57,8 +57,8 @@ typedef struct {
 } Version;
 
 typedef struct {
-	char       hash[41];    // hex-value as string (160-bit => 40 characters + \0)
-	DateTime   datetime;
+	const char* hash;    // hex-value as string (160-bit => 40 characters + \0)
+	DateTime    datetime;
 } Commit;
 
 typedef struct {

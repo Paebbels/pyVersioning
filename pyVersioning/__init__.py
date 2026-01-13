@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2025 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2026 Patrick Lehmann - Bötzingen, Germany                                                             #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -30,7 +30,7 @@
 #
 __author__ =    "Patrick Lehmann"
 __email__ =     "Paebbels@gmail.com"
-__copyright__ = "2020-2025, Patrick Lehmann"
+__copyright__ = "2020-2026, Patrick Lehmann"
 __license__ =   "Apache License, Version 2.0"
 __version__ =   "0.18.4"
 __keywords__ =  ["Python3", "Template", "Versioning", "Git"]
@@ -40,7 +40,6 @@ from datetime     import date, time, datetime
 from enum         import Enum, auto
 from os           import environ
 from subprocess   import run as subprocess_run, PIPE, CalledProcessError
-from sys          import version_info
 from typing       import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable, List
 
 from pyTooling.Decorators       import export, readonly
@@ -54,17 +53,6 @@ from pyVersioning.Configuration import Configuration, Project, Compiler, Build
 @export
 class VersioningException(Exception):
 	"""Base-exception for all exceptions thrown by pyVersioning."""
-
-	# WORKAROUND: for Python <3.11
-	# Implementing a dummy method for Python versions before
-	if version_info < (3, 11):  # pragma: no cover
-		__notes__: List[str]
-
-		def add_note(self, message: str) -> None:
-			try:
-				self.__notes__.append(message)
-			except AttributeError:
-				self.__notes__ = [message]
 
 
 @export

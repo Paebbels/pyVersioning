@@ -67,7 +67,7 @@ class LocalEnvironment(TestCase):
 		return env
 
 	@mark.skipif(Platforms.OS_Windows in CurrentPlatform._platform, reason="Skipped, if current platform is on Windows.")
-	def test_NoArguments(self):
+	def test_NoArguments(self) -> None:
 		print()
 
 		stdout, stderr = self._run()

@@ -431,7 +431,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 		self.WriteVerbose("Applying variables to template ...")
 		return self._versioning.FillOutTemplate(template, **kwargs)
 
-	def WriteOutput(self, outputFile: Nullable[Path], content: str):
+	def WriteOutput(self, outputFile: Nullable[Path], content: str) -> None:
 		if outputFile is not None:
 			self.WriteVerbose(f"Writing output to '{outputFile}' ...")
 			if not outputFile.parent.exists():

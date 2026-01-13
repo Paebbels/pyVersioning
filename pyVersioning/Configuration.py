@@ -128,7 +128,7 @@ class Configuration(Base):
 		else:
 			self.load(configFile)
 
-	def load(self, configFile: Path):
+	def load(self, configFile: Path) -> None:
 		# TODO: change to pyTooling.Configuration
 		yaml =   YAML()
 		config = yaml.load(configFile)
@@ -138,6 +138,6 @@ class Configuration(Base):
 		if self.version == 1:
 			self.loadVersion1(config)
 
-	def loadVersion1(self, config):
+	def loadVersion1(self, config) -> None:
 		self.project = Project(self, self, config["project"]) if "project" in config else None
 		self.build =   Build(self, self, config["build"])     if "build" in config   else None

@@ -30,7 +30,7 @@
 #
 """Unit tests for GitLab CI."""
 from subprocess       import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
-from typing           import Any, Optional as Nullable
+from typing           import Any, Optional as Nullable, Tuple
 
 from unittest         import TestCase
 
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
 class GitHubEnvironment(TestCase):
 	@classmethod
-	def _run(cls, command: Nullable[str] = None, *args: Any):
+	def _run(cls, command: Nullable[str] = None, *args: Any) -> Tuple[str, str]:
 		callArgs = ["pyVersioning"]
 		if command is not None:
 			callArgs.append(command)

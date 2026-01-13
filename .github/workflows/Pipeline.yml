@@ -25,7 +25,7 @@ jobs:
     with:
       package_name:        'pyVersioning'
       python_version_list: '3.11 3.12 3.13 3.14'
-      disable_list:        'windows-arm:pypy-3.11'
+      disable_list:        'windows-arm:pypy-3.11 windows-arm:3.13'
 
   AppTestingParams:
     uses: pyTooling/Actions/.github/workflows/Parameters.yml@r7

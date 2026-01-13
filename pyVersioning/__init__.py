@@ -924,12 +924,13 @@ class Versioning(ILineTerminal, GitHelperMixin):
 		Environment = make_dataclass(
 			"Environment",
 			[(name, str) for name in env.keys()],
-#			bases=(SelfDescriptive,),
+			# bases=(SelfDescriptive,),
 			namespace={
 				"as_dict":       lambda self: env,
 				"Keys":          lambda self: env.keys(),
 				"KeyValuePairs": lambda self: func(self)
 			},
+			# slots=True,
 			repr=True
 		)
 

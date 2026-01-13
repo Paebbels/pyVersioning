@@ -89,12 +89,13 @@ class CIService(BaseService, GitHelperMixin):
 		Environment = make_dataclass(
 			"Environment",
 			[(name, str) for name in filteredEnv.keys()],
-			bases=(SelfDescriptive,),
+			# bases=(SelfDescriptive,),
 			namespace={
 				'as_dict':       lambda self: filteredEnv,
 				'Keys':          lambda self: filteredEnv.keys(),
 				'KeyValuePairs': lambda self: func(self)
 			},
+			# slots=True,
 			repr=True
 		)
 

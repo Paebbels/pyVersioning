@@ -157,7 +157,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 			super().Run()  # todo: enableAutoComplete ??
 		except ArgumentError as ex:
 			self._PrintHeadline()
-			self.WriteError(ex)
+			self.WriteError(str(ex))
 			self.Exit(2)
 
 		self.Exit()

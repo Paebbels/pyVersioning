@@ -32,7 +32,7 @@ Param(
 )
 
 $PackageName = "pyVersioning"
-$PackageVersion = "0.18.4"
+$PackageVersion = "0.18.5"
 
 # set default values
 $EnableDebug =        [bool]$PSCmdlet.MyInvocation.BoundParameters["Debug"]

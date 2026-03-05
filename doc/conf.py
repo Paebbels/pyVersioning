@@ -23,6 +23,7 @@ sys_path.insert(0, abspath("../pyVersioning"))
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
+# TODO: compare to pyTooling
 project = "pyVersioning"
 directoryName = project.replace('.', '/')
 
@@ -236,6 +237,8 @@ graphviz_output_format = "svg"
 # ==============================================================================
 # SphinxContrib.Mermaid
 # ==============================================================================
+mermaid_cmd = "mmdc"
+mermaid_cmd_shell = True
 mermaid_params = [
 	'--backgroundColor', 'transparent',
 ]

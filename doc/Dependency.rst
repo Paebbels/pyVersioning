@@ -3,14 +3,27 @@
 Dependencies
 ############
 
-.. |img-pyVersioning-lib-status| image:: https://img.shields.io/librariesio/release/pypi/pyVersioning
-   :alt: Libraries.io status for latest release
-   :height: 22
-   :target: https://libraries.io/github/Paebbels/pyVersioning
-.. |img-pyVersioning-vul-status| image:: https://img.shields.io/snyk/vulnerabilities/github/Paebbels/pyVersioning
-   :alt: Snyk Vulnerabilities for GitHub Repo
-   :height: 22
-   :target: https://img.shields.io/snyk/vulnerabilities/github/Paebbels/pyVersioning
+.. only:: html
+
+   .. |img-pyVersioning-lib-status| image:: https://img.shields.io/librariesio/release/pypi/pyVersioning
+      :alt: Libraries.io status for latest release
+      :height: 22
+      :target: https://libraries.io/github/Paebbels/pyVersioning
+   .. |img-pyVersioning-vul-status| image:: https://img.shields.io/snyk/vulnerabilities/github/Paebbels/pyVersioning
+      :alt: Snyk Vulnerabilities for GitHub Repo
+      :height: 22
+      :targ
+
+.. only:: latex
+
+   .. |img-pyVersioning-lib-status| image:: https://raster.shields.io/librariesio/release/pypi/pyVersioning
+      :alt: Libraries.io status for latest release
+      :height: 22
+      :target: https://libraries.io/github/Paebbels/pyVersioning
+   .. |img-pyVersioning-vul-status| image:: https://raster.shields.io/snyk/vulnerabilities/github/Paebbels/pyVersioning
+      :alt: Snyk Vulnerabilities for GitHub Repo
+      :height: 22
+      :target: https://img.shields.io/snyk/vulnerabilities/github/Paebbels/pyVersioning
 
 +------------------------------------------+------------------------------------------+
 | `Libraries.io <https://libraries.io/>`_  | Vulnerabilities Summary                  |

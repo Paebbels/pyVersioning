@@ -122,7 +122,8 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 			description=self.HeadLine,
 			formatter_class=RawDescriptionHelpFormatter,
 			add_help=False,
-			exit_on_error=False
+			exit_on_error=False,
+			color=False
 		)
 
 		self._LOG_MESSAGE_FORMAT__[Severity.Fatal] =   "{DARK_RED}[FATAL] {message}{NOCOLOR}"

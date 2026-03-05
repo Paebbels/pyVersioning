@@ -52,6 +52,7 @@ jobs:
     needs:
       - ConfigParams
       - UnitTestingParams
+      - PublishCoverageResults  # artificial dependency to delay start when pipeline has free job resources
     with:
       python_version: ${{ needs.UnitTestingParams.outputs.python_version }}
       html_report:    ${{ needs.ConfigParams.outputs.typing_report_html }}
@@ -61,6 +62,7 @@ jobs:
     uses: pyTooling/Actions/.github/workflows/CheckCodeQuality.yml@r7
     needs:
       - UnitTestingParams
+      - PublishCoverageResults  # artificial dependency to delay start when pipeline has free job resources
     with:
       python_version:    ${{ needs.UnitTestingParams.outputs.python_version }}
       package_directory: ${{ needs.UnitTestingParams.outputs.package_directory }}
@@ -292,7 +294,7 @@ jobs:
       - UnitTesting
       - StaticTypeCheck
       - Documentation
-#      - PDFDocumentation
+      - PDFDocumentation
       - PublishTestResults
       - PublishCoverageResults
       - PublishToGitHubPages

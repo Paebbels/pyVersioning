@@ -251,9 +251,12 @@ $compileLaTeXDocFunc = {
   py -$PyVersion -m sphinx.cmd.build --builder latex --write-all --doctree-dir _build/doctrees-latex --jobs 8 --warning-file _build/sphinx-latex-warnings.log --verbose . _build/latex
 
   Move-Item -Force "_build/latex/doc-CC--BY_41.0-green" "_build/latex/doc-CC--BY_41_0-green.png"
+  Move-Item -Force "_build/latex/Pipeline1.yml" "_build/latex/Pipeline1.png"
 
   $texFile = Get-Content "_build/latex/$LaTeXDocument"
-  $texFile.Replace('{{doc-CC--BY_41}.0-green}}', '{{doc-CC--BY_41_0-green}.png}}') | Set-Content "_build/latex/$LaTeXDocument"
+  $texFile = $texFile.Replace('{{doc-CC--BY_41}.0-green}}', '{{doc-CC--BY_41_0-green}.png}}')
+  $texFile = $texFile.Replace('{{Pipeline1}.yml}}',         '{{Pipeline1}.png}}')
+  $texFile | Set-Content "_build/latex/$LaTeXDocument"
 
   Pop-Location
 }

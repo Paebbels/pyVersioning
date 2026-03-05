@@ -41,7 +41,6 @@ jobs:
       - UnitTestingParams
     with:
       jobs:                     ${{ needs.UnitTestingParams.outputs.python_jobs }}
-      requirements:             "-r tests/unit/requirements.txt"
       pacboy:                   "msys/git"
       unittest_report_xml:      ${{ needs.ConfigParams.outputs.unittest_report_xml }}
       coverage_report_html:     ${{ needs.ConfigParams.outputs.coverage_report_html }}

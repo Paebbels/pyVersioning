@@ -28,7 +28,7 @@
 # SPDX-License-Identifier: Apache-2.0                                                                                  #
 # ==================================================================================================================== #
 #
-from argparse    import RawDescriptionHelpFormatter, Namespace, ArgumentError
+from argparse    import RawDescriptionHelpFormatter, Namespace, ArgumentError, ArgumentParser
 from collections import namedtuple
 from pathlib     import Path
 from textwrap    import dedent
@@ -41,6 +41,7 @@ from pyTooling.Attributes.ArgParse            import DefaultHandler, CommandHand
 from pyTooling.Attributes.ArgParse.Argument   import StringArgument, PathArgument
 from pyTooling.Attributes.ArgParse.Flag       import FlagArgument
 from pyTooling.Attributes.ArgParse.ValuedFlag import LongValuedFlag
+from pyTooling.Platform                       import CurrentPlatform
 from pyTooling.TerminalUI                     import TerminalApplication, Severity, Mode
 
 from pyVersioning                             import __version__, __author__, __email__, __copyright__, __license__
@@ -122,8 +123,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 			description=self.HeadLine,
 			formatter_class=RawDescriptionHelpFormatter,
 			add_help=False,
-			exit_on_error=False,
-			color=False
+			exit_on_error=False
 		)
 
 		self._LOG_MESSAGE_FORMAT__[Severity.Fatal] =   "{DARK_RED}[FATAL] {message}{NOCOLOR}"
@@ -454,13 +454,30 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 def main() -> NoReturn:
 	"""Entrypoint for program execution."""
 	application = Application()
-	application.CheckPythonVersion((3, 8, 0))
+	application.CheckPythonVersion((3, 11, 0))
 	try:
 		application.Run()
 	# except ServiceException as ex:
 	# 	application.PrintException(ex)
 	except Exception as ex:
 		application.PrintException(ex)
+
+
+def __parser() -> ArgumentParser:
+	"""
+	Return the *argparse* main parser with disabled colors for automatic documentation extraction.
+
+	:returns: CLI interface's main parser.
+
+	.. seealso::
+
+	   Sphinx extension `sphinxcontrib.autoprogram <https://github.com/sphinx-contrib/autoprogram>`__.
+	"""
+	application = Application()
+	if CurrentPlatform.PythonVersion >= "3.14":
+		application._mainParser.color = False
+
+	return application.MainParser
 
 
 if __name__ == "__main__":

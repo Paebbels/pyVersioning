@@ -475,7 +475,9 @@ def __parser() -> ArgumentParser:
 	"""
 	application = Application()
 	if CurrentPlatform.PythonVersion >= "3.14":
-		application._mainParser.color = False
+		application.MainParser.color = False
+		for sub in application.SubParsers.values():
+			sub.color = False
 
 	return application.MainParser
 

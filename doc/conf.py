@@ -129,13 +129,15 @@ except Exception as ex:
 	print(ex)
 	latexPreamble = ""
 
+latex_engine = "lualatex"
+latex_use_xindy = False
 latex_elements = {
 	"inputenc":  "",             # Let LuaLaTeX handle input encoding
 	"utf8extra": "",
-	"fontenc":   "",             # Disable the default T1 font encoding (Essential for LuaLaTeX)
+	"fontenc":   "\\usepackage{fontspec}\n\\PassOptionsToPackage{verbatimvisiblespace=\\ }{sphinx}",             # Disable the default T1 font encoding (Essential for LuaLaTeX)
 	"fontpkg":   "",             # Disable the default TeX font package (Times/Palatino)
 	"papersize": "a4paper",      # The paper size ('letterpaper' or 'a4paper').
-	#'pointsize': '10pt',       	# The font size ('10pt', '11pt' or '12pt').
+	'pointsize': "10pt",         # The font size ('10pt', '11pt' or '12pt').
 	"preamble":  latexPreamble,  # Additional stuff for the LaTeX preamble.
 	#'figure_align': 'htbp',     # Latex figure (float) alignment
 }

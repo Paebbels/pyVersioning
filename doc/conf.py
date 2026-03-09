@@ -5,6 +5,8 @@ from sys import path as sys_path
 from os.path import abspath
 from pathlib import Path
 from json import loads
+from textwrap import dedent
+
 from typing import Dict
 
 from pyTooling.Packaging import extractVersionInformation
@@ -132,14 +134,30 @@ except Exception as ex:
 latex_engine = "lualatex"
 latex_use_xindy = False
 latex_elements = {
-	"inputenc":  "",             # Let LuaLaTeX handle input encoding
-	"utf8extra": "",
-	"fontenc":   "\\usepackage{fontspec}\n\\PassOptionsToPackage{verbatimvisiblespace=\\ }{sphinx}",             # Disable the default T1 font encoding (Essential for LuaLaTeX)
-	"fontpkg":   "",             # Disable the default TeX font package (Times/Palatino)
 	"papersize": "a4paper",      # The paper size ('letterpaper' or 'a4paper').
-	'pointsize': "10pt",         # The font size ('10pt', '11pt' or '12pt').
+	"pointsize": "10pt",         # The font size ('10pt', '11pt' or '12pt').
+	"inputenc":   "",            # Let LuaLaTeX handle input encoding
+	"utf8extra":  "",
+	"fontenc":    r"\usepackage{fontspec}",  # Disable the default T1 font encoding (Essential for LuaLaTeX)
+	"fontpkg":    dedent("""\
+		% Set Main fonts
+		\\usepackage{libertinus-otf}
+
+		% Set Math font
+		\\usepackage{unicode-math}
+		\\setmathfont{LibertinusMath}
+
+		% Set Symbol font
+		\\usepackage{newunicodechar}
+		\\newfontfamily{\\emojifont}[Renderer=OpenType]{NotoColorEmoji.ttf}
+	"""),
+	"passoptionstopackages": dedent("""\
+		\\PassOptionsToPackage{verbatimvisiblespace=\\ }{sphinx}
+	"""),
 	"preamble":  latexPreamble,  # Additional stuff for the LaTeX preamble.
 	#'figure_align': 'htbp',     # Latex figure (float) alignment
+	"makeindex":  r"\usepackage[columns=1]{idxlayout}\makeindex",
+	"printindex": r"\def\twocolumn[#1]{#1}\printindex",
 }
 
 # Grouping the document tree into LaTeX files. List of tuples

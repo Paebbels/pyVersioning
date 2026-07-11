@@ -11,6 +11,6 @@ information is shown by calling ``pyVersioning version``.
 
 .. _References:cli:
 
-.. autoprogram:: pyVersioning.CLI:Application().MainParser
+.. autoprogram:: pyVersioning.CLI:__parser()
   :prog: pyVersioning
   :groups:

@@ -1,7 +1,7 @@
 [![Sourcecode on GitHub](https://img.shields.io/badge/Paebbels-pyVersioning-323131.svg?logo=github&longCache=true)](https://github.com/Paebbels/pyVersioning)
 [![Sourcecode License](https://img.shields.io/pypi/l/pyVersioning?longCache=true&style=flat-square&logo=Apache&label=code)](LICENSE.md)
 [![Documentation](https://img.shields.io/website?longCache=true&style=flat-square&label=Paebbels.github.io%2FpyVersioning&logo=GitHub&logoColor=fff&up_color=blueviolet&up_message=Read%20now%20%E2%9E%9A&url=https%3A%2F%2FPaebbels.github.io%2FpyVersioning%2Findex.html)](https://Paebbels.github.io/pyVersioning/)
-[![Documentation License](https://img.shields.io/badge/doc-CC--BY%204.0-green?longCache=true&style=flat-square&logo=CreativeCommons&logoColor=fff)](LICENSE.md)  
+[![Documentation License](https://img.shields.io/badge/doc-CC--BY%204.0-green?longCache=true&style=flat-square&logo=CreativeCommons&logoColor=fff)](doc/Doc-License.rst)  
 [![PyPI](https://img.shields.io/pypi/v/pyVersioning?longCache=true&style=flat-square&logo=PyPI&logoColor=FBE072)](https://pypi.org/project/pyVersioning/)
 ![PyPI - Status](https://img.shields.io/pypi/status/pyVersioning?longCache=true&style=flat-square&logo=PyPI&logoColor=FBE072)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyVersioning?longCache=true&style=flat-square&logo=PyPI&logoColor=FBE072)  

@@ -57,6 +57,24 @@ from pyVersioning.Configuration import Configuration, Project, Compiler, Build
 class VersioningException(Exception):
 	"""Base-exception for all exceptions thrown by pyVersioning."""
 
+	@readonly
+	def HasNotes(self) -> bool:
+		"""
+		Read-only property to return if the warning has attached notes.
+
+		:returns: True, if the warning has attached notes.
+		"""
+		return hasattr(self, "__notes__") and self.__notes__ is not None and len(self.__notes__) > 0
+
+	@readonly
+	def Notes(self) -> Tuple[str, ...]:
+		"""
+		Read-only property to access warning's attached notes.
+
+		:returns: Attached notes.
+		"""
+		return tuple(self.__notes__) if hasattr(self, "__notes__") else tuple()
+
 
 @export
 class ToolException(VersioningException):

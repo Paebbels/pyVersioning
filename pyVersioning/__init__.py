@@ -28,12 +28,15 @@
 # SPDX-License-Identifier: Apache-2.0                                                                                  #
 # ==================================================================================================================== #
 #
-__author__ =    "Patrick Lehmann"
-__email__ =     "Paebbels@gmail.com"
-__copyright__ = "2020-2026, Patrick Lehmann"
-__license__ =   "Apache License, Version 2.0"
-__version__ =   "0.18.5"
-__keywords__ =  ["Python3", "Template", "Versioning", "Git"]
+__author__ =            "Patrick Lehmann"
+__email__ =             "Paebbels@gmail.com"
+__copyright__ =         "2020-2026, Patrick Lehmann"
+__license__ =           "Apache License, Version 2.0"
+__version__ =           "0.18.5"
+__keywords__ =          ["Python3", "Template", "Versioning", "Git"]
+__project_url__ =       "https://github.com/pyTooling/pyVersioning"
+__documentation_url__ = "https://pyTooling.github.io/pyVersioning"
+__issue_tracker_url__ = "https://GitHub.com/Paebbels/pyVersioning/issues"
 
 from dataclasses  import make_dataclass
 from datetime     import date, time, datetime

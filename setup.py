@@ -46,6 +46,9 @@ setup(
 		gitHubNamespace=gitHubNamespace,
 		sourceFileWithVersion=packageInformationFile,
 		pythonVersions=("3.11", "3.12", "3.13", "3.14"),
+		dataFiles={
+			packageName: ["py.typed"]
+		},
 		consoleScripts={
 			"pyVersioning": "pyVersioning.CLI:main",
 		}

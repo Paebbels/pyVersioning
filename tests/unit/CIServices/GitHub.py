@@ -46,7 +46,7 @@ if __name__ == "__main__":
 class GitHubEnvironment(TestCase):
 	@staticmethod
 	def _getServiceEnvironment(**kwargs: Any) -> Dict[str, str]:
-		env: Dict[str, str] = {k: v for k, v in os_environ.items()}
+		env: Dict[str, str] = dict(os_environ)
 
 		if len(kwargs) == 0:
 			env["CI"] =                "YES"

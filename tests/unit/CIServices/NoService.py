@@ -52,7 +52,7 @@ if __name__ == "__main__":
 class LocalEnvironment(TestCase):
 	@classmethod
 	def _getServiceEnvironment(cls, **kwargs: Any) -> Dict[str, str]:
-		env: Dict[str, str] = {k: v for k, v in os_environ.items()}
+		env: Dict[str, str] = dict(os_environ)
 
 		# Remove GitHub variables
 		if "GITHUB_ACTIONS" in env:

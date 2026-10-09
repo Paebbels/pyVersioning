@@ -611,7 +611,11 @@ class Platform(SelfDescriptive):
 
 @export
 class BaseService(metaclass=ExtendedType):
-	"""Base-class to collect platform and environment information from e.g. environment variables."""
+	"""
+	Base-class to collect platform and environment information.
+
+	The information is read e.g. from environment variables.
+	"""
 
 	# @abstractmethod
 	def GetPlatform(self) -> Platform:  # type: ignore[empty-body]

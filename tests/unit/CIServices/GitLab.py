@@ -45,7 +45,7 @@ if __name__ == "__main__":
 class GitLabEnvironment(TestCase):
 	@classmethod
 	def _getServiceEnvironment(cls, **kwargs: Any) -> Dict[str, str]:
-		env: Dict[str, str] = {k: v for k, v in os_environ.items()}
+		env: Dict[str, str] = dict(os_environ)
 
 		if len(kwargs) == 0:
 			env["GITLAB_CI"] =          "YES"

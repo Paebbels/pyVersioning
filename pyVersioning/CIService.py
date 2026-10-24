@@ -37,8 +37,8 @@ from typing       import Dict, Optional as Nullable, Tuple
 from pyTooling.Decorators  import export
 from pyTooling.MetaClasses import abstractmethod
 
-from pyVersioning          import VersioningException, GitHelperMixin, SelfDescriptive
-from pyVersioning          import GitShowCommand, BaseService, Platform
+from pyVersioning          import VersioningException, GitHelperMixin, SelfDescriptive, GitShowCommand, BaseService, \
+                                  Platform
 
 
 @export

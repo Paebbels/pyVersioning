@@ -36,16 +36,16 @@ from typing      import NoReturn, Optional as Nullable
 
 from pyTooling.Attributes                     import Entity
 from pyTooling.Decorators                     import export
-from pyTooling.Attributes.ArgParse            import ArgParseHelperMixin, CommandGroupAttribute
-from pyTooling.Attributes.ArgParse            import DefaultHandler, CommandHandler
+from pyTooling.Attributes.ArgParse            import ArgParseHelperMixin, CommandGroupAttribute, DefaultHandler, \
+                                                     CommandHandler
 from pyTooling.Attributes.ArgParse.Argument   import StringArgument, PathArgument
 from pyTooling.Attributes.ArgParse.Flag       import FlagArgument
 from pyTooling.Attributes.ArgParse.ValuedFlag import LongValuedFlag
 from pyTooling.Platform                       import CurrentPlatform
 from pyTooling.TerminalUI                     import TerminalApplication, Severity, Mode
 
-from pyVersioning                             import __version__, __author__, __email__, __copyright__, __license__
-from pyVersioning                             import Versioning, Platforms, Project, SelfDescriptive
+from pyVersioning                             import __version__, __author__, __email__, __copyright__, __license__, \
+                                                     Versioning, Platforms, Project, SelfDescriptive
 from pyVersioning.Configuration               import Configuration
 
 

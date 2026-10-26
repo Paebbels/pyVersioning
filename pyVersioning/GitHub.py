@@ -32,9 +32,7 @@
 from os     import environ
 from typing import Optional as Nullable
 
-from pyTooling.Decorators      import export
-from pyTooling.Exceptions      import ToolingException
-from pyTooling.GenericPath.URL import URL
+from pyTooling.Decorators import export
 
 from pyVersioning.CIService import CIService, Platform, ServiceException
 
@@ -105,20 +103,12 @@ class GitHub(CIService):
 
 	def GetGitRepository(self) -> str:
 		"""
-		Returns the Git repository URL.
+		Returns the Git repository's name ``<owner>/<repository>``.
 
-		:return:                  Git repository URL.
+		:return:                  Git repository's name.
 		:raises ServiceException: If environment variable ``GITHUB_REPOSITORY`` was not found.
-		:raises ServiceException: If repository URL from ``GITHUB_REPOSITORY`` couldn't be parsed.
 		"""
 		try:
-			repositoryURL = environ["GITHUB_REPOSITORY"]
+			return environ["GITHUB_REPOSITORY"]
 		except KeyError as ex:
 			raise ServiceException("Can't find GitHub Action environment variable 'GITHUB_REPOSITORY'.") from ex
-
-		try:
-			url = URL.Parse(repositoryURL)
-		except ToolingException as ex:
-			raise ServiceException(f"Syntax error in repository URL '{repositoryURL}'.") from ex
-
-		return str(url.WithoutCredentials())

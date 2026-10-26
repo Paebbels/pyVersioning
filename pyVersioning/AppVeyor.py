@@ -32,9 +32,7 @@
 from os     import environ
 from typing import Optional as Nullable
 
-from pyTooling.Decorators      import export
-from pyTooling.Exceptions      import ToolingException
-from pyTooling.GenericPath.URL import URL
+from pyTooling.Decorators import export
 
 
 from pyVersioning.CIService import CIService, Platform, ServiceException
@@ -90,20 +88,12 @@ class AppVeyor(CIService):
 
 	def GetGitRepository(self) -> str:
 		"""
-		Returns the Git repository URL.
+		Returns the AppVeyor project's slug.
 
-		:return:                  Git repository URL.
+		:return:                  AppVeyor project's slug.
 		:raises ServiceException: If environment variable ``APPVEYOR_PROJECT_SLUG`` was not found.
-		:raises ServiceException: If repository URL from ``APPVEYOR_PROJECT_SLUG`` couldn't be parsed.
 		"""
 		try:
-			repositoryURL = environ["APPVEYOR_PROJECT_SLUG"]
+			return environ["APPVEYOR_PROJECT_SLUG"]
 		except KeyError as ex:
 			raise ServiceException("Can't find AppVeyor environment variable 'APPVEYOR_PROJECT_SLUG'.") from ex
-
-		try:
-			url = URL.Parse(repositoryURL)
-		except ToolingException as ex:
-			raise ServiceException(f"Syntax error in repository URL '{repositoryURL}'.") from ex
-
-		return str(url.WithoutCredentials())

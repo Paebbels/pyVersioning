@@ -33,9 +33,9 @@ from datetime import datetime
 from os       import environ
 from typing   import Optional as Nullable
 
-from pyTooling.Decorators      import export
-from pyTooling.Exceptions      import ToolingException
-from pyTooling.GenericPath.URL import URL
+from pyTooling.Decorators import export
+from pyTooling.Exceptions import ToolingException
+from pyTooling.URI        import URL
 
 from pyVersioning.CIService import CIService, Platform, ServiceException
 

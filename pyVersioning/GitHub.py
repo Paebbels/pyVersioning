@@ -34,7 +34,7 @@ from typing import Optional as Nullable
 
 from pyTooling.Decorators import export
 
-from pyVersioning.CIService import CIService, Platform, ServiceException
+from pyVersioning.CIService import CIService, Platform, ServiceError
 
 
 @export
@@ -55,21 +55,21 @@ class GitHub(CIService):
 		"""
 		Returns the Git hash (SHA1 - 160-bit) as a string.
 
-		:return:                  Git hash as a hex formated string (40 characters).
-		:raises ServiceException: If environment variable ``GITHUB_SHA`` was not found.
+		:return:              Git hash as a hex formated string (40 characters).
+		:raises ServiceError: If environment variable ``GITHUB_SHA`` was not found.
 		"""
 		try:
 			return environ["GITHUB_SHA"]
 		except KeyError as ex:
-			raise ServiceException("Can't find GitHub Action environment variable 'GITHUB_SHA'.") from ex
+			raise ServiceError("Can't find GitHub Action environment variable 'GITHUB_SHA'.") from ex
 
 	def GetGitBranch(self) -> Nullable[str]:
 		"""
 		Returns Git branch name or ``None`` is not checked out on a branch.
 
-		:return:                  Git branch name or ``None``.
-		:raises ServiceException: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with
-		                          ``refs/heads/``.
+		:return:              Git branch name or ``None``.
+		:raises ServiceError: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with
+		                      ``refs/heads/``.
 		"""
 		branchPrefix = "refs/heads/"
 
@@ -86,9 +86,9 @@ class GitHub(CIService):
 		"""
 		Returns Git tag name or ``None`` is not checked out on a tag.
 
-		:return:                  Git tag name or ``None``.
-		:raises ServiceException: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with
-		                          ``refs/tags/``.
+		:return:              Git tag name or ``None``.
+		:raises ServiceError: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with
+		                      ``refs/tags/``.
 		"""
 		tagPrefix = "refs/tags/"
 
@@ -105,10 +105,10 @@ class GitHub(CIService):
 		"""
 		Returns the Git repository's name ``<owner>/<repository>``.
 
-		:return:                  Git repository's name.
-		:raises ServiceException: If environment variable ``GITHUB_REPOSITORY`` was not found.
+		:return:              Git repository's name.
+		:raises ServiceError: If environment variable ``GITHUB_REPOSITORY`` was not found.
 		"""
 		try:
 			return environ["GITHUB_REPOSITORY"]
 		except KeyError as ex:
-			raise ServiceException("Can't find GitHub Action environment variable 'GITHUB_REPOSITORY'.") from ex
+			raise ServiceError("Can't find GitHub Action environment variable 'GITHUB_REPOSITORY'.") from ex

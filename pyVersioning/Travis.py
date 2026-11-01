@@ -34,7 +34,7 @@ from typing import Optional as Nullable, Dict
 
 from pyTooling.Decorators import export
 
-from pyVersioning.CIService import CIService, Platform, ServiceException
+from pyVersioning.CIService import CIService, Platform, ServiceError
 
 
 @export
@@ -56,20 +56,20 @@ class Travis(CIService):
 		"""
 		Returns the Git hash (SHA1 - 160-bit) as a string.
 
-		:return:                  Git hash as a hex formated string (40 characters).
-		:raises ServiceException: If environment variable ``TRAVIS_COMMIT`` was not found.
+		:return:              Git hash as a hex formated string (40 characters).
+		:raises ServiceError: If environment variable ``TRAVIS_COMMIT`` was not found.
 		"""
 		try:
 			return environ["TRAVIS_COMMIT"]
 		except KeyError as ex:
-			raise ServiceException("Can't find Travis environment variable 'TRAVIS_COMMIT'.") from ex
+			raise ServiceError("Can't find Travis environment variable 'TRAVIS_COMMIT'.") from ex
 
 	def GetGitBranch(self) -> Nullable[str]:
 		"""
 		Returns Git branch name or ``None`` is not checked out on a branch.
 
-		:return:                  Git branch name or ``None``.
-		:raises ServiceException: If environment variable ``TRAVIS_BRANCH`` was not found.
+		:return:              Git branch name or ``None``.
+		:raises ServiceError: If environment variable ``TRAVIS_BRANCH`` was not found.
 		"""
 		try:
 			return environ["TRAVIS_BRANCH"]
@@ -80,8 +80,8 @@ class Travis(CIService):
 		"""
 		Returns Git tag name or ``None`` is not checked out on a branch.
 
-		:return:                  Git tag name or ``None``.
-		:raises ServiceException: If environment variable ``TRAVIS_TAG`` was not found.
+		:return:              Git tag name or ``None``.
+		:raises ServiceError: If environment variable ``TRAVIS_TAG`` was not found.
 		"""
 		try:
 			return environ["TRAVIS_TAG"]
@@ -92,10 +92,10 @@ class Travis(CIService):
 		"""
 		Returns the Git repository's slug ``<owner>/<repository>``.
 
-		:return:                  Git repository's slug.
-		:raises ServiceException: If environment variable ``TRAVIS_REPO_SLUG`` was not found.
+		:return:              Git repository's slug.
+		:raises ServiceError: If environment variable ``TRAVIS_REPO_SLUG`` was not found.
 		"""
 		try:
 			return environ["TRAVIS_REPO_SLUG"]
 		except KeyError as ex:
-			raise ServiceException("Can't find Travis environment variable 'TRAVIS_REPO_SLUG'.") from ex
+			raise ServiceError("Can't find Travis environment variable 'TRAVIS_REPO_SLUG'.") from ex

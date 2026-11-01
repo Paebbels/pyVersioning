@@ -453,7 +453,7 @@ def main() -> NoReturn:
 	application = Application()
 	try:
 		application.Run()
-	# except ServiceException as ex:
+	# except ServiceError as ex:
 	# 	application.PrintException(ex)
 	except Exception as ex:
 		application.PrintException(ex)

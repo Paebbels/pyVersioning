@@ -42,12 +42,8 @@ from pyVersioning          import GitShowCommand, BaseService, Platform
 
 
 @export
-class ServiceException(VersioningException):
-	"""
-	.. todo::
-		 ServiceException needs documentation
-
-	"""
+class ServiceError(VersioningException):
+	"""Exception raised when a CI service's environment variable is missing or can't be parsed."""
 
 
 @export

@@ -35,7 +35,7 @@ from typing import Optional as Nullable
 from pyTooling.Decorators import export
 
 
-from pyVersioning.CIService import CIService, Platform, ServiceException
+from pyVersioning.CIService import CIService, Platform, ServiceError
 
 
 @export
@@ -54,20 +54,20 @@ class AppVeyor(CIService):
 		"""
 		Returns the Git hash (SHA1 - 160-bit) as a string.
 
-		:return:                  Git hash as a hex formated string (40 characters).
-		:raises ServiceException: If environment variable ``APPVEYOR_REPO_COMMIT`` was not found.
+		:return:              Git hash as a hex formated string (40 characters).
+		:raises ServiceError: If environment variable ``APPVEYOR_REPO_COMMIT`` was not found.
 		"""
 		try:
 			return environ["APPVEYOR_REPO_COMMIT"]
 		except KeyError as ex:
-			raise ServiceException("Can't find AppVeyor environment variable 'APPVEYOR_REPO_COMMIT'.") from ex
+			raise ServiceError("Can't find AppVeyor environment variable 'APPVEYOR_REPO_COMMIT'.") from ex
 
 	def GetGitBranch(self) -> Nullable[str]:
 		"""
 		Returns Git branch name or ``None`` is not checked out on a branch.
 
-		:return:                  Git branch name or ``None``.
-		:raises ServiceException: If environment variable ``APPVEYOR_REPO_BRANCH`` was not found.
+		:return:              Git branch name or ``None``.
+		:raises ServiceError: If environment variable ``APPVEYOR_REPO_BRANCH`` was not found.
 		"""
 		try:
 			return environ["APPVEYOR_REPO_BRANCH"]
@@ -78,8 +78,8 @@ class AppVeyor(CIService):
 		"""
 		Returns Git tag name or ``None`` is not checked out on a branch.
 
-		:return:                  Git tag name or ``None``.
-		:raises ServiceException: If environment variable ``APPVEYOR_REPO_TAG_NAME`` was not found.
+		:return:              Git tag name or ``None``.
+		:raises ServiceError: If environment variable ``APPVEYOR_REPO_TAG_NAME`` was not found.
 		"""
 		try:
 			return environ["APPVEYOR_REPO_TAG_NAME"]
@@ -90,10 +90,10 @@ class AppVeyor(CIService):
 		"""
 		Returns the AppVeyor project's slug.
 
-		:return:                  AppVeyor project's slug.
-		:raises ServiceException: If environment variable ``APPVEYOR_PROJECT_SLUG`` was not found.
+		:return:              AppVeyor project's slug.
+		:raises ServiceError: If environment variable ``APPVEYOR_PROJECT_SLUG`` was not found.
 		"""
 		try:
 			return environ["APPVEYOR_PROJECT_SLUG"]
 		except KeyError as ex:
-			raise ServiceException("Can't find AppVeyor environment variable 'APPVEYOR_PROJECT_SLUG'.") from ex
+			raise ServiceError("Can't find AppVeyor environment variable 'APPVEYOR_PROJECT_SLUG'.") from ex

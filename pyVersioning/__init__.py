@@ -77,7 +77,7 @@ class VersioningException(Exception):
 
 
 @export
-class ToolException(VersioningException):
+class ToolError(VersioningException):
 	"""Exception thrown when a data collection tools has an error."""
 
 	command:      str    #: Command that caused the exception.
@@ -653,14 +653,14 @@ class GitHelperMixin(metaclass=ExtendedType, mixin=True):
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except CalledProcessError as ex:
-			raise ToolException(f"{command} {' '.join(arguments)}", str(ex))
+			raise ToolError(f"{command} {' '.join(arguments)}", str(ex))
 
 		if completed.returncode == 0:
 			comment = completed.stdout.decode("utf-8")
 			return comment[1:-2]
 		else:
 			message = completed.stderr.decode("utf-8")
-			raise ToolException(f"{command} {' '.join(arguments)}", message)
+			raise ToolError(f"{command} {' '.join(arguments)}", message)
 
 
 @export

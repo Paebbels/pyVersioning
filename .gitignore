@@ -27,9 +27,6 @@ doc/_build/
 doc/pyVersioning/**/*.*
 !doc/pyVersioning/index.rst
 
-# BuildTheDocs
-doc/_theme/**/*.*
-
 # PyCharm project files
 /.idea/workspace.xml
 

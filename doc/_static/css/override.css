@@ -122,3 +122,7 @@ section > p,
 .sd-container-fluid > .sd-row > .sd-col > ul.simple {
 	margin-bottom: 0px;
 }
+
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) .property {
+	display: inline;  /* inline-block; */
+}

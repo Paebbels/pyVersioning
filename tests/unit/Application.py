@@ -75,8 +75,9 @@ class Application(TestCase):
 	def test_NoCommand(self) -> None:
 		print()
 
-		app = pyV_Application()
-		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		app =         pyV_Application()
+		app._stdout = out = StringIO()
+		app._stderr = err = StringIO()
 		try:
 			app.Run()
 		except SystemExit as ex:
@@ -90,8 +91,9 @@ class Application(TestCase):
 	def test_Help(self) -> None:
 		print()
 
-		app = pyV_Application()
-		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		app =         pyV_Application()
+		app._stdout = out = StringIO()
+		app._stderr = err = StringIO()
 		try:
 			app.Run()
 		except SystemExit as ex:
@@ -105,8 +107,9 @@ class Application(TestCase):
 	def test_Version(self) -> None:
 		print()
 
-		app = pyV_Application()
-		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		app =         pyV_Application()
+		app._stdout = out = StringIO()
+		app._stderr = err = StringIO()
 		try:
 			app.Run()
 		except SystemExit as ex:
@@ -120,8 +123,9 @@ class Application(TestCase):
 	def test_Variables(self) -> None:
 		print()
 
-		app = pyV_Application()
-		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		app =         pyV_Application()
+		app._stdout = out = StringIO()
+		app._stderr = err = StringIO()
 		try:
 			app.Run()
 		except SystemExit as ex:
@@ -135,8 +139,9 @@ class Application(TestCase):
 	def test_Field_Version(self) -> None:
 		print()
 
-		app = pyV_Application()
-		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		app =         pyV_Application()
+		app._stdout = out = StringIO()
+		app._stderr = err = StringIO()
 		try:
 			app.Run()
 		except SystemExit as ex:
@@ -150,8 +155,9 @@ class Application(TestCase):
 	def test_Field_GitCommitHash(self) -> None:
 		print()
 
-		app = pyV_Application()
-		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		app =         pyV_Application()
+		app._stdout = out = StringIO()
+		app._stderr = err = StringIO()
 		try:
 			app.Run()
 		except SystemExit as ex:
@@ -165,8 +171,9 @@ class Application(TestCase):
 	def test_Fillout(self) -> None:
 		print()
 
-		app = pyV_Application()
-		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		app =         pyV_Application()
+		app._stdout = out = StringIO()
+		app._stderr = err = StringIO()
 		try:
 			app.Run()
 		except SystemExit as ex:
@@ -180,8 +187,9 @@ class Application(TestCase):
 	def test_JSON_WithoutError(self) -> None:
 		print()
 
-		app = pyV_Application()
-		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		app =         pyV_Application()
+		app._stdout = out = StringIO()
+		app._stderr = err = StringIO()
 		try:
 			app.Run()
 		except SystemExit as ex:
@@ -198,8 +206,9 @@ class Application(TestCase):
 	def test_JSON_WithError(self) -> None:
 		print()
 
-		app = pyV_Application()
-		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		app =         pyV_Application()
+		app._stdout = out = StringIO()
+		app._stderr = err = StringIO()
 		try:
 			app.Run()
 		except SystemExit as ex:
@@ -216,8 +225,9 @@ class Application(TestCase):
 	def test_YAML_WithoutError(self) -> None:
 		print()
 
-		app = pyV_Application()
-		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		app =         pyV_Application()
+		app._stdout = out = StringIO()
+		app._stderr = err = StringIO()
 		try:
 			app.Run()
 		except SystemExit as ex:
@@ -235,8 +245,9 @@ class Application(TestCase):
 	def test_YAML_WithError(self) -> None:
 		print()
 
-		app = pyV_Application()
-		app._stdout, app._stderr = out, err = StringIO(), StringIO()
+		app =         pyV_Application()
+		app._stdout = out = StringIO()
+		app._stderr = err = StringIO()
 		try:
 			app.Run()
 		except SystemExit as ex:

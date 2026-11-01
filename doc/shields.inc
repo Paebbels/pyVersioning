@@ -18,7 +18,7 @@
    :alt: Code license
    :height: 22
    :target: Code-License.html
-.. |SHIELD:png:pyVersioning-src-license| image:: https://img.shields.io/pypi/l/pyVersioning?longCache=true&style=flat-square&logo=Apache&label=code
+.. |SHIELD:png:pyVersioning-src-license| image:: https://raster.shields.io/pypi/l/pyVersioning?longCache=true&style=flat-square&logo=Apache&label=code
    :alt: Code license
    :height: 22
    :target: https://GitHub.com/Paebbels/pyVersioning/blob/main/LICENSE.md
@@ -140,11 +140,11 @@
    :target: https://libraries.io/github/Paebbels/pyVersioning
 
 .. # Documentation license
-.. |SHIELD:svg:pyVersioning-doc-license| image:: https://img.shields.io/badge/doc-CC--BY%204.0-green?longCache=true&style=flat-square&logo=CreativeCommons&logoColor=fff
+.. |SHIELD:svg:pyVersioning-doc-license| image:: https://img.shields.io/badge/doc-CC--BY\ 4.0-green?longCache=true&style=flat-square&logo=CreativeCommons&logoColor=fff
    :alt: Documentation License
    :height: 22
    :target: License.html
-.. |SHIELD:png:pyVersioning-doc-license| image:: https://raster.shields.io/badge/doc-CC--BY%204.0-green?longCache=true&style=flat-square&logo=CreativeCommons&logoColor=fff
+.. |SHIELD:png:pyVersioning-doc-license| image:: https://raster.shields.io/badge/doc-CC--BY\ 4.0-green?longCache=true&style=flat-square&logo=CreativeCommons&logoColor=fff
    :alt: Documentation License
    :height: 22
    :target: https://GitHub.com/Paebbels/pyVersioning/blob/main/doc/License.rst

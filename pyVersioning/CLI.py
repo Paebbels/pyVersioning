@@ -32,7 +32,7 @@ from argparse    import RawDescriptionHelpFormatter, Namespace, ArgumentError, A
 from collections import namedtuple
 from pathlib     import Path
 from textwrap    import dedent
-from typing      import NoReturn, Optional as Nullable
+from typing      import ClassVar, NoReturn, Optional as Nullable
 
 from pyTooling.Attributes                     import Entity
 from pyTooling.Decorators                     import export
@@ -102,8 +102,7 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 	"""
 	pyVersioning's command line interface application class.
 	"""
-	# TODO: First: fix bug in pyTooling
-	# HeadLine:     ClassVar[str] = "Version file generator."
+	HEADLINE:     ClassVar[str] = "Version file generator."  #: Headline of the application.
 
 	__configFile: Path
 	_config:      Nullable[Configuration]
@@ -112,15 +111,13 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 	def __init__(self) -> None:
 		super().__init__(Mode.TextToStdOut_ErrorsToStdErr)
 
-		self.__class__.HeadLine = "Version file generator."
-
 		self.__configFile = Path(".pyVersioning.yml")
 		self._config = None
 		self._versioning = None
 
 		ArgParseHelperMixin.__init__(
 			self,
-			description=self.HeadLine,
+			description=self.HEADLINE,
 			formatter_class=RawDescriptionHelpFormatter,
 			add_help=False,
 			exit_on_error=False
@@ -165,9 +162,9 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 
 	def _PrintHeadline(self) -> None:
 		"""Helper method to print the program headline."""
-		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.Foreground))
-		self.WriteNormal("{HEADLINE}{headline: ^80s}".format(headline=self.HeadLine, **TerminalApplication.Foreground))
-		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.Foreground))
+		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.FOREGROUND))
+		self.WriteNormal("{HEADLINE}{headline: ^80s}".format(headline=self.HEADLINE, **TerminalApplication.FOREGROUND))
+		self.WriteNormal("{HEADLINE}{line}".format(line="=" * 80, **TerminalApplication.FOREGROUND))
 
 	def _PrintVersion(self) -> None:
 		"""Helper method to print the version information."""
@@ -454,7 +451,6 @@ class Application(TerminalApplication, ArgParseHelperMixin):
 def main() -> NoReturn:
 	"""Entrypoint for program execution."""
 	application = Application()
-	application.CheckPythonVersion((3, 11, 0))
 	try:
 		application.Run()
 	# except ServiceException as ex:

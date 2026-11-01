@@ -29,10 +29,10 @@
 # ==================================================================================================================== #
 #
 """Travis  specific code to collect the build environment."""
-from os     import environ
-from typing import Optional as Nullable, Dict
+from os                     import environ
+from typing                 import Optional as Nullable, Dict
 
-from pyTooling.Decorators import export
+from pyTooling.Decorators   import export
 
 from pyVersioning.CIService import CIService, Platform, ServiceError
 

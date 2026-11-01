@@ -28,11 +28,12 @@
 # SPDX-License-Identifier: Apache-2.0                                                                                  #
 # ==================================================================================================================== #
 #
-from argparse    import RawDescriptionHelpFormatter, Namespace, ArgumentError, ArgumentParser
-from collections import namedtuple
-from pathlib     import Path
-from textwrap    import dedent
-from typing      import ClassVar, NoReturn, Optional as Nullable
+from argparse                                 import RawDescriptionHelpFormatter, Namespace, ArgumentError, \
+                                                     ArgumentParser
+from collections                              import namedtuple
+from pathlib                                  import Path
+from textwrap                                 import dedent
+from typing                                   import ClassVar, NoReturn, Optional as Nullable
 
 from pyTooling.Attributes                     import Entity
 from pyTooling.Decorators                     import export

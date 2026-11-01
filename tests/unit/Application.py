@@ -29,16 +29,16 @@
 # ==================================================================================================================== #
 #
 """Unit tests for pyVersioning application using mocking."""
-from io                   import StringIO
-from json                 import loads as json_loads
-from re                   import compile as re_compile
-from typing               import Tuple
-from unittest             import TestCase
-from unittest.mock        import patch
+from io               import StringIO
+from json             import loads as json_loads
+from re               import compile as re_compile
+from typing           import Tuple
+from unittest         import TestCase
+from unittest.mock    import patch
 
-from ruamel.yaml          import YAML
+from ruamel.yaml      import YAML
 
-from pyVersioning.CLI     import Application as pyV_Application
+from pyVersioning.CLI import Application as pyV_Application
 
 
 if __name__ == "__main__":

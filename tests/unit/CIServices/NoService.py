@@ -33,14 +33,14 @@ from json               import loads, JSONDecodeError
 from os                 import environ as os_environ
 from pathlib            import Path
 from re                 import compile as re_compile
-from typing import Any, Dict
+from typing             import Any, Dict
 
 from pyTooling.Platform import CurrentPlatform, Platforms
 from pytest             import mark
 from ruamel.yaml        import YAML
 from ruamel.yaml.reader import ReaderError
 
-from . import TestCase
+from .                  import TestCase
 
 
 if __name__ == "__main__":

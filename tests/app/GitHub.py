@@ -29,10 +29,10 @@
 # ==================================================================================================================== #
 #
 """Unit tests for GitLab CI."""
-from subprocess       import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
-from typing           import Any, Optional as Nullable, Tuple
+from subprocess import run as subprocess_run, PIPE as subprocess_PIPE, STDOUT as subprocess_STDOUT, CalledProcessError
+from typing     import Any, Optional as Nullable, Tuple
 
-from unittest         import TestCase
+from unittest   import TestCase
 
 
 if __name__ == "__main__":

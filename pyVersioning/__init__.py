@@ -38,12 +38,12 @@ __project_url__ =       "https://github.com/pyTooling/pyVersioning"
 __documentation_url__ = "https://pyTooling.github.io/pyVersioning"
 __issue_tracker_url__ = "https://GitHub.com/Paebbels/pyVersioning/issues"
 
-from dataclasses  import make_dataclass
-from datetime     import date, time, datetime
-from enum         import Enum, auto
-from os           import environ
-from subprocess   import run as subprocess_run, PIPE, CalledProcessError
-from typing       import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable, List
+from dataclasses                import make_dataclass
+from datetime                   import date, time, datetime
+from enum                       import Enum, auto
+from os                         import environ
+from subprocess                 import run as subprocess_run, PIPE, CalledProcessError
+from typing                     import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable, List
 
 from pyTooling.Decorators       import export, readonly
 from pyTooling.MetaClasses      import ExtendedType

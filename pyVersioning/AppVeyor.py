@@ -29,10 +29,10 @@
 # ==================================================================================================================== #
 #
 """AppVeyor specific code to collect the build environment."""
-from os     import environ
-from typing import Optional as Nullable
+from os                     import environ
+from typing                 import Optional as Nullable
 
-from pyTooling.Decorators import export
+from pyTooling.Decorators   import export
 
 
 from pyVersioning.CIService import CIService, Platform, ServiceError

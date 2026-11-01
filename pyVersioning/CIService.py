@@ -29,10 +29,10 @@
 # ==================================================================================================================== #
 #
 """Module for CI service base classes."""
-from dataclasses  import make_dataclass
-from datetime     import datetime
-from os           import environ
-from typing       import Dict, Optional as Nullable, Tuple
+from dataclasses           import make_dataclass
+from datetime              import datetime
+from os                    import environ
+from typing                import Dict, Optional as Nullable, Tuple
 
 from pyTooling.Decorators  import export
 from pyTooling.MetaClasses import abstractmethod

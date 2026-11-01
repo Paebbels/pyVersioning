@@ -45,6 +45,7 @@ from os                         import environ
 from subprocess                 import run as subprocess_run, PIPE, CalledProcessError
 from typing                     import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable, List
 
+from pyTooling.Common           import getTypeName
 from pyTooling.Decorators       import export, readonly
 from pyTooling.MetaClasses      import ExtendedType
 from pyTooling.Versioning       import SemanticVersion
@@ -962,4 +963,4 @@ class Versioning(ILineTerminal, GitHelperMixin):
 		try:
 			return template.format(**self._variables, **kwargs)
 		except AttributeError as ex:
-			self.WriteFatal(f"Syntax error in template. Accessing field '{ex.name}' of '{ex.obj.__class__.__name__}'.")
+			self.WriteFatal(f"Syntax error in template. Accessing field '{ex.name}' of '{getTypeName(ex.obj)}'.")

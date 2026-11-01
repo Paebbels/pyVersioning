@@ -97,14 +97,14 @@ class ToolException(VersioningException):
 @export
 class SelfDescriptive(metaclass=ExtendedType, slots=True, mixin=True):
 	# TODO: could this be filled with a decorator?
-	_public: ClassVar[Tuple[str, ...]]
+	_PUBLIC: ClassVar[Tuple[str, ...]]
 
 	def Keys(self) -> Generator[str, None, None]:
-		for element in self._public:
+		for element in self._PUBLIC:
 			yield element
 
 	def KeyValuePairs(self) -> Generator[Tuple[str, Any], None, None]:
-		for element in self._public:
+		for element in self._PUBLIC:
 			value = self.__getattribute__(element)
 			yield element, value
 
@@ -116,7 +116,7 @@ class Tool(SelfDescriptive):
 	_name:    str              #: Name of pyVersioning
 	_version: SemanticVersion  #: Version of the pyVersioning
 
-	_public:  ClassVar[Tuple[str, ...]] = ("name", "version")
+	_PUBLIC:  ClassVar[Tuple[str, ...]] = ("name", "version")
 
 	def __init__(self, name: str, version: SemanticVersion) -> None:
 		"""
@@ -161,7 +161,7 @@ class Date(date, SelfDescriptive):
 	This data structure class describes a date (dd.mm.yyyy).
 	"""
 
-	_public: ClassVar[Tuple[str, ...]] = ("day", "month", "year")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("day", "month", "year")
 
 
 @export
@@ -170,7 +170,7 @@ class Time(time, SelfDescriptive):
 	This data structure class describes a time (hh:mm:ss).
 	"""
 
-	_public: ClassVar[Tuple[str, ...]] = ("hour", "minute", "second")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("hour", "minute", "second")
 
 
 @export
@@ -184,7 +184,7 @@ class Person(SelfDescriptive):
 	_name:  str    #: Name of the person.
 	_email: str    #: Email address of the person.
 
-	_public: ClassVar[Tuple[str, ...]] = ("name", "email")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("name", "email")
 
 	def __init__(self, name: str, email: str) -> None:
 		"""
@@ -238,7 +238,7 @@ class Commit(SelfDescriptive):
 	_comment:   str
 	_oneline:   Union[str,  bool] = False
 
-	_public: ClassVar[Tuple[str, ...]] = ("hash", "date", "time", "author", "committer", "comment", "oneline")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("hash", "date", "time", "author", "committer", "comment", "oneline")
 
 	def __init__(self, hash: str, date: date, time: time, author: Person, committer: Person, comment: str) -> None:
 		"""
@@ -339,7 +339,7 @@ class Git(SelfDescriptive):
 	_branch:     str     #: Git branch
 	_repository: str     #: Git repository URL
 
-	_public: ClassVar[Tuple[str, ...]] = ("commit", "reference", "tag", "branch", "repository")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("commit", "reference", "tag", "branch", "repository")
 
 	def __init__(self, commit: Commit, repository: str, tag: str = "", branch: str = "") -> None:
 		self._commit = commit
@@ -418,7 +418,7 @@ class Project(SelfDescriptive):
 	_variant:  str                #: Variant of the project.
 	_version:  SemanticVersion    #: Version of the project.
 
-	_public: ClassVar[Tuple[str, ...]] = ("name", "variant", "version")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("name", "variant", "version")
 
 	def __init__(
 		self,
@@ -481,7 +481,7 @@ class Compiler(SelfDescriptive):
 	_configuration: str              #: Compiler configuration.
 	_options:       str              #: Compiler options (compiler flags).
 
-	_public: ClassVar[Tuple[str, ...]] = ("name", "version", "configuration", "options")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("name", "version", "configuration", "options")
 
 	def __init__(
 		self,
@@ -554,7 +554,7 @@ class Build(SelfDescriptive):
 	_time:     time      #: Build time.
 	_compiler: Compiler  #: Use compiler (and options) for the build.
 
-	_public: ClassVar[Tuple[str, ...]] = ("date", "time", "compiler")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("date", "time", "compiler")
 
 	def __init__(self, date: date, time: time, compiler: Compiler) -> None:
 		self._date = date
@@ -599,7 +599,7 @@ class Platform(SelfDescriptive):
 	""".. todo:: Platform needs documentation"""
 
 	_ciService: str
-	_public:  ClassVar[Tuple[str, ...]] = ('ci_service', )
+	_PUBLIC:  ClassVar[Tuple[str, ...]] = ('ci_service', )
 
 	def __init__(self, ciService: str) -> None:
 		self._ciService = ciService

@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2026 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2026 Patrick Lehmann - Boetzingen, Germany                                                            #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -29,10 +29,10 @@
 # ==================================================================================================================== #
 #
 """Module for CI service base classes."""
-from dataclasses  import make_dataclass
-from datetime     import datetime
-from os           import environ
-from typing       import Dict, Optional as Nullable, Tuple
+from dataclasses           import make_dataclass
+from datetime              import datetime
+from os                    import environ
+from typing                import Dict, Optional as Nullable, Tuple
 
 from pyTooling.Decorators  import export
 from pyTooling.MetaClasses import abstractmethod
@@ -42,12 +42,8 @@ from pyVersioning          import GitShowCommand, BaseService, Platform
 
 
 @export
-class ServiceException(VersioningException):
-	"""
-	.. todo::
-		 ServiceException needs documentation
-
-	"""
+class ServiceError(VersioningException):
+	"""Exception raised when a CI service's environment variable is missing or can't be parsed."""
 
 
 @export

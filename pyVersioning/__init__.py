@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2026 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2026 Patrick Lehmann - Boetzingen, Germany                                                            #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -38,13 +38,14 @@ __project_url__ =       "https://github.com/pyTooling/pyVersioning"
 __documentation_url__ = "https://pyTooling.github.io/pyVersioning"
 __issue_tracker_url__ = "https://GitHub.com/Paebbels/pyVersioning/issues"
 
-from dataclasses  import make_dataclass
-from datetime     import date, time, datetime
-from enum         import Enum, auto
-from os           import environ
-from subprocess   import run as subprocess_run, PIPE, CalledProcessError
-from typing       import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable, List
+from dataclasses                import make_dataclass
+from datetime                   import date, time, datetime
+from enum                       import Enum, auto
+from os                         import environ
+from subprocess                 import run as subprocess_run, PIPE, CalledProcessError
+from typing                     import Union, Any, Dict, Tuple, ClassVar, Generator, Optional as Nullable, List
 
+from pyTooling.Common           import getTypeName
 from pyTooling.Decorators       import export, readonly
 from pyTooling.MetaClasses      import ExtendedType
 from pyTooling.Versioning       import SemanticVersion
@@ -77,7 +78,7 @@ class VersioningException(Exception):
 
 
 @export
-class ToolException(VersioningException):
+class ToolError(VersioningException):
 	"""Exception thrown when a data collection tools has an error."""
 
 	command:      str    #: Command that caused the exception.
@@ -97,14 +98,14 @@ class ToolException(VersioningException):
 @export
 class SelfDescriptive(metaclass=ExtendedType, slots=True, mixin=True):
 	# TODO: could this be filled with a decorator?
-	_public: ClassVar[Tuple[str, ...]]
+	_PUBLIC: ClassVar[Tuple[str, ...]]
 
 	def Keys(self) -> Generator[str, None, None]:
-		for element in self._public:
+		for element in self._PUBLIC:
 			yield element
 
 	def KeyValuePairs(self) -> Generator[Tuple[str, Any], None, None]:
-		for element in self._public:
+		for element in self._PUBLIC:
 			value = self.__getattribute__(element)
 			yield element, value
 
@@ -116,7 +117,7 @@ class Tool(SelfDescriptive):
 	_name:    str              #: Name of pyVersioning
 	_version: SemanticVersion  #: Version of the pyVersioning
 
-	_public:  ClassVar[Tuple[str, ...]] = ("name", "version")
+	_PUBLIC:  ClassVar[Tuple[str, ...]] = ("name", "version")
 
 	def __init__(self, name: str, version: SemanticVersion) -> None:
 		"""
@@ -161,7 +162,7 @@ class Date(date, SelfDescriptive):
 	This data structure class describes a date (dd.mm.yyyy).
 	"""
 
-	_public: ClassVar[Tuple[str, ...]] = ("day", "month", "year")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("day", "month", "year")
 
 
 @export
@@ -170,7 +171,7 @@ class Time(time, SelfDescriptive):
 	This data structure class describes a time (hh:mm:ss).
 	"""
 
-	_public: ClassVar[Tuple[str, ...]] = ("hour", "minute", "second")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("hour", "minute", "second")
 
 
 @export
@@ -184,7 +185,7 @@ class Person(SelfDescriptive):
 	_name:  str    #: Name of the person.
 	_email: str    #: Email address of the person.
 
-	_public: ClassVar[Tuple[str, ...]] = ("name", "email")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("name", "email")
 
 	def __init__(self, name: str, email: str) -> None:
 		"""
@@ -238,7 +239,7 @@ class Commit(SelfDescriptive):
 	_comment:   str
 	_oneline:   Union[str,  bool] = False
 
-	_public: ClassVar[Tuple[str, ...]] = ("hash", "date", "time", "author", "committer", "comment", "oneline")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("hash", "date", "time", "author", "committer", "comment", "oneline")
 
 	def __init__(self, hash: str, date: date, time: time, author: Person, committer: Person, comment: str) -> None:
 		"""
@@ -339,7 +340,7 @@ class Git(SelfDescriptive):
 	_branch:     str     #: Git branch
 	_repository: str     #: Git repository URL
 
-	_public: ClassVar[Tuple[str, ...]] = ("commit", "reference", "tag", "branch", "repository")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("commit", "reference", "tag", "branch", "repository")
 
 	def __init__(self, commit: Commit, repository: str, tag: str = "", branch: str = "") -> None:
 		self._commit = commit
@@ -418,7 +419,7 @@ class Project(SelfDescriptive):
 	_variant:  str                #: Variant of the project.
 	_version:  SemanticVersion    #: Version of the project.
 
-	_public: ClassVar[Tuple[str, ...]] = ("name", "variant", "version")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("name", "variant", "version")
 
 	def __init__(
 		self,
@@ -481,7 +482,7 @@ class Compiler(SelfDescriptive):
 	_configuration: str              #: Compiler configuration.
 	_options:       str              #: Compiler options (compiler flags).
 
-	_public: ClassVar[Tuple[str, ...]] = ("name", "version", "configuration", "options")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("name", "version", "configuration", "options")
 
 	def __init__(
 		self,
@@ -554,7 +555,7 @@ class Build(SelfDescriptive):
 	_time:     time      #: Build time.
 	_compiler: Compiler  #: Use compiler (and options) for the build.
 
-	_public: ClassVar[Tuple[str, ...]] = ("date", "time", "compiler")
+	_PUBLIC: ClassVar[Tuple[str, ...]] = ("date", "time", "compiler")
 
 	def __init__(self, date: date, time: time, compiler: Compiler) -> None:
 		self._date = date
@@ -599,7 +600,7 @@ class Platform(SelfDescriptive):
 	""".. todo:: Platform needs documentation"""
 
 	_ciService: str
-	_public:  ClassVar[Tuple[str, ...]] = ('ci_service', )
+	_PUBLIC:  ClassVar[Tuple[str, ...]] = ('ci_service', )
 
 	def __init__(self, ciService: str) -> None:
 		self._ciService = ciService
@@ -653,14 +654,14 @@ class GitHelperMixin(metaclass=ExtendedType, mixin=True):
 		try:
 			completed = subprocess_run((command, *arguments), stdout=PIPE, stderr=PIPE)
 		except CalledProcessError as ex:
-			raise ToolException(f"{command} {' '.join(arguments)}", str(ex))
+			raise ToolError(f"{command} {' '.join(arguments)}", str(ex))
 
 		if completed.returncode == 0:
 			comment = completed.stdout.decode("utf-8")
 			return comment[1:-2]
 		else:
 			message = completed.stderr.decode("utf-8")
-			raise ToolException(f"{command} {' '.join(arguments)}", message)
+			raise ToolError(f"{command} {' '.join(arguments)}", message)
 
 
 @export
@@ -962,4 +963,4 @@ class Versioning(ILineTerminal, GitHelperMixin):
 		try:
 			return template.format(**self._variables, **kwargs)
 		except AttributeError as ex:
-			self.WriteFatal(f"Syntax error in template. Accessing field '{ex.name}' of '{ex.obj.__class__.__name__}'.")
+			self.WriteFatal(f"Syntax error in template. Accessing field '{ex.name}' of '{getTypeName(ex.obj)}'.")

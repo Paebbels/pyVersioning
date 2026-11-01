@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2026 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2026 Patrick Lehmann - Boetzingen, Germany                                                            #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -33,14 +33,14 @@ from json               import loads, JSONDecodeError
 from os                 import environ as os_environ
 from pathlib            import Path
 from re                 import compile as re_compile
-from typing import Any, Dict
+from typing             import Any, Dict
 
 from pyTooling.Platform import CurrentPlatform, Platforms
 from pytest             import mark
 from ruamel.yaml        import YAML
 from ruamel.yaml.reader import ReaderError
 
-from . import TestCase
+from .                  import TestCase
 
 
 if __name__ == "__main__":

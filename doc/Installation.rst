@@ -412,8 +412,12 @@ Ensure :ref:`documentation requirements <DEP/documentation>` are installed.
 
                cd <pyVersioning>
 
+               # Adding package root to PYTHONPATH
+               $env:PYTHONPATH = (Get-Location).Path
+               cd doc
+
                # Building documentation using Sphinx
-               .\doc\make.bat html --verbose
+               py -m sphinx.cmd.build -v -n -b html -d _build/doctrees -j auto -w _build/html.log . _build/html
 
          .. tab-item:: Generating LaTeX
             :sync: LaTeX
@@ -422,8 +426,12 @@ Ensure :ref:`documentation requirements <DEP/documentation>` are installed.
 
                cd <pyVersioning>
 
+               # Adding package root to PYTHONPATH
+               $env:PYTHONPATH = (Get-Location).Path
+               cd doc
+
                # Building documentation using Sphinx
-               .\doc\make.bat latex --verbose
+               py -m sphinx.cmd.build -v -n -b latex -d _build/doctrees -j auto -w _build/latex.log . _build/latex
 
          .. tab-item:: Generating PDF (from LaTeX)
             :sync: PDF

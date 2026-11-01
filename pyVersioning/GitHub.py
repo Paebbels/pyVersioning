@@ -11,7 +11,7 @@
 #                                                                                                                      #
 # License:                                                                                                             #
 # ==================================================================================================================== #
-# Copyright 2020-2026 Patrick Lehmann - Bötzingen, Germany                                                             #
+# Copyright 2020-2026 Patrick Lehmann - Boetzingen, Germany                                                            #
 #                                                                                                                      #
 # Licensed under the Apache License, Version 2.0 (the "License");                                                      #
 # you may not use this file except in compliance with the License.                                                     #
@@ -29,14 +29,12 @@
 # ==================================================================================================================== #
 #
 """GitHub specific code to collect the build environment."""
-from os     import environ
-from typing import Optional as Nullable
+from os                     import environ
+from typing                 import Optional as Nullable
 
-from pyTooling.Decorators      import export
-from pyTooling.Exceptions      import ToolingException
-from pyTooling.GenericPath.URL import URL
+from pyTooling.Decorators   import export
 
-from pyVersioning.CIService import CIService, Platform, ServiceException
+from pyVersioning.CIService import CIService, Platform, ServiceError
 
 
 @export
@@ -57,21 +55,21 @@ class GitHub(CIService):
 		"""
 		Returns the Git hash (SHA1 - 160-bit) as a string.
 
-		:return:                  Git hash as a hex formated string (40 characters).
-		:raises ServiceException: If environment variable ``GITHUB_SHA`` was not found.
+		:return:              Git hash as a hex formated string (40 characters).
+		:raises ServiceError: If environment variable ``GITHUB_SHA`` was not found.
 		"""
 		try:
 			return environ["GITHUB_SHA"]
 		except KeyError as ex:
-			raise ServiceException("Can't find GitHub Action environment variable 'GITHUB_SHA'.") from ex
+			raise ServiceError("Can't find GitHub Action environment variable 'GITHUB_SHA'.") from ex
 
 	def GetGitBranch(self) -> Nullable[str]:
 		"""
 		Returns Git branch name or ``None`` is not checked out on a branch.
 
-		:return:                  Git branch name or ``None``.
-		:raises ServiceException: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with
-		                          ``refs/heads/``.
+		:return:              Git branch name or ``None``.
+		:raises ServiceError: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with
+		                      ``refs/heads/``.
 		"""
 		branchPrefix = "refs/heads/"
 
@@ -88,9 +86,9 @@ class GitHub(CIService):
 		"""
 		Returns Git tag name or ``None`` is not checked out on a tag.
 
-		:return:                  Git tag name or ``None``.
-		:raises ServiceException: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with
-		                          ``refs/tags/``.
+		:return:              Git tag name or ``None``.
+		:raises ServiceError: If environment variable ``GITHUB_REF`` was not found or reference doesn't start with
+		                      ``refs/tags/``.
 		"""
 		tagPrefix = "refs/tags/"
 
@@ -105,20 +103,12 @@ class GitHub(CIService):
 
 	def GetGitRepository(self) -> str:
 		"""
-		Returns the Git repository URL.
+		Returns the Git repository's name ``<owner>/<repository>``.
 
-		:return:                  Git repository URL.
-		:raises ServiceException: If environment variable ``GITHUB_REPOSITORY`` was not found.
-		:raises ServiceException: If repository URL from ``GITHUB_REPOSITORY`` couldn't be parsed.
+		:return:              Git repository's name.
+		:raises ServiceError: If environment variable ``GITHUB_REPOSITORY`` was not found.
 		"""
 		try:
-			repositoryURL = environ["GITHUB_REPOSITORY"]
+			return environ["GITHUB_REPOSITORY"]
 		except KeyError as ex:
-			raise ServiceException("Can't find GitHub Action environment variable 'GITHUB_REPOSITORY'.") from ex
-
-		try:
-			url = URL.Parse(repositoryURL)
-		except ToolingException as ex:
-			raise ServiceException(f"Syntax error in repository URL '{repositoryURL}'.") from ex
-
-		return str(url.WithoutCredentials())
+			raise ServiceError("Can't find GitHub Action environment variable 'GITHUB_REPOSITORY'.") from ex

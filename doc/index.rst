@@ -1,5 +1,3 @@
-.. include:: shields.inc
-
 .. raw:: latex
 
    \part{Introduction}
@@ -14,21 +12,18 @@
    |_|    |___/                                          |___/
 
 
-.. only:: html
+.. shields::
+   :github:                Paebbels/pyVersioning
+   :pypi:                  pyVersioning
+   :codacy:                fda25870e76849f48bbf7415fb6e9ccf
+   :source-license:        github:LICENSE.md
+   :documentation-license: CC-BY-4.0 github:doc/Doc-License.rst
+   :github-action:         Pipeline.yml@main
+   :documentation:         github-pages
 
-   |  |SHIELD:svg:pyVersioning-github| |SHIELD:svg:pyVersioning-src-license| |SHIELD:svg:pyVersioning-ghp-doc| |SHIELD:svg:pyVersioning-doc-license|
-   |  |SHIELD:svg:pyVersioning-pypi-tag| |SHIELD:svg:pyVersioning-pypi-status| |SHIELD:svg:pyVersioning-pypi-python|
-   |  |SHIELD:svg:pyVersioning-gha-test| |SHIELD:svg:pyVersioning-lib-status| |SHIELD:svg:pyVersioning-codacy-quality| |SHIELD:svg:pyVersioning-codacy-coverage| |SHIELD:svg:pyVersioning-codecov-coverage|
-
-.. Disabled shields: |SHIELD:svg:pyVersioning-gitter| |SHIELD:svg:pyVersioning-lib-dep| |SHIELD:svg:pyVersioning-lib-rank|
-
-.. only:: latex
-
-   |SHIELD:png:pyVersioning-github| |SHIELD:png:pyVersioning-src-license| |SHIELD:png:pyVersioning-ghp-doc| |SHIELD:png:pyVersioning-doc-license|
-   |SHIELD:png:pyVersioning-pypi-tag| |SHIELD:png:pyVersioning-pypi-status| |SHIELD:png:pyVersioning-pypi-python|
-   |SHIELD:png:pyVersioning-gha-test| |SHIELD:png:pyVersioning-lib-status| |SHIELD:png:pyVersioning-codacy-quality| |SHIELD:png:pyVersioning-codacy-coverage| |SHIELD:png:pyVersioning-codecov-coverage|
-
-.. Disabled shields: |SHIELD:svg:pyVersioning-gitter| |SHIELD:png:pyVersioning-lib-dep| |SHIELD:png:pyVersioning-lib-rank|
+   github, src-license, ghp-doc, doc-license
+   pypi-tag, pypi-status, pypi-python
+   github-action, lib-status, codacy-quality, codacy-coverage, codecov-coverage
 
 --------------------------------------------------------------------------------
 

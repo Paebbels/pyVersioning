@@ -40,7 +40,7 @@ Param(
 $ProjectName =    "pyVersioning"
 $PackageName =    $ProjectName
 $PackageVersion = "0.18.5"
-$PythonVersion =  "3.14"
+$PythonVersion =  "3.15"
 $LaTeXDocument =  "${ProjectName}.tex"
 
 # set default values

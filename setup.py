@@ -45,7 +45,7 @@ setup(
 		description="Write version information collected from (CI) environment for any programming language as source file.",
 		gitHubNamespace=gitHubNamespace,
 		sourceFileWithVersion=packageInformationFile,
-		pythonVersions=("3.11", "3.12", "3.13", "3.14"),
+		pythonVersions=("3.11", "3.12", "3.13", "3.14", "3.15"),
 		dataFiles={
 			packageName: ["py.typed"]
 		},
